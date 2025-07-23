@@ -1,22 +1,30 @@
 <script lang="ts">
 	import type { ChannelPage, UserData } from '$lib/types/common';
 
+	import { isDarkMode } from '$lib/tools/isDarkMode';
+	import { onDestroy, onMount } from 'svelte';
 	import { getBadges } from '$lib/utils';
 	import { _, date } from 'svelte-i18n';
-	import { onMount } from 'svelte';
 
 	import StreamButton from '$lib/components/channel/StreamButton.svelte';
 
 	export let data: ChannelPage;
 
 	let user: UserData | null = data?.channel?.user ?? null;
+	let darkSchema: boolean = true;
 	let imageLoading = true;
 
 	onMount(() => {
+		const unsubscribe = isDarkMode.subscribe((value) => (darkSchema = value));
 		const img = document.querySelector<HTMLImageElement>(`#avatar`);
+
 		if (img?.complete && img.naturalWidth !== 0) {
 			imageLoading = false;
 		}
+
+		onDestroy(() => {
+			unsubscribe();
+		});
 	});
 </script>
 
@@ -61,7 +69,9 @@
 			<div class="mt-0 ml-0 text-center md:ml-6 md:text-left">
 				<h1
 					class="truncate text-2xl font-bold md:text-3xl"
-					style="color: {user.color ?? '#000'}"
+					style="color: {darkSchema
+						? `color-mix(in srgb, white 25%, ${user.color})`
+						: `color-mix(in srgb, black 25%, ${user.color})`};"
 				>
 					{#if user.badge}
 						<a

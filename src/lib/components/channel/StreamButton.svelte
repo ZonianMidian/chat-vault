@@ -51,8 +51,8 @@
 	on:click={() => {
 		if (stream) showPreview = true;
 	}}
-	class="btn rounded-full font-semibold text-white transition-colors duration-200 {stream
-		? 'btn-error'
+	class="btn rounded-full font-semibold transition-colors duration-200 {stream
+		? 'btn-error text-white'
 		: 'btn-soft btn-disabled'}"
 >
 	{#if stream}
