@@ -27,6 +27,7 @@
 			'7tv': ['32x32', '64x64', '96x96', '128x128'],
 			twitch: ['28x28', '56x56', '112x112'],
 			youtube: ['24x24', '48x48', '96x96'],
+			bttv: ['28x28', '56x56', '112x112'],
 			kick: ['35x35', '70x70', '140x140'],
 			ffz: ['32x32', '64x64', '128x128']
 		},
@@ -38,7 +39,14 @@
 		}
 	};
 
-	let defaultDimensions = dimensions[type as 'emote' | 'badge'][provider];
+	const defaultDimensions = {
+		emote: ['32x32', '64x64', '128x128'],
+		badge: ['18x18', '36x36', '72x72']
+	};
+
+	let placeholderDimensions =
+		dimensions[type as 'emote' | 'badge'][provider] ||
+		defaultDimensions[type as 'emote' | 'badge'];
 
 	let imageError: { [idx: number]: boolean } = {};
 	let imageLoaded: { [idx: number]: boolean } = {};
@@ -97,7 +105,7 @@
 	</div>
 	<div class="flex flex-wrap content-center items-baseline justify-center gap-x-10 gap-y-5">
 		{#if isLoading}
-			{#each defaultDimensions as dimension}
+			{#each placeholderDimensions as dimension}
 				{@const [width, height] = dimension.split('x')}
 				<div class="flex h-auto flex-col items-center justify-center">
 					<div
@@ -114,8 +122,8 @@
 			{#each images as image, i}
 				{@const data = imageSizes.get(image)}
 				{@const size = data?.size ?? $_('common.unknown')}
-				{@const width = data?.width ?? defaultDimensions[i]?.split('x')[0]}
-				{@const height = data?.height ?? defaultDimensions[i]?.split('x')[1]}
+				{@const width = data?.width ?? placeholderDimensions[i]?.split('x')[0]}
+				{@const height = data?.height ?? placeholderDimensions[i]?.split('x')[1]}
 
 				<div class="flex h-auto flex-col items-center justify-center">
 					<div
