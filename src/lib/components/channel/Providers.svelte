@@ -4,7 +4,6 @@
 		ChannelContent,
 		ChannelPage,
 		UserData,
-		Emotes,
 		Set
 	} from '$lib/types/common';
 
@@ -42,34 +41,44 @@
 		activeTab = providers[0].provider;
 	}
 
+	$: filteredEmotesByProvider = Object.fromEntries(
+		Object.keys(searches).map((providerKey) => [
+			providerKey,
+			(() => {
+				const currentSet = getCurrentSet(providerKey);
+				const search = searches[providerKey] || '';
+				const emotes = currentSet?.emotes || [];
+				return filterEmotes(emotes, search);
+			})()
+		])
+	);
+
 	function getCurrentSet(providerKey: string): Set | null {
 		return currentSets[providerKey] || null;
 	}
 
 	function initializeCurrentSets(): void {
 		if (providers) {
+			const newCurrentSets: Record<string, Set> = {};
+			const newSearches: Record<string, string> = {};
+
 			providers.forEach((provider) => {
 				if (provider.sets && provider.sets.length > 0) {
 					const mainSet =
 						provider.sets.find((set) => set.mainSet === true) || provider.sets[0];
-					currentSets[provider.provider] = mainSet;
-					searches[provider.provider] = '';
+					newCurrentSets[provider.provider] = mainSet;
+					newSearches[provider.provider] = '';
 				}
 			});
+
+			currentSets = newCurrentSets;
+			searches = newSearches;
 		}
 	}
 
 	function changeSet(providerKey: string, newSet: Set): void {
-		currentSets[providerKey] = newSet;
-		currentSets = { ...currentSets };
-		searches[providerKey] = '';
-	}
-
-	function getFilteredEmotes(providerKey: string): Emotes[] {
-		const currentSet = getCurrentSet(providerKey);
-		const search = searches[providerKey] || '';
-		const emotes = currentSet?.emotes || [];
-		return filterEmotes(emotes, search);
+		currentSets = { ...currentSets, [providerKey]: newSet };
+		searches = { ...searches, [providerKey]: '' };
 	}
 
 	onMount(() => {
@@ -81,8 +90,10 @@
 	<Tabs {activeTab}>
 		<svelte:fragment slot="tabs">
 			{#each Array(placeholderCount) as _, i}
-				<TabButton id="placeholder" isActive={i === 0} changeTab={() => {}} />
+				<TabButton id="placeholder-{i}" isActive={i === 0} changeTab={() => {}} />
 			{/each}
+		</svelte:fragment>
+		<svelte:fragment slot="content">
 			{#each Array(placeholderCount) as _, i}
 				<TabContent isActive={i === 0}>
 					<ImageGrid isLoading={true} placeholderCount={36} />
@@ -106,7 +117,7 @@
 
 			{#if providers && providers.length > 0}
 				{#each providers.filter((provider) => provider.sets && provider.sets.length > 0) as provider}
-					{@const currentSet = getCurrentSet(provider.provider)}
+					{@const currentSet = currentSets[provider.provider]}
 					<TabButton
 						id={provider.provider}
 						label={$_(`provider.${provider.provider}`)}
@@ -129,8 +140,8 @@
 
 			{#if providers && providers.length > 0}
 				{#each providers.filter((provider) => provider.sets && provider.sets.length > 0) as provider}
-					{@const currentSet = getCurrentSet(provider.provider)}
-					{@const filteredEmotes = getFilteredEmotes(provider.provider)}
+					{@const currentSet = currentSets[provider.provider]}
+					{@const filteredEmotes = filteredEmotesByProvider[provider.provider] || []}
 					<TabContent isActive={activeTab === provider.provider}>
 						<div
 							class="flex w-full flex-col items-center space-y-3 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-4"
