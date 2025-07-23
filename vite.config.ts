@@ -6,7 +6,8 @@ export default defineConfig({
 	plugins: [tailwindcss(), sveltekit()],
 	preview: {
 		port: 4935,
-		strictPort: false
+		strictPort: false,
+		allowedHosts: ['chatvau.lt']
 	},
 	server: {
 		port: 4935,
