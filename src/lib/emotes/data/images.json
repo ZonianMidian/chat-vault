@@ -1,0 +1,24 @@
+{
+	"twitch": {
+		"68": [
+			"/images/emote/twitch/68_1x.png",
+			"/images/emote/twitch/68_2x.png",
+			"/images/emote/twitch/68_3x.png"
+		],
+		"88": [
+			"/images/emote/twitch/88_1x.png",
+			"/images/emote/twitch/88_2x.png",
+			"/images/emote/twitch/88_3x.png"
+		],
+		"86": [
+			"/images/emote/twitch/86_1x.png",
+			"/images/emote/twitch/86_2x.png",
+			"/images/emote/twitch/86_3x.png"
+		],
+		"93064": [
+			"https://static-cdn.jtvnw.net/emoticons/v2/521050/default/dark/1.0",
+			"https://static-cdn.jtvnw.net/emoticons/v2/521050/default/dark/2.0",
+			"https://static-cdn.jtvnw.net/emoticons/v2/521050/default/dark/3.0"
+		]
+	}
+}

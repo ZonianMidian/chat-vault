@@ -1,0 +1,2427 @@
+{
+	"twitch": {
+		"1": {
+			"emoteName": ":)",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"3": {
+			"emoteName": ":D",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"15": {
+			"emoteName": "JKanStyle",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"16": {
+			"emoteName": "OptimizePrime",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"17": {
+			"emoteName": "StoneLightning",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"18": {
+			"emoteName": "TheRinger",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"19": {
+			"emoteName": "PazPazowitz",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"20": {
+			"emoteName": "EagleEye",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"21": {
+			"emoteName": "CougarHunt",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"22": {
+			"emoteName": "RedCoat",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"24": {
+			"emoteName": "BionicBunion",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"25": {
+			"emoteName": "Kappa",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"26": {
+			"emoteName": "JonCarnage",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"27": {
+			"emoteName": "PicoMause",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"28": {
+			"emoteName": "MrDestructoid",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"29": {
+			"emoteName": "MVGame",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"30": {
+			"emoteName": "BCWarrior",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"31": {
+			"emoteName": "SuperVinlin",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"32": {
+			"emoteName": "GingerPower",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"33": {
+			"emoteName": "DansGame",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"34": {
+			"emoteName": "SwiftRage",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"35": {
+			"emoteName": "BrainSlug",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"36": {
+			"emoteName": "PJSalt",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"37": {
+			"emoteName": "StrawBeary",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"40": {
+			"emoteName": "KevinTurtle",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"42": {
+			"emoteName": "FPSMarksman",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"44": {
+			"emoteName": "NoNoSpot",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"45": {
+			"emoteName": "NinjaTroll",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"46": {
+			"emoteName": "SSSsss",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"47": {
+			"emoteName": "PunchTrees",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"48": {
+			"emoteName": "FunRun",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"49": {
+			"emoteName": "UleetBackup",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"50": {
+			"emoteName": "ArsonNoSexy",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"51": {
+			"emoteName": "SMSkull",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"52": {
+			"emoteName": "SMOrc",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"66": {
+			"emoteName": "OneHand",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"67": {
+			"emoteName": "TinyFace",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"68": {
+			"emoteName": "HassanChop",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"69": {
+			"emoteName": "BloodTrail",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"70": {
+			"emoteName": "TheTarFu",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"71": {
+			"emoteName": "UnSane",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"72": {
+			"emoteName": "EvilFetus",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"73": {
+			"emoteName": "DBStyle",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"74": {
+			"emoteName": "AsianGlow",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"87": {
+			"emoteName": "ShazBotstix",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"88": {
+			"emoteName": "PogChamp",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"91": {
+			"emoteName": "OMGScoots",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"92": {
+			"emoteName": "PMSTwin",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"166": {
+			"emoteName": "Volcania",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"167": {
+			"emoteName": "WinWaker",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"168": {
+			"emoteName": "FuzzyOtterOO",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"169": {
+			"emoteName": "ItsBoshyTime",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"243": {
+			"emoteName": "BORT",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"244": {
+			"emoteName": "FUNgineer",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"245": {
+			"emoteName": "ResidentSleeper",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"354": {
+			"emoteName": "4Head",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"355": {
+			"emoteName": "SoonerLater",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"358": {
+			"emoteName": "Poooound",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"359": {
+			"emoteName": "TooSpicy",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"360": {
+			"emoteName": "FailFish",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"361": {
+			"emoteName": "RuleFive",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"881": {
+			"emoteName": "BrainSlug",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1896": {
+			"emoteName": "WholeWheat",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1897": {
+			"emoteName": "WTRuck",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1898": {
+			"emoteName": "ThunBeast",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1899": {
+			"emoteName": "TF2John",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1900": {
+			"emoteName": "RalpherZ",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1903": {
+			"emoteName": "DogFace",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1904": {
+			"emoteName": "BigBrother",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1905": {
+			"emoteName": "BatChest",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1906": {
+			"emoteName": "SoBayed",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"2868": {
+			"emoteName": "miniK",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"3412": {
+			"emoteName": "PeoplesChamp",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"3632": {
+			"emoteName": "GrammarKing",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"3666": {
+			"emoteName": "UncleNox",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"3668": {
+			"emoteName": "PanicVis",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"4240": {
+			"emoteName": "PipeHype",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"4337": {
+			"emoteName": "YouWHY",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"4338": {
+			"emoteName": "RitzMitz",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"5248": {
+			"emoteName": "KZassault",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"5249": {
+			"emoteName": "KZcover",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"5250": {
+			"emoteName": "KZguerilla",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"5251": {
+			"emoteName": "KZhelghast",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"5252": {
+			"emoteName": "KZowl",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"5253": {
+			"emoteName": "KZskull",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"7427": {
+			"emoteName": "TheThing",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"9800": {
+			"emoteName": "AtIvy",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"9801": {
+			"emoteName": "AtWW",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"9802": {
+			"emoteName": "GasJoker",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"9803": {
+			"emoteName": "KAPOW",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"9804": {
+			"emoteName": "MechaSupes",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"9805": {
+			"emoteName": "NightBat",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"9806": {
+			"emoteName": "shazamicon",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"9807": {
+			"emoteName": "Shazam",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"9808": {
+			"emoteName": "PJHarley",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"9809": {
+			"emoteName": "AtGL",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"13084": {
+			"emoteName": "noScope420",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"20225": {
+			"emoteName": "HassaanChop",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"27509": {
+			"emoteName": "PermaSmug",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"27602": {
+			"emoteName": "BuddhaBar",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"27679": {
+			"emoteName": "RaccAttack",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"27903": {
+			"emoteName": "ShibeZ",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"29695": {
+			"emoteName": "DendiFaceold",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"30134": {
+			"emoteName": "Mau5",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"30259": {
+			"emoteName": "HeyGuys",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"32035": {
+			"emoteName": "AthenaPMS",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"34875": {
+			"emoteName": "NotATK",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"35063": {
+			"emoteName": "mcaT",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"38586": {
+			"emoteName": "PraiseIt",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"46248": {
+			"emoteName": "deIlluminati",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"49106": {
+			"emoteName": "CorgiDerp",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"51838": {
+			"emoteName": "ArgieB8",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"52492": {
+			"emoteName": "ShadyLulu",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"58135": {
+			"emoteName": "DendiFace",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"68856": {
+			"emoteName": "MingLee",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"81248": {
+			"emoteName": "OSFrog",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"81273": {
+			"emoteName": "KomodoHype",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"81274": {
+			"emoteName": "VoHiYo",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"84608": {
+			"emoteName": "cmonBruh",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"100590": {
+			"emoteName": "OpieOP",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"111119": {
+			"emoteName": "TinyFace",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"111300": {
+			"emoteName": "PicoMause",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"111351": {
+			"emoteName": "TheTarFu",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"111700": {
+			"emoteName": "DatSheffy",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"111792": {
+			"emoteName": "UnSane",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"114738": {
+			"emoteName": "BlargNaut",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"114835": {
+			"emoteName": "DogFace",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"114846": {
+			"emoteName": "TooSpicy",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"114847": {
+			"emoteName": "WTRuck",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"114856": {
+			"emoteName": "UncleNox",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"114870": {
+			"emoteName": "RaccAttack",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"115234": {
+			"emoteName": "BatChest",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"115847": {
+			"emoteName": "KappaHD",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"117484": {
+			"emoteName": "Poooound",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"117701": {
+			"emoteName": "FreakinStinkin",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"118772": {
+			"emoteName": "SuperVinlin",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"120232": {
+			"emoteName": "TriHard",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"133468": {
+			"emoteName": "ItsBoshyTime",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"135393": {
+			"emoteName": "PartyTime",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"145315": {
+			"emoteName": "TheIlluminati",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"160397": {
+			"emoteName": "Kappu",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"160400": {
+			"emoteName": "KonCha",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"160401": {
+			"emoteName": "PunOko",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"160402": {
+			"emoteName": "SabaPing",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"160404": {
+			"emoteName": "TehePelo",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"376765": {
+			"emoteName": "EntropyWins",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"626795": {
+			"emoteName": "FBtouchdown",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"953283": {
+			"emoteName": "GOWAtreus",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"953285": {
+			"emoteName": "GOWKratos",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1290325": {
+			"emoteName": "MaxLOL",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1441285": {
+			"emoteName": "FBChallenge",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1584743": {
+			"emoteName": "GunRun",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"2113050": {
+			"emoteName": "SoonerLater",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"555555560": {
+			"emoteName": ":D",
+			"addedAt": null,
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"90": {
+			"emoteName": "Jebaited",
+			"addedAt": null,
+			"removedAt": "2016-07-22T22:00:00.000Z",
+			"source": "Supibot"
+		},
+		"30252": {
+			"emoteName": "PuppeyFace",
+			"addedAt": null,
+			"removedAt": "2017-01-06T23:00:00.000Z",
+			"source": "Supibot"
+		},
+		"454": {
+			"emoteName": "OMGScoots",
+			"addedAt": null,
+			"removedAt": "2017-02-16T23:12:01.000Z",
+			"source": "Supibot"
+		},
+		"153556": {
+			"emoteName": "BlessRNG",
+			"addedAt": null,
+			"removedAt": "2020-06-26T13:58:38.788Z",
+			"source": "Supibot"
+		},
+		"302955885": {
+			"emoteName": "CTC",
+			"addedAt": null,
+			"removedAt": "2020-10-21T21:56:14.927Z",
+			"source": "Supibot"
+		},
+		"86": {
+			"emoteName": "BibleThump",
+			"addedAt": null,
+			"removedAt": "2024-10-01T00:05:00.933Z",
+			"source": "Susgeebot"
+		},
+		"41": {
+			"emoteName": "Kreygasm",
+			"addedAt": "2011-09-02T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"65": {
+			"emoteName": "FrankerZ",
+			"addedAt": "2012-01-30T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"171": {
+			"emoteName": "TriHard",
+			"addedAt": "2012-06-11T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"357": {
+			"emoteName": "HotPokket",
+			"addedAt": "2012-07-11T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"39": {
+			"emoteName": "FreakinStinkin",
+			"addedAt": "2012-12-19T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"356": {
+			"emoteName": "OpieOP",
+			"addedAt": "2013-02-28T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"973": {
+			"emoteName": "DAESuppy",
+			"addedAt": "2013-05-29T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1901": {
+			"emoteName": "Kippa",
+			"addedAt": "2013-08-22T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1902": {
+			"emoteName": "Keepo",
+			"addedAt": "2013-08-22T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"3665": {
+			"emoteName": "NightLight",
+			"addedAt": "2013-10-31T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"4339": {
+			"emoteName": "EleGiggle",
+			"addedAt": "2013-10-31T23:00:00.000Z",
+			"removedAt": "2024-12-20T17:28:00.359Z",
+			"source": "Supibot"
+		},
+		"4057": {
+			"emoteName": "BrokeBack",
+			"addedAt": "2014-06-11T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"22639": {
+			"emoteName": "BabyRage",
+			"addedAt": "2014-08-27T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"22998": {
+			"emoteName": "panicBasket",
+			"addedAt": "2014-09-02T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"62834": {
+			"emoteName": "duDudu",
+			"addedAt": "2014-09-08T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"46881": {
+			"emoteName": "HumbleLife",
+			"addedAt": "2014-10-17T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"28087": {
+			"emoteName": "WutFace",
+			"addedAt": "2014-10-26T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"3792": {
+			"emoteName": "ANELE",
+			"addedAt": "2014-11-25T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"38436": {
+			"emoteName": "TTours",
+			"addedAt": "2015-02-11T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"47005": {
+			"emoteName": "OSbeaver",
+			"addedAt": "2015-04-14T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"47007": {
+			"emoteName": "OSdeo",
+			"addedAt": "2015-04-14T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"47008": {
+			"emoteName": "OSfrog",
+			"addedAt": "2015-04-14T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"47010": {
+			"emoteName": "OSkomodo",
+			"addedAt": "2015-04-14T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"47011": {
+			"emoteName": "OSsloth",
+			"addedAt": "2015-04-14T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"47302": {
+			"emoteName": "OSrob",
+			"addedAt": "2015-04-14T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"47420": {
+			"emoteName": "OSbury",
+			"addedAt": "2015-04-14T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"28328": {
+			"emoteName": "PRChase",
+			"addedAt": "2015-05-18T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"55338": {
+			"emoteName": "KappaPride",
+			"addedAt": "2015-06-25T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"58765": {
+			"emoteName": "NotLikeThis",
+			"addedAt": "2015-07-18T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"58127": {
+			"emoteName": "CoolCat",
+			"addedAt": "2015-07-22T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"64138": {
+			"emoteName": "SeemsGood",
+			"addedAt": "2015-09-08T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"70433": {
+			"emoteName": "KappaRoss",
+			"addedAt": "2015-10-28T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"74510": {
+			"emoteName": "KappaClaus",
+			"addedAt": "2015-12-03T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"81103": {
+			"emoteName": "OhMyDog",
+			"addedAt": "2016-01-19T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"81636": {
+			"emoteName": "MikeHogu",
+			"addedAt": "2016-01-24T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"81997": {
+			"emoteName": "KappaWealth",
+			"addedAt": "2016-01-24T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"89945": {
+			"emoteName": "SmoocherZ",
+			"addedAt": "2016-03-13T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"90075": {
+			"emoteName": "NomNom",
+			"addedAt": "2016-03-14T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"90076": {
+			"emoteName": "StinkyCheese",
+			"addedAt": "2016-03-14T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"90129": {
+			"emoteName": "ChefFrank",
+			"addedAt": "2016-03-14T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"98562": {
+			"emoteName": "FutureMan",
+			"addedAt": "2016-05-13T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"102556": {
+			"emoteName": "PJSugar",
+			"addedAt": "2016-06-16T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"107030": {
+			"emoteName": "RuleFive",
+			"addedAt": "2016-07-21T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"114836": {
+			"emoteName": "Jebaited",
+			"addedAt": "2016-07-22T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"112291": {
+			"emoteName": "GivePLZ",
+			"addedAt": "2016-09-02T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"112292": {
+			"emoteName": "TakeNRG",
+			"addedAt": "2016-09-02T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"116625": {
+			"emoteName": "CurseLit",
+			"addedAt": "2016-09-29T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"166263": {
+			"emoteName": "TwitchLit",
+			"addedAt": "2016-09-29T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"110735": {
+			"emoteName": "DxAbomb",
+			"addedAt": "2016-10-05T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"123171": {
+			"emoteName": "CoolStoryBob",
+			"addedAt": "2016-10-27T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"134256": {
+			"emoteName": "RlyTho",
+			"addedAt": "2016-12-16T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"134254": {
+			"emoteName": "YouDontSay",
+			"addedAt": "2016-12-25T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"156787": {
+			"emoteName": "MorphinTime",
+			"addedAt": "2017-03-15T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"160392": {
+			"emoteName": "ThankEgg",
+			"addedAt": "2017-03-29T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"166266": {
+			"emoteName": "CarlSmile",
+			"addedAt": "2017-04-20T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"191313": {
+			"emoteName": "CrreamAwk",
+			"addedAt": "2017-05-15T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"191758": {
+			"emoteName": "OSblob",
+			"addedAt": "2017-05-16T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"191762": {
+			"emoteName": "Squid1",
+			"addedAt": "2017-05-16T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"191763": {
+			"emoteName": "Squid2",
+			"addedAt": "2017-05-16T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"191764": {
+			"emoteName": "Squid3",
+			"addedAt": "2017-05-16T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"191767": {
+			"emoteName": "Squid4",
+			"addedAt": "2017-05-16T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"196892": {
+			"emoteName": "TwitchUnity",
+			"addedAt": "2017-05-25T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"323914": {
+			"emoteName": "TPcrunchyroll",
+			"addedAt": "2017-07-17T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"110734": {
+			"emoteName": "DxCat",
+			"addedAt": "2017-08-21T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"407847": {
+			"emoteName": "TheTick",
+			"addedAt": "2017-08-28T22:00:00.000Z",
+			"removedAt": "2017-09-19T22:00:00.000Z",
+			"source": "Supibot"
+		},
+		"425618": {
+			"emoteName": "LUL",
+			"addedAt": "2017-08-31T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"425671": {
+			"emoteName": "PowerUpR",
+			"addedAt": "2017-08-31T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"425688": {
+			"emoteName": "PowerUpL",
+			"addedAt": "2017-08-31T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"425692": {
+			"emoteName": "MindManners",
+			"addedAt": "2017-08-31T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"425696": {
+			"emoteName": "BagOfMemes",
+			"addedAt": "2017-08-31T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"426170": {
+			"emoteName": "PartyPopper",
+			"addedAt": "2017-08-31T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"426175": {
+			"emoteName": "TwitchCop",
+			"addedAt": "2017-08-31T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"444567": {
+			"emoteName": "HSLight",
+			"addedAt": "2017-09-10T22:00:00.000Z",
+			"removedAt": "2018-03-12T23:00:00.000Z",
+			"source": "Supibot"
+		},
+		"444568": {
+			"emoteName": "HSVoid",
+			"addedAt": "2017-09-10T22:00:00.000Z",
+			"removedAt": "2018-03-12T23:00:00.000Z",
+			"source": "Supibot"
+		},
+		"444572": {
+			"emoteName": "HSCheers",
+			"addedAt": "2017-09-10T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"446979": {
+			"emoteName": "HSWP",
+			"addedAt": "2017-09-11T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"null": {
+			"emoteName": "TPMagao",
+			"addedAt": "2017-10-08T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"508650": {
+			"emoteName": "TPFufun",
+			"addedAt": "2017-10-11T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"530888": {
+			"emoteName": "RedTeam",
+			"addedAt": "2017-10-19T22:00:00.000Z",
+			"removedAt": "2021-11-15T23:00:00.000Z",
+			"source": "Supibot"
+		},
+		"530890": {
+			"emoteName": "GreenTeam",
+			"addedAt": "2017-10-19T22:00:00.000Z",
+			"removedAt": "2021-11-15T23:00:00.000Z",
+			"source": "Supibot"
+		},
+		"81249": {
+			"emoteName": "SeriousSloth",
+			"addedAt": "2017-12-07T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1003187": {
+			"emoteName": "MercyWing1",
+			"addedAt": "2018-05-07T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1003189": {
+			"emoteName": "MercyWing2",
+			"addedAt": "2018-05-07T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1003190": {
+			"emoteName": "PinkMercy",
+			"addedAt": "2018-05-07T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1064987": {
+			"emoteName": "BisexualPride",
+			"addedAt": "2018-05-31T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1064988": {
+			"emoteName": "LesbianPride",
+			"addedAt": "2018-05-31T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1064991": {
+			"emoteName": "GayPride",
+			"addedAt": "2018-05-31T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1064995": {
+			"emoteName": "TransgenderPride",
+			"addedAt": "2018-05-31T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1130348": {
+			"emoteName": "AsexualPride",
+			"addedAt": "2018-05-31T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1130349": {
+			"emoteName": "PansexualPride",
+			"addedAt": "2018-05-31T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1221184": {
+			"emoteName": "IntersexPride",
+			"addedAt": "2018-05-31T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1297279": {
+			"emoteName": "NonbinaryPride",
+			"addedAt": "2018-05-31T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1297281": {
+			"emoteName": "GenderFluidPride",
+			"addedAt": "2018-05-31T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"1547903": {
+			"emoteName": "PixelBob",
+			"addedAt": "2018-10-28T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"300116344": {
+			"emoteName": "TwitchSings",
+			"addedAt": "2019-04-12T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"300116349": {
+			"emoteName": "SingsMic",
+			"addedAt": "2019-04-12T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"300116350": {
+			"emoteName": "SingsNote",
+			"addedAt": "2019-04-12T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"115233": {
+			"emoteName": "BrainSlug",
+			"addedAt": "2020-01-28T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"301428702": {
+			"emoteName": "BOP",
+			"addedAt": "2020-02-03T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"302426269": {
+			"emoteName": "ExtraLife",
+			"addedAt": "2020-06-01T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"303550178": {
+			"emoteName": "FallGuysFall",
+			"addedAt": "2020-09-03T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"303550179": {
+			"emoteName": "FallGuysWin",
+			"addedAt": "2020-09-03T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"304486301": {
+			"emoteName": "GlitchCat",
+			"addedAt": "2020-11-14T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"304486324": {
+			"emoteName": "StinkyGlitch",
+			"addedAt": "2020-11-14T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"304489128": {
+			"emoteName": "GlitchLit",
+			"addedAt": "2020-11-14T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"304489309": {
+			"emoteName": "GlitchNRG",
+			"addedAt": "2020-11-14T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"305954156": {
+			"emoteName": "PogChamp",
+			"addedAt": "2021-02-11T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"307763444": {
+			"emoteName": "NewRecord",
+			"addedAt": "2021-05-20T22:00:00.000Z",
+			"removedAt": "2022-12-19T20:37:28.706Z",
+			"source": "Supibot"
+		},
+		"307827267": {
+			"emoteName": "AsexualPride",
+			"addedAt": "2021-05-31T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"307827313": {
+			"emoteName": "BisexualPride",
+			"addedAt": "2021-05-31T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"307827321": {
+			"emoteName": "GayPride",
+			"addedAt": "2021-05-31T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"307827326": {
+			"emoteName": "GenderFluidPride",
+			"addedAt": "2021-05-31T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"307827332": {
+			"emoteName": "IntersexPride",
+			"addedAt": "2021-05-31T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"307827340": {
+			"emoteName": "LesbianPride",
+			"addedAt": "2021-05-31T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"307827356": {
+			"emoteName": "NonbinaryPride",
+			"addedAt": "2021-05-31T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"307827370": {
+			"emoteName": "PansexualPride",
+			"addedAt": "2021-05-31T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"307827377": {
+			"emoteName": "TransgenderPride",
+			"addedAt": "2021-05-31T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"emotesv2_e2e64d2fea8b472bae71d6a1c6379590": {
+			"emoteName": "PoroChop",
+			"addedAt": "2021-07-12T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"emotesv2_535e40afa0b34a9481997627b1b47d96": {
+			"emoteName": "HungryPaimon",
+			"addedAt": "2021-07-20T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"emotesv2_0ebc590ba68447269831af61d8bc9e0d": {
+			"emoteName": "RyuChamp",
+			"addedAt": "2021-08-02T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"emotesv2_89f3f0761c7b4f708061e9e4be3b7d17": {
+			"emoteName": "FamilyMan",
+			"addedAt": "2021-08-02T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"emotesv2_3ee7a4872e4a46449884c5cef4c1d944": {
+			"emoteName": "YordleShred",
+			"addedAt": "2021-09-08T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"emotesv2_4c9207a2b9f342d388df4ccf8a4beb54": {
+			"emoteName": "Gimme5",
+			"addedAt": "2021-10-12T22:00:00.000Z",
+			"removedAt": "2022-01-06T01:12:50.540Z",
+			"source": "Supibot"
+		},
+		"emotesv2_d9567e500d78441793bee538dcabc1da": {
+			"emoteName": "DarkKnight",
+			"addedAt": "2021-10-14T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"emotesv2_1fda4a1b40094c93af334f8b60868a7c": {
+			"emoteName": "WhySoSerious",
+			"addedAt": "2021-10-14T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"emotesv2_8b0ac3eee4274a75868e3d0686d7b6f7": {
+			"emoteName": "HarleyWink",
+			"addedAt": "2021-10-14T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"emotesv2_87498ed5f0614fa199f1f9504753af9b": {
+			"emoteName": "MegaphoneZ",
+			"addedAt": "2021-10-27T22:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"emotesv2_7c5d25facc384c47963d25a5057a0b40": {
+			"emoteName": "KEKHeim",
+			"addedAt": "2021-11-04T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"emotesv2_4c39207000564711868f3196cc0a8748": {
+			"emoteName": "PoroSad",
+			"addedAt": "2021-11-04T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"emotesv2_30050f4353aa4322b25b6b044703e5d1": {
+			"emoteName": "PogBones",
+			"addedAt": "2021-11-04T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"emotesv2_4acac638cffb4db49f376059f7077dae": {
+			"emoteName": "CaitlynS",
+			"addedAt": "2021-11-04T23:00:00.000Z",
+			"removedAt": null,
+			"source": "Supibot"
+		},
+		"emotesv2_22fe983f1fa648f1a3a6efe4d847caf0": {
+			"emoteName": "JW2Roar",
+			"addedAt": "2021-11-05T20:00:28.000Z",
+			"removedAt": "2021-12-08T17:05:01.581Z",
+			"source": "Apulxd"
+		},
+		"emotesv2_031bf329c21040a897d55ef471da3dd3": {
+			"emoteName": "Jebasted",
+			"addedAt": "2021-11-17T16:57:37.826Z",
+			"removedAt": null,
+			"source": "Apulxd"
+		},
+		"emotesv2_2e0f78f68ef94d6da575318c5786e06a": {
+			"emoteName": "WheelLight",
+			"addedAt": "2021-11-19T09:41:21.528Z",
+			"removedAt": "2021-12-20T17:14:38.460Z",
+			"source": "Apulxd"
+		},
+		"emotesv2_50216bea724a4c27b5f565cde194ca36": {
+			"emoteName": "WheelDark",
+			"addedAt": "2021-11-19T09:42:51.535Z",
+			"removedAt": "2021-12-20T17:14:38.460Z",
+			"source": "Apulxd"
+		},
+		"emotesv2_38217728ee1b4570878cc26a5d976268": {
+			"emoteName": "WheelLight",
+			"addedAt": "2021-12-20T19:30:13.710Z",
+			"removedAt": "2021-12-20T22:39:13.483Z",
+			"source": "Apulxd"
+		},
+		"emotesv2_9ead7b2835bf41ad8e9228d41bea1a8a": {
+			"emoteName": "WheelDark",
+			"addedAt": "2021-12-20T19:30:13.710Z",
+			"removedAt": "2021-12-20T22:39:13.483Z",
+			"source": "Apulxd"
+		},
+		"emotesv2_e02650251d204198923de93a0c62f5f5": {
+			"emoteName": "PotFriend",
+			"addedAt": "2022-02-24T15:07:07.664Z",
+			"removedAt": null,
+			"source": "Apulxd"
+		},
+		"emotesv2_a2dfbbbbf66f4a75b0f53db841523e6c": {
+			"emoteName": "ModLove",
+			"addedAt": "2022-03-31T14:56:08.613Z",
+			"removedAt": null,
+			"source": "Apulxd"
+		},
+		"emotesv2_ecb0bfd49b3c4325864b948d46c8152b": {
+			"emoteName": "LaundryBasket",
+			"addedAt": "2022-04-01T15:47:59.651Z",
+			"removedAt": null,
+			"source": "Apulxd"
+		},
+		"emotesv2_f202746ed88f4e7c872b50b1f7fd78cc": {
+			"emoteName": "PizzaTime",
+			"addedAt": "2022-04-01T15:49:15.882Z",
+			"removedAt": null,
+			"source": "Apulxd"
+		},
+		"emotesv2_c0c9c932c82244ff920ad2134be90afb": {
+			"emoteName": "MyAvatar",
+			"addedAt": "2022-04-01T15:49:15.882Z",
+			"removedAt": null,
+			"source": "Apulxd"
+		},
+		"emotesv2_819621bcb8f44566a1bd8ea63d06c58f": {
+			"emoteName": "Shush",
+			"addedAt": "2022-04-01T15:49:15.882Z",
+			"removedAt": null,
+			"source": "Apulxd"
+		},
+		"emotesv2_b0c6ccb3b12b4f99a9cc83af365a09f1": {
+			"emoteName": "ImTyping",
+			"addedAt": "2022-04-01T15:50:32.157Z",
+			"removedAt": null,
+			"source": "Apulxd"
+		},
+		"emotesv2_0be25a1663bd472495b91e0302cec166": {
+			"emoteName": "MechaRobot",
+			"addedAt": "2022-06-03T23:28:58.349Z",
+			"removedAt": null,
+			"source": "Apulxd"
+		},
+		"emotesv2_dee4ecfb7f0940bead9765da02c57ca9": {
+			"emoteName": "FallWinning",
+			"addedAt": "2022-06-21T17:39:18.326Z",
+			"removedAt": null,
+			"source": "Apulxd"
+		},
+		"emotesv2_2734f1a85677416a9d8f846a2d1b4721": {
+			"emoteName": "FallCry",
+			"addedAt": "2022-06-21T17:40:43.497Z",
+			"removedAt": null,
+			"source": "Apulxd"
+		},
+		"emotesv2_7f9b025d534544afaf679e13fbd47b88": {
+			"emoteName": "FallHalp",
+			"addedAt": "2022-06-21T17:40:43.497Z",
+			"removedAt": null,
+			"source": "Apulxd"
+		},
+		"emotesv2_ec588fb0f6a24faba4792f26027a6312": {
+			"emoteName": "Butterfinger",
+			"addedAt": "2022-06-28T18:35:49.802Z",
+			"removedAt": "2022-07-29T00:23:10.592Z",
+			"source": "Apulxd"
+		},
+		"emotesv2_9abbfdd690b8416e8049fb1e295e8a4c": {
+			"emoteName": "PikaWorlds",
+			"addedAt": "2022-08-17T15:50:18.460Z",
+			"removedAt": "2022-08-22T16:06:14.746Z",
+			"source": "Apulxd"
+		},
+		"emotesv2_fcbeed664f7c47d6ba3b57691275ef51": {
+			"emoteName": "SUBprise",
+			"addedAt": "2022-09-01T18:41:17.756Z",
+			"removedAt": null,
+			"source": "Apulxd"
+		},
+		"emotesv2_28b01a124ce343488be7c7062c2e9b3b": {
+			"emoteName": "MegaphoneZ",
+			"addedAt": "2022-09-08T14:47:28.141Z",
+			"removedAt": "2022-09-12T16:14:10.283Z",
+			"source": "Apulxd"
+		},
+		"emotesv2_7257aedab9534339994deafbbebe154c": {
+			"emoteName": "GiannisLaugh",
+			"addedAt": "2022-09-19T16:44:04.078Z",
+			"removedAt": "2022-09-19T18:18:41.548Z",
+			"source": "Apulxd"
+		},
+		"emotesv2_e7952fb253404859824e7af7fadf0e9e": {
+			"emoteName": "GiannisLaugh",
+			"addedAt": "2022-09-19T18:19:44.441Z",
+			"removedAt": "2022-11-03T00:05:22.052Z",
+			"source": "Apulxd"
+		},
+		"emotesv2_bb4da7d0004144b19dec12d6b47622f3": {
+			"emoteName": "SoSpooky",
+			"addedAt": "2022-09-30T17:41:47.675Z",
+			"removedAt": "2022-11-03T00:05:22.052Z",
+			"source": "Apulxd"
+		},
+		"emotesv2_291135bb36d24d33bf53860128b5095c": {
+			"emoteName": "Getcamped",
+			"addedAt": "2022-11-03T00:05:22.052Z",
+			"removedAt": null,
+			"source": "Apulxd"
+		},
+		"emotesv2_87ad7a37b22b4ae1afbe5434d1a91bd6": {
+			"emoteName": "Lechonk",
+			"addedAt": "2022-11-17T17:58:30.629Z",
+			"removedAt": "2022-11-17T18:00:56.301Z",
+			"source": "Apulxd"
+		},
+		"emotesv2_665235901db747b1bd395a5f1c0ab8a9": {
+			"emoteName": "Lechonk",
+			"addedAt": "2022-11-18T04:50:15.819Z",
+			"removedAt": null,
+			"source": "Apulxd"
+		},
+		"emotesv2_d29854e38d054e9894f1ed1fb0a0e608": {
+			"emoteName": "Awwdible",
+			"addedAt": "2022-11-28T17:20:06.777Z",
+			"removedAt": "2023-04-01T01:31:07.257Z",
+			"source": "Apulxd"
+		},
+		"emotesv2_53f6a6af8b0e453d874bbefee49b3e73": {
+			"emoteName": "NewRecord",
+			"addedAt": "2022-12-19T20:38:39.920Z",
+			"removedAt": null,
+			"source": "Apulxd"
+		},
+		"emotesv2_adfadf0ae06a4258adc865761746b227": {
+			"emoteName": "LionOfYara",
+			"addedAt": "2023-04-19T08:31:34.179Z",
+			"removedAt": null,
+			"source": "Apulxd"
+		},
+		"emotesv2_1f524be9838146e3bc9e529c17f797d3": {
+			"emoteName": "NiceTry",
+			"addedAt": "2023-06-02T00:05:46.426Z",
+			"removedAt": null,
+			"source": "Apulxd"
+		},
+		"emotesv2_dcd06b30a5c24f6eb871e8f5edbd44f7": {
+			"emoteName": "DinoDance",
+			"addedAt": "2023-08-08T15:11:35.966Z",
+			"removedAt": null,
+			"source": "Apulxd"
+		},
+		"emotesv2_a25ad7124e584c949e2f63917e3d747a": {
+			"emoteName": "PikaRamen",
+			"addedAt": "2023-08-10T19:27:55.390Z",
+			"removedAt": null
+		},
+		"emotesv2_0cb91e8a01c741fe9d4a0607f70395db": {
+			"emoteName": "FlawlessVictory",
+			"addedAt": "2023-09-14T16:17:43.263Z",
+			"removedAt": null,
+			"source": "Spanixbot"
+		},
+		"emotesv2_d67dee6d955642ecab8282b8ef7bbe24": {
+			"emoteName": "PopNemo",
+			"addedAt": "2023-09-14T23:58:04.257Z",
+			"removedAt": null,
+			"source": "Spanixbot"
+		},
+		"emotesv2_d0d72de2c28840d39a628314f483f521": {
+			"emoteName": "BlowTheWhistle",
+			"addedAt": "2023-09-27T17:04:24.165Z",
+			"removedAt": "2023-12-14T22:10:00.340Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_13b6dd7f3a3146ef8dc10f66d8b42a96": {
+			"emoteName": "TwitchConHYPE",
+			"addedAt": "2023-10-20T18:27:46.576Z",
+			"removedAt": null,
+			"source": "Spanixbot"
+		},
+		"emotesv2_d93dd4f2388640c4a5f83d2bfd685fca": {
+			"emoteName": "JonesyW",
+			"addedAt": "2023-11-03T15:50:00.636Z",
+			"removedAt": "2023-12-01T17:00:00.331Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_db3385fb0ea54913bf58fa5554edfdf2": {
+			"emoteName": "ForSigmar",
+			"addedAt": "2023-11-17T16:10:00.344Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_c1f4899e65cf4f53b2fd98e15733973a": {
+			"emoteName": "GoldPLZ",
+			"addedAt": "2023-11-28T16:20:00.308Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_1e31de3d785545b2b32502e7b7bdbc91": {
+			"emoteName": "GoatEmotey",
+			"addedAt": "2023-12-08T16:50:00.384Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_ce92acf5e7e842c299e385577a37d693": {
+			"emoteName": "GTAFist",
+			"addedAt": "2023-12-15T17:10:00.339Z",
+			"removedAt": "2024-01-03T17:50:01.856Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_a62f8dec04654aa692f3888edc068fc4": {
+			"emoteName": "GTACamera",
+			"addedAt": "2023-12-15T17:10:00.344Z",
+			"removedAt": "2024-01-03T17:50:00.360Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_6e599213ae7042c48690a828d74ad8ff": {
+			"emoteName": "GalaxyUnpacked",
+			"addedAt": "2024-01-17T19:30:00.389Z",
+			"removedAt": "2024-04-17T16:50:00.896Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_0e0a3592d8334ef5a1cfcae6f3e76acb": {
+			"emoteName": "ChewyYAY",
+			"addedAt": "2024-05-02T16:10:00.345Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_533b8c4a9f6e4bfbb528ad39974e3481": {
+			"emoteName": "KingWorldCup",
+			"addedAt": "2024-05-29T18:20:00.418Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_cff32f43571543828847738e27acf4ef": {
+			"emoteName": "PopGhost",
+			"addedAt": "2024-06-07T16:10:00.351Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_e0523276a4c34cf4bbd562b6179c822e": {
+			"emoteName": "KingEH30",
+			"addedAt": "2024-06-11T19:00:00.417Z",
+			"removedAt": "2024-06-25T19:30:00.400Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_5083a0106af94d95884c652372e5d5b4": {
+			"emoteName": "SpiritEel",
+			"addedAt": "2024-06-21T16:10:00.624Z",
+			"removedAt": "2024-07-19T22:13:00.340Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_f9feac06649548448b3127dd9bd7710e": {
+			"emoteName": "BangbooBounce",
+			"addedAt": "2024-06-27T20:50:00.350Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_b5751982f59347b78f51691f2b08d445": {
+			"emoteName": "BunnyCharge",
+			"addedAt": "2024-07-01T16:10:00.349Z",
+			"removedAt": "2024-09-30T16:20:00.381Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_73e100586fe240f3a12ace797c50c7ac": {
+			"emoteName": "VeladaYosoyplex",
+			"addedAt": "2024-07-12T16:10:00.332Z",
+			"removedAt": "2024-07-15T16:38:00.344Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_27b71703817a499d8d2de618e6a5614e": {
+			"emoteName": "VeladaShelao",
+			"addedAt": "2024-07-12T16:10:00.623Z",
+			"removedAt": "2024-07-15T16:38:00.655Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_f9f7520e8c4b4725a196d5e851956a8c": {
+			"emoteName": "VeladaViruzz",
+			"addedAt": "2024-07-12T16:10:00.873Z",
+			"removedAt": "2024-07-15T16:38:00.910Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_c7a1e80cc4334a82a49e8dd738f73001": {
+			"emoteName": "VeladaAmablitz",
+			"addedAt": "2024-07-12T16:10:01.128Z",
+			"removedAt": "2024-07-15T16:38:01.173Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_53b6ed6b110e48a0b3a80ed4f7ce62a6": {
+			"emoteName": "VeladaAlana",
+			"addedAt": "2024-07-12T16:10:01.566Z",
+			"removedAt": "2024-07-15T16:38:01.425Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_23a69e1251a148aa9b5c91519a6a5391": {
+			"emoteName": "VeladaNissaxter",
+			"addedAt": "2024-07-12T16:10:01.841Z",
+			"removedAt": "2024-07-15T16:38:01.684Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_b8da50cf64b349e98e6e22aedba5624c": {
+			"emoteName": "VeladaZeling",
+			"addedAt": "2024-07-12T16:10:02.096Z",
+			"removedAt": "2024-07-15T16:38:02.007Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_216b765f19954ff497c5950ef0751b13": {
+			"emoteName": "VeladaLaCobra",
+			"addedAt": "2024-07-12T16:10:02.361Z",
+			"removedAt": "2024-07-15T16:38:02.404Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_e6a6f7600ac54edf8baf569c103718a3": {
+			"emoteName": "VeladaAgustin51",
+			"addedAt": "2024-07-12T16:10:02.610Z",
+			"removedAt": "2024-07-15T16:38:02.665Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_af5fb61f23634ae0a80b6e83a5256814": {
+			"emoteName": "VeladaCarreraaa",
+			"addedAt": "2024-07-12T16:10:02.870Z",
+			"removedAt": "2024-07-15T16:38:02.942Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_49343121f10241c0a02ac22b3c2c967c": {
+			"emoteName": "VeladaGUANYAR",
+			"addedAt": "2024-07-12T16:20:00.372Z",
+			"removedAt": "2024-07-15T16:38:03.220Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_da7c36730dcd46b38e87d43a477b726c": {
+			"emoteName": "VeladaElMariana",
+			"addedAt": "2024-07-12T16:20:00.957Z",
+			"removedAt": "2024-07-15T16:38:03.476Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_9eade28238d64e83b0219a9025d4692d": {
+			"emoteName": "AnotherRecord",
+			"addedAt": "2024-07-13T17:09:00.379Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_b2ec930373a84a50846d14413e86cfac": {
+			"emoteName": "MizFight",
+			"addedAt": "2024-08-23T17:25:00.340Z",
+			"removedAt": "2025-03-03T18:08:00.882Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_e22d77c256c246948731bb76d59bd1cc": {
+			"emoteName": "MizPunch",
+			"addedAt": "2024-08-23T17:35:00.326Z",
+			"removedAt": "2024-08-26T17:25:00.366Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_43aeed484b3f420b9cd0d60b0e686224": {
+			"emoteName": "SUBtember",
+			"addedAt": "2024-08-27T20:10:00.328Z",
+			"removedAt": "2024-08-27T22:55:00.342Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_bfb533e2253044f3a77d0032b2354c0b": {
+			"emoteName": "SUBtember",
+			"addedAt": "2024-08-29T19:00:00.309Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_b6511674ab234d39bb7a6d68ed8e7fd5": {
+			"emoteName": "MegaphoneZ",
+			"addedAt": "2024-09-05T16:30:00.428Z",
+			"removedAt": "2024-09-09T21:15:00.494Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_6e4f3c72da7c420a94a85d92548861d5": {
+			"emoteName": "4KLimon",
+			"addedAt": "2024-09-16T17:15:00.625Z",
+			"removedAt": "2024-10-15T18:55:00.295Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_5fa0f9da251941988f31b6d7632c021c": {
+			"emoteName": "TWITH",
+			"addedAt": "2024-09-20T16:30:00.642Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_973cf33af6e14a92b7c5b970a9d55afd": {
+			"emoteName": "GRASSLORD",
+			"addedAt": "2024-09-20T16:35:00.354Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_ed53f0877c984ddcadfa500347b1fd0c": {
+			"emoteName": "AndalusianCrush",
+			"addedAt": "2024-09-23T17:15:00.735Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_db3cd788399347a8b2ebfb8a85f5badb": {
+			"emoteName": "BigSad",
+			"addedAt": "2024-10-01T00:05:01.259Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_f2fd474fbe964964b2570671575b39ea": {
+			"emoteName": "BratChat",
+			"addedAt": "2024-10-10T15:35:00.437Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_21baaf76fd3e4d258e5c0110614724bd": {
+			"emoteName": "CerberusDog",
+			"addedAt": "2024-10-21T16:05:00.288Z",
+			"removedAt": "2025-01-13T17:11:00.360Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_cb05fb473a3a44ed9441db2b62e84cd9": {
+			"emoteName": "TheOne",
+			"addedAt": "2024-07-26T16:20:00.386Z",
+			"removedAt": "2024-10-25T16:10:00.489Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_b52ad1af97c7419c93462befa705edd4": {
+			"emoteName": "DwightDBD",
+			"addedAt": "2024-10-28T21:45:01.299Z",
+			"removedAt": "2024-11-04T17:15:00.340Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_71d34f0ce86d4ae98e53e2310903bfba": {
+			"emoteName": "KaiMafia2",
+			"addedAt": "2024-10-31T16:15:00.289Z",
+			"removedAt": "2024-12-02T17:09:00.355Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_4e1c5651219a462894aefa8b6720efc5": {
+			"emoteName": "JinxLUL",
+			"addedAt": "2024-11-08T18:12:00.372Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_4b51b45f35df4dd8ad45a611c9a9ec35": {
+			"emoteName": "FeelsVi",
+			"addedAt": "2024-11-08T18:12:00.628Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_d351c5d5e9084402b30bc39eaa3d92ae": {
+			"emoteName": "Cinheimer",
+			"addedAt": "2024-11-08T18:12:00.635Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_50b3304bc0884c6792f13615db072a5c": {
+			"emoteName": "CaitThinking",
+			"addedAt": "2024-11-08T18:12:00.635Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_db169cf5364e4634b529eef8b0616d94": {
+			"emoteName": "EkkoChest",
+			"addedAt": "2024-11-08T18:12:00.659Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_a829c76ca15f49a2bf71e1270f83fe83": {
+			"emoteName": "AmbessaLove",
+			"addedAt": "2024-11-08T18:12:00.662Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_a9d7138efebd40d9b667adde70e51610": {
+			"emoteName": "OnlyYou",
+			"addedAt": "2024-10-10T15:35:00.814Z",
+			"removedAt": "2024-11-11T17:20:00.352Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_1121ab0d5010476aabb6497d42b6dc22": {
+			"emoteName": "SplashTail",
+			"addedAt": "2024-12-06T11:02:00.376Z",
+			"removedAt": "2025-01-14T17:14:00.805Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_26c64502bbc64247bef6f2a712be8028": {
+			"emoteName": "WoTJason",
+			"addedAt": "2024-12-06T11:02:00.390Z",
+			"removedAt": "2025-01-14T17:09:00.403Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_a210974bdc0547e5883815d49ed3b841": {
+			"emoteName": "TSAClappa",
+			"addedAt": "2024-12-06T17:07:00.384Z",
+			"removedAt": "2024-12-09T18:57:00.517Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_626028519ae749859c697f37bfd8126f": {
+			"emoteName": "BeastGames",
+			"addedAt": "2024-12-18T17:06:00.398Z",
+			"removedAt": "2025-01-13T17:11:00.444Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_587405136a8147148c77df74baaa1bf4": {
+			"emoteName": "PewPewPew",
+			"addedAt": "2024-12-20T17:02:00.371Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_6581608ddd89425eb4374a34b6b4337e": {
+			"emoteName": "SimsPlumbob",
+			"addedAt": "2025-02-04T19:23:00.354Z",
+			"removedAt": "2025-02-06T17:10:00.354Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_724a8fce86c345488638b545e7caffda": {
+			"emoteName": "ShareTheHug",
+			"addedAt": "2025-02-14T17:49:00.514Z",
+			"removedAt": "2025-02-28T17:08:00.547Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_dfb329d0b6c942fdb8ed837a49adea94": {
+			"emoteName": "ShareTheLO",
+			"addedAt": "2025-02-14T17:49:00.718Z",
+			"removedAt": "2025-02-28T17:08:00.556Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_63a6315078fb4d5d9649587e09fd92e3": {
+			"emoteName": "ShareTheVE",
+			"addedAt": "2025-02-14T17:49:00.721Z",
+			"removedAt": "2025-02-28T17:08:00.350Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_607246977bfd4c53bc85d8b755c52cf7": {
+			"emoteName": "LoveSmash",
+			"addedAt": "2025-02-14T17:54:00.398Z",
+			"removedAt": "2025-02-28T17:08:00.570Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_13afd2c89c094ec8b526530c522df998": {
+			"emoteName": "AndTime",
+			"addedAt": "2025-02-27T01:06:00.414Z",
+			"removedAt": "2025-03-03T18:08:00.746Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_55928b5c957b4fff86934bafae150d9c": {
+			"emoteName": "MizFight",
+			"addedAt": "2025-02-28T17:08:01.184Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_6e73db88c8a44efcba8fb77d9a4f8cd0": {
+			"emoteName": "SplitFictionJosef",
+			"addedAt": "2025-03-05T19:00:00.383Z",
+			"removedAt": "2025-03-12T00:24:00.380Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_a7ab2c184e334d4a9784e6e5d51947f7": {
+			"emoteName": "WeDidThat",
+			"addedAt": "2025-03-07T17:57:00.351Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_634d9f10a8bf4776ad46df1bb2c9a7ca": {
+			"emoteName": "ClixHuh",
+			"addedAt": "2025-03-17T16:34:00.380Z",
+			"removedAt": "2025-04-07T17:08:00.511Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_e0a34fe8504e49c189454c681448897e": {
+			"emoteName": "ACShadows",
+			"addedAt": "2025-03-20T16:07:00.466Z",
+			"removedAt": "2025-03-28T22:01:00.348Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_2babf8f02c9e480dad8ced0e6e266d4a": {
+			"emoteName": "INZOIPsyCat",
+			"addedAt": "2025-03-27T16:01:00.416Z",
+			"removedAt": "2025-04-11T19:26:00.341Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_8e1771f1d00840d0b0e681a4b30b60e5": {
+			"emoteName": "McDZombieHamburglar",
+			"addedAt": "2025-04-01T15:11:00.603Z",
+			"removedAt": "2025-04-01T15:12:00.332Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_3ac080e51cb94396a083a9855a357677": {
+			"emoteName": "BAFTAGames",
+			"addedAt": "2025-04-08T16:48:00.346Z",
+			"removedAt": "2025-04-08T20:30:00.364Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_fc2f39b6a62c4d7e832993eab17547d2": {
+			"emoteName": "FeverFighter",
+			"addedAt": "2025-04-17T16:11:00.402Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_589565a59ed6486db82b38fe2f043b69": {
+			"emoteName": "Oops25",
+			"addedAt": "2025-05-16T15:00:00.591Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_d1f3a59775454943b4e2c6a6db8892a2": {
+			"emoteName": "DarthJarJar",
+			"addedAt": "2025-05-28T12:30:00.365Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_5225d2d5cbf1407494a98adeb455f112": {
+			"emoteName": "PBMMixtape",
+			"addedAt": "2025-05-29T16:05:00.385Z",
+			"removedAt": "2025-05-30T16:04:00.335Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_37e6845ef2f14499904b9ef99e7039be": {
+			"emoteName": "NRWylder",
+			"addedAt": "2025-05-30T07:40:00.372Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_300bb38420034c489c99c9d32d07f298": {
+			"emoteName": "FaZe",
+			"addedAt": "2025-05-23T16:10:00.481Z",
+			"removedAt": "2025-06-01T11:04:00.356Z",
+			"source": "Susgeebot"
+		},
+		"emotesv2_cb0cec2c9975497fa093be1c3276dd92": {
+			"emoteName": "EleGiggle",
+			"addedAt": "2025-06-09T17:42:00.341Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		},
+		"emotesv2_4bedc043ba724298871173f3052f0e21": {
+			"emoteName": "EWCcrush",
+			"addedAt": "2025-06-16T19:02:00.402Z",
+			"removedAt": null,
+			"source": "Susgeebot"
+		}
+	}
+}

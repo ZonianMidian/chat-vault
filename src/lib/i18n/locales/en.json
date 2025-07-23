@@ -1,0 +1,141 @@
+{
+	"common": {
+		"noResults": "No Results",
+		"zeroWidth": "Overlay",
+		"platform": "Platform",
+		"unknown": "Unknown",
+		"error": "Error",
+		"flair": "Flair",
+		"yes": "Yes",
+		"no": "No",
+		"info": {
+			"label": "Information",
+			"created": "Created on",
+			"removed": "Removed on",
+			"related": "Related"
+		}
+	},
+	"status": {
+		"404": "Not Found",
+		"500": "Internal Server Error",
+		"503": "Service Unavailable"
+	},
+	"error": {
+		"provider": "Unsupported Provider",
+		"id": "Provider and ID are Required",
+		"unknown": "Unknown Error",
+		"image": "Image Not Found"
+	},
+	"global": {
+		"label": "Global",
+		"emote": "Global Emotes",
+		"badge": "Global Badges"
+	},
+	"search": {
+		"label": "Search",
+		"set": "Search sets...",
+		"emote": "Search emotes...",
+		"badge": "Search badges...",
+		"channel": "Search channels...",
+		"placeholder": "Search..."
+	},
+	"provider": {
+		"twitch": "Twitch",
+		"youtube": "YouTube",
+		"kick": "Kick",
+		"bttv": "BetterTTV",
+		"ffz": "FrankerFaceZ",
+		"7tv": "7TV"
+	},
+	"navbar": {
+		"menu": "Menu",
+		"sets": "Sets",
+		"emotes": "Emotes",
+		"badges": "Badges",
+		"channels": "Channels"
+	},
+	"construction": {
+		"title": "Under Construction!",
+		"description": "This section is still under development. Come back soon to see the updates."
+	},
+	"emote": {
+		"label": "Emote",
+		"info": {
+			"artist": "Artist",
+			"approved": "Approved",
+			"set": "Set",
+			"status": {
+				"label": "Status",
+				"public": "Public",
+				"private": "Private"
+			}
+		},
+		"channels": {
+			"label": "Channels"
+		},
+		"variants": {
+			"label": "Variants"
+		},
+		"origin": {
+			"label": "Origin",
+			"translate": "Translate",
+			"undo": "Undo",
+			"source": "Source",
+			"author": "Author"
+		}
+	},
+	"channel": {
+		"label": "Channel",
+		"emotes": "Channel Emotes",
+		"badges": "Channel Badges",
+		"followers": "{count, plural, one {# follower} other {# followers}}",
+		"viewers": "{count, plural, one {# viewer} other {# viewers}}",
+		"category": "Category",
+		"preview": "Preview",
+		"mature": "Mature",
+		"staff": "Staff",
+		"affiliate": "Affiliate",
+		"partner": "Partner",
+		"subscriber": "Subscriber",
+		"month": "{count, plural, =0 {} =1 {} other {#-months}}",
+		"year": "{count, plural, one {#-year} other {#-years}}"
+	},
+	"set": {
+		"label": "Set",
+		"title": "{user}'s Emotes",
+		"follower": "Follower",
+		"sub": "Subscriber",
+		"bits": "Bits",
+		"tier": "Tier {tier}",
+		"global": "Globals"
+	},
+	"badge": {
+		"label": "Badge",
+		"month": "{count, plural, =0 {Subscriber} =1 {Subscriber} other {Subscriber: #-months}}",
+		"year": "{count, plural, one {Subscriber: #-year} other {Subscriber: #-years}}",
+		"bits": "{cost, plural, one {# Bit} other {# Bits}}",
+		"info": {
+			"cost": "Cost",
+			"description": "Description",
+			"action": {
+				"label": "Action",
+				"subscribe": "Subscribe",
+				"visit_url": "Visit URL"
+			}
+		},
+		"kick": {
+			"bot": "Bot",
+			"broadcaster": "Broadcaster",
+			"founder": "Founder",
+			"moderator": "Moderator",
+			"og": "OG",
+			"partner": "Verified",
+			"sidekick": "Sidekick",
+			"staff": "Staff",
+			"sub-gifter": "{count, plural, =0 {Sub Gifter} one {Gifted # Sub} other {Gifted # Subs}}",
+			"subscriber": "Subscriber",
+			"trainwreckstv": "Trainwreckstv",
+			"vip": "VIP"
+		}
+	}
+}

@@ -1,0 +1,141 @@
+{
+	"common": {
+		"noResults": "Sin Resultados",
+		"zeroWidth": "Superposición",
+		"platform": "Plataforma",
+		"unknown": "Desconocido",
+		"error": "Error",
+		"flair": "Adorno",
+		"yes": "Sí",
+		"no": "No",
+		"info": {
+			"label": "Información",
+			"created": "Creado el",
+			"removed": "Removido el",
+			"related": "Relacionado"
+		}
+	},
+	"status": {
+		"404": "No Encontrado",
+		"500": "Error Interno del Servidor",
+		"503": "Servicio No Disponible"
+	},
+	"error": {
+		"provider": "Proveedor No Soportado",
+		"id": "Se Requiere Proveedor e ID",
+		"unknown": "Error Desconocido",
+		"image": "Imagen No Encontrada"
+	},
+	"global": {
+		"label": "Global",
+		"emote": "Emotes Globales",
+		"badge": "Insignias Globales"
+	},
+	"search": {
+		"label": "Buscar",
+		"set": "Buscar conjuntos...",
+		"emote": "Buscar emotes...",
+		"badge": "Buscar insignias...",
+		"channel": "Buscar canales...",
+		"placeholder": "Buscar..."
+	},
+	"provider": {
+		"twitch": "Twitch",
+		"youtube": "YouTube",
+		"kick": "Kick",
+		"bttv": "BetterTTV",
+		"ffz": "FrankerFaceZ",
+		"7tv": "7TV"
+	},
+	"navbar": {
+		"menu": "Menú",
+		"sets": "Conjuntos",
+		"emotes": "Emotes",
+		"badges": "Insignias",
+		"channels": "Canales"
+	},
+	"construction": {
+		"title": "¡En Construcción!",
+		"description": "Esta sección aún está en desarrollo. Vuelve pronto para ver las novedades."
+	},
+	"emote": {
+		"label": "Emote",
+		"info": {
+			"artist": "Artista",
+			"approved": "Aprobado",
+			"set": "Conjunto",
+			"status": {
+				"label": "Estado",
+				"public": "Público",
+				"private": "Privado"
+			}
+		},
+		"channels": {
+			"label": "Canales"
+		},
+		"variants": {
+			"label": "Variantes"
+		},
+		"origin": {
+			"label": "Origen",
+			"translate": "Traducir",
+			"undo": "Deshacer",
+			"source": "Fuente",
+			"author": "Autor"
+		}
+	},
+	"channel": {
+		"label": "Canal",
+		"emotes": "Emotes del Canal",
+		"badges": "Insignias del Canal",
+		"followers": "{count, plural, one {# seguidor} other {# seguidores}}",
+		"viewers": "{count, plural, one {# espectador} other {# espectadores}}",
+		"category": "Categoría",
+		"preview": "Previsualización",
+		"mature": "Maduro",
+		"staff": "Staff",
+		"affiliate": "Afiliado",
+		"partner": "Socio",
+		"subscriber": "Suscriptor",
+		"month": "{count, plural, =0 {} =1 {} other {# meses}}",
+		"year": "{count, plural, one {# año} other {# años}}"
+	},
+	"set": {
+		"label": "Conjunto",
+		"title": "Emotes de {user}",
+		"follower": "Seguidor",
+		"sub": "Suscriptor",
+		"bits": "Bits",
+		"tier": "Nivel {tier}",
+		"global": "Globales"
+	},
+	"badge": {
+		"label": "Insignia",
+		"month": "{count, plural, =0 {Suscriptor} =1 {Suscriptor} other {Suscriptor: # meses}}",
+		"year": "{count, plural, one {Suscriptor: # año} other {Suscriptor: # años}}",
+		"bits": "{cost, plural, one {# Bit} other {# Bits}}",
+		"info": {
+			"cost": "Costo",
+			"description": "Descripción",
+			"action": {
+				"label": "Acción",
+				"subscribe": "Suscribirse",
+				"visit_url": "Visitar URL"
+			}
+		},
+		"kick": {
+			"bot": "Bot",
+			"broadcaster": "Emisor",
+			"founder": "Fundador",
+			"moderator": "Moderador",
+			"og": "OG",
+			"partner": "Verificado",
+			"sidekick": "Sidekick",
+			"staff": "Staff",
+			"sub-gifter": "{count, plural, =0 {Regaló Suscripciones} one {Regaló # Suscripción} other {Regaló # Suscripciones}}",
+			"subscriber": "Suscriptor",
+			"trainwreckstv": "Trainwreckstv",
+			"vip": "VIP"
+		}
+	}
+}

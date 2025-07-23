@@ -1,0 +1,122 @@
+@import 'tailwindcss';
+@plugin 'daisyui';
+
+@plugin 'daisyui/theme' {
+	name: 'Mocha';
+	default: false;
+	prefersdark: true;
+	color-scheme: 'dark';
+
+	--radius-selector: 0.25rem;
+	--radius-field: 0.5rem;
+	--radius-box: 0.5rem;
+	--size-selector: 0.25rem;
+	--size-field: 0.25rem;
+	--border: 1px;
+	--depth: 1;
+	--noise: 0;
+
+	--color-primary: #74c7ec;
+	--color-primary-content: #181825;
+	--color-secondary: #b4befe;
+	--color-secondary-content: #cdd6f4;
+	--color-accent: #89b4fa;
+	--color-accent-content: #181825;
+	--color-neutral: #131320;
+	--color-neutral-content: #2a2b3c;
+
+	--color-success: #a6e3a1;
+	--color-success-content: #1e1e2e;
+	--color-warning: #f9e2af;
+	--color-warning-content: #1e1e2e;
+	--color-error: #f38ba8;
+	--color-error-content: #1e1e2e;
+	--color-info: #cba6f7;
+	--color-info-content: #181825;
+
+	--color-base-100: #1e1e2e;
+	--color-base-200: #181825;
+	--color-base-300: #14141e;
+	--color-base-content: #cdd6f4;
+
+	--color-solid: #0c0c16;
+}
+
+@plugin 'daisyui/theme' {
+	name: 'Latte';
+	default: true;
+	prefersdark: false;
+	color-scheme: 'light';
+
+	--radius-selector: 0.25rem;
+	--radius-field: 0.5rem;
+	--radius-box: 0.5rem;
+	--size-selector: 0.25rem;
+	--size-field: 0.25rem;
+	--border: 1px;
+	--depth: 1;
+	--noise: 0;
+
+	--color-primary: #209fb5;
+	--color-primary-content: #e6e9ef;
+	--color-secondary: #7287fd;
+	--color-secondary-content: #4c4f69;
+	--color-accent: #1e66f5;
+	--color-accent-content: #e6e9ef;
+	--color-neutral: #e4e2ea;
+	--color-neutral-content: #3f4461;
+
+	--color-success: #40a02b;
+	--color-success-content: #eff1f5;
+	--color-warning: #df8e1d;
+	--color-warning-content: #eff1f5;
+	--color-error: #d20f39;
+	--color-error-content: #eff1f5;
+	--color-info: #8839ef;
+	--color-info-content: #e6e9ef;
+
+	--color-base-100: #dad8e2;
+	--color-base-200: #cfccd9;
+	--color-base-300: #c4c1cf;
+	--color-base-content: #4c4f69;
+
+	--color-solid: #eff1f5;
+}
+
+:root {
+	font-family: 'Twemoji Country Flags', 'Inter Variable', sans-serif;
+	margin: 0;
+}
+
+.truncate {
+	display: inline-block !important;
+	max-width: 100% !important;
+	white-space: nowrap !important;
+	overflow: hidden !important;
+	text-overflow: ellipsis !important;
+}
+
+.skeleton {
+	@apply bg-base-content/5;
+}
+
+.markdown-content a {
+	@apply link text-secondary hover:link-secondary;
+}
+
+.markdown-content strong {
+	@apply text-base-content;
+}
+
+.markdown-content a img[alt='Emote'] {
+	@apply transition-opacity hover:opacity-80;
+	display: inline !important;
+	vertical-align: middle;
+	width: 1.75em;
+}
+
+@media (prefers-color-scheme: dark) {
+	img[src$='ffz.svg'] {
+		filter: brightness(1000%);
+	}
+}
