@@ -301,7 +301,6 @@
 	{variantImages}
 	{itemsPerPage}
 	{variantCount}
-	{getTabPage}
 	{imageSizes}
 	{isLoading}
 	{createdAt}

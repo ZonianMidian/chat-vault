@@ -186,7 +186,6 @@
 	bind:activeTab
 	{itemsPerPage}
 	{variantCount}
-	{getTabPage}
 	{imageSizes}
 	{isLoading}
 	{createdAt}

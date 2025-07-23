@@ -50,7 +50,6 @@
 	export let imageUrls: Map<string, string> = new Map();
 
 	export let nextPage: (totalItems: number) => void = () => {};
-	export let getTabPage: (tabId: string) => number;
 	export let prevPage: () => void = () => {};
 </script>
 
@@ -169,7 +168,7 @@
 							<ChannelsTab
 								isActive={activeTab === 'channels'}
 								isLoading={!!isLoading?.channels}
-								currentPage={getTabPage(activeTab)}
+								currentPage={tabPages.channels || 1}
 								{channels}
 								totalChannels={type === 'emote'
 									? ((data as Emote)?.channels?.total ?? 0)

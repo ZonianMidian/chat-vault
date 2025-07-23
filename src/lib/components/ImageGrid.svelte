@@ -21,6 +21,11 @@
 	let imageError: Record<number, string> = {};
 	let imageLoaded: Record<number, boolean> = {};
 
+	$: if (items) {
+		imageError = {};
+		imageLoaded = {};
+	}
+
 	const getHref = (item: Channel | Emotes | Badges | Variant) =>
 		linkPrefix
 			? `/${linkPrefix}/${item[providerKey as keyof typeof item] || ''}/${item[idKey as keyof typeof item] || ''}${versionKey ? `/${item[versionKey as keyof typeof item]}` : ''}`
@@ -33,11 +38,6 @@
 	function onImgLoad(idx: number) {
 		imageLoaded[idx] = true;
 	}
-
-	onDestroy(() => {
-		imageError = {};
-		imageLoaded = {};
-	});
 
 	onMount(() => {
 		items.forEach((_, idx) => {
