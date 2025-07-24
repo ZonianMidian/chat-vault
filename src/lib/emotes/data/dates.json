@@ -270,12 +270,6 @@
 			"removedAt": null,
 			"source": "Supibot"
 		},
-		"88": {
-			"emoteName": "PogChamp",
-			"addedAt": null,
-			"removedAt": null,
-			"source": "Supibot"
-		},
 		"91": {
 			"emoteName": "OMGScoots",
 			"addedAt": null,
@@ -922,6 +916,12 @@
 			"emoteName": ":D",
 			"addedAt": null,
 			"removedAt": null,
+			"source": "Supibot"
+		},
+		"88": {
+			"emoteName": "PogChamp",
+			"addedAt": null,
+			"removedAt": "2021-01-06T02:12:32.000Z",
 			"source": "Supibot"
 		},
 		"90": {
