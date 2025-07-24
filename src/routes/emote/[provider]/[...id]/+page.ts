@@ -23,9 +23,9 @@ export async function load({ params, url }): Promise<EmotePage> {
 			`${url.origin}/favicon.png`;
 
 		return {
+			pageImage: pageImage.replace(/\.avif$/, '.webp'),
 			provider: emote.provider,
 			pageTitle,
-			pageImage,
 			emote,
 			id
 		};
