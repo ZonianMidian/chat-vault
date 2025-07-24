@@ -1,23 +1,33 @@
-<script context="module" lang="ts">
+<script lang="ts">
 	import type { Sizes } from '$lib/types/common';
 
+	import { onDestroy, onMount, untrack } from 'svelte';
 	import { Sun, Moon, Layers2 } from '@lucide/svelte';
 	import { inlineSvg } from '@svelte-put/inline-svg';
 	import { isDarkMode } from '$lib/tools/isDarkMode';
-	import { onDestroy, onMount } from 'svelte';
 	import { _ } from 'svelte-i18n';
-</script>
 
-<script lang="ts">
-	export let imageSizes: Map<string, Sizes> = new Map();
-	export let imageUrls: Map<string, string> = new Map();
-	export let darkBackground: boolean = true;
-	export let provider: string = 'twitch';
-	export let zeroWidth: boolean = false;
-	export let isLoading: boolean = true;
-	export let type: string = 'emote';
-	export let images: string[] = [];
-	export let name: string = '';
+	let {
+		imageSizes = new Map(),
+		imageUrls = new Map(),
+		darkBackground = $bindable(true),
+		provider = 'twitch',
+		zeroWidth = false,
+		isLoading = true,
+		type = 'emote',
+		images = [],
+		name = ''
+	}: {
+		imageSizes?: Map<string, Sizes>;
+		imageUrls?: Map<string, string>;
+		darkBackground?: boolean;
+		provider?: string;
+		zeroWidth?: boolean;
+		isLoading?: boolean;
+		type?: string;
+		images?: string[];
+		name?: string;
+	} = $props();
 
 	const dimensions: {
 		emote: Record<string, string[]>;
@@ -44,12 +54,22 @@
 		badge: ['18x18', '36x36', '72x72']
 	};
 
-	let placeholderDimensions =
-		dimensions[type as 'emote' | 'badge'][provider] ||
-		defaultDimensions[type as 'emote' | 'badge'];
+	let imageError = $state<{ [idx: number]: boolean }>({});
+	let imageLoaded = $state<{ [idx: number]: boolean }>({});
 
-	let imageError: { [idx: number]: boolean } = {};
-	let imageLoaded: { [idx: number]: boolean } = {};
+	const placeholderDimensions = $derived(
+		dimensions[type as 'emote' | 'badge'][provider] ||
+			defaultDimensions[type as 'emote' | 'badge']
+	);
+
+	$effect(() => {
+		if (images) {
+			untrack(() => {
+				imageError = {};
+				imageLoaded = {};
+			});
+		}
+	});
 
 	function onImgError(idx: number) {
 		imageError = { ...imageError, [idx]: true };
@@ -59,13 +79,12 @@
 		imageLoaded = { ...imageLoaded, [idx]: true };
 	}
 
-	$: if (images) {
-		imageError = {};
-		imageLoaded = {};
-	}
-
 	onMount(() => {
-		const unsubscribe = isDarkMode.subscribe((value) => (darkBackground = value));
+		const unsubscribe = isDarkMode.subscribe((value) => {
+			untrack(() => {
+				darkBackground = value;
+			});
+		});
 
 		onDestroy(() => {
 			unsubscribe();
@@ -98,8 +117,8 @@
 		{:else}
 			<label class="swap swap-rotate drop-shadow-md transition-opacity hover:opacity-80">
 				<input type="checkbox" class="theme-controller" bind:checked={darkBackground} />
-				<svelte:component this={Sun} class="swap-off h-6 w-6 text-gray-400" />
-				<svelte:component this={Moon} class="swap-on h-6 w-6 text-gray-400" />
+				<Sun class="swap-off h-6 w-6 text-gray-400" />
+				<Moon class="swap-on h-6 w-6 text-gray-400" />
 			</label>
 		{/if}
 	</div>
@@ -146,8 +165,8 @@
 								class="hidden"
 								{width}
 								{height}
-								on:load={() => onImgLoad(i)}
-								on:error={() => onImgError(i)}
+								onload={() => onImgLoad(i)}
+								onerror={() => onImgError(i)}
 							/>
 						{:else}
 							<a href={image} target="_blank" rel="noopener noreferrer">
@@ -158,7 +177,7 @@
 									alt={name}
 									{width}
 									{height}
-									on:error={() => onImgError(i)}
+									onerror={() => onImgError(i)}
 								/>
 							</a>
 						{/if}

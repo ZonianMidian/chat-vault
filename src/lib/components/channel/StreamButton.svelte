@@ -1,30 +1,45 @@
 <script lang="ts">
 	import type { StreamInfo } from '$lib/types/common';
 
-	import { onDestroy, onMount } from 'svelte';
+	import { onDestroy, onMount, untrack } from 'svelte';
 	import getFlag from '$lib/tools/langEmoji';
 	import { getElapsed } from '$lib/utils';
 	import { _ } from 'svelte-i18n';
 
-	export let stream: StreamInfo | null = null;
+	let { stream = $bindable() }: { stream: StreamInfo | null } = $props();
 
-	let timer: ReturnType<typeof setInterval>;
-	let showPreview = false;
+	let timer = $state<ReturnType<typeof setInterval> | null>(null);
+	let showPreview = $state(false);
+	let previewLoaded = $state(false);
+	let categoryLoaded = $state(false);
+	let elapsed = $state('');
 
-	let previewLoaded = false;
-	let categoryLoaded = false;
-
-	$: if (stream) {
-		previewLoaded = false;
-		categoryLoaded = false;
-	}
-
-	$: elapsed = '';
+	$effect(() => {
+		if (stream) {
+			untrack(() => {
+				previewLoaded = false;
+				categoryLoaded = false;
+			});
+		}
+	});
 
 	function updateTimer() {
-		const timeValue = stream?.createdAt ?? null;
-		elapsed = getElapsed(timeValue);
+		untrack(() => {
+			const timeValue = stream?.createdAt ?? null;
+			elapsed = getElapsed(timeValue);
+		});
+	}
+
+	function startTimer() {
+		updateTimer();
 		timer = setInterval(updateTimer, 1000);
+	}
+
+	function stopTimer() {
+		if (timer) {
+			clearInterval(timer);
+			timer = null;
+		}
 	}
 
 	function closePreview() {
@@ -39,16 +54,16 @@
 	}
 
 	onMount(() => {
-		updateTimer();
+		startTimer();
 	});
 
 	onDestroy(() => {
-		clearInterval(timer);
+		stopTimer();
 	});
 </script>
 
 <button
-	on:click={() => {
+	onclick={() => {
 		if (stream) showPreview = true;
 	}}
 	class="btn rounded-full font-semibold transition-colors duration-200 {stream
@@ -75,16 +90,16 @@
 		class="fixed inset-0 z-50 flex cursor-pointer items-center justify-center bg-black/50 p-4 backdrop-blur"
 		role="button"
 		tabindex="0"
-		on:click={closePreview}
-		on:keydown={onOverlayKeydown}
+		onclick={closePreview}
+		onkeydown={onOverlayKeydown}
 	>
 		<div
 			class="bg-base-200 relative max-h-[90vh] w-full max-w-fit cursor-auto overflow-y-auto rounded-lg p-2 shadow-lg md:p-5"
 			role="presentation"
-			on:click|stopPropagation
+			onclick={(e) => e.stopPropagation()}
 		>
 			<button
-				on:click={closePreview}
+				onclick={closePreview}
 				class="absolute top-0 right-1 cursor-pointer text-2xl leading-none text-white hover:text-gray-300"
 				aria-label="Close preview"
 			>
@@ -100,7 +115,7 @@
 						alt={$_('channel.preview')}
 						src={stream.preview}
 						draggable="false"
-						on:load={() => (previewLoaded = true)}
+						onload={() => (previewLoaded = true)}
 					/>
 				</div>
 			</figure>
@@ -121,7 +136,7 @@
 								alt={$_('channel.category')}
 								class="h-20 w-15 rounded-sm"
 								draggable="false"
-								on:load={() => (categoryLoaded = true)}
+								onload={() => (categoryLoaded = true)}
 							/>
 						</div>
 					{/if}

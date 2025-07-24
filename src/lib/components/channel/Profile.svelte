@@ -1,20 +1,21 @@
 <script lang="ts">
 	import type { ChannelPage, UserData } from '$lib/types/common';
 
+	import { onDestroy, onMount, untrack } from 'svelte';
 	import { isDarkMode } from '$lib/tools/isDarkMode';
-	import { onDestroy, onMount } from 'svelte';
 	import { getBadges } from '$lib/utils';
 	import { Globe } from '@lucide/svelte';
 	import { _, date } from 'svelte-i18n';
 
 	import StreamButton from '$lib/components/channel/StreamButton.svelte';
 
-	export let data: ChannelPage;
+	let { data = $bindable() }: { data: ChannelPage } = $props();
 
-	let user: UserData | null = data?.channel?.user ?? null;
-	let socialsIcon: Record<number, boolean> = {};
-	let darkSchema: boolean = true;
-	let imageLoading = true;
+	let socialsIcon = $state<Record<number, boolean>>({});
+	let imageLoading = $state(true);
+
+	let user = $derived<UserData | null>(data?.channel?.user ?? null);
+	let darkSchema = $derived(true);
 
 	function handleSocialIconLoad(event: Event, idx: number) {
 		const img = event.target as HTMLImageElement;
@@ -23,20 +24,34 @@
 		}
 	}
 
-	onMount(() => {
-		const unsubscribe = isDarkMode.subscribe((value) => (darkSchema = value));
+	$effect(() => {
+		if (!user) return;
 
-		const socialIcons = document.querySelectorAll<HTMLImageElement>(`[id^="social-icon-"]`);
-		socialIcons.forEach((icon, idx) => {
-			if (icon.complete && icon.naturalWidth !== 0) {
-				socialsIcon[idx] = true;
+		untrack(() => {
+			const socialIcons = document.querySelectorAll<HTMLImageElement>(`[id^="social-icon-"]`);
+			const newSocialsIcon: Record<number, boolean> = {};
+
+			socialIcons.forEach((icon, idx) => {
+				if (icon.complete && icon.naturalWidth !== 0) {
+					newSocialsIcon[idx] = true;
+				}
+			});
+
+			socialsIcon = newSocialsIcon;
+
+			const img = document.querySelector<HTMLImageElement>(`#avatar`);
+			if (img?.complete && img.naturalWidth !== 0) {
+				imageLoading = false;
 			}
 		});
+	});
 
-		const img = document.querySelector<HTMLImageElement>(`#avatar`);
-		if (img?.complete && img.naturalWidth !== 0) {
-			imageLoading = false;
-		}
+	onMount(() => {
+		const unsubscribe = isDarkMode.subscribe((value) => {
+			untrack(() => {
+				darkSchema = value;
+			});
+		});
 
 		onDestroy(() => {
 			unsubscribe();
@@ -70,7 +85,7 @@
 							title={soc.name}
 							alt={soc.name}
 							class="h-5 w-5 rounded-xs"
-							on:load={(e) => handleSocialIconLoad(e, idx)}
+							onload={(e) => handleSocialIconLoad(e, idx)}
 						/>
 					{/if}
 				</a>
@@ -89,7 +104,7 @@
 					title="Avatar"
 					alt="Avatar"
 					id="avatar"
-					on:load={() => {
+					onload={() => {
 						imageLoading = false;
 					}}
 				/>

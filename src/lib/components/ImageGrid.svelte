@@ -2,34 +2,44 @@
 	import type { Badges, Channel, Emotes, Variant } from '$lib/types/common';
 
 	import { inlineSvg } from '@svelte-put/inline-svg';
-	import { onDestroy, onMount } from 'svelte';
-	import { Layers2 } from '@lucide/svelte';
-	import { _ } from 'svelte-i18n';
 	import { getCheerName } from '$lib/utils';
+	import { Layers2 } from '@lucide/svelte';
+	import { onMount } from 'svelte';
+	import { _ } from 'svelte-i18n';
 
-	export let items: Channel[] | Emotes[] | Badges[] | Variant[] = [];
-	export let versionKey: null | string = null;
-	export let linkPrefix: null | string = null;
-	export let providerKey = 'provider';
-	export let placeholderCount = 18;
-	export let imageKey = 'image';
-	export let isLoading = false;
-	export let nameKey = 'name';
-	export let logo = false;
-	export let idKey = 'id';
+	const {
+		items = [],
+		versionKey = null,
+		linkPrefix = null,
+		providerKey = 'provider',
+		placeholderCount = 18,
+		imageKey = 'image',
+		isLoading = false,
+		nameKey = 'name',
+		logo = false,
+		idKey = 'id'
+	} = $props<{
+		items?: Channel[] | Emotes[] | Badges[] | Variant[];
+		versionKey?: null | string;
+		linkPrefix?: null | string;
+		providerKey?: string;
+		placeholderCount?: number;
+		imageKey?: string;
+		isLoading?: boolean;
+		nameKey?: string;
+		logo?: boolean;
+		idKey?: string;
+	}>();
 
-	let imageError: Record<number, string> = {};
-	let imageLoaded: Record<number, boolean> = {};
+	let imageError = $state<Record<number, string>>({});
+	let imageLoaded = $state<Record<number, boolean>>({});
 
-	$: if (items) {
-		imageError = {};
-		imageLoaded = {};
-	}
-
-	const getHref = (item: Channel | Emotes | Badges | Variant) =>
-		linkPrefix
-			? `/${linkPrefix}/${item[providerKey as keyof typeof item] || ''}/${item[idKey as keyof typeof item] || ''}${versionKey ? `/${item[versionKey as keyof typeof item]}` : ''}`
-			: null;
+	let getHref = $derived(() => {
+		return (item: Channel | Emotes | Badges | Variant) =>
+			linkPrefix
+				? `/${linkPrefix}/${item[providerKey as keyof typeof item] || ''}/${item[idKey as keyof typeof item] || ''}${versionKey ? `/${item[versionKey as keyof typeof item]}` : ''}`
+				: null;
+	});
 
 	function onImgError(idx: number) {
 		imageError[idx] = linkPrefix === 'channel' ? '/assets/avatar.svg' : '/assets/error.svg';
@@ -39,8 +49,15 @@
 		imageLoaded[idx] = true;
 	}
 
+	$effect(() => {
+		if (items) {
+			imageError = {};
+			imageLoaded = {};
+		}
+	});
+
 	onMount(() => {
-		items.forEach((_, idx) => {
+		items.forEach((idx: number) => {
 			const img = document.querySelector<HTMLImageElement>(`img[data-idx="${idx}"]`);
 			if (img?.complete && img.naturalWidth !== 0) {
 				imageLoaded[idx] = true;
@@ -62,7 +79,7 @@
 			<svelte:element
 				this={linkPrefix ? 'a' : 'button'}
 				{...linkPrefix
-					? { href: getHref(item) }
+					? { href: getHref()(item) }
 					: { type: 'button', 'aria-label': item[nameKey as keyof typeof item] }}
 				class="bg-base-300 relative flex flex-col items-center rounded-lg p-5 transition-opacity"
 				class:hover:opacity-80={linkPrefix}
@@ -103,12 +120,12 @@
 					</div>
 					<img
 						data-idx={idx}
+						class="h-16 w-16 rounded-xs object-contain"
 						src={item[imageKey as keyof typeof item]}
 						alt={item[nameKey as keyof typeof item]}
-						class="h-16 w-16 rounded-xs object-contain"
+						onerror={() => onImgError(idx)}
+						onload={() => onImgLoad(idx)}
 						loading="lazy"
-						on:error={() => onImgError(idx)}
-						on:load={() => onImgLoad(idx)}
 					/>
 				{/if}
 

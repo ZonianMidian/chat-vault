@@ -412,7 +412,7 @@ export function getFavicon(url: string): { url: string; icon: string } {
 	if (!/^https?:\/\//i.test(fixed)) {
 		fixed = `https://${fixed}`;
 	}
-	
+
 	const parsed = new URL(fixed);
 	const path = parsed.pathname.replace(/\/+$/, '');
 	const host = parsed.hostname.replace(/^www\./i, '');
@@ -422,5 +422,5 @@ export function getFavicon(url: string): { url: string; icon: string } {
 	return {
 		url: cleanUrl,
 		icon: `https://favicon.yandex.net/favicon/${host}?size=32`
-	}
+	};
 }

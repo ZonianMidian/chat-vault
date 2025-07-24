@@ -6,43 +6,46 @@
 	import { fetchExtras } from '$lib/emotes/fetchExtras';
 	import { onMount, onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
+	import { untrack } from 'svelte';
 	import { _ } from 'svelte-i18n';
 
 	import Details from '$lib/components/Details.svelte';
 
-	export let data: EmotePage;
+	const { data } = $props<{ data: EmotePage }>();
 
-	let variantImages = new Map<string, string>();
-	let imageSizes = new Map<string, Sizes>();
-	let imageUrls = new Map<string, string>();
-	let visitedPages = new Set<number>();
+	let variantImages = $state(new Map<string, string>());
+	let imageSizes = $state(new Map<string, Sizes>());
+	let imageUrls = $state(new Map<string, string>());
+	let visitedPages = $state(new Set<number>());
 
-	let darkBackground = true;
-	let activeTab = 'info';
-	let isVariant = false;
+	let darkBackground = $state(true);
+	let activeTab = $state('info');
+	let isVariant = $state(false);
 
-	let createdAt: Date | null = null;
-	let deletedAt: Date | null = null;
-	let channels: Channel[] = [];
-	let itemsPerPage = 18;
-	let variantCount = 0;
+	let createdAt = $state<Date | null>(null);
+	let deletedAt = $state<Date | null>(null);
+	let channels = $state<Channel[]>([]);
+	let itemsPerPage = $state(18);
+	let variantCount = $state(0);
 
 	type TabPageMap = {
 		[key: string]: number;
 	};
-	let tabPages: TabPageMap = {};
+	let tabPages = $state<TabPageMap>({});
 
-	let error: string | null = data.error || null;
-	let emote: Emote | null = data.emote;
-	let emoteProvider = data.provider;
-	let extras: Extras | null = null;
+	let error = $state<string | null>(data.error || null);
+	let emote = $state<Emote | null>(data.emote);
+	let emoteProvider = $state(data.provider);
+	let extras = $state<Extras | null>(null);
 
-	$: isLoading = {
+	let isLoading = $state({
 		info: true,
 		extras: true,
 		variants: true,
 		channels: false
-	};
+	});
+
+	let currentEmoteKey = $derived(`${data.provider}-${data.id}`);
 
 	function getTabPage(tabId: string): number {
 		return tabPages[tabId] || 1;
@@ -255,24 +258,26 @@
 		visitedPages.clear();
 	}
 
-	let currentEmoteKey = '';
+	let previousEmoteKey = $state('');
 
-	$: {
-		const newEmoteKey = `${data.provider}-${data.id}`;
-		if (newEmoteKey !== currentEmoteKey) {
-			currentEmoteKey = newEmoteKey;
+	$effect(() => {
+		const newEmoteKey = currentEmoteKey;
+		if (newEmoteKey !== previousEmoteKey) {
+			previousEmoteKey = newEmoteKey;
 
-			resetState();
+			untrack(() => {
+				resetState();
 
-			emote = data.emote;
-			error = data.error || null;
-			emoteProvider = data.provider;
+				emote = data.emote;
+				error = data.error || null;
+				emoteProvider = data.provider;
 
-			if (emote && browser) {
-				initializeEmoteData();
-			}
+				if (emote && browser) {
+					initializeEmoteData();
+				}
+			});
 		}
-	}
+	});
 
 	onMount(() => {
 		onDestroy(() => {

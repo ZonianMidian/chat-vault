@@ -5,37 +5,40 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
 	import { getImageInfo } from '$lib/utils';
+	import { untrack } from 'svelte';
 	import { _ } from 'svelte-i18n';
 
 	import Details from '$lib/components/Details.svelte';
 
-	export let data: BadgePage;
+	const { data } = $props<{ data: BadgePage }>();
 
-	let imageSizes = new Map<string, Sizes>();
-	let imageUrls = new Map<string, string>();
+	let imageSizes = $state(new Map<string, Sizes>());
+	let imageUrls = $state(new Map<string, string>());
 
-	let darkBackground = true;
-	let activeTab = 'info';
+	let darkBackground = $state(true);
+	let activeTab = $state('info');
 
-	let createdAt: Date | null = null;
-	let deletedAt: Date | null = null;
-	let itemsPerPage = 18;
-	let variantCount = 0;
+	let createdAt = $state<Date | null>(null);
+	let deletedAt = $state<Date | null>(null);
+	let itemsPerPage = $state(18);
+	let variantCount = $state(0);
 
 	type TabPageMap = {
 		[key: string]: number;
 	};
-	let tabPages: TabPageMap = {};
+	let tabPages = $state<TabPageMap>({});
 
-	let error: string | null = data.error || null;
-	let badge: Badge | null = data.badge;
-	let badgeProvider = data.provider;
-	let extras: Extras | null = null;
+	let error = $state<string | null>(data.error || null);
+	let badge = $state<Badge | null>(data.badge);
+	let badgeProvider = $state(data.provider);
+	let extras = $state<Extras | null>(null);
 
-	$: isLoading = {
+	let isLoading = $state({
 		info: true,
 		extras: true
-	};
+	});
+
+	let currentBadgeKey = $derived(`${data.provider}-${data.id}`);
 
 	function getTabPage(tabId: string): number {
 		return tabPages[tabId] || 1;
@@ -47,7 +50,6 @@
 		createdAt = badge.createdAt ?? null;
 
 		loadExtrasData();
-
 		loadImageSizes();
 	}
 
@@ -142,24 +144,26 @@
 		tabPages = {};
 	}
 
-	let currentEmoteKey = '';
+	let previousBadgeKey = $state('');
 
-	$: {
-		const newEmoteKey = `${data.provider}-${data.id}`;
-		if (newEmoteKey !== currentEmoteKey) {
-			currentEmoteKey = newEmoteKey;
+	$effect(() => {
+		const newBadgeKey = currentBadgeKey;
+		if (newBadgeKey !== previousBadgeKey) {
+			previousBadgeKey = newBadgeKey;
 
-			resetState();
+			untrack(() => {
+				resetState();
 
-			badge = data.badge;
-			error = data.error || null;
-			badgeProvider = data.provider;
+				badge = data.badge;
+				error = data.error || null;
+				badgeProvider = data.provider;
 
-			if (badge && browser) {
-				initializeBadgeData();
-			}
+				if (badge && browser) {
+					initializeBadgeData();
+				}
+			});
 		}
-	}
+	});
 
 	onMount(() => {
 		onDestroy(() => {

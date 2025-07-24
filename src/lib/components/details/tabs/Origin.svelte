@@ -5,16 +5,27 @@
 	import { _, getLocaleFromNavigator } from 'svelte-i18n';
 	import { renderMarkdown } from '$lib/tools/marked';
 	import { translateText } from '$lib/utils';
+	import { untrack } from 'svelte';
 
 	import TabContent from '$lib/components/TabContent.svelte';
 
-	export let origins: Origin[] = [];
-	export let isLoading: boolean;
-	export let isActive: boolean;
+	let {
+		origins = [],
+		isLoading,
+		isActive
+	}: {
+		origins?: Origin[];
+		isLoading: boolean;
+		isActive: boolean;
+	} = $props();
 
-	let translatedTexts: Record<number, { text?: string; notes?: string }> = {};
-	let placeholders: Record<number, { text: string[]; notes: string[] }> = {};
-	let translated: Record<number, boolean> = {};
+	let translatedTexts = $state<Record<number, { text?: string; notes?: string }>>({});
+	let placeholders = $state<Record<number, { text: string[]; notes: string[] }>>({});
+	let translated = $state<Record<number, boolean>>({});
+
+	const gridClass = $derived(
+		`grid grid-cols-1 gap-6 md:grid-cols-1 ${origins.length > 1 ? 'md:grid-cols-2' : ''}`
+	);
 
 	function extractPlaceholders(str: string | undefined | null): {
 		replaced: string;
@@ -39,38 +50,47 @@
 	}
 
 	async function handleTranslate(idx: number, origin: Origin) {
-		if (!translated[idx]) {
-			if (!translatedTexts[idx]) {
-				const result: { text?: string; notes?: string } = {};
+		untrack(async () => {
+			if (!translated[idx]) {
+				if (!translatedTexts[idx]) {
+					const result: { text?: string; notes?: string } = {};
 
-				const originText = extractPlaceholders(origin.text);
-				const originNotes = extractPlaceholders(origin.notes);
+					const originText = extractPlaceholders(origin.text);
+					const originNotes = extractPlaceholders(origin.notes);
 
-				placeholders[idx] = {
-					text: originText.placeholders,
-					notes: originNotes.placeholders
-				};
+					placeholders = {
+						...placeholders,
+						[idx]: {
+							text: originText.placeholders,
+							notes: originNotes.placeholders
+						}
+					};
 
-				if (origin.text) {
-					const translated = await translateText(
-						originText.replaced,
-						getLocaleFromNavigator()
-					);
-					result.text = restorePlaceholders(translated, originText.placeholders);
+					if (origin.text) {
+						const translatedText = await translateText(
+							originText.replaced,
+							getLocaleFromNavigator()
+						);
+						result.text = restorePlaceholders(translatedText, originText.placeholders);
+					}
+					if (origin.notes) {
+						const translatedNotes = await translateText(
+							originNotes.replaced,
+							getLocaleFromNavigator()
+						);
+						result.notes = restorePlaceholders(
+							translatedNotes,
+							originNotes.placeholders
+						);
+					}
+
+					translatedTexts = { ...translatedTexts, [idx]: result };
 				}
-				if (origin.notes) {
-					const translated = await translateText(
-						originNotes.replaced,
-						getLocaleFromNavigator()
-					);
-					result.notes = restorePlaceholders(translated, originNotes.placeholders);
-				}
-				translatedTexts[idx] = result;
+				translated = { ...translated, [idx]: true };
+			} else {
+				translated = { ...translated, [idx]: false };
 			}
-			translated[idx] = true;
-		} else {
-			translated[idx] = false;
-		}
+		});
 	}
 </script>
 
@@ -82,11 +102,7 @@
 			{/each}
 		</div>
 	{:else}
-		<div
-			class="grid grid-cols-1 gap-6 md:grid-cols-1 {origins.length > 1
-				? 'md:grid-cols-2'
-				: ''}"
-		>
+		<div class={gridClass}>
 			{#each origins as origin, idx}
 				<div class="bg-base-300 flex flex-col gap-2 rounded-lg p-4 shadow">
 					<div class="mb-1 flex items-center gap-2">
@@ -98,7 +114,7 @@
 								aria-label={translated[idx]
 									? $_('emote.origin.undo')
 									: $_('emote.origin.translate')}
-								on:click={() => handleTranslate(idx, origin)}
+								onclick={() => handleTranslate(idx, origin)}
 								title={translated[idx]
 									? $_('emote.origin.undo')
 									: $_('emote.origin.translate')}

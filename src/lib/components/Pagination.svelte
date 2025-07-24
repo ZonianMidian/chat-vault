@@ -1,11 +1,19 @@
 <script lang="ts">
-	export let onPrevPage: () => void;
-	export let onNextPage: () => void;
-	export let itemsPerPage: number;
-	export let currentPage: number;
-	export let totalItems: number;
+	let {
+		onPrevPage,
+		onNextPage,
+		itemsPerPage,
+		currentPage,
+		totalItems
+	}: {
+		onPrevPage: () => void;
+		onNextPage: () => void;
+		itemsPerPage: number;
+		currentPage: number;
+		totalItems: number;
+	} = $props();
 
-	$: maxPage = Math.ceil(totalItems / itemsPerPage);
+	const maxPage = $derived(Math.ceil(totalItems / itemsPerPage));
 </script>
 
 <div
@@ -14,7 +22,7 @@
 	<div class="join flex w-full md:inline-flex md:w-auto">
 		<button
 			class="join-item btn btn-sm w-full flex-1 md:w-auto md:flex-none"
-			on:click={onPrevPage}
+			onclick={onPrevPage}
 			disabled={currentPage === 1}
 		>
 			«
@@ -26,7 +34,7 @@
 		</button>
 		<button
 			class="join-item btn btn-sm w-full flex-1 md:w-auto md:flex-none"
-			on:click={onNextPage}
+			onclick={onNextPage}
 			disabled={currentPage >= maxPage}
 		>
 			»

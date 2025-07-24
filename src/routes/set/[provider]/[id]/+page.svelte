@@ -10,16 +10,14 @@
 	import Error from '$lib/components/Error.svelte';
 	import { filterEmotes } from '$lib/utils';
 
-	export let data: SetPage;
+	let { data }: { data: SetPage } = $props();
 
-	let error: string | null = data.error || null;
-	let filteredEmotes: Emotes[] = [];
-	let set: Set | null = data.set;
-	let search: string = '';
+	let search = $state('');
 
-	$: setEmotes = set?.emotes || [];
-
-	$: filteredEmotes = filterEmotes(setEmotes, search);
+	const set = $derived(data.set);
+	const error = $derived(data.error || null);
+	const setEmotes = $derived(set?.emotes || []);
+	const filteredEmotes = $derived(filterEmotes(setEmotes, search));
 </script>
 
 <svelte:head>

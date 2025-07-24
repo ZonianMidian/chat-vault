@@ -15,42 +15,88 @@
 	import Error from '$lib/components/Error.svelte';
 	import Tabs from '$lib/components/Tabs.svelte';
 
-	export let data: Emote | Badge | null = null;
-	export let extras: Extras | null = null;
-	export let error: string | null = null;
+	let {
+		data = null,
+		extras = null,
+		error = null,
+		isLoading = {
+			info: true,
+			extras: true,
+			variants: true,
+			channels: true
+		},
+		provider = null,
+		createdAt = null,
+		deletedAt = null,
+		tabPages = {},
+		itemsPerPage = 18,
+		channels = [],
+		type = 'emote',
+		darkBackground = $bindable(true),
+		activeTab = $bindable('info'),
+		variantCount = 0,
+		variantImages = new Map(),
+		imageSizes = new Map(),
+		imageUrls = new Map(),
+		nextPage = () => {},
+		prevPage = () => {}
+	} = $props<{
+		data?: Emote | Badge | null;
+		extras?: Extras | null;
+		error?: string | null;
+		isLoading?: {
+			info: boolean;
+			extras: boolean;
+			variants?: boolean;
+			channels?: boolean;
+		};
+		provider?: string | null;
+		createdAt?: Date | null;
+		deletedAt?: Date | null;
+		tabPages?: { [key: string]: number };
+		itemsPerPage?: number;
+		channels?: Channel[];
+		type?: 'emote' | 'badge';
+		darkBackground?: boolean;
+		activeTab?: string;
+		variantCount?: number;
+		variantImages?: Map<string, string>;
+		imageSizes?: Map<string, Sizes>;
+		imageUrls?: Map<string, string>;
+		nextPage?: (totalItems: number) => void;
+		prevPage?: () => void;
+	}>();
 
-	export let isLoading: {
-		info: boolean;
-		extras: boolean;
-		variants?: boolean;
-		channels?: boolean;
-	} = {
-		info: true,
-		extras: true,
-		variants: true,
-		channels: true
-	};
+	let shouldShowChannelsTab = $derived(() => {
+		return (
+			(type === 'emote' && ((data as Emote)?.channels?.total ?? 0) > 0) ||
+			activeTab === 'channels'
+		);
+	});
 
-	export let provider: string | null = null;
-	export let createdAt: Date | null = null;
-	export let deletedAt: Date | null = null;
+	let shouldShowRelatedTab = $derived(() => {
+		return (extras?.related?.total ?? 0) > 0 || activeTab === 'related';
+	});
 
-	export let tabPages: { [key: string]: number } = {};
-	export let itemsPerPage: number = 18;
-	export let channels: Channel[] = [];
+	let shouldShowVariantsTab = $derived(() => {
+		return variantCount > 0 || activeTab === 'variants';
+	});
 
-	export let type: 'emote' | 'badge' = 'emote';
-	export let darkBackground: boolean = true;
-	export let activeTab: string = 'info';
+	let shouldShowOriginTab = $derived(() => {
+		return (extras?.origin?.length ?? 0) > 0 || activeTab === 'origin';
+	});
 
-	export let variantCount: number = 0;
-	export let variantImages: Map<string, string> = new Map();
+	let channelsTotal = $derived(() => {
+		return type === 'emote' ? ((data as Emote)?.channels?.total ?? 0) : 0;
+	});
 
-	export let imageSizes: Map<string, Sizes> = new Map();
-	export let imageUrls: Map<string, string> = new Map();
+	let emoteTags = $derived(() => {
+		return type === 'emote' ? (data as Emote)?.tags || [] : [];
+	});
 
-	export let nextPage: (totalItems: number) => void = () => {};
-	export let prevPage: () => void = () => {};
+	let isEmoteZeroWidth = $derived(() => {
+		return type === 'emote' && (data as Emote)?.zeroWidth;
+	});
 </script>
 
 <div class="flex min-h-[90vh] flex-col items-center justify-center px-3 py-5 2xl:px-0">
@@ -76,8 +122,8 @@
 						{#each Array(2) as _}
 							<div class="skeleton h-4 w-16"></div>
 						{/each}
-					{:else if data && type === 'emote' && (data as Emote).tags}
-						{#each (data as Emote).tags as tag}
+					{:else if data && type === 'emote' && emoteTags.length > 0}
+						{#each emoteTags() as tag}
 							<div class="badge badge-sm">{tag}</div>
 						{/each}
 					{/if}
@@ -85,7 +131,7 @@
 			</div>
 
 			<ImageList
-				zeroWidth={(type === 'emote' && (data as Emote)?.zeroWidth) ?? false}
+				zeroWidth={isEmoteZeroWidth() ?? false}
 				images={data?.images || []}
 				isLoading={isLoading.info}
 				provider={provider ?? ''}
@@ -107,20 +153,18 @@
 							{changeTab}
 						/>
 
-						{#if (type === 'emote' && ((data as Emote)?.channels?.total ?? 0) > 0) || activeTab === 'channels'}
+						{#if shouldShowChannelsTab()}
 							<TabButton
 								id="channels"
 								label={$_('emote.channels.label')}
 								icon={Users}
-								count={type === 'emote'
-									? ((data as Emote)?.channels?.total ?? 0)
-									: 0}
+								count={channelsTotal()}
 								isActive={activeTab === 'channels'}
 								{changeTab}
 							/>
 						{/if}
 
-						{#if (extras?.related?.total ?? 0) > 0 || activeTab === 'related'}
+						{#if shouldShowRelatedTab()}
 							<TabButton
 								id="related"
 								label={$_('common.info.related')}
@@ -131,7 +175,7 @@
 							/>
 						{/if}
 
-						{#if variantCount > 0 || activeTab === 'variants'}
+						{#if shouldShowVariantsTab()}
 							<TabButton
 								id="variants"
 								label={$_('emote.variants.label')}
@@ -143,7 +187,7 @@
 							/>
 						{/if}
 
-						{#if (extras?.origin?.length ?? 0) > 0 || activeTab === 'origin'}
+						{#if shouldShowOriginTab()}
 							<TabButton
 								id="origin"
 								label={$_('emote.origin.label')}
@@ -164,15 +208,13 @@
 							{type}
 						/>
 
-						{#if (type === 'emote' && ((data as Emote)?.channels?.total ?? 0) > 0) || activeTab === 'channels'}
+						{#if shouldShowChannelsTab()}
 							<ChannelsTab
 								isActive={activeTab === 'channels'}
 								isLoading={!!isLoading?.channels}
 								currentPage={tabPages.channels || 1}
 								{channels}
-								totalChannels={type === 'emote'
-									? ((data as Emote)?.channels?.total ?? 0)
-									: 0}
+								totalChannels={channelsTotal()}
 								{itemsPerPage}
 								onPrevPage={prevPage}
 								onNextPage={() =>
@@ -182,7 +224,7 @@
 							/>
 						{/if}
 
-						{#if (extras?.related?.total ?? 0) > 0 || activeTab === 'related'}
+						{#if shouldShowRelatedTab()}
 							<RelatedTab
 								isActive={activeTab === 'related'}
 								isLoading={isLoading.extras}
@@ -197,7 +239,7 @@
 							/>
 						{/if}
 
-						{#if variantCount > 0 || activeTab === 'variants'}
+						{#if shouldShowVariantsTab()}
 							<VariantsTab
 								isActive={activeTab === 'variants'}
 								isLoading={!!isLoading?.variants}
@@ -211,7 +253,7 @@
 							/>
 						{/if}
 
-						{#if (extras?.origin?.length ?? 0) > 0 || activeTab === 'origin'}
+						{#if shouldShowOriginTab()}
 							<OriginTab
 								isActive={activeTab === 'origin'}
 								isLoading={isLoading.extras}

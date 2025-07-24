@@ -5,18 +5,28 @@
 	import Pagination from '$lib/components/Pagination.svelte';
 	import ImageGrid from '$lib/components/ImageGrid.svelte';
 
-	export let isActive: boolean;
-	export let isLoading: boolean;
-	export let currentPage: number;
-	export let channels: Channel[];
-	export let totalChannels: number;
-	export let itemsPerPage: number;
-	export let onPrevPage: () => void;
-	export let onNextPage: () => void;
+	let {
+		isActive,
+		isLoading,
+		currentPage,
+		channels,
+		totalChannels,
+		itemsPerPage,
+		onPrevPage,
+		onNextPage
+	}: {
+		isActive: boolean;
+		isLoading: boolean;
+		currentPage: number;
+		channels: Channel[];
+		totalChannels: number;
+		itemsPerPage: number;
+		onPrevPage: () => void;
+		onNextPage: () => void;
+	} = $props();
 
-	$: paginatedChannels = channels.slice(
-		(currentPage - 1) * itemsPerPage,
-		currentPage * itemsPerPage
+	const paginatedChannels = $derived(
+		channels.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
 	);
 </script>
 

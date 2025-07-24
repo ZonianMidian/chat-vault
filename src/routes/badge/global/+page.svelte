@@ -3,34 +3,33 @@
 
 	import { fetchGlobalBadges } from '$lib/badges/fetchGlobals';
 	import { browser } from '$app/environment';
+	import { onMount, untrack } from 'svelte';
 	import { Search } from '@lucide/svelte';
 	import { page } from '$app/state';
-	import { onMount } from 'svelte';
 	import { _ } from 'svelte-i18n';
 
+	import { getCachedOriginData } from '$lib/emotes/originCache';
 	import SearchError from '$lib/components/SearchError.svelte';
 	import Collapsible from '$lib/components/Collapsible.svelte';
 	import ImageGrid from '$lib/components/ImageGrid.svelte';
 	import Error from '$lib/components/Error.svelte';
 	import { normalizeText } from '$lib/utils';
 
-	let prevOpenGroups: Record<string, boolean> = {};
-	let groupedBadges: Record<string, Badges[]> = {};
-	let openGroups: Record<string, boolean> = {};
+	let prevOpenGroups = $state<Record<string, boolean>>({});
+	let openGroups = $state<Record<string, boolean>>({});
+	let globalBadges = $state<Badges[]>([]);
+	let error = $state<string | null>(null);
+	let placeholderCount = $state(2);
+	let isLoading = $state(true);
+	let search = $state('');
 
-	let placeholderCount: number = 2;
-	let error: string | null = null;
-	let globalBadges: Badges[] = [];
-	let isLoading: boolean = true;
-	let search: string = '';
-
-	$: groupedBadges = groupByProvider(globalBadges);
-
-	$: if (Object.keys(groupedBadges).length) {
-		for (const provider of Object.keys(groupedBadges)) {
-			if (!(provider in openGroups)) openGroups[provider] = true;
-		}
-	}
+	const groupedBadges = $derived(groupByProvider(globalBadges));
+	const filteredGroupedBadges = $derived(() => {
+		const entries = Object.entries(groupedBadges)
+			.map(([provider, badges]) => [provider, filterBadges(badges, search)])
+			.filter(([_, badges]) => badges.length > 0);
+		return Object.fromEntries(entries) as Record<string, Badges[]>;
+	});
 
 	function groupByProvider(badges: Badges[]): Record<string, Badges[]> {
 		const groups: Record<string, Badges[]> = {};
@@ -45,10 +44,10 @@
 		openGroups = { ...openGroups, [provider]: !openGroups[provider] };
 	}
 
-	function filterBadges(badges: Badges[], search: string): Badges[] {
-		if (!search.trim()) return badges;
+	function filterBadges(badges: Badges[], searchTerm: string): Badges[] {
+		if (!searchTerm.trim()) return badges;
 
-		const s = normalizeText(search.trim().toLowerCase());
+		const s = normalizeText(searchTerm.trim().toLowerCase());
 
 		return badges.filter(
 			(e) =>
@@ -58,39 +57,60 @@
 		);
 	}
 
-	let filteredGroupedBadges: Record<string, Badges[]> = {};
-
-	$: filteredGroupedBadges = Object.fromEntries(
-		Object.entries(groupedBadges)
-			.map(([provider, badges]) => [provider, filterBadges(badges, search)])
-			.filter(([_, badges]) => badges.length > 0)
-	) as Record<string, Badges[]>;
-
-	$: if (search.trim()) {
-		if (Object.keys(prevOpenGroups).length === 0) {
-			prevOpenGroups = { ...openGroups };
+	$effect(() => {
+		const providers = Object.keys(groupedBadges);
+		if (providers.length > 0) {
+			untrack(() => {
+				const newOpenGroups = { ...openGroups };
+				for (const provider of providers) {
+					if (!(provider in newOpenGroups)) {
+						newOpenGroups[provider] = true;
+					}
+				}
+				openGroups = newOpenGroups;
+			});
 		}
-		for (const provider of Object.keys(filteredGroupedBadges)) {
-			openGroups[provider] = true;
-		}
-	} else if (Object.keys(prevOpenGroups).length > 0) {
-		openGroups = { ...prevOpenGroups };
-		prevOpenGroups = {};
-	}
+	});
+
+	$effect(() => {
+		const searchTerm = search.trim();
+		const filteredProviders = Object.keys(filteredGroupedBadges);
+
+		untrack(() => {
+			if (searchTerm) {
+				if (Object.keys(prevOpenGroups).length === 0) {
+					prevOpenGroups = { ...openGroups };
+				}
+				const newOpenGroups = { ...openGroups };
+				for (const provider of filteredProviders) {
+					newOpenGroups[provider] = true;
+				}
+				openGroups = newOpenGroups;
+			} else if (Object.keys(prevOpenGroups).length > 0) {
+				openGroups = { ...prevOpenGroups };
+				prevOpenGroups = {};
+			}
+		});
+	});
 
 	onMount(async () => {
 		if (browser) {
-			await fetchGlobalBadges('all')
-				.then((badges) => {
+			untrack(async () => {
+				try {
+					const badges = await fetchGlobalBadges('all');
 					globalBadges = badges;
-				})
-				.catch((error) => {
-					console.error(`[${$_('global.label')}] ${$_('badge.label')}:`, error);
-					error = error.message;
-				})
-				.finally(() => {
+				} catch (err) {
+					console.error(`[${$_('global.label')}] ${$_('badge.label')}:`, err);
+					error =
+						typeof err === 'object' && err !== null && 'message' in err
+							? (err as { message: string }).message
+							: String(err);
+				} finally {
 					isLoading = false;
-				});
+				}
+			});
+
+			getCachedOriginData();
 		}
 	});
 </script>
@@ -129,10 +149,10 @@
 						<ImageGrid isLoading={true} placeholderCount={36} />
 					</Collapsible>
 				{/each}
-			{:else if Object.keys(filteredGroupedBadges).length === 0}
+			{:else if Object.keys(filteredGroupedBadges()).length === 0}
 				<SearchError {search} />
 			{:else}
-				{#each Object.entries(filteredGroupedBadges) as [provider, badges] (provider)}
+				{#each Object.entries(filteredGroupedBadges()) as [provider, badges] (provider)}
 					<Collapsible
 						open={openGroups[provider]}
 						logo={`/logos/${provider}.svg`}

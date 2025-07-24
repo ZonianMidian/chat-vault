@@ -3,9 +3,9 @@
 
 	import { fetchGlobalEmotes } from '$lib/emotes/fetchGlobals';
 	import { browser } from '$app/environment';
+	import { onMount, untrack } from 'svelte';
 	import { Search } from '@lucide/svelte';
 	import { page } from '$app/state';
-	import { onMount } from 'svelte';
 	import { _ } from 'svelte-i18n';
 
 	import { getCachedOriginData } from '$lib/emotes/originCache';
@@ -15,42 +15,21 @@
 	import Error from '$lib/components/Error.svelte';
 	import { filterEmotes } from '$lib/utils';
 
-	let filteredGroupedEmotes: Record<string, Emotes[]> = {};
-	let groupedEmotes: Record<string, Emotes[]> = {};
-	let prevOpenGroups: Record<string, boolean> = {};
-	let openGroups: Record<string, boolean> = {};
+	let openGroups = $state<Record<string, boolean>>({});
+	let prevOpenGroups = $state<Record<string, boolean>>({});
+	let globalEmotes = $state<Emotes[]>([]);
+	let error = $state<string | null>(null);
+	let placeholderCount = $state(4);
+	let isLoading = $state(true);
+	let search = $state('');
 
-	let placeholderCount: number = 4;
-	let error: string | null = null;
-	let globalEmotes: Emotes[] = [];
-	let isLoading: boolean = true;
-	let search: string = '';
-
-	$: groupedEmotes = groupByProvider(globalEmotes);
-
-	$: if (Object.keys(groupedEmotes).length) {
-		for (const provider of Object.keys(groupedEmotes)) {
-			if (!(provider in openGroups)) openGroups[provider] = true;
-		}
-	}
-
-	$: filteredGroupedEmotes = Object.fromEntries(
-		Object.entries(groupedEmotes)
+	const groupedEmotes = $derived(groupByProvider(globalEmotes));
+	const filteredGroupedEmotes = $derived(() => {
+		const entries = Object.entries(groupedEmotes)
 			.map(([provider, emotes]) => [provider, filterEmotes(emotes, search)])
-			.filter(([_, emotes]) => emotes.length > 0)
-	) as Record<string, Emotes[]>;
-
-	$: if (search.trim()) {
-		if (Object.keys(prevOpenGroups).length === 0) {
-			prevOpenGroups = { ...openGroups };
-		}
-		for (const provider of Object.keys(filteredGroupedEmotes)) {
-			openGroups[provider] = true;
-		}
-	} else if (Object.keys(prevOpenGroups).length > 0) {
-		openGroups = { ...prevOpenGroups };
-		prevOpenGroups = {};
-	}
+			.filter(([_, emotes]) => emotes.length > 0);
+		return Object.fromEntries(entries) as Record<string, Emotes[]>;
+	});
 
 	function groupByProvider(emotes: Emotes[]): Record<string, Emotes[]> {
 		const groups: Record<string, Emotes[]> = {};
@@ -65,19 +44,58 @@
 		openGroups = { ...openGroups, [provider]: !openGroups[provider] };
 	}
 
+	$effect(() => {
+		const providers = Object.keys(groupedEmotes);
+		if (providers.length > 0) {
+			untrack(() => {
+				const newOpenGroups = { ...openGroups };
+				for (const provider of providers) {
+					if (!(provider in newOpenGroups)) {
+						newOpenGroups[provider] = true;
+					}
+				}
+				openGroups = newOpenGroups;
+			});
+		}
+	});
+
+	$effect(() => {
+		const searchTerm = search.trim();
+		const filteredProviders = Object.keys(filteredGroupedEmotes);
+
+		untrack(() => {
+			if (searchTerm) {
+				if (Object.keys(prevOpenGroups).length === 0) {
+					prevOpenGroups = { ...openGroups };
+				}
+				const newOpenGroups = { ...openGroups };
+				for (const provider of filteredProviders) {
+					newOpenGroups[provider] = true;
+				}
+				openGroups = newOpenGroups;
+			} else if (Object.keys(prevOpenGroups).length > 0) {
+				openGroups = { ...prevOpenGroups };
+				prevOpenGroups = {};
+			}
+		});
+	});
+
 	onMount(async () => {
 		if (browser) {
-			await fetchGlobalEmotes('all')
-				.then((emotes) => {
+			untrack(async () => {
+				try {
+					const emotes = await fetchGlobalEmotes('all');
 					globalEmotes = emotes;
-				})
-				.catch((error) => {
-					console.error(`[${$_('global.label')}] ${$_('emote.label')}:`, error);
-					error = error.message;
-				})
-				.finally(() => {
+				} catch (err) {
+					console.error(`[${$_('global.label')}] ${$_('emote.label')}:`, err);
+					error =
+						typeof err === 'object' && err !== null && 'message' in err
+							? (err as { message: string }).message
+							: String(err);
+				} finally {
 					isLoading = false;
-				});
+				}
+			});
 
 			getCachedOriginData();
 		}
@@ -118,10 +136,10 @@
 						<ImageGrid isLoading={true} placeholderCount={36} />
 					</Collapsible>
 				{/each}
-			{:else if Object.keys(filteredGroupedEmotes).length === 0}
+			{:else if Object.keys(filteredGroupedEmotes()).length === 0}
 				<SearchError {search} />
 			{:else}
-				{#each Object.entries(filteredGroupedEmotes) as [provider, emotes] (provider)}
+				{#each Object.entries(filteredGroupedEmotes()) as [provider, emotes] (provider)}
 					<Collapsible
 						open={openGroups[provider]}
 						logo={`/logos/${provider}.svg`}

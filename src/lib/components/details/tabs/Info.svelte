@@ -3,17 +3,17 @@
 
 	import { _, date } from 'svelte-i18n';
 	import {
+		SquareMousePointer,
 		CalendarPlus,
 		CheckCircle,
 		CalendarX2,
+		LetterText,
 		XCircle,
 		Folder,
 		Brush,
 		Globe,
 		Coins,
-		Lock,
-		LetterText,
-		SquareMousePointer
+		Lock
 	} from '@lucide/svelte';
 
 	import MenuContent from '$lib/components/MenuContent.svelte';

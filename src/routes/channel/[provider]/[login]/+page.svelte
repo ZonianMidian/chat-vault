@@ -9,23 +9,22 @@
 
 	import { fetchEmotes } from '$lib/channels/fetchEmotes';
 	import { browser } from '$app/environment';
-
-	import { onMount } from 'svelte';
+	import { untrack } from 'svelte';
 	import { _ } from 'svelte-i18n';
 
 	import Providers from '$lib/components/channel/Providers.svelte';
 	import Profile from '$lib/components/channel/Profile.svelte';
 	import Error from '$lib/components/Error.svelte';
 
-	export let data: ChannelPage;
+	const { data } = $props<{ data: ChannelPage }>();
 
-	let content: ChannelContent | null = data.channel?.content ?? null;
-	let user: UserData | null = data?.channel?.user ?? null;
-	let providers: ChannelProvider[] | null = null;
-	let error: string | null = data.error || null;
-	let isLoading: boolean = true;
+	let content = $state<ChannelContent | null>(data.channel?.content ?? null);
+	let user = $state<UserData | null>(data?.channel?.user ?? null);
+	let providers = $state<ChannelProvider[] | null>(null);
+	let error = $state<string | null>(data.error || null);
+	let isLoading = $state<boolean>(true);
 
-	let providerData: boolean = false;
+	let providerData = $derived(shouldTrigger(content));
 
 	function shouldTrigger(content: ChannelContent | null): boolean {
 		if (!content) return false;
@@ -38,14 +37,26 @@
 		);
 	}
 
-	onMount(async () => {
-		if (browser && user) {
-			providerData = shouldTrigger(content);
+	$effect(() => {
+		if (!browser || !user) return;
 
-			providers = (await fetchEmotes('all', data.id, data.provider)) as ChannelProvider[];
+		untrack(async () => {
+			try {
+				isLoading = true;
+				providers = (await fetchEmotes('all', data.id, data.provider)) as ChannelProvider[];
+			} catch (err) {
+				console.error('Error fetching emotes:', err);
+				error = 'Error loading emotes';
+			} finally {
+				isLoading = false;
+			}
+		});
+	});
 
-			isLoading = false;
-		}
+	$effect(() => {
+		content = data.channel?.content ?? null;
+		user = data?.channel?.user ?? null;
+		error = data.error || null;
 	});
 </script>
 

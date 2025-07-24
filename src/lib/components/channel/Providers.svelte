@@ -19,67 +19,85 @@
 	import ImageGrid from '$lib/components/ImageGrid.svelte';
 	import Tabs from '$lib/components/Tabs.svelte';
 
-	export let providers: ChannelProvider[] | null = null;
-	export let providerData: boolean = false;
-	export let isLoading: boolean = true;
-	export let data: ChannelPage;
+	const {
+		providers = null,
+		providerData = false,
+		isLoading = true,
+		data
+	} = $props<{
+		providers?: ChannelProvider[] | null;
+		providerData?: boolean;
+		isLoading?: boolean;
+		data: ChannelPage;
+	}>();
 
-	let content: ChannelContent | null = data.channel?.content ?? null;
-	let user: UserData | null = data?.channel?.user ?? null;
-	let currentSets: Record<string, Set> = {};
-	let searches: Record<string, string> = {};
-	let activeTab: string = data.provider;
-	let placeholderCount: number = 3;
+	let currentSets = $state<Record<string, Set>>({});
+	let searches = $state<Record<string, string>>({});
+	let activeTab = $state<string>(data.provider);
+	let placeholderCount = $state<number>(3);
 
-	$: if (providers && Object.keys(currentSets).length === 0) {
-		initializeCurrentSets();
-	}
+	let content = $derived<ChannelContent | null>(data.channel?.content ?? null);
+	let user = $derived<UserData | null>(data?.channel?.user ?? null);
 
-	$: if (providerData) {
-		activeTab = data.provider;
-	} else if (providers && providers.length > 0) {
-		activeTab = providers[0].provider;
-	}
+	let computedActiveTab = $derived(() => {
+		if (providerData) {
+			return data.provider;
+		} else if (providers && providers.length > 0) {
+			return providers[0].provider;
+		}
+		return data.provider;
+	});
 
-	$: filteredEmotesByProvider = Object.fromEntries(
-		Object.keys(searches).map((providerKey) => [
-			providerKey,
-			(() => {
-				const currentSet = getCurrentSet(providerKey);
-				const search = searches[providerKey] || '';
-				const emotes = currentSet?.emotes || [];
-				return filterEmotes(emotes, search);
-			})()
-		])
-	);
+	$effect(() => {
+		activeTab = computedActiveTab();
+	});
+
+	let filteredEmotesByProvider = $derived(() => {
+		const result: Record<string, any[]> = {};
+
+		Object.keys(searches).forEach((providerKey) => {
+			const currentSet = getCurrentSet(providerKey);
+			const search = searches[providerKey] || '';
+			const emotes = currentSet?.emotes || [];
+			result[providerKey] = filterEmotes(emotes, search);
+		});
+
+		return result;
+	});
 
 	function getCurrentSet(providerKey: string): Set | null {
 		return currentSets[providerKey] || null;
 	}
 
 	function initializeCurrentSets(): void {
-		if (providers) {
-			const newCurrentSets: Record<string, Set> = {};
-			const newSearches: Record<string, string> = {};
+		if (!providers) return;
 
-			providers.forEach((provider) => {
-				if (provider.sets && provider.sets.length > 0) {
-					const mainSet =
-						provider.sets.find((set) => set.mainSet === true) || provider.sets[0];
-					newCurrentSets[provider.provider] = mainSet;
-					newSearches[provider.provider] = '';
-				}
-			});
+		const newCurrentSets: Record<string, Set> = {};
+		const newSearches: Record<string, string> = {};
 
-			currentSets = newCurrentSets;
-			searches = newSearches;
-		}
+		providers.forEach((provider: ChannelProvider) => {
+			if (provider.sets && provider.sets.length > 0) {
+				const mainSet =
+					provider.sets.find((set) => set.mainSet === true) || provider.sets[0];
+				newCurrentSets[provider.provider] = mainSet;
+				newSearches[provider.provider] = '';
+			}
+		});
+
+		currentSets = newCurrentSets;
+		searches = newSearches;
 	}
 
 	function changeSet(providerKey: string, newSet: Set): void {
 		currentSets = { ...currentSets, [providerKey]: newSet };
 		searches = { ...searches, [providerKey]: '' };
 	}
+
+	$effect(() => {
+		if (providers && Object.keys(currentSets).length === 0) {
+			initializeCurrentSets();
+		}
+	});
 
 	onMount(() => {
 		initializeCurrentSets();
@@ -116,7 +134,7 @@
 			{/if}
 
 			{#if providers && providers.length > 0}
-				{#each providers.filter((provider) => provider.sets && provider.sets.length > 0) as provider}
+				{#each providers.filter((provider: ChannelProvider) => provider.sets && provider.sets.length > 0) as provider}
 					{@const currentSet = currentSets[provider.provider]}
 					<TabButton
 						id={provider.provider}
@@ -139,9 +157,9 @@
 			{/if}
 
 			{#if providers && providers.length > 0}
-				{#each providers.filter((provider) => provider.sets && provider.sets.length > 0) as provider}
+				{#each providers.filter((provider: ChannelProvider) => provider.sets && provider.sets.length > 0) as provider}
 					{@const currentSet = currentSets[provider.provider]}
-					{@const filteredEmotes = filteredEmotesByProvider[provider.provider] || []}
+					{@const filteredEmotes = filteredEmotesByProvider()[provider.provider] || []}
 					<TabContent isActive={activeTab === provider.provider}>
 						<div
 							class="flex w-full flex-col items-center space-y-3 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-4"
@@ -193,7 +211,7 @@
 														set.id
 															? 'bg-primary text-primary-content btn-disabled'
 															: 'hover:bg-base-200'}"
-														on:click={() =>
+														onclick={() =>
 															changeSet(provider.provider, set)}
 													>
 														<span class="font-medium">{set.name}</span>

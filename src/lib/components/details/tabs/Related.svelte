@@ -5,20 +5,30 @@
 	import Pagination from '$lib/components/Pagination.svelte';
 	import ImageGrid from '$lib/components/ImageGrid.svelte';
 
-	export let relatedEmotes: Emotes[] | Badges[] = [];
-	export let type: 'emote' | 'badge';
-	export let totalRelated: number;
-	export let itemsPerPage: number;
-	export let currentPage: number;
-	export let isLoading: boolean;
-	export let isActive: boolean;
+	let {
+		relatedEmotes = [],
+		type,
+		totalRelated,
+		itemsPerPage,
+		currentPage,
+		isLoading,
+		isActive,
+		onPrevPage,
+		onNextPage
+	}: {
+		relatedEmotes?: Emotes[] | Badges[];
+		type: 'emote' | 'badge';
+		totalRelated: number;
+		itemsPerPage: number;
+		currentPage: number;
+		isLoading: boolean;
+		isActive: boolean;
+		onPrevPage: () => void;
+		onNextPage: () => void;
+	} = $props();
 
-	export let onPrevPage: () => void;
-	export let onNextPage: () => void;
-
-	$: paginatedEmotes = relatedEmotes.slice(
-		(currentPage - 1) * itemsPerPage,
-		currentPage * itemsPerPage
+	const paginatedEmotes = $derived(
+		relatedEmotes.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
 	);
 </script>
 
