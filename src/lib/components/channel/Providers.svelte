@@ -43,6 +43,13 @@
 		if (providerData) {
 			return data.provider;
 		} else if (providers && providers.length > 0) {
+			const withEmotes = providers.find(
+				(p: ChannelProvider) =>
+					p.sets && p.sets.some((set) => set.emotes && set.emotes.length > 0)
+			);
+			if (withEmotes) {
+				return withEmotes.provider;
+			}
 			return providers[0].provider;
 		}
 		return data.provider;
