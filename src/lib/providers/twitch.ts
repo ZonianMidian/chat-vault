@@ -29,7 +29,8 @@ import {
 	sortBadges,
 	$number,
 	$format,
-	UUID
+	UUID,
+	getFavicon
 } from '$lib/utils';
 import { fetchGlobalBadges } from '$lib/badges/fetchGlobals';
 
@@ -242,16 +243,7 @@ export async function getTwitchChannel(userLogin: string): Promise<ChannelData> 
 
 	const socials = (list: SocialMedia[]): Socials[] =>
 		list.map(({ url, name, title }) => {
-			let fixed = url.trim();
-			if (!/^https?:\/\//i.test(fixed)) {
-				fixed = `https://${fixed}`;
-			}
-
-			const parsed = new URL(fixed);
-			const path = parsed.pathname.replace(/\/+$/, '');
-			const host = parsed.hostname.replace(/^www\./i, '');
-			const cleanUrl = `${parsed.protocol}//${host}${path}`;
-			const icon = `https://www.google.com/s2/favicons?domain_url=${host}&sz=32`;
+			let { url: cleanUrl, icon } = getFavicon(url);
 
 			return {
 				name,

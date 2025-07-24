@@ -10,6 +10,7 @@ import { fetchGlobalEmotes } from './emotes/fetchGlobals';
 export const $format = unwrapFunctionStore(format);
 export const $number = unwrapFunctionStore(number);
 
+export const imageProxy = 'https://wsrv.nl/?n=-1&url=';
 export const proxyUrl = 'https://corsproxy.io/?url=';
 
 export const UUID =
@@ -51,13 +52,13 @@ export const emoteVariants = [
 	'WH'
 ];
 
-export const socialConfig: Record<string, { baseUrl: string; host: string }> = {
-	instagram: { baseUrl: 'https://instagram.com/', host: 'instagram.com' },
-	twitter: { baseUrl: 'https://twitter.com/', host: 'twitter.com' },
-	youtube: { baseUrl: 'https://youtube.com/', host: 'youtube.com' },
-	discord: { baseUrl: 'https://discord.gg/', host: 'discord.gg' },
-	tiktok: { baseUrl: 'https://tiktok.com/@', host: 'tiktok.com' },
-	facebook: { baseUrl: 'https://facebook.com/', host: 'facebook.com' }
+export const socialConfig: Record<string, string> = {
+	instagram: 'https://instagram.com/',
+	twitter: 'https://twitter.com/',
+	youtube: 'https://youtube.com/',
+	discord: 'https://discord.gg/',
+	tiktok: 'https://tiktok.com/@',
+	facebook: 'https://facebook.com/'
 };
 
 export async function checkVariantExists(url: string): Promise<boolean> {
@@ -127,8 +128,6 @@ export async function getImageInfo(url: string, proxy: boolean): Promise<Sizes> 
 	} else if (includesFromArray(url, ['wsrv.nl'])) {
 		proxy = false;
 	}
-
-	const imageProxy = 'https://wsrv.nl/?n=-1&url=';
 
 	try {
 		const response = await fetch(proxy ? imageProxy + url : url);
@@ -406,4 +405,22 @@ export function filterEmotes(emotes: Emotes[], search: string): Emotes[] {
 			normalizeText(e.owner).toLowerCase().includes(s) ||
 			normalizeText(e.provider).toLowerCase().includes(s)
 	);
+}
+
+export function getFavicon(url: string): { url: string; icon: string } {
+	let fixed = url.trim();
+	if (!/^https?:\/\//i.test(fixed)) {
+		fixed = `https://${fixed}`;
+	}
+	
+	const parsed = new URL(fixed);
+	const path = parsed.pathname.replace(/\/+$/, '');
+	const host = parsed.hostname.replace(/^www\./i, '');
+
+	const cleanUrl = `${parsed.protocol}//${host}${path}`;
+
+	return {
+		url: cleanUrl,
+		icon: `https://favicon.yandex.net/favicon/${host}?size=32`
+	}
 }

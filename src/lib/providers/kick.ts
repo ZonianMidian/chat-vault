@@ -18,7 +18,8 @@ import {
 	socialConfig,
 	compareName,
 	sortBadges,
-	$format
+	$format,
+	getFavicon
 } from '$lib/utils';
 
 const defaultAvatar = 'https://kick.com/img/default-profile-pictures/default2.jpeg';
@@ -211,12 +212,15 @@ export async function getKickChannel(userLogin: string): Promise<ChannelData> {
 			})
 			.map<Socials>((key) => {
 				const handle = (user[key as keyof UserData] as string).trim();
-				const { baseUrl, host } = socialConfig[key];
+				const baseUrl = socialConfig[key];
+
+				const { url, icon } = getFavicon(`${baseUrl}${handle}`);
+
 				return {
-					name: key,
 					title: handle,
-					url: `${baseUrl}${handle}`,
-					icon: `https://www.google.com/s2/favicons?domain_url=${host}&sz=32`
+					name: key,
+					icon,
+					url
 				};
 			});
 	};

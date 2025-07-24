@@ -4,6 +4,7 @@
 	import { isDarkMode } from '$lib/tools/isDarkMode';
 	import { onDestroy, onMount } from 'svelte';
 	import { getBadges } from '$lib/utils';
+	import { Globe } from '@lucide/svelte';
 	import { _, date } from 'svelte-i18n';
 
 	import StreamButton from '$lib/components/channel/StreamButton.svelte';
@@ -11,13 +12,28 @@
 	export let data: ChannelPage;
 
 	let user: UserData | null = data?.channel?.user ?? null;
+	let socialsIcon: Record<number, boolean> = {};
 	let darkSchema: boolean = true;
 	let imageLoading = true;
 
+	function handleSocialIconLoad(event: Event, idx: number) {
+		const img = event.target as HTMLImageElement;
+		if (img.naturalWidth === 1 && img.naturalHeight === 1) {
+			socialsIcon[idx] = true;
+		}
+	}
+
 	onMount(() => {
 		const unsubscribe = isDarkMode.subscribe((value) => (darkSchema = value));
-		const img = document.querySelector<HTMLImageElement>(`#avatar`);
 
+		const socialIcons = document.querySelectorAll<HTMLImageElement>(`[id^="social-icon-"]`);
+		socialIcons.forEach((icon, idx) => {
+			if (icon.complete && icon.naturalWidth !== 0) {
+				socialsIcon[idx] = true;
+			}
+		});
+
+		const img = document.querySelector<HTMLImageElement>(`#avatar`);
 		if (img?.complete && img.naturalWidth !== 0) {
 			imageLoading = false;
 		}
@@ -35,15 +51,28 @@
 			.banner}'); background-color: {user.backgroundColor}"
 	>
 		<div class="absolute right-4 bottom-2 flex space-x-3">
-			{#each user.socials as soc}
+			{#each user.socials as soc, idx}
 				<a
-					href={soc.url}
-					target="_blank"
-					rel="noopener noreferrer"
 					class="flex h-8 w-8 items-center justify-center rounded-full bg-white/30 shadow hover:bg-white"
+					rel="noopener noreferrer"
+					aria-label={soc.title}
 					title={soc.title}
+					target="_blank"
+					href={soc.url}
 				>
-					<img src={soc.icon} alt={soc.name} class="h-5 w-5" />
+					{#if socialsIcon[idx]}
+						<Globe class="h-5 w-5 text-gray-300" />
+					{:else}
+						<img
+							id={`social-icon-${idx}`}
+							draggable="false"
+							src={soc.icon}
+							title={soc.name}
+							alt={soc.name}
+							class="h-5 w-5 rounded-xs"
+							on:load={(e) => handleSocialIconLoad(e, idx)}
+						/>
+					{/if}
 				</a>
 			{/each}
 		</div>
