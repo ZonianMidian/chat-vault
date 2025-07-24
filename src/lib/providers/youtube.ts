@@ -10,7 +10,7 @@ export async function getYouTubeEmote(emoteId: string): Promise<Emote> {
 
 		const res = await fetch(url);
 		if (!res.ok) {
-			throw new Error(`[YouTube] Emote | 404: ${$format('error.404')}`);
+			throw new Error(`[YouTube] Emote | 404: ${$format('status.404')}`);
 		}
 	}
 
@@ -52,12 +52,12 @@ export async function getYouTubeGlobalEmotes(): Promise<Emotes[]> {
 
 	const res = await fetch(url);
 	if (!res.ok) {
-		throw new Error(`[YouTube] Global Emotes | 404: ${$format('error.404')}`);
+		throw new Error(`[YouTube] Global Emotes | 404: ${$format('status.404')}`);
 	}
 
 	const data = await res.json();
 	if (!data || !Array.isArray(data)) {
-		throw new Error(`[YouTube] Global Emotes | 500: ${$format('error.500')}`);
+		throw new Error(`[YouTube] Global Emotes | 500: ${$format('status.500')}`);
 	}
 
 	return data.map((emoji) => {

@@ -39,13 +39,13 @@ export async function getTwitchEmote(emoteId: string): Promise<Emote> {
 
 	const res = await fetch(url);
 	if (!res.ok) {
-		const message = res.status === 500 ? $format('error.500') : res.statusText;
+		const message = res.status === 500 ? $format('status.500') : res.statusText;
 		throw new Error(`[Twitch] Emote | ${res.status}: ${message}`);
 	}
 
 	const data: TwitchEmote = (await res.json())?.data?.[0];
 	if (!data) {
-		throw new Error(`[Twitch] Emote | 400: ${$format('error.404')}`);
+		throw new Error(`[Twitch] Emote | 400: ${$format('status.404')}`);
 	}
 
 	let userName;
@@ -128,7 +128,7 @@ export async function getTwitchEmote(emoteId: string): Promise<Emote> {
 export async function getTwitchGlobalEmotes(): Promise<Emotes[]> {
 	const set = await getTwitchSet('0');
 	if (!set) {
-		throw new Error(`[Twitch] Global Emotes | 404: ${$format('error.404')}`);
+		throw new Error(`[Twitch] Global Emotes | 404: ${$format('status.404')}`);
 	}
 
 	return set.emotes.map((emote) => ({
@@ -144,14 +144,14 @@ export async function getTwitchSet(setId: string): Promise<Set> {
 	const url = `https://api.ivr.fi/v2/twitch/emotes/sets?set_id=${setId}`;
 	const res = await fetch(url);
 	if (!res.ok) {
-		const message = res.status === 500 ? $format('error.500') : res.statusText;
+		const message = res.status === 500 ? $format('status.500') : res.statusText;
 		throw new Error(`[Twitch] Set | ${res.status}: ${message}`);
 	}
 
 	const data: TwitchSet[] = await res.json();
 
 	if (!data || data.length === 0) {
-		throw new Error(`[Twitch] Set | 404: ${$format('error.404')}`);
+		throw new Error(`[Twitch] Set | 404: ${$format('status.404')}`);
 	}
 
 	const set = data[0];
@@ -192,13 +192,13 @@ export async function getTwitchUser(userLogin: string): Promise<User> {
 
 	const res = await fetch(url);
 	if (!res.ok) {
-		const message = res.status === 500 ? $format('error.500') : res.statusText;
+		const message = res.status === 500 ? $format('status.500') : res.statusText;
 		throw new Error(`[Twitch] User | ${res.status}: ${message}`);
 	}
 
 	const data: User = (await res.json())?.[0];
 	if (!data) {
-		throw new Error(`[Twitch] User | 404: ${$format('error.404')}`);
+		throw new Error(`[Twitch] User | 404: ${$format('status.404')}`);
 	}
 
 	return data;
@@ -209,10 +209,10 @@ export async function getTwitchChannel(userLogin: string): Promise<ChannelData> 
 	const res = await fetch(url);
 	if (!res.ok)
 		throw new Error(
-			`[Twitch] Channel | ${res.status}: ${res.status === 500 ? $format('error.500') : res.statusText}`
+			`[Twitch] Channel | ${res.status}: ${res.status === 500 ? $format('status.500') : res.statusText}`
 		);
 	const data: TwitchUser = (await res.json()).user;
-	if (!data) throw new Error(`[Twitch] Channel | 404: ${$format('error.404')}`);
+	if (!data) throw new Error(`[Twitch] Channel | 404: ${$format('status.404')}`);
 
 	const mapEmotes = (list: GQLEmote[]): Emotes[] =>
 		list?.map((e) => ({
@@ -400,13 +400,13 @@ export async function getTwitchGlobalBadges(): Promise<Badges[]> {
 	});
 
 	if (!request.ok) {
-		const message = request.status === 500 ? $format('error.500') : request.statusText;
+		const message = request.status === 500 ? $format('status.500') : request.statusText;
 		throw new Error(`[Twitch] Global Badges | ${request.status}: ${message}`);
 	}
 
 	const badges: TwitchBadge[] = (await request.json())?.data?.badges;
 	if (!badges || badges.length === 0) {
-		throw new Error(`[Twitch] Global Badges | 404: ${$format('error.404')}`);
+		throw new Error(`[Twitch] Global Badges | 404: ${$format('status.404')}`);
 	}
 
 	return sortBadges(
@@ -444,7 +444,7 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 		const url = `https://static-cdn.jtvnw.net/badges/v1/${id}/3`;
 		const res = await fetch(url);
 		if (!res.ok) {
-			throw new Error(`[Twitch] Badge | 404: ${$format('error.404')}`);
+			throw new Error(`[Twitch] Badge | 404: ${$format('status.404')}`);
 		}
 
 		const data: Badges[] = await fetchGlobalBadges('all');
@@ -480,7 +480,7 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 	} else if (!channel && !isId) {
 		const globalData = await findGlobalBadge(id, version ?? '1', 'twitch');
 		if (!globalData.badge) {
-			throw new Error(`[Twitch] Badge | 404: ${$format('error.404')}`);
+			throw new Error(`[Twitch] Badge | 404: ${$format('status.404')}`);
 		}
 
 		badge = globalData.badge;
@@ -530,13 +530,13 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 		});
 
 		if (!request.ok) {
-			const message = request.status === 500 ? $format('error.500') : request.statusText;
+			const message = request.status === 500 ? $format('status.500') : request.statusText;
 			throw new Error(`[Twitch] Badge | ${request.status}: ${message}`);
 		}
 
 		const userData: TwitchUser = (await request.json()).data?.user;
 		if (!userData || !userData.broadcastBadges || userData.broadcastBadges.length === 0) {
-			throw new Error(`[Twitch] Badge | 404: ${$format('error.404')}`);
+			throw new Error(`[Twitch] Badge | 404: ${$format('status.404')}`);
 		}
 
 		const badges = userData.broadcastBadges;
@@ -545,7 +545,7 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 		);
 
 		if (!data) {
-			throw new Error(`[Twitch] Badge | 404: ${$format('error.404')}`);
+			throw new Error(`[Twitch] Badge | 404: ${$format('status.404')}`);
 		}
 
 		const versionNum = Number(data.version);

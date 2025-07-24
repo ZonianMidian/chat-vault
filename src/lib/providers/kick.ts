@@ -39,7 +39,7 @@ export async function getKickEmote(emoteId: string): Promise<Emote> {
 
 		const res = await fetch(url);
 		if (!res.ok) {
-			throw new Error(`[Kick] Emote | 404: ${$format('error.404')}`);
+			throw new Error(`[Kick] Emote | 404: ${$format('status.404')}`);
 		}
 
 		const data: KickEmotes[] = await res.json();
@@ -48,7 +48,7 @@ export async function getKickEmote(emoteId: string): Promise<Emote> {
 
 		const emoteData = emotesList.find((emote) => emote.id.toString() === id);
 		if (!emoteData) {
-			throw new Error(`[Kick] Emote | 404: ${$format('error.404')}`);
+			throw new Error(`[Kick] Emote | 404: ${$format('status.404')}`);
 		}
 
 		badge = {
@@ -78,7 +78,7 @@ export async function getKickEmote(emoteId: string): Promise<Emote> {
 
 			const res = await fetch(url);
 			if (!res.ok) {
-				throw new Error(`[Kick] Emote | 404: ${$format('error.404')}`);
+				throw new Error(`[Kick] Emote | 404: ${$format('status.404')}`);
 			}
 
 			badge = {
@@ -131,13 +131,13 @@ export async function getKickGlobalEmotes(): Promise<Emotes[]> {
 
 	const res = await fetch(url);
 	if (!res.ok) {
-		throw new Error(`[Kick] Global Emotes | 404: ${$format('error.404')}`);
+		throw new Error(`[Kick] Global Emotes | 404: ${$format('status.404')}`);
 	}
 
 	const data: KickGlobals[] = await res.json();
 
 	if (!data || !Array.isArray(data)) {
-		throw new Error(`[Kick] Global Emotes | 500: ${$format('error.500')}`);
+		throw new Error(`[Kick] Global Emotes | 500: ${$format('status.500')}`);
 	}
 
 	return data.flatMap((item) =>
@@ -158,14 +158,14 @@ export async function getKickChannel(userLogin: string): Promise<ChannelData> {
 	]);
 
 	if (!emotes.ok || !channel.ok) {
-		throw new Error(`[Kick] Channel | 404: ${$format('error.404')}`);
+		throw new Error(`[Kick] Channel | 404: ${$format('status.404')}`);
 	}
 
 	const emotesData: KickEmotes[] = await emotes.json();
 	const data: KickUser = await channel.json();
 
 	if (!emotesData || !data) {
-		throw new Error(`[Kick] Channel | 500: ${$format('error.500')}`);
+		throw new Error(`[Kick] Channel | 500: ${$format('status.500')}`);
 	}
 
 	const emotesList = emotesData
@@ -337,7 +337,7 @@ export async function getKickGlobalBadges(): Promise<Badges[]> {
 
 		return sortBadges(badges);
 	} catch (error) {
-		throw new Error(`[Kick] Global Badges | 500: ${$format('error.500')}`);
+		throw new Error(`[Kick] Global Badges | 500: ${$format('status.500')}`);
 	}
 }
 
@@ -360,7 +360,7 @@ export async function getKickBadge(badgeId: string): Promise<Badge> {
 		);
 		const res = await fetch(url);
 		if (!res.ok) {
-			throw new Error(`[Kick] Badge | 404: ${$format('error.404')}`);
+			throw new Error(`[Kick] Badge | 404: ${$format('status.404')}`);
 		}
 
 		badge = {
@@ -380,7 +380,7 @@ export async function getKickBadge(badgeId: string): Promise<Badge> {
 	} else if (!channel && (/^\d{1,5}$/.test(version) || !version)) {
 		const globalData = await findGlobalBadge(id, version ?? '1', 'kick');
 		if (!globalData.badge) {
-			throw new Error(`[Kick] Badge | 404: ${$format('error.404')}`);
+			throw new Error(`[Kick] Badge | 404: ${$format('status.404')}`);
 		}
 
 		badge = {
@@ -409,17 +409,17 @@ export async function getKickBadge(badgeId: string): Promise<Badge> {
 		const url = `https://kick.com/api/v1/channels/${channel ?? version}`;
 		const res = await fetch(url);
 		if (!res.ok) {
-			throw new Error(`[Kick] Badge | 404: ${$format('error.404')}`);
+			throw new Error(`[Kick] Badge | 404: ${$format('status.404')}`);
 		}
 
 		const data: KickUser = await res.json();
 		if (!data) {
-			throw new Error(`[Kick] Badge | 404: ${$format('error.404')}`);
+			throw new Error(`[Kick] Badge | 404: ${$format('status.404')}`);
 		}
 
 		const allBadges = data.subscriber_badges;
 		if (!allBadges || !Array.isArray(allBadges)) {
-			throw new Error(`[Kick] Badge | 500: ${$format('error.500')}`);
+			throw new Error(`[Kick] Badge | 500: ${$format('status.500')}`);
 		}
 
 		const userName = compareName(data.slug, data.user.username);
@@ -429,7 +429,7 @@ export async function getKickBadge(badgeId: string): Promise<Badge> {
 			isId ? badge.id.toString() === id : badge.months.toString() === version
 		);
 		if (!badgeData) {
-			throw new Error(`[Kick] Badge | 404: ${$format('error.404')}`);
+			throw new Error(`[Kick] Badge | 404: ${$format('status.404')}`);
 		}
 
 		badge = {
