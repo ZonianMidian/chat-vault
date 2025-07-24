@@ -2,7 +2,7 @@
 @plugin 'daisyui';
 
 @plugin 'daisyui/theme' {
-	name: 'Mocha';
+	name: 'dark';
 	default: false;
 	prefersdark: true;
 	color-scheme: 'dark';
@@ -43,7 +43,7 @@
 }
 
 @plugin 'daisyui/theme' {
-	name: 'Latte';
+	name: 'light';
 	default: true;
 	prefersdark: false;
 	color-scheme: 'light';

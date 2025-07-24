@@ -240,3 +240,5 @@ export interface BadgePage {
 }
 
 export type Platforms = 'twitch' | 'youtube';
+
+export type Theme = 'dark' | 'light' | 'system' | null;

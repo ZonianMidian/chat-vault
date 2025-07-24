@@ -15,6 +15,12 @@
 			"related": "Related"
 		}
 	},
+	"theme": {
+		"label": "Theme",
+		"system": "System",
+		"dark": "Dark",
+		"light": "Light"
+	},
 	"status": {
 		"404": "Not Found",
 		"500": "Internal Server Error",
