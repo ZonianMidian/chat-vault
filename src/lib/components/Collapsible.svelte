@@ -30,7 +30,7 @@
 		</button>
 		<div
 			class="collapse-content overflow-hidden transition-all duration-300"
-			style="padding-bottom: {open ? '1rem' : '0'}; max-height: {open ? '1000px' : '0'};"
+			style="padding-bottom: {open ? '1rem' : '0'}; max-height: {open ? '100%' : '0'};"
 		>
 			<div class="divider m-0"></div>
 			{#if open}
