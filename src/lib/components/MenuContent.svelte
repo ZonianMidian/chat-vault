@@ -10,7 +10,7 @@
 	export let label: string;
 </script>
 
-<li class={href ? '' : 'pointer-events-none'}>
+<li class="w-fit {href ? '' : 'pointer-events-none'}">
 	<div>
 		{#if icon}
 			<svelte:component this={icon} class="h-4 w-4" />
