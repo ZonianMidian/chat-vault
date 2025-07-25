@@ -11,4 +11,6 @@
 	<meta property="og:image" content="{page.url.origin}/favicon.png" />
 </svelte:head>
 
-<SelectOption type="emote" />
+<div class="flex min-h-[70vh] flex-col items-center justify-center px-3 py-5 2xl:px-0">
+	<SelectOption type="emote" />
+</div>
