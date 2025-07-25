@@ -171,7 +171,7 @@
 						<div
 							class="flex w-full flex-col items-center space-y-3 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-4"
 						>
-							<div class="flex flex-1 items-center gap-2">
+							<div class="flex flex-1 flex-col items-center gap-2 sm:flex-row">
 								<a
 									href={currentSet?.source}
 									target="_blank"
@@ -188,48 +188,52 @@
 								<h2 class="text-2xl font-bold">
 									{$_('set.label')}:
 								</h2>
-								<a
-									href="/set/{provider.provider}/{currentSet?.id}"
-									class="link text-secondary hover:link-secondary text-2xl font-bold"
-								>
-									{currentSet?.name ??
-										$_('set.title', {
-											values: { user: user?.username }
-										})}
-								</a>
-								<div class="dropdown dropdown-left sm:dropdown-right">
-									<div
-										tabindex="0"
-										role="button"
-										class="btn h-8 {provider.sets.length === 1
-											? 'btn-disabled hidden'
-											: ''}"
+								<div class="flex items-center gap-2">
+									<a
+										href="/set/{provider.provider}/{currentSet?.id}"
+										class="link text-secondary hover:link-secondary text-2xl font-bold"
 									>
-										<ChevronDown class="h-4 w-4" />
-									</div>
-									{#if provider.sets.length > 1}
-										<ul
-											class="dropdown-content menu bg-base-100 rounded-box z-[1] mt-1 max-h-60 w-full min-w-fit overflow-y-auto p-2 shadow"
+										{currentSet?.name ??
+											$_('set.title', {
+												values: { user: user?.username }
+											})}
+									</a>
+									<div class="dropdown dropdown-end sm:dropdown-start">
+										<div
+											tabindex="0"
+											role="button"
+											class="btn h-8 {provider.sets.length === 1
+												? 'btn-disabled hidden'
+												: ''}"
 										>
-											{#each provider.sets as set}
-												<li>
-													<button
-														class="flex w-full items-center justify-between rounded p-2 text-left {currentSet?.id ===
-														set.id
-															? 'bg-primary text-primary-content btn-disabled'
-															: 'hover:bg-base-200'}"
-														onclick={() =>
-															changeSet(provider.provider, set)}
-													>
-														<span class="font-medium">{set.name}</span>
-														<span class="text-xs opacity-70"
-															>({set.emotes?.length ?? 0})</span
+											<ChevronDown class="h-4 w-4" />
+										</div>
+										{#if provider.sets.length > 1}
+											<ul
+												class="dropdown-content menu bg-base-100 rounded-box z-[1] mt-1 max-h-60 w-full min-w-fit overflow-y-auto p-2 shadow"
+											>
+												{#each provider.sets as set}
+													<li>
+														<button
+															class="flex w-full items-center justify-between rounded p-2 text-left {currentSet?.id ===
+															set.id
+																? 'bg-primary text-primary-content btn-disabled'
+																: 'hover:bg-base-200'}"
+															onclick={() =>
+																changeSet(provider.provider, set)}
 														>
-													</button>
-												</li>
-											{/each}
-										</ul>
-									{/if}
+															<span class="font-medium"
+																>{set.name}</span
+															>
+															<span class="text-xs opacity-70"
+																>({set.emotes?.length ?? 0})</span
+															>
+														</button>
+													</li>
+												{/each}
+											</ul>
+										{/if}
+									</div>
 								</div>
 							</div>
 							<label class="input ml-auto w-full sm:max-w-3xs">
