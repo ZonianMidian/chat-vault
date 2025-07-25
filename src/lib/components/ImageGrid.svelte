@@ -3,8 +3,8 @@
 
 	import { inlineSvg } from '@svelte-put/inline-svg';
 	import { getCheerName } from '$lib/utils';
+	import { onMount, untrack } from 'svelte';
 	import { Layers2 } from '@lucide/svelte';
-	import { onMount } from 'svelte';
 	import { _ } from 'svelte-i18n';
 
 	type Item = Channel | Emotes | Badges | Variant;
@@ -35,25 +35,28 @@
 
 	let imageLoaded = $state<Record<string, boolean>>({});
 	let imageError = $state<Record<string, string>>({});
-	let imageCache = $state<Record<string, string>>({});
+	let permanentImageCache = $state<Record<string, boolean>>({});
 
-	let getHref = $derived(() => {
-		return (item: Item) =>
+	let getHref = $derived((): ((item: Item) => string | null) => {
+		return (item: Item): string | null =>
 			linkPrefix
 				? `/${linkPrefix}/${(item[providerKey as keyof Item] as string) || ''}/${(item[idKey as keyof Item] as string) || ''}${versionKey ? `/${item[versionKey as keyof Item] as string}` : ''}`
 				: null;
 	});
 
-	function getItemKey(item: Item, idx: number): string {
-		const id = item[idKey as keyof Item] as string;
-		const image = item[imageKey as keyof Item] as string;
-		const provider = item[providerKey as keyof Item] as string;
-		return `${provider}-${id}-${image}-${idx}`;
+	function getItemKey(item: Item): string {
+		const id: string = item[idKey as keyof Item] as string;
+		const provider: string = item[providerKey as keyof Item] as string;
+		return `${provider}-${id}`;
+	}
+
+	function getImageUrl(item: Item): string {
+		return item[imageKey as keyof Item] as string;
 	}
 
 	function getItemTitle(item: Item): string {
 		if (linkPrefix === 'badge') {
-			const name = item[nameKey as keyof Item] as string;
+			const name: string = item[nameKey as keyof Item] as string;
 			return (item as any).id === 'subscriber'
 				? $_('channel.subscriber')
 				: (item as any).id === 'bits'
@@ -68,34 +71,98 @@
 		imageLoaded[itemKey] = true;
 	}
 
-	function onImgLoad(itemKey: string): void {
+	function onImgLoad(itemKey: string, imageUrl: string): void {
 		imageLoaded[itemKey] = true;
+		permanentImageCache[imageUrl] = true;
 	}
 
-	$effect(() => {
-		if (items) {
-			imageError = {};
-			imageLoaded = {};
+	function isImageCached(imageUrl: string): boolean {
+		if (permanentImageCache[imageUrl]) {
+			return true;
+		}
 
-			items.forEach((item: Item, idx: number) => {
-				const itemKey = getItemKey(item, idx);
-				const imageUrl = item[imageKey as keyof Item] as string;
+		const img: HTMLImageElement = new Image();
+		img.src = imageUrl;
+		const isCached: boolean = img.complete && img.naturalWidth > 0;
 
-				if (imageCache[itemKey] && imageCache[itemKey] !== imageUrl) {
-					delete imageCache[itemKey];
-				}
+		if (isCached) {
+			permanentImageCache[imageUrl] = true;
+		}
 
-				imageCache[itemKey] = imageUrl;
+		return isCached;
+	}
+
+	function updateImageStates(): void {
+		const previousImageLoaded: Record<string, boolean> = { ...imageLoaded };
+		const previousImageError: Record<string, string> = { ...imageError };
+
+		const newImageLoaded: Record<string, boolean> = {};
+		const newImageError: Record<string, string> = {};
+
+		items.forEach((item: Item): void => {
+			const itemKey: string = getItemKey(item);
+			const imageUrl: string = getImageUrl(item);
+
+			if (previousImageError[itemKey]) {
+				newImageError[itemKey] = previousImageError[itemKey];
+				newImageLoaded[itemKey] = true;
+			} else if (previousImageLoaded[itemKey] === true) {
+				newImageLoaded[itemKey] = true;
+				permanentImageCache[imageUrl] = true;
+			} else if (isImageCached(imageUrl)) {
+				newImageLoaded[itemKey] = true;
+			} else {
+				newImageLoaded[itemKey] = false;
+			}
+		});
+
+		imageLoaded = newImageLoaded;
+		imageError = newImageError;
+	}
+
+	$effect((): void => {
+		if (items.length > 0) {
+			untrack((): void => {
+				updateImageStates();
 			});
 		}
 	});
 
-	onMount(() => {
-		items.forEach((item: Item, idx: number) => {
-			const itemKey = getItemKey(item, idx);
-			const img = document.querySelector<HTMLImageElement>(`img[data-key="${itemKey}"]`);
-			if (img?.complete && img.naturalWidth !== 0) {
+	$effect((): (() => void) => {
+		return (): void => {
+			const currentKeys: Set<string> = new Set(
+				items.map((item: Item): string => getItemKey(item))
+			);
+			const currentUrls: Set<string> = new Set(
+				items.map((item: Item): string => getImageUrl(item))
+			);
+
+			Object.keys(imageLoaded).forEach((key: string): void => {
+				if (!currentKeys.has(key)) {
+					delete imageLoaded[key];
+					delete imageError[key];
+				}
+			});
+
+			Object.keys(permanentImageCache).forEach((url: string): void => {
+				if (!currentUrls.has(url)) {
+					delete permanentImageCache[url];
+				}
+			});
+		};
+	});
+
+	onMount((): void => {
+		items.forEach((item: Item): void => {
+			const itemKey: string = getItemKey(item);
+			const imageUrl: string = getImageUrl(item);
+			const img: HTMLImageElement | null = document.querySelector<HTMLImageElement>(
+				`img[data-key="${itemKey}"]`
+			);
+
+			if (img?.complete && img.naturalWidth > 0) {
 				imageLoaded[itemKey] = true;
+				permanentImageCache[imageUrl] = true;
 			}
 		});
 	});
@@ -123,10 +190,10 @@
 				class="relative h-16 w-16 rounded-xs object-contain transition-opacity duration-200"
 				class:opacity-0={!imageLoaded[itemKey]}
 				class:opacity-100={imageLoaded[itemKey]}
-				src={item[imageKey as keyof Item] as string}
+				src={getImageUrl(item)}
 				alt={getItemTitle(item)}
 				onerror={() => onImgError(itemKey)}
-				onload={() => onImgLoad(itemKey)}
+				onload={() => onImgLoad(itemKey, getImageUrl(item))}
 				loading="lazy"
 			/>
 		</div>
@@ -161,7 +228,7 @@
 		{/each}
 	{:else}
 		{#each items as item, idx}
-			{@const itemKey = getItemKey(item, idx)}
+			{@const itemKey = getItemKey(item)}
 
 			<svelte:element
 				this={linkPrefix ? 'a' : 'button'}
