@@ -2,11 +2,12 @@
 	import type { Theme } from '$lib/types/common';
 
 	import { AlignJustify, Monitor, Moon, Sun, ChevronDown } from '@lucide/svelte';
-	import { setTheme } from '$lib/tools/isDarkMode';
-	import { onMount } from 'svelte';
+	import { isDarkMode, setTheme } from '$lib/tools/isDarkMode';
+	import { onDestroy, onMount, untrack } from 'svelte';
 	import { _ } from 'svelte-i18n';
 
 	let currentTheme = $state<Theme>('system');
+	let darkSchema = $state(true);
 
 	const navLinks = [
 		{ href: '/emote', key: 'navbar.emotes' },
@@ -21,14 +22,7 @@
 	];
 
 	function getThemeIcon() {
-		switch (currentTheme) {
-			case 'dark':
-				return Moon;
-			case 'light':
-				return Sun;
-			default:
-				return Monitor;
-		}
+		return darkSchema ? Moon : Sun;
 	}
 
 	function handleThemeChange(theme: Theme) {
@@ -52,6 +46,21 @@
 		} else {
 			currentTheme = 'system';
 		}
+	});
+
+	onMount(() => {
+		const unsubscribe = isDarkMode.subscribe((value) => {
+			untrack(() => {
+				darkSchema = value;
+				const savedTheme = value ? 'dark' : 'light';
+
+				document.documentElement.setAttribute('data-theme', savedTheme);
+			});
+		});
+
+		onDestroy(() => {
+			unsubscribe();
+		});
 	});
 </script>
 
@@ -108,7 +117,7 @@
 		<div role="button" class={buttonClass} tabindex="0">
 			{#key currentTheme}
 				{@const ThemeIcon = getThemeIcon()}
-				<ThemeIcon class="h-7 w-7" />
+				<ThemeIcon class="h-7 w-7 transition-all" />
 			{/key}
 			{#if showChevron}
 				<ChevronDown class="h-3 w-3 opacity-60" />
