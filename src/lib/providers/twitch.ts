@@ -325,13 +325,13 @@ export async function getTwitchChannel(userLogin: string): Promise<ChannelData> 
 				emotes: mapEmotes(followerEmotes),
 				badges: []
 			},
+			sub: subs[0],
+			subT2: subs[1],
+			subT3: subs[2],
 			bits: {
 				emotes: mapEmotes(bitsEmotes),
 				badges: [] as Badges[]
-			},
-			sub: subs[0],
-			subT2: subs[1],
-			subT3: subs[2]
+			}
 		}
 	};
 

@@ -25,10 +25,10 @@
 		value: EmoteBadge | SubTier | null;
 	}> = [
 		{ key: 'follower', value: content.follower },
-		{ key: 'bits', value: content.bits },
 		{ key: 'sub', value: content.sub, tier: 1 },
 		{ key: 'subT2', value: content.subT2, tier: 2 },
-		{ key: 'subT3', value: content.subT3, tier: 3 }
+		{ key: 'subT3', value: content.subT3, tier: 3 },
+		{ key: 'bits', value: content.bits }
 	];
 </script>
 

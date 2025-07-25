@@ -275,10 +275,6 @@ export async function getKickChannel(userLogin: string): Promise<ChannelData> {
 					})),
 				badges: []
 			},
-			bits: {
-				emotes: [],
-				badges: []
-			},
 			sub: {
 				title: null,
 				emotes: emotesList
@@ -304,7 +300,11 @@ export async function getKickChannel(userLogin: string): Promise<ChannelData> {
 				}))
 			},
 			subT2: null,
-			subT3: null
+			subT3: null,
+			bits: {
+				emotes: [],
+				badges: []
+			}
 		}
 	};
 }

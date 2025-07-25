@@ -93,10 +93,10 @@ export interface ChannelData {
 
 export interface ChannelContent {
 	follower: EmoteBadge;
-	bits: EmoteBadge;
 	sub: SubTier | null;
 	subT2: SubTier | null;
 	subT3: SubTier | null;
+	bits: EmoteBadge;
 }
 
 export interface EmoteBadge {
