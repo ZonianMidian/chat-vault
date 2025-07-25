@@ -4,14 +4,14 @@
 	import { onDestroy, onMount, untrack } from 'svelte';
 	import getFlag from '$lib/tools/langEmoji';
 	import { getElapsed } from '$lib/utils';
+	import { X } from '@lucide/svelte';
 	import { _ } from 'svelte-i18n';
 
 	let { stream = $bindable() }: { stream: StreamInfo | null } = $props();
 
 	let timer = $state<ReturnType<typeof setInterval> | null>(null);
-	let showPreview = $state(false);
-	let previewLoaded = $state(false);
 	let categoryLoaded = $state(false);
+	let previewLoaded = $state(false);
 	let elapsed = $state('');
 
 	$effect(() => {
@@ -42,15 +42,14 @@
 		}
 	}
 
-	function closePreview() {
-		showPreview = false;
+	function openModal() {
+		const modal = document.getElementById('streamModal') as HTMLDialogElement;
+		modal?.showModal();
 	}
 
-	function onOverlayKeydown(e: KeyboardEvent) {
-		if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') {
-			e.preventDefault();
-			closePreview();
-		}
+	function closeModal() {
+		const modal = document.getElementById('streamModal') as HTMLDialogElement;
+		modal?.close();
 	}
 
 	onMount(() => {
@@ -64,7 +63,9 @@
 
 <button
 	onclick={() => {
-		if (stream) showPreview = true;
+		if (stream) {
+			openModal();
+		}
 	}}
 	class="btn rounded-full font-semibold transition-colors duration-200 {stream
 		? 'btn-error text-white'
@@ -85,31 +86,35 @@
 	{/if}
 </button>
 
-{#if showPreview && stream}
-	<div
-		class="fixed inset-0 z-50 flex cursor-pointer items-center justify-center bg-black/50 p-4 backdrop-blur"
-		role="button"
-		tabindex="0"
-		onclick={closePreview}
-		onkeydown={onOverlayKeydown}
+{#if stream}
+	<dialog
+		id="streamModal"
+		class="modal modal-backdrop-blur inset-0 z-50 backdrop-brightness-50"
+		onclick={closeModal}
 	>
 		<div
-			class="bg-base-200 relative max-h-[90vh] w-full max-w-fit cursor-auto overflow-y-auto rounded-lg p-2 shadow-lg md:p-5"
-			role="presentation"
+			class="modal-box m-4 max-w-fit p-4 sm:p-6 md:p-8"
+			style="max-width: min(700px, calc(100vw - 2rem));"
+			role="dialog"
+			tabindex="0"
 			onclick={(e) => e.stopPropagation()}
+			onkeydown={(e) => {
+				e.stopPropagation();
+			}}
 		>
-			<button
-				onclick={closePreview}
-				class="absolute top-0 right-1 cursor-pointer text-2xl leading-none text-white hover:text-gray-300"
-				aria-label="Close preview"
-			>
-				×
-			</button>
-			<figure>
+			<form method="dialog">
+				<button
+					class="btn btn-sm btn-circle btn-ghost absolute top-3 right-3 z-10 text-white hover:text-gray-300"
+				>
+					<X class="h-5 w-5" />
+				</button>
+			</form>
+
+			<figure class="mb-4">
 				<div class="relative">
 					<div class="skeleton h-90 w-160 rounded-sm" class:hidden={previewLoaded}></div>
 					<img
-						class="block h-90 w-160 max-w-full rounded-sm"
+						class="block h-auto w-full max-w-full rounded-sm"
 						class:hidden={!previewLoaded}
 						title={$_('channel.preview')}
 						alt={$_('channel.preview')}
@@ -120,11 +125,11 @@
 				</div>
 			</figure>
 
-			<div>
-				<h2 class="card-title mt-2 truncate text-2xl">{stream.title}</h2>
-				<div class="flex flex-wrap gap-3">
+			<div class="px-2">
+				<h2 class="card-title mt-2 truncate text-xl md:text-2xl">{stream.title}</h2>
+				<div class="mt-3 flex flex-wrap gap-3">
 					{#if stream.category}
-						<div class="relative">
+						<div class="relative flex-shrink-0">
 							<div
 								class="skeleton h-20 w-15 rounded-sm"
 								class:hidden={categoryLoaded}
@@ -140,10 +145,10 @@
 							/>
 						</div>
 					{/if}
-					<div class="flex flex-1 flex-col justify-center space-y-1">
+					<div class="flex min-w-0 flex-1 flex-col justify-center space-y-1">
 						{#if stream.category}
 							<a
-								class="link text-md text-secondary hover:link-secondary"
+								class="link text-md text-secondary hover:link-secondary w-fit truncate md:text-xl"
 								aria-label={$_('channel.category')}
 								href={stream.category.url}
 								rel="noopener noreferrer"
@@ -152,16 +157,16 @@
 								{stream.category.name}
 							</a>
 						{/if}
-						<p class="text-md">
+						<p class="md:text-md text-sm">
 							{$_('channel.viewers', { values: { count: stream.viewers } })} ·
 							{stream.language}
 							{getFlag(stream.language)}
 							{stream.isMature ? ` · 🔞 ${$_('channel.mature')}` : ''}
 						</p>
-						<p class="text-md text-gray-500">{elapsed}</p>
+						<p class="md:text-md text-sm text-gray-500">{elapsed}</p>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</dialog>
 {/if}
