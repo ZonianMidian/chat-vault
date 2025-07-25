@@ -4,8 +4,8 @@ import type { Data } from './types/supibot';
 import { unwrapFunctionStore, format, number } from 'svelte-i18n';
 import { getCachedOriginData } from './emotes/originCache';
 import { fetchGlobalBadges } from './badges/fetchGlobals';
-import { goto } from '$app/navigation';
 import { fetchGlobalEmotes } from './emotes/fetchGlobals';
+import { goto } from '$app/navigation';
 
 export const $format = unwrapFunctionStore(format);
 export const $number = unwrapFunctionStore(number);
@@ -125,7 +125,7 @@ export function includesFromArray(str: string, arr: string[]): boolean {
 export async function getImageInfo(url: string, proxy: boolean): Promise<Sizes> {
 	if (includesFromArray(url, ['imgur.com', 'ivr'])) {
 		proxy = true;
-	} else if (includesFromArray(url, ['wsrv.nl'])) {
+	} else if (includesFromArray(url, ['wsrv.nl']) || url.startsWith('/')) {
 		proxy = false;
 	}
 

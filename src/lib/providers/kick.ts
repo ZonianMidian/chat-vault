@@ -109,9 +109,9 @@ export async function getKickEmote(emoteId: string): Promise<Emote> {
 		artist: null,
 		owner,
 		images: [
-			rezizeImageUrl(`https://files.kick.com/emotes/${id}/fullsize`, 35),
-			rezizeImageUrl(`https://files.kick.com/emotes/${id}/fullsize`, 70),
-			rezizeImageUrl(`https://files.kick.com/emotes/${id}/fullsize`, 140)
+			`https://files.kick.com/emotes/${id}/fullsize`,
+			`https://files.kick.com/emotes/${id}/fullsize`,
+			`https://files.kick.com/emotes/${id}/fullsize`
 		],
 		source: owner ? `https://kick.com/${owner.username}${subOnly ? '/subscribe' : ''}` : null,
 		createdAt: null,
@@ -373,9 +373,9 @@ export async function getKickBadge(badgeId: string): Promise<Badge> {
 		};
 
 		images = [
-			rezizeImageUrl(`https://files.kick.com/channel_subscriber_badges/${id}/original`, 18),
-			rezizeImageUrl(`https://files.kick.com/channel_subscriber_badges/${id}/original`, 36),
-			rezizeImageUrl(`https://files.kick.com/channel_subscriber_badges/${id}/original`, 72)
+			`https://files.kick.com/channel_subscriber_badges/${id}/original`,
+			`https://files.kick.com/channel_subscriber_badges/${id}/original`,
+			`https://files.kick.com/channel_subscriber_badges/${id}/original`
 		];
 	} else if (!channel && (/^\d{1,5}$/.test(version) || !version)) {
 		const globalData = await findGlobalBadge(id, version ?? '1', 'kick');
@@ -473,18 +473,9 @@ export async function getKickBadge(badgeId: string): Promise<Badge> {
 		};
 
 		images = [
-			rezizeImageUrl(
-				`https://files.kick.com/channel_subscriber_badges/${badgeData.id}/original`,
-				18
-			),
-			rezizeImageUrl(
-				`https://files.kick.com/channel_subscriber_badges/${badgeData.id}/original`,
-				36
-			),
-			rezizeImageUrl(
-				`https://files.kick.com/channel_subscriber_badges/${badgeData.id}/original`,
-				72
-			)
+			`https://files.kick.com/channel_subscriber_badges/${badgeData.id}/original`,
+			`https://files.kick.com/channel_subscriber_badges/${badgeData.id}/original`,
+			`https://files.kick.com/channel_subscriber_badges/${badgeData.id}/original`
 		];
 	}
 

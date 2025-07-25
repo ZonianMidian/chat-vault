@@ -141,8 +141,11 @@
 			{#each images as image, i}
 				{@const data = imageSizes.get(image)}
 				{@const size = data?.size ?? $_('common.unknown')}
-				{@const width = data?.width ?? placeholderDimensions[i]?.split('x')[0]}
-				{@const height = data?.height ?? placeholderDimensions[i]?.split('x')[1]}
+
+				{@const [defaultWidth, defaultHeight] = placeholderDimensions[i]?.split('x')}
+				{@const width = provider === 'kick' ? defaultWidth : (data?.width ?? defaultWidth)}
+				{@const height =
+					provider === 'kick' ? defaultHeight : (data?.height ?? defaultHeight)}
 
 				<div class="flex h-auto flex-col items-center justify-center">
 					<div
