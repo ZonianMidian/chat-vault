@@ -7,6 +7,8 @@
 	import { onMount } from 'svelte';
 	import { _ } from 'svelte-i18n';
 
+	type Item = Channel | Emotes | Badges | Variant;
+
 	const {
 		items = [],
 		versionKey = null,
@@ -19,7 +21,7 @@
 		logo = false,
 		idKey = 'id'
 	} = $props<{
-		items?: Channel[] | Emotes[] | Badges[] | Variant[];
+		items?: Item[];
 		versionKey?: null | string;
 		linkPrefix?: null | string;
 		providerKey?: string;
@@ -31,44 +33,127 @@
 		idKey?: string;
 	}>();
 
-	let imageError = $state<Record<number, string>>({});
-	let imageLoaded = $state<Record<number, boolean>>({});
+	let imageLoaded = $state<Record<string, boolean>>({});
+	let imageError = $state<Record<string, string>>({});
+	let imageCache = $state<Record<string, string>>({});
 
 	let getHref = $derived(() => {
-		return (item: Channel | Emotes | Badges | Variant) =>
+		return (item: Item) =>
 			linkPrefix
-				? `/${linkPrefix}/${item[providerKey as keyof typeof item] || ''}/${item[idKey as keyof typeof item] || ''}${versionKey ? `/${item[versionKey as keyof typeof item]}` : ''}`
+				? `/${linkPrefix}/${(item[providerKey as keyof Item] as string) || ''}/${(item[idKey as keyof Item] as string) || ''}${versionKey ? `/${item[versionKey as keyof Item] as string}` : ''}`
 				: null;
 	});
 
-	function onImgError(idx: number) {
-		imageError[idx] = linkPrefix === 'channel' ? '/assets/avatar.svg' : '/assets/error.svg';
+	function getItemKey(item: Item, idx: number): string {
+		const id = item[idKey as keyof Item] as string;
+		const image = item[imageKey as keyof Item] as string;
+		const provider = item[providerKey as keyof Item] as string;
+		return `${provider}-${id}-${image}-${idx}`;
 	}
 
-	function onImgLoad(idx: number) {
-		imageLoaded[idx] = true;
+	function getItemTitle(item: Item): string {
+		if (linkPrefix === 'badge') {
+			const name = item[nameKey as keyof Item] as string;
+			return (item as any).id === 'subscriber'
+				? $_('channel.subscriber')
+				: (item as any).id === 'bits'
+					? getCheerName(name)
+					: name;
+		}
+		return item[nameKey as keyof Item] as string;
+	}
+
+	function onImgError(itemKey: string): void {
+		imageError[itemKey] = linkPrefix === 'channel' ? '/assets/avatar.svg' : '/assets/error.svg';
+		imageLoaded[itemKey] = true;
+	}
+
+	function onImgLoad(itemKey: string): void {
+		imageLoaded[itemKey] = true;
 	}
 
 	$effect(() => {
 		if (items) {
 			imageError = {};
 			imageLoaded = {};
+
+			items.forEach((item: Item, idx: number) => {
+				const itemKey = getItemKey(item, idx);
+				const imageUrl = item[imageKey as keyof Item] as string;
+
+				if (imageCache[itemKey] && imageCache[itemKey] !== imageUrl) {
+					delete imageCache[itemKey];
+				}
+
+				imageCache[itemKey] = imageUrl;
+			});
 		}
 	});
 
 	onMount(() => {
-		items.forEach((idx: number) => {
-			const img = document.querySelector<HTMLImageElement>(`img[data-idx="${idx}"]`);
+		items.forEach((item: Item, idx: number) => {
+			const itemKey = getItemKey(item, idx);
+			const img = document.querySelector<HTMLImageElement>(`img[data-key="${itemKey}"]`);
 			if (img?.complete && img.naturalWidth !== 0) {
-				imageLoaded[idx] = true;
+				imageLoaded[itemKey] = true;
 			}
 		});
 	});
 </script>
 
+{#snippet itemImage(item: Item, itemKey: string)}
+	{#if imageError[itemKey]}
+		<div
+			class:rounded-xs={linkPrefix === 'channel'}
+			class:bg-base-100={linkPrefix === 'channel'}
+		>
+			<svg class="h-16 w-16 object-contain" use:inlineSvg={imageError[itemKey]} />
+		</div>
+	{:else}
+		<div class="relative h-16 w-16">
+			<div
+				class="absolute inset-0 flex items-center justify-center"
+				class:hidden={imageLoaded[itemKey]}
+			>
+				<div class="skeleton h-16 w-16 rounded-xs"></div>
+			</div>
+
+			<img
+				data-key={itemKey}
+				class="relative h-16 w-16 rounded-xs object-contain transition-opacity duration-200"
+				class:opacity-0={!imageLoaded[itemKey]}
+				class:opacity-100={imageLoaded[itemKey]}
+				src={item[imageKey as keyof Item] as string}
+				alt={getItemTitle(item)}
+				onerror={() => onImgError(itemKey)}
+				onload={() => onImgLoad(itemKey)}
+				loading="lazy"
+			/>
+		</div>
+	{/if}
+{/snippet}
+
+{#snippet itemLabels(item: Item)}
+	<div class="absolute top-2 right-2 z-10 drop-shadow-md/50">
+		{#if logo}
+			<img
+				src={`/logos/${item[providerKey as keyof Item] as string}.svg`}
+				class="h-5 w-5 p-0.5"
+				draggable="false"
+				alt="Provider"
+			/>
+		{/if}
+		{#if (item as any)['zeroWidth']}
+			<div aria-label={$_('common.zeroWidth')} class="text-[#ea76cb] dark:text-[#f5c2e7]">
+				<Layers2 class="h-5 w-5 p-0.5" />
+			</div>
+		{/if}
+	</div>
+{/snippet}
+
 <div class="grid grid-cols-3 gap-4 sm:grid-cols-5 lg:grid-cols-7 xl:grid-cols-9">
 	{#if isLoading}
-		{#each Array(placeholderCount) as _}
+		{#each Array(placeholderCount) as _, i}
 			<div class="bg-base-200 flex flex-col items-center rounded-lg p-5">
 				<div class="skeleton h-16 w-16 rounded-xs"></div>
 				<div class="skeleton mt-2 h-4 w-16"></div>
@@ -76,81 +161,30 @@
 		{/each}
 	{:else}
 		{#each items as item, idx}
+			{@const itemKey = getItemKey(item, idx)}
+
 			<svelte:element
 				this={linkPrefix ? 'a' : 'button'}
 				{...linkPrefix
 					? { href: getHref()(item) }
-					: { type: 'button', 'aria-label': item[nameKey as keyof typeof item] }}
-				class="bg-base-300 relative flex flex-col items-center rounded-lg p-5 transition-opacity"
+					: { type: 'button', 'aria-label': getItemTitle(item) }}
+				class="bg-base-300 relative flex h-full w-full flex-col items-center rounded-lg p-5 transition-opacity"
 				class:hover:opacity-80={linkPrefix}
 			>
-				<div class="absolute top-2 right-2 drop-shadow-md/50">
-					{#if logo}
-						<img
-							src={`/logos/${item[providerKey as keyof typeof item]}.svg`}
-							class="h-5 w-5 p-0.5"
-							draggable="false"
-							alt="Provider"
-							style="z-index:2"
-						/>
-					{/if}
-					{#if item['zeroWidth' as keyof typeof item]}
-						<div
-							aria-label={$_('common.zeroWidth')}
-							class="text-[#ea76cb] dark:text-[#f5c2e7]"
-						>
-							<Layers2 class="h-5 w-5 p-0.5" />
-						</div>
-					{/if}
-				</div>
-
-				{#if imageError[idx]}
-					<div
-						class:rounded-xs={linkPrefix === 'channel'}
-						class:bg-base-100={linkPrefix === 'channel'}
-					>
-						<svg class="h-16 w-16 object-contain" use:inlineSvg={imageError[idx]} />
-					</div>
-				{:else}
-					<div
-						class="absolute flex items-center justify-center"
-						class:hidden={imageLoaded[idx]}
-					>
-						<div class="skeleton h-16 w-16 rounded-xs"></div>
-					</div>
-					<img
-						data-idx={idx}
-						class="h-16 w-16 rounded-xs object-contain"
-						src={item[imageKey as keyof typeof item]}
-						alt={item[nameKey as keyof typeof item]}
-						onerror={() => onImgError(idx)}
-						onload={() => onImgLoad(idx)}
-						loading="lazy"
-					/>
-				{/if}
+				{@render itemLabels(item)}
+				{@render itemImage(item, itemKey)}
 
 				<span class="mt-1 truncate text-center text-sm font-medium">
-					{#if linkPrefix === 'badge'}
-						{@const name = item[nameKey as keyof typeof item]}
-						{@const title =
-							item.id === 'subscriber'
-								? $_('channel.subscriber')
-								: item.id === 'bits'
-									? getCheerName(name)
-									: name}
-						{title}
-					{:else}
-						{item[nameKey as keyof typeof item]}
-					{/if}
+					{getItemTitle(item)}
 				</span>
-				{#if linkPrefix === 'emote' && item['owner' as keyof typeof item]}
+				{#if linkPrefix === 'emote' && (item as any)['owner']}
 					<small class="text-info/80 truncate text-xs">
-						{item['owner' as keyof typeof item]}
+						{(item as any)['owner']}
 					</small>
 				{/if}
-				{#if linkPrefix === 'badge' && item['value' as keyof typeof item]}
+				{#if linkPrefix === 'badge' && (item as any)['value']}
 					<small class="text-info/80 truncate text-xs">
-						{item['value' as keyof typeof item]}
+						{(item as any)['value']}
 					</small>
 				{/if}
 			</svelte:element>
