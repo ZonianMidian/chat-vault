@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { polyfillCountryFlagEmojis } from 'country-flag-emoji-polyfill';
+	import { navigating } from '$app/state';
 	import '@fontsource-variable/inter';
 	import '../app.css';
 
@@ -16,5 +17,11 @@
 
 <Navbar />
 <main>
-	{@render children()}
+	{#if navigating.to}
+		<div class="flex min-h-[90vh] flex-col items-center justify-center px-3 py-5 2xl:px-0">
+			<span class="loading loading-dots loading-xl"></span>
+		</div>
+	{:else}
+		{@render children()}
+	{/if}
 </main>
