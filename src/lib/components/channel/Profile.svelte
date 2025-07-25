@@ -11,33 +11,44 @@
 
 	let { data = $bindable() }: { data: ChannelPage } = $props();
 
+	let user = $derived<UserData | null>(data?.channel?.user ?? null);
 	let socialsIcon = $state<Record<number, boolean>>({});
 	let imageLoading = $state(true);
-
-	let user = $derived<UserData | null>(data?.channel?.user ?? null);
 	let darkSchema = $derived(true);
+
+	function shouldUsePlaceholder(img: HTMLImageElement): boolean {
+		return !img || img.naturalWidth <= 1 || img.naturalHeight <= 1;
+	}
 
 	function handleSocialIconLoad(event: Event, idx: number) {
 		const img = event.target as HTMLImageElement;
-		if (img.naturalWidth === 1 && img.naturalHeight === 1) {
-			socialsIcon[idx] = true;
-		}
+		socialsIcon[idx] = shouldUsePlaceholder(img);
+	}
+
+	function handleSocialIconError(idx: number) {
+		socialsIcon[idx] = true;
+	}
+
+	function checkCachedSocialIcons() {
+		if (!user) return;
+
+		const newSocialsIcon: Record<number, boolean> = {};
+
+		user.socials.forEach((_, idx) => {
+			const icon = document.querySelector<HTMLImageElement>(`#social-icon-${idx}`);
+			if (icon?.complete) {
+				newSocialsIcon[idx] = shouldUsePlaceholder(icon);
+			}
+		});
+
+		socialsIcon = newSocialsIcon;
 	}
 
 	$effect(() => {
 		if (!user) return;
 
 		untrack(() => {
-			const socialIcons = document.querySelectorAll<HTMLImageElement>(`[id^="social-icon-"]`);
-			const newSocialsIcon: Record<number, boolean> = {};
-
-			socialIcons.forEach((icon, idx) => {
-				if (icon.complete && icon.naturalWidth !== 0) {
-					newSocialsIcon[idx] = true;
-				}
-			});
-
-			socialsIcon = newSocialsIcon;
+			checkCachedSocialIcons();
 
 			const img = document.querySelector<HTMLImageElement>(`#avatar`);
 			if (img?.complete && img.naturalWidth !== 0) {
@@ -65,7 +76,9 @@
 		style="background-image: url('{user.images
 			.banner}'); background-color: {user.backgroundColor}"
 	>
-		<div class="absolute right-4 bottom-2 flex space-x-3">
+		<div
+			class="absolute top-2 left-4 flex space-x-3 md:top-auto md:right-4 md:bottom-2 md:left-auto"
+		>
 			{#each user.socials as soc, idx}
 				<a
 					class="flex h-8 w-8 items-center justify-center rounded-full bg-white/30 shadow hover:bg-white"
@@ -86,6 +99,7 @@
 							alt={soc.name}
 							class="h-5 w-5 rounded-xs"
 							onload={(e) => handleSocialIconLoad(e, idx)}
+							onerror={() => handleSocialIconError(idx)}
 						/>
 					{/if}
 				</a>
@@ -95,10 +109,15 @@
 
 	<div class="container mx-auto mt-[-3.5rem] px-4 md:px-8 lg:px-16">
 		<div class="flex flex-col items-center md:flex-row">
-			<div class="avatar border-base-content h-38 w-38 rounded-sm border-3 backdrop-blur-md">
-				<div class="skeleton" class:hidden={!imageLoading}></div>
+			<div
+				class="avatar border-base-content relative h-38 w-38 rounded-sm border-3 backdrop-blur-md"
+			>
+				{#if imageLoading}
+					<div class="skeleton absolute inset-0 rounded-sm"></div>
+				{/if}
 				<img
-					class:hidden={imageLoading}
+					class="h-full w-full rounded-sm object-cover transition-opacity duration-200"
+					class:opacity-0={imageLoading}
 					src={user.images.avatar}
 					draggable="false"
 					title="Avatar"
