@@ -191,7 +191,7 @@
 								<div class="flex items-center gap-2">
 									<a
 										href="/set/{provider.provider}/{currentSet?.id}"
-										class="link text-secondary hover:link-secondary text-2xl font-bold"
+										class="link text-secondary hover:link-secondary text-2xl font-bold break-all"
 									>
 										{currentSet?.name ??
 											$_('set.title', {
@@ -210,19 +210,19 @@
 										</div>
 										{#if provider.sets.length > 1}
 											<ul
-												class="dropdown-content menu bg-base-100 rounded-box z-[1] mt-1 max-h-60 w-full min-w-fit overflow-y-auto p-2 shadow"
+												class="dropdown-content menu menu-horizontal bg-base-300 rounded-box z-[1] max-h-60 w-full min-w-fit overflow-y-auto p-2 shadow-xl"
 											>
 												{#each provider.sets as set}
-													<li>
+													<li class="w-full">
 														<button
-															class="flex w-full items-center justify-between rounded p-2 text-left {currentSet?.id ===
+															class="btn btn-block mb-1 min-h-fit items-center justify-between gap-2 text-left transition-all duration-200 {currentSet?.id ===
 															set.id
-																? 'bg-primary text-primary-content btn-disabled'
-																: 'hover:bg-base-200'}"
+																? 'btn-active bg-info text-primary-content'
+																: 'btn-ghost hover:bg-accent hover:text-accent-content'}"
 															onclick={() =>
 																changeSet(provider.provider, set)}
 														>
-															<span class="font-medium"
+															<span class="my-2 font-medium"
 																>{set.name}</span
 															>
 															<span class="text-xs opacity-70"
