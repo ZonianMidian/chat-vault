@@ -221,7 +221,7 @@
 <div class="grid grid-cols-3 gap-4 sm:grid-cols-5 lg:grid-cols-7 xl:grid-cols-9">
 	{#if isLoading}
 		{#each Array(placeholderCount) as _, i}
-			<div class="bg-base-200 flex flex-col items-center rounded-lg p-5">
+			<div class="bg-base-200 flex flex-col items-center rounded-lg px-2 py-5">
 				<div class="skeleton h-16 w-16 rounded-xs"></div>
 				<div class="skeleton mt-2 h-4 w-16"></div>
 			</div>
@@ -235,7 +235,7 @@
 				{...linkPrefix
 					? { href: getHref()(item) }
 					: { type: 'button', 'aria-label': getItemTitle(item) }}
-				class="bg-base-300 relative flex h-full w-full flex-col items-center rounded-lg p-5 transition-opacity"
+				class="bg-base-300 relative flex h-full w-full flex-col items-center rounded-lg px-2 py-5 transition-opacity"
 				class:hover:opacity-80={linkPrefix}
 			>
 				{@render itemLabels(item)}
