@@ -169,9 +169,9 @@
 					{@const filteredEmotes = filteredEmotesByProvider()[provider.provider] || []}
 					<TabContent isActive={activeTab === provider.provider}>
 						<div
-							class="flex w-full flex-col items-center space-y-3 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-4"
+							class="flex w-full flex-col items-center space-y-3 md:flex-row md:items-center md:space-y-0 md:space-x-4"
 						>
-							<div class="flex flex-1 flex-col items-center gap-2 sm:flex-row">
+							<div class="flex flex-1 flex-col items-center gap-2 md:flex-row">
 								<a
 									href={currentSet?.source}
 									target="_blank"
@@ -198,7 +198,7 @@
 												values: { user: user?.username }
 											})}
 									</a>
-									<div class="dropdown dropdown-end sm:dropdown-start">
+									<div class="dropdown dropdown-end">
 										<div
 											tabindex="0"
 											role="button"
@@ -210,12 +210,12 @@
 										</div>
 										{#if provider.sets.length > 1}
 											<ul
-												class="dropdown-content menu menu-horizontal bg-base-300 rounded-box z-[1] max-h-60 w-full min-w-fit overflow-y-auto p-2 shadow-xl"
+												class="dropdown-content menu menu-horizontal bg-base-300 rounded-box z-[1] mt-10 max-h-60 w-full min-w-fit overflow-y-auto p-2 shadow-xl"
 											>
 												{#each provider.sets as set}
 													<li class="w-full">
 														<button
-															class="btn btn-block mb-1 min-h-fit items-center justify-between gap-2 text-left transition-all duration-200 {currentSet?.id ===
+															class="btn btn-block mb-1 h-auto min-h-fit items-center justify-between gap-2 text-left transition-all duration-200 {currentSet?.id ===
 															set.id
 																? 'btn-active bg-info text-primary-content'
 																: 'btn-ghost hover:bg-accent hover:text-accent-content'}"
@@ -236,7 +236,7 @@
 									</div>
 								</div>
 							</div>
-							<label class="input ml-auto w-full sm:max-w-3xs">
+							<label class="input ml-auto w-full md:max-w-3xs">
 								<Search />
 								<input
 									type="search"
