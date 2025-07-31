@@ -1,19 +1,14 @@
 <script lang="ts">
-	let {
-		onPrevPage,
-		onNextPage,
-		itemsPerPage,
-		currentPage,
-		totalItems
-	}: {
+	const { onPrevPage, onNextPage, itemsPerPage, currentPage, totalItems, maxPage } = $props<{
 		onPrevPage: () => void;
 		onNextPage: () => void;
 		itemsPerPage: number;
 		currentPage: number;
 		totalItems: number;
-	} = $props();
+		maxPage?: number;
+	}>();
 
-	const maxPage = $derived(Math.ceil(totalItems / itemsPerPage));
+	const calculatedMaxPage = $derived(maxPage ?? Math.ceil(totalItems / itemsPerPage));
 </script>
 
 <div
@@ -35,7 +30,7 @@
 		<button
 			class="join-item btn btn-sm w-full flex-1 md:w-auto md:flex-none"
 			onclick={onNextPage}
-			disabled={currentPage >= maxPage}
+			disabled={currentPage >= calculatedMaxPage}
 		>
 			»
 		</button>

@@ -172,7 +172,7 @@
 	}
 
 	const nextPage = async (totalItems: number) => {
-		const maxPage = Math.ceil(totalItems / itemsPerPage);
+		const maxPage = emoteProvider === '7tv' ? 10 : Math.ceil(totalItems / itemsPerPage);
 		const currentTabPage = getTabPage(activeTab);
 
 		if (currentTabPage >= maxPage) return;

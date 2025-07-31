@@ -215,6 +215,7 @@
 								isActive={activeTab === 'channels'}
 								isLoading={!!isLoading?.channels}
 								currentPage={tabPages.channels || 1}
+								{provider}
 								{channels}
 								totalChannels={channelsTotal()}
 								{itemsPerPage}

@@ -13,7 +13,8 @@
 		totalChannels,
 		itemsPerPage,
 		onPrevPage,
-		onNextPage
+		onNextPage,
+		provider
 	}: {
 		isActive: boolean;
 		isLoading: boolean;
@@ -23,15 +24,25 @@
 		itemsPerPage: number;
 		onPrevPage: () => void;
 		onNextPage: () => void;
+		provider: string | null;
 	} = $props();
 
 	const paginatedChannels = $derived(
 		channels.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
 	);
+
+	const maxPage = $derived(provider === '7tv' ? 10 : Math.ceil(totalChannels / itemsPerPage));
 </script>
 
 <TabContent {isActive}>
-	<Pagination {currentPage} totalItems={totalChannels} {itemsPerPage} {onPrevPage} {onNextPage} />
+	<Pagination
+		{currentPage}
+		totalItems={totalChannels}
+		{itemsPerPage}
+		{onPrevPage}
+		{onNextPage}
+		{maxPage}
+	/>
 
 	<ImageGrid
 		items={paginatedChannels}
