@@ -18,11 +18,13 @@
 
 	const { data } = $props<{ data: ChannelPage }>();
 
-	let content = $state<ChannelContent | null>(data.channel?.content ?? null);
-	let user = $state<UserData | null>(data?.channel?.user ?? null);
 	let providers = $state<ChannelProvider[] | null>(null);
 	let error = $state<string | null>(data.error || null);
 	let isLoading = $state<boolean>(true);
+	let fetchKey = $state<string>('');
+
+	let content = $derived<ChannelContent | null>(data.channel?.content ?? null);
+	let user = $derived<UserData | null>(data?.channel?.user ?? null);
 
 	let providerData = $derived(shouldTrigger(content));
 
@@ -37,25 +39,48 @@
 		);
 	}
 
-	$effect(() => {
+	async function loadEmotes(id: string, provider: string): Promise<void> {
 		if (!browser || !user) return;
 
-		untrack(async () => {
-			try {
-				isLoading = true;
-				providers = (await fetchEmotes('all', data.id, data.provider)) as ChannelProvider[];
-			} catch (err) {
+		const currentKey = `${id}-${provider}`;
+		if (fetchKey === currentKey) return;
+
+		try {
+			isLoading = true;
+			error = null;
+			fetchKey = currentKey;
+
+			const result = await fetchEmotes('all', id, provider);
+
+			if (fetchKey === currentKey) {
+				providers = result as ChannelProvider[];
+			}
+		} catch (err) {
+			if (fetchKey === currentKey) {
 				console.error('Error fetching emotes:', err);
 				error = 'Error loading emotes';
-			} finally {
+				providers = null;
+			}
+		} finally {
+			if (fetchKey === currentKey) {
 				isLoading = false;
 			}
-		});
+		}
+	}
+
+	$effect(() => {
+		const currentProvider = data.provider;
+		const currentId = data.id;
+		const currentUser = user;
+
+		if (currentUser && currentId && currentProvider) {
+			untrack(() => {
+				loadEmotes(currentId, currentProvider);
+			});
+		}
 	});
 
 	$effect(() => {
-		content = data.channel?.content ?? null;
-		user = data?.channel?.user ?? null;
 		error = data.error || null;
 	});
 </script>

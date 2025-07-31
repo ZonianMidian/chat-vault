@@ -9,7 +9,6 @@
 
 	import { ChevronDown, Search } from '@lucide/svelte';
 	import { filterEmotes } from '$lib/utils';
-	import { onMount } from 'svelte';
 	import { _ } from 'svelte-i18n';
 
 	import Content from '$lib/components/channel/Content.svelte';
@@ -35,64 +34,61 @@
 	let searches = $state<Record<string, string>>({});
 	let activeTab = $state<string>(data.provider);
 	let placeholderCount = $state<number>(3);
+	let initKey = $state<string>('');
 
 	let content = $derived<ChannelContent | null>(data.channel?.content ?? null);
 	let user = $derived<UserData | null>(data?.channel?.user ?? null);
 
-	let computedActiveTab = $derived(() => {
-		if (providerData) {
-			return data.provider;
-		} else if (providers && providers.length > 0) {
-			const withEmotes = providers.find(
-				(p: ChannelProvider) =>
-					p.sets && p.sets.some((set) => set.emotes && set.emotes.length > 0)
-			);
-			if (withEmotes) {
-				return withEmotes.provider;
-			}
-			return providers[0].provider;
-		}
-		return data.provider;
-	});
-
-	$effect(() => {
-		activeTab = computedActiveTab();
-	});
-
 	let filteredEmotesByProvider = $derived(() => {
 		const result: Record<string, any[]> = {};
-
-		Object.keys(searches).forEach((providerKey) => {
-			const currentSet = getCurrentSet(providerKey);
-			const search = searches[providerKey] || '';
+		for (const [providerKey, search] of Object.entries(searches)) {
+			const currentSet = currentSets[providerKey];
 			const emotes = currentSet?.emotes || [];
-			result[providerKey] = filterEmotes(emotes, search);
-		});
-
+			result[providerKey] = filterEmotes(emotes, search || '');
+		}
 		return result;
 	});
 
-	function getCurrentSet(providerKey: string): Set | null {
-		return currentSets[providerKey] || null;
+	function getOptimalTab(): string {
+		if (providerData) return data.provider;
+
+		if (providers?.length) {
+			const withEmotes = providers.find((p: ChannelProvider) =>
+				p.sets?.some((set) => set.emotes?.length > 0)
+			);
+			return withEmotes?.provider || providers[0].provider;
+		}
+
+		return data.provider;
 	}
 
-	function initializeCurrentSets(): void {
+	function initializeSets(): void {
 		if (!providers) return;
+
+		const key = providers
+			.map((p: ChannelProvider) => `${p.provider}-${p.sets?.length || 0}`)
+			.join('|');
+		if (initKey === key) return;
 
 		const newCurrentSets: Record<string, Set> = {};
 		const newSearches: Record<string, string> = {};
 
-		providers.forEach((provider: ChannelProvider) => {
-			if (provider.sets && provider.sets.length > 0) {
-				const mainSet =
-					provider.sets.find((set) => set.mainSet === true) || provider.sets[0];
+		for (const provider of providers) {
+			if (provider.sets?.length) {
+				const mainSet = provider.sets.find((set: Set) => set.mainSet) || provider.sets[0];
 				newCurrentSets[provider.provider] = mainSet;
-				newSearches[provider.provider] = '';
+				newSearches[provider.provider] = searches[provider.provider] || '';
 			}
-		});
+		}
 
 		currentSets = newCurrentSets;
 		searches = newSearches;
+		initKey = key;
+
+		const optimalTab = getOptimalTab();
+		if (activeTab !== optimalTab) {
+			activeTab = optimalTab;
+		}
 	}
 
 	function changeSet(providerKey: string, newSet: Set): void {
@@ -101,13 +97,9 @@
 	}
 
 	$effect(() => {
-		if (providers && Object.keys(currentSets).length === 0) {
-			initializeCurrentSets();
+		if (providers) {
+			initializeSets();
 		}
-	});
-
-	onMount(() => {
-		initializeCurrentSets();
 	});
 </script>
 
@@ -126,7 +118,7 @@
 			{/each}
 		</svelte:fragment>
 	</Tabs>
-{:else if providerData || (providers && providers.length > 0)}
+{:else if providerData || providers?.length}
 	<Tabs bind:activeTab>
 		<svelte:fragment slot="tabs" let:changeTab let:activeTab>
 			{#if providerData}
@@ -140,8 +132,8 @@
 				/>
 			{/if}
 
-			{#if providers && providers.length > 0}
-				{#each providers.filter((provider: ChannelProvider) => provider.sets && provider.sets.length > 0) as provider}
+			{#if providers}
+				{#each providers.filter((p: ChannelProvider) => p.sets?.length) as provider}
 					{@const currentSet = currentSets[provider.provider]}
 					<TabButton
 						id={provider.provider}
@@ -163,8 +155,8 @@
 				</TabContent>
 			{/if}
 
-			{#if providers && providers.length > 0}
-				{#each providers.filter((provider: ChannelProvider) => provider.sets && provider.sets.length > 0) as provider}
+			{#if providers}
+				{#each providers.filter((p: ChannelProvider) => p.sets?.length) as provider}
 					{@const currentSet = currentSets[provider.provider]}
 					{@const filteredEmotes = filteredEmotesByProvider()[provider.provider] || []}
 					<TabContent isActive={activeTab === provider.provider}>
@@ -194,9 +186,7 @@
 										class="link text-secondary hover:link-secondary text-2xl font-bold break-all"
 									>
 										{currentSet?.name ??
-											$_('set.title', {
-												values: { user: user?.username }
-											})}
+											$_('set.title', { values: { user: user?.username } })}
 									</a>
 									<div class="dropdown dropdown-end">
 										<div
