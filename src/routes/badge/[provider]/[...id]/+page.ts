@@ -19,11 +19,15 @@ export async function load({ params, url }): Promise<BadgePage> {
 		const badge: Badge = await fetchBadge(provider, id);
 
 		const pageTitle = `Chat Vault | ${$format('badge.label')}: ${badge?.name ?? ''}`;
-		const pageImage =
+		let pageImage =
 			badge?.images?.[2] ??
 			badge?.images?.[1] ??
 			badge?.images?.[0] ??
 			`${url.origin}/favicon.png`;
+
+		if (pageImage.startsWith('/')) {
+			pageImage = `${url.origin}${pageImage}`;
+		}
 
 		return {
 			id,

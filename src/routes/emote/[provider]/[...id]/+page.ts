@@ -16,11 +16,15 @@ export async function load({ params, url }): Promise<EmotePage> {
 		const emote: Emote = await fetchEmote(provider, id);
 
 		const pageTitle = `Chat Vault | ${$format('emote.label')}: ${emote?.name ?? ''}`;
-		const pageImage =
+		let pageImage =
 			emote?.images?.[2] ??
 			emote?.images?.[1] ??
 			emote?.images?.[0] ??
 			`${url.origin}/favicon.png`;
+
+		if (pageImage.startsWith('/')) {
+			pageImage = `${url.origin}${pageImage}`;
+		}
 
 		return {
 			pageImage: pageImage.replace(/\.avif$/, '.webp'),
