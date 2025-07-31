@@ -1,5 +1,6 @@
 import type { Badge, BadgePage } from '$lib/types/common.js';
 
+import { fetchGlobalBadges } from '$lib/badges/fetchGlobals';
 import { fetchBadge } from '$lib/badges/fetchBadge.js';
 import { $format } from '$lib/utils.js';
 import { error } from '@sveltejs/kit';
@@ -11,6 +12,8 @@ export async function load({ params, url }): Promise<BadgePage> {
 	if (!provider || !id) {
 		throw error(400, $format('error.id'));
 	}
+
+	await fetchGlobalBadges('all');
 
 	try {
 		const badge: Badge = await fetchBadge(provider, id);
