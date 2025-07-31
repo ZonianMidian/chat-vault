@@ -1,0 +1,147 @@
+{
+	"common": {
+		"noResults": "Keine Ergebnisse",
+		"zeroWidth": "Overlay",
+		"platform": "Plattform",
+		"unknown": "Unbekannt",
+		"error": "Fehler",
+		"flair": "Sticker",
+		"yes": "Ja",
+		"no": "Nein",
+		"info": {
+			"label": "Information",
+			"created": "Erstellt am",
+			"removed": "Entfernt am",
+			"related": "Ähnlich"
+		}
+	},
+	"theme": {
+		"label": "Design",
+		"system": "System",
+		"dark": "Dunkel",
+		"light": "Hell"
+	},
+	"status": {
+		"404": "Nicht gefunden",
+		"500": "Interner Server Fehler",
+		"503": "Service nicht verfügbar"
+	},
+	"error": {
+		"provider": "Nicht unterstützter Provider",
+		"id": "Anbieter und ID sind erforderlich",
+		"unknown": "Unbekannter Fehler",
+		"image": "Bild nicht gefunden"
+	},
+	"global": {
+		"label": "Global",
+		"emote": "Globale Emotes",
+		"badge": "Globale Badges"
+	},
+	"search": {
+		"label": "Suche",
+		"set": "Suche Sets...",
+		"emote": "Suche Emotes...",
+		"badge": "Suche Badges...",
+		"channel": "Suche Channel...",
+		"placeholder": "Suchen..."
+	},
+	"provider": {
+		"twitch": "Twitch",
+		"youtube": "YouTube",
+		"kick": "Kick",
+		"bttv": "BetterTTV",
+		"ffz": "FrankerFaceZ",
+		"7tv": "7TV"
+	},
+	"navbar": {
+		"menu": "Menü",
+		"sets": "Sets",
+		"emotes": "Emotes",
+		"badges": "Badges",
+		"channels": "Channels"
+	},
+	"construction": {
+		"title": "Im Bau!",
+		"description": "Dieser Bereich befindet sich noch in der Entwicklung. Komme demnächst zurück, um die Updates zu sehen."
+	},
+	"emote": {
+		"label": "Emote",
+		"info": {
+			"artist": "Designer",
+			"approved": "Genehmigt",
+			"set": "Set",
+			"status": {
+				"label": "Status",
+				"public": "Öffentlich",
+				"private": "Privat"
+			}
+		},
+		"channels": {
+			"label": "Channels"
+		},
+		"variants": {
+			"label": "Varianten"
+		},
+		"origin": {
+			"label": "Ursprung",
+			"translate": "Übersetzen",
+			"undo": "Rückgängig",
+			"source": "Quelle",
+			"author": "Autor"
+		}
+	},
+	"channel": {
+		"label": "Channel",
+		"emotes": "Channel Emotes",
+		"badges": "Channel Badges",
+		"followers": "{count, plural, one {# Follower} other {# Follower}}",
+		"viewers": "{count, plural, one {# Zuschauer} other {# Zuschauer}}",
+		"category": "Kategorie",
+		"preview": "Vorschau",
+		"mature": "Erwachseneninhalt",
+		"staff": "Staff",
+		"affiliate": "Affiliate",
+		"partner": "Partner",
+		"subscriber": "Abonnent",
+		"month": "{count, plural, =0 {} =1 {} other {#-Monate}}",
+		"year": "{count, plural, one {#-Jahr} other {#-Jahre}}"
+	},
+	"set": {
+		"label": "Set",
+		"title": "{user}'s Emotes",
+		"follower": "Follower",
+		"sub": "Abonnent",
+		"bits": "Bits",
+		"tier": "Tier {tier}",
+		"global": "Globals"
+	},
+	"badge": {
+		"label": "Badge",
+		"month": "{count, plural, =0 {Abonnenten} =1 {Abonnent} other {Abonnent: #-Monate}}",
+		"year": "{count, plural, one {Abonnent: #-Jahr} other {Abonnent: #-Jahre}}",
+		"bits": "{cost, plural, one {# Bit} other {# Bits}}",
+		"info": {
+			"cost": "Kosten",
+			"description": "Beschreibung",
+			"action": {
+				"label": "Aktion",
+				"subscribe": "Abonnieren",
+				"visit_url": "URL besuchen"
+			}
+		},
+		"kick": {
+			"bot": "Bot",
+			"broadcaster": "Broadcaster",
+			"founder": "Gründer",
+			"moderator": "Moderator",
+			"og": "OG",
+			"partner": "Verifiziert",
+			"sidekick": "Sidekick",
+			"staff": "Staff",
+			"sub-gifter": "{count, plural, =0 {Geschenkgeber} one {# Geschenk-Abo} other {# Geschenk-Abos}}",
+			"subscriber": "Abonnent",
+			"trainwreckstv": "Trainwreckstv",
+			"vip": "VIP"
+		}
+	}
+}

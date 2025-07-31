@@ -1,0 +1,147 @@
+{
+	"common": {
+		"noResults": "Sem resultados",
+		"zeroWidth": "Sobreposição",
+		"platform": "Plataforma",
+		"unknown": "Desconhecido",
+		"error": "Erro",
+		"flair": "Marcador",
+		"yes": "Sim",
+		"no": "Não",
+		"info": {
+			"label": "Informação",
+			"created": "Criado em",
+			"removed": "Removido em",
+			"related": "Relacionado"
+		}
+	},
+	"theme": {
+		"label": "Tema",
+		"system": "Sistema",
+		"dark": "Escuro",
+		"light": "Claro"
+	},
+	"status": {
+		"404": "Não encontrado",
+		"500": "Erro interno do servidor",
+		"503": "Serviço indisponível"
+	},
+	"error": {
+		"provider": "Provedor não suportado",
+		"id": "Provedor e ID são necessários",
+		"unknown": "Erro desconhecido",
+		"image": "Imagem não encontrada"
+	},
+	"global": {
+		"label": "Global",
+		"emote": "Emotes globais",
+		"badge": "Emblemas globais"
+	},
+	"search": {
+		"label": "Pesquisar",
+		"set": "Pesquisar conjuntos...",
+		"emote": "Pesquisar emotes...",
+		"badge": "Pesquisar emblemas...",
+		"channel": "Pesquisar canais...",
+		"placeholder": "Pesquisar..."
+	},
+	"provider": {
+		"twitch": "Twitch",
+		"youtube": "YouTube",
+		"kick": "Kick",
+		"bttv": "BetterTTV",
+		"ffz": "FrankerFaceZ",
+		"7tv": "7TV"
+	},
+	"navbar": {
+		"menu": "Menu",
+		"sets": "Conjuntos",
+		"emotes": "Emotes",
+		"badges": "Emblemas",
+		"channels": "Canais"
+	},
+	"construction": {
+		"title": "Em construção!",
+		"description": "Esta seção ainda está em desenvolvimento. Volte em breve para ver as novidades."
+	},
+	"emote": {
+		"label": "Emote",
+		"info": {
+			"artist": "Artista",
+			"approved": "Aprovado",
+			"set": "Conjunto",
+			"status": {
+				"label": "Estado",
+				"public": "Público",
+				"private": "Privado"
+			}
+		},
+		"channels": {
+			"label": "Canais"
+		},
+		"variants": {
+			"label": "Variantes"
+		},
+		"origin": {
+			"label": "Origem",
+			"translate": "Traduzir",
+			"undo": "Desfazer",
+			"source": "Fonte",
+			"author": "Autor"
+		}
+	},
+	"channel": {
+		"label": "Canal",
+		"emotes": "Emotes do canal",
+		"badges": "Emblemas do canal",
+		"followers": "{count, plural, one {# seguidor} other {# seguidores}}",
+		"viewers": "{count, plural, one {# espectador} other {# espectadores}}",
+		"category": "Categoria",
+		"preview": "Pré-visualização",
+		"mature": "Adulto",
+		"staff": "Equipe",
+		"affiliate": "Afiliado",
+		"partner": "Parceiro",
+		"subscriber": "Inscrito",
+		"month": "{count, plural, =0 {} =1 {} other {# meses}}",
+		"year": "{count, plural, one {# ano} other {# anos}}"
+	},
+	"set": {
+		"label": "Conjunto",
+		"title": "Emotes de {user}",
+		"follower": "Seguidor",
+		"sub": "Inscrito",
+		"bits": "Bits",
+		"tier": "Grupo {tier}",
+		"global": "Globais"
+	},
+	"badge": {
+		"label": "Emblema",
+		"month": "{count, plural, =0 {Inscrito} =1 {Inscrito} other {Inscrito: # meses}}",
+		"year": "{count, plural, one {Inscrito: # ano} other {Inscrito: # anos}}",
+		"bits": "{cost, plural, one {# Bit} other {# Bits}}",
+		"info": {
+			"cost": "Custo",
+			"description": "Descrição",
+			"action": {
+				"label": "Ação",
+				"subscribe": "Inscrever-se",
+				"visit_url": "Acessar URL"
+			}
+		},
+		"kick": {
+			"bot": "Bot",
+			"broadcaster": "Streamer",
+			"founder": "Fundador",
+			"moderator": "Moderador",
+			"og": "OG",
+			"partner": "Verificado",
+			"sidekick": "Braço Direito",
+			"staff": "Equipe",
+			"sub-gifter": "{count, plural, =0 {Presenteador} one {Presenteou # inscrição} other {Presenteou # inscrições}}",
+			"subscriber": "Inscrito",
+			"trainwreckstv": "Trainwreckstv",
+			"vip": "VIP"
+		}
+	}
+}

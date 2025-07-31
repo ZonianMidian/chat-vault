@@ -1,0 +1,147 @@
+{
+	"common": {
+		"noResults": "Ничего не найдено",
+		"zeroWidth": "Оверлэйный",
+		"platform": "Платформа",
+		"unknown": "Неизвестно",
+		"error": "Ошибка",
+		"flair": "Украшение",
+		"yes": "Да",
+		"no": "Нет",
+		"info": {
+			"label": "Информация",
+			"created": "Дата создания",
+			"removed": "Дата удаления",
+			"related": "Похожие"
+		}
+	},
+	"theme": {
+		"label": "Тема",
+		"system": "Системная",
+		"dark": "Тёмная",
+		"light": "Светлая"
+	},
+	"status": {
+		"404": "Не найдено",
+		"500": "Внутренняя ошибка сервера",
+		"503": "Сервис недоступен"
+	},
+	"error": {
+		"provider": "Провайдер не поддерживается",
+		"id": "Необходимо указать провайдера и ID",
+		"unknown": "Неизвестная ошибка",
+		"image": "Изображение не найдено"
+	},
+	"global": {
+		"label": "Глобальный",
+		"emote": "Глобальные смайлы",
+		"badge": "Глобальные значки"
+	},
+	"search": {
+		"label": "Поиск",
+		"set": "Поиск наборов...",
+		"emote": "Поиск смайлов...",
+		"badge": "Поиск значков...",
+		"channel": "Поиск каналов...",
+		"placeholder": "Поиск..."
+	},
+	"provider": {
+		"twitch": "Twitch",
+		"youtube": "YouTube",
+		"kick": "Kick",
+		"bttv": "BetterTTV",
+		"ffz": "FrankerFaceZ",
+		"7tv": "7TV"
+	},
+	"navbar": {
+		"menu": "Меню",
+		"sets": "Наборы",
+		"emotes": "Смайлы",
+		"badges": "Значки",
+		"channels": "Каналы"
+	},
+	"construction": {
+		"title": "В разработке!",
+		"description": "Этот раздел ещё находится в разработке. Для обновлений, вернитесь, пожалуйста, попозже."
+	},
+	"emote": {
+		"label": "Смайл",
+		"info": {
+			"artist": "Художник",
+			"approved": "Одобрено",
+			"set": "Набор",
+			"status": {
+				"label": "Статус",
+				"public": "Публичный",
+				"private": "Приватный"
+			}
+		},
+		"channels": {
+			"label": "Каналы"
+		},
+		"variants": {
+			"label": "Варианты"
+		},
+		"origin": {
+			"label": "Происхождение",
+			"translate": "Перевести",
+			"undo": "Отменить",
+			"source": "Источник",
+			"author": "Автор"
+		}
+	},
+	"channel": {
+		"label": "Канал",
+		"emotes": "Смайлы канала",
+		"badges": "Значки канала",
+		"followers": "{count, plural, one {# фоллофер} few {# фолловера} many {# фолловеров} other {# фолловеров}}",
+		"viewers": "{count, plural, one {# зритель} few {# зрителя} many {# зрителей} other {# зрителей}}",
+		"category": "Категория",
+		"preview": "Предпросмотр",
+		"mature": "18+",
+		"staff": "Команда",
+		"affiliate": "Компаньон",
+		"partner": "Партнёр",
+		"subscriber": "Подписчик",
+		"month": "{count, plural, one {# месяц} few {# месяца} many {# месяцев}=0 {} =1 {} other {# месяцев}}",
+		"year": "{count, plural, one {# год} few {# года} many {# лет} other {# лет}}"
+	},
+	"set": {
+		"label": "Набор",
+		"title": "Смайлы {user}",
+		"follower": "Фолловер",
+		"sub": "Подписчик",
+		"bits": "Битсы",
+		"tier": "Уровень {tier}",
+		"global": "Глобальные"
+	},
+	"badge": {
+		"label": "Значок",
+		"month": "{count, plural, =0 {Подписчик} =1 {Подписчик} other {Подписчик: #-месяцев}}",
+		"year": "{count, plural, one {Подписанный на # год} few {Подписанный на # года} many {Подписанный на # лет} other {Подписанный на # лет}}",
+		"bits": "{cost, plural, one {# Бит} few {# Битса} many {# Битсов} other {# Битсов}}",
+		"info": {
+			"cost": "Стоимость",
+			"description": "Описание",
+			"action": {
+				"label": "Действие",
+				"subscribe": "Подписаться",
+				"visit_url": "Перейти по ссылке"
+			}
+		},
+		"kick": {
+			"bot": "Бот",
+			"broadcaster": "Владелец",
+			"founder": "Основатель",
+			"moderator": "Модератор",
+			"og": "OG",
+			"partner": "Подтверждён",
+			"sidekick": "Напарник",
+			"staff": "Команда",
+			"sub-gifter": "{count, plural, =0 {Даритель подписок} one {Подарил # подписку} few {Подарил # подписки} many {Подарил # подписок} other {Подарил # подписок}}",
+			"subscriber": "Подписчик",
+			"trainwreckstv": "Trainwreckstv",
+			"vip": "VIP"
+		}
+	}
+}

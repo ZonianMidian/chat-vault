@@ -1,0 +1,147 @@
+{
+	"common": {
+		"noResults": "Німа результатів",
+		"zeroWidth": "Оверлейний",
+		"platform": "Платформа",
+		"unknown": "Невідомо",
+		"error": "Помилка",
+		"flair": "Прикраса",
+		"yes": "Так",
+		"no": "Ні",
+		"info": {
+			"label": "Інформація",
+			"created": "Дата створення",
+			"removed": "Дата видалення",
+			"related": "Схожі"
+		}
+	},
+	"theme": {
+		"label": "Тема",
+		"system": "Системна",
+		"dark": "Темна",
+		"light": "Світла"
+	},
+	"status": {
+		"404": "Не знайдено",
+		"500": "Внутрішня помилка сервера",
+		"503": "Сервіс недоступний"
+	},
+	"error": {
+		"provider": "Непідтримуваний провайдер",
+		"id": "Провайдер та ID обов'язкові",
+		"unknown": "Невідома помилка",
+		"image": "Зображення не знайдено"
+	},
+	"global": {
+		"label": "Глобальний",
+		"emote": "Глобальні емоути",
+		"badge": "Глобальні значки"
+	},
+	"search": {
+		"label": "Пошук",
+		"set": "Пошук наборів...",
+		"emote": "Пошук емоутів...",
+		"badge": "Пошук значків...",
+		"channel": "Пошук каналів...",
+		"placeholder": "Пошук..."
+	},
+	"provider": {
+		"twitch": "Twitch",
+		"youtube": "YouTube",
+		"kick": "Kick",
+		"bttv": "BetterTTV",
+		"ffz": "FrankerFaceZ",
+		"7tv": "7TV"
+	},
+	"navbar": {
+		"menu": "Меню",
+		"sets": "Набори",
+		"emotes": "Емоути",
+		"badges": "Значки",
+		"channels": "Канали"
+	},
+	"construction": {
+		"title": "В розробці!",
+		"description": "Цей розділ ще в розробці. Для оновлень поверніться трохи пізніше."
+	},
+	"emote": {
+		"label": "Емоут",
+		"info": {
+			"artist": "Художник",
+			"approved": "Схвалено",
+			"set": "Набір",
+			"status": {
+				"label": "Статус",
+				"public": "Публічний",
+				"private": "Приватний"
+			}
+		},
+		"channels": {
+			"label": "Канали"
+		},
+		"variants": {
+			"label": "Варіанти"
+		},
+		"origin": {
+			"label": "Походження",
+			"translate": "Перекладати",
+			"undo": "Скасувати",
+			"source": "Джерело",
+			"author": "Автор"
+		}
+	},
+	"channel": {
+		"label": "Канал",
+		"emotes": "Емоути каналу",
+		"badges": "Значки каналу",
+		"followers": "{count, plural, one {# фолловер} few {# фолловера} many {# фолловерів} other {# фолловерів}}",
+		"viewers": "{count, plural, one {# глядач} few {# глядачя} many {# глядачів} other {# глядачів}}",
+		"category": "Категорія",
+		"preview": "Перегляд",
+		"mature": "18+",
+		"staff": "Команда",
+		"affiliate": "Компаньйон",
+		"partner": "Партнер",
+		"subscriber": "Підписник",
+		"month": "{count, plural, one {# місяць} few {# місяця} many {# місяців}=0 {} =1 {} other {# місяців}}",
+		"year": "{count, plural, one {# рок} few {# рока} many {# років} other {# років}}"
+	},
+	"set": {
+		"label": "Набір",
+		"title": "Емоути {user}",
+		"follower": "Фоловер",
+		"sub": "Підписник",
+		"bits": "Біти",
+		"tier": "Рівень {tier}",
+		"global": "Глобальні"
+	},
+	"badge": {
+		"label": "Значок",
+		"month": "{count, plural, one {Підписник: # місяць} few {Підписник: # місяця} many {Підписник: # місяців} =0 {Підписник} =1 {Підписник} other {Підписник: #-місяців}}",
+		"year": "{count, plural, one {Подпісаний вже # рік} few {Подпісаний вже # роки} many {Подпісаний вже # років} other {#}}",
+		"bits": "{cost, plural, one {# Біт} few {# Біта} many {# Бітов} other {# Бітов}}",
+		"info": {
+			"cost": "Вартість",
+			"description": "Опис",
+			"action": {
+				"label": "Дія",
+				"subscribe": "Підписатися",
+				"visit_url": "Перейти за посиланням"
+			}
+		},
+		"kick": {
+			"bot": "Бот",
+			"broadcaster": "Власник",
+			"founder": "Засновник",
+			"moderator": "Модератор",
+			"og": "OG",
+			"partner": "Підтверджено",
+			"sidekick": "Sidekick",
+			"staff": "Команда",
+			"sub-gifter": "{count, plural, =0 {Дарувальник підпіски} one {Подарував # підпіску} few {Подарував # підпіски} many {Подарував # підпісок} other {Подарував # підпісок}}",
+			"subscriber": "Підписник",
+			"trainwreckstv": "Trainwreckstv",
+			"vip": "VIP"
+		}
+	}
+}
