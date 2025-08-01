@@ -2,7 +2,7 @@ import type { Badge, BadgePage } from '$lib/types/common.js';
 
 import { fetchGlobalBadges } from '$lib/badges/fetchGlobals';
 import { fetchBadge } from '$lib/badges/fetchBadge.js';
-import { $format } from '$lib/utils.js';
+import { $format, rezizeImageUrl } from '$lib/utils.js';
 import { error } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageLoad} */
@@ -27,6 +27,9 @@ export async function load({ params, url }): Promise<BadgePage> {
 
 		if (pageImage.startsWith('/')) {
 			pageImage = `${url.origin}${pageImage}`;
+		}
+		if (pageImage.endsWith('.svg')) {
+			pageImage = rezizeImageUrl(pageImage, 72);
 		}
 
 		return {
