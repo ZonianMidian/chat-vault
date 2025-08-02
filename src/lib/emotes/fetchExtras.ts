@@ -131,7 +131,7 @@ export async function fetchExtras(
 					(mentionedIds.has(String(item.ID)) ||
 						(item.text && item.text.includes(`](${matchedItem.ID})`)) ||
 						(item.notes && item.notes.includes(`](${matchedItem.ID})`)) ||
-						item.name.toLowerCase().includes(matchedItem.name.toLowerCase()))
+						item.name.toLowerCase() === matchedItem.name.toLowerCase())
 			);
 
 			result.related.list = relatedList.map((relatedItem: Data) => ({
