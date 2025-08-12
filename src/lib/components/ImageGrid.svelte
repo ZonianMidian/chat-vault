@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Badges, Channel, Emotes, Variant } from '$lib/types/common';
+	import type { Badges, Channel, Emotes, Variant, User } from '$lib/types/common';
 
 	import { inlineSvg } from '@svelte-put/inline-svg';
 	import { getCheerName } from '$lib/utils';
@@ -7,7 +7,7 @@
 	import { Layers2 } from '@lucide/svelte';
 	import { _ } from 'svelte-i18n';
 
-	type Item = Channel | Emotes | Badges | Variant;
+	type Item = Channel | Emotes | Badges | Variant | User;
 
 	const {
 		items = [],

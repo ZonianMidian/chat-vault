@@ -1,6 +1,6 @@
 {
 	"name": "chat-vault",
-	"version": "2025.08.02",
+	"version": "2025.08.12",
 	"author": "ZonianMidian",
 	"type": "module",
 	"private": false,
@@ -61,6 +61,7 @@
 		"@fontsource-variable/inter": "^5.2.6",
 		"country-flag-emoji-polyfill": "^0.1.8",
 		"marked": "^16.1.1",
-		"svelte-i18n": "^4.0.1"
+		"svelte-i18n": "^4.0.1",
+		"url-pattern": "^1.0.3"
 	}
 }

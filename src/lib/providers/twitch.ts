@@ -640,3 +640,46 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 		createdAt: null
 	};
 }
+
+export async function searchTwitchChannel(search: string, limit = 50): Promise<User[]> {
+	const query = `query Channels {
+	    searchUsers(userQuery: "${search}", first: ${limit}) {
+	        edges {
+	            node {
+	                id
+	                login
+	                displayName
+	                profileImageURL(width: 600)
+	            }
+	        }
+	    }
+	}`;
+
+	const request = await fetch(`https://gql.twitch.tv/gql`, {
+		credentials: 'omit',
+		method: 'POST',
+		headers: {
+			'Accept-Language': `${getLocaleFromNavigator() || 'en-US'};q=0.9`,
+			'Client-ID': 'kimne78kx3ncx6brgo4mv6wki5h1ko'
+		},
+		body: JSON.stringify({ query })
+	});
+
+	if (!request.ok) {
+		const message = request.status === 500 ? $format('status.500') : request.statusText;
+		throw new Error(`[Twitch] Channels | ${request.status}: ${message}`);
+	}
+
+	const searchData = (await request.json()).data?.searchUsers?.edges;
+	if (!searchData) {
+		throw new Error(`[Twitch] Channels | 404: ${$format('status.404')}`);
+	}
+
+	return searchData.map(({ node: user }: { node: TwitchUser }) => ({
+		id: user.id,
+		platform: 'twitch',
+		avatar: user.profileImageURL,
+		source: `https://twitch.tv/${user.login}`,
+		username: compareName(user.login, user.displayName)
+	}));
+}

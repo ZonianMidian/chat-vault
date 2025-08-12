@@ -493,3 +493,25 @@ export async function getKickBadge(badgeId: string): Promise<Badge> {
 		createdAt: null
 	};
 }
+
+export async function searchKickChannel(search: string, limit = 50): Promise<User[]> {
+	const url = `https://kick.com/api/search?searched_word=${encodeURIComponent(search)}`;
+
+	const res = await fetch(url);
+	if (!res.ok) {
+		throw new Error(`[Kick] Channels | 404: ${$format('status.404')}`);
+	}
+
+	const data: KickUser[] = (await res.json())?.channels;
+	if (!data) {
+		throw new Error(`[Kick] Channels | 404: ${$format('status.404')}`);
+	}
+
+	return data.slice(0, limit).map((user) => ({
+		id: user.user_id.toString(),
+		avatar: user.user.profilePic ?? defaultAvatar,
+		source: `https://kick.com/${user.slug}`,
+		username: compareName(user.slug, user.user.username),
+		platform: 'kick'
+	}));
+}

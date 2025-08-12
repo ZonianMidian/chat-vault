@@ -255,6 +255,7 @@ export interface UserData {
 	discord: null | string;
 	tiktok: null | string;
 	facebook: null | string;
+	profilePic: null | string;
 	profile_pic: null | string;
 }
 

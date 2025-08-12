@@ -43,7 +43,8 @@
 		"emote": "Buscar emotes...",
 		"badge": "Buscar insignias...",
 		"channel": "Buscar canales...",
-		"placeholder": "Buscar..."
+		"placeholder": "Buscar...",
+		"message": "Puedes buscar usando un nombre o colocando un enlace directo."
 	},
 	"provider": {
 		"twitch": "Twitch",
@@ -66,6 +67,7 @@
 	},
 	"emote": {
 		"label": "Emote",
+		"search": "Buscar Emotes",
 		"info": {
 			"artist": "Artista",
 			"approved": "Aprobado",
@@ -92,6 +94,7 @@
 	},
 	"channel": {
 		"label": "Canal",
+		"search": "Buscar Canales",
 		"emotes": "Emotes del Canal",
 		"badges": "Insignias del Canal",
 		"followers": "{count, plural, one {# seguidor} other {# seguidores}}",

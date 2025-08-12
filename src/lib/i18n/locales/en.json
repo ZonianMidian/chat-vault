@@ -43,7 +43,8 @@
 		"emote": "Search emotes...",
 		"badge": "Search badges...",
 		"channel": "Search channels...",
-		"placeholder": "Search..."
+		"placeholder": "Search...",
+		"message": "You can search using a name or by entering a direct link."
 	},
 	"provider": {
 		"twitch": "Twitch",
@@ -66,6 +67,7 @@
 	},
 	"emote": {
 		"label": "Emote",
+		"search": "Search Emotes",
 		"info": {
 			"artist": "Artist",
 			"approved": "Approved",
@@ -92,6 +94,7 @@
 	},
 	"channel": {
 		"label": "Channel",
+		"search": "Search Channels",
 		"emotes": "Channel Emotes",
 		"badges": "Channel Badges",
 		"followers": "{count, plural, one {# follower} other {# followers}}",
