@@ -30,7 +30,8 @@ import {
 	$number,
 	$format,
 	UUID,
-	getFavicon
+	getFavicon,
+	rezizeImageUrl
 } from '$lib/utils';
 import { fetchGlobalBadges } from '$lib/badges/fetchGlobals';
 
@@ -455,12 +456,32 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 	const isId = /^\d{1,10}$/.test(channel ?? version);
 	const isUUID = UUID.test(id);
 
-	if (id === 'flair' && channel) {
+	if (id === 'flair') {
 		if (!['2000', '3000'].includes(version)) {
 			throw new Error(`[Twitch] Badge | 404: ${$format('status.404')}`);
 		}
 
-		owner = await getTwitchUser(channel, isId);
+		if (channel) {
+			owner = await getTwitchUser(channel, isId);
+		} else {
+			owner = {
+				id: '12826',
+				avatar: 'https://cdn.frankerfacez.com/avatar/twitch/12826',
+				source: `https://twitch.tv/Twitch`,
+				platform: 'twitch',
+				username: 'Twitch'
+			};
+		}
+
+		let badgeId = channel ? owner?.id : 'default';
+
+		if (channel) {
+			const url = `https://badge-flair-twitch-subs-aws.s3-us-west-2.amazonaws.com/${badgeId}/${version}`;
+			const res = await fetch(rezizeImageUrl(`${url}/18x18.png`, 18));
+			if (!res.ok) {
+				badgeId = 'default';
+			}
+		}
 
 		return {
 			id: 'flair',
@@ -468,15 +489,15 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 			provider: 'twitch',
 			owner,
 			images: [
-				`https://badge-flair-twitch-subs-aws.s3-us-west-2.amazonaws.com/${owner.id}/${version}/18x18.png`,
-				`https://badge-flair-twitch-subs-aws.s3-us-west-2.amazonaws.com/${owner.id}/${version}/36x36.png`,
-				`https://badge-flair-twitch-subs-aws.s3-us-west-2.amazonaws.com/${owner.id}/${version}/72x72.png`
+				`https://badge-flair-twitch-subs-aws.s3-us-west-2.amazonaws.com/${badgeId}/${version}/18x18.png`,
+				`https://badge-flair-twitch-subs-aws.s3-us-west-2.amazonaws.com/${badgeId}/${version}/36x36.png`,
+				`https://badge-flair-twitch-subs-aws.s3-us-west-2.amazonaws.com/${badgeId}/${version}/72x72.png`
 			],
 			description: $format('common.flair'),
 			version: version,
 			related,
-			setId: null, // badge.id,
-			source: `https://twitch.tv/subs/${owner?.username}`,
+			setId: null,
+			source: channel ? `https://twitch.tv/subs/${owner?.username}` : null,
 			createdAt: null
 		};
 	} else if (!channel && !version && isUUID) {
