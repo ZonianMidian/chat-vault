@@ -107,7 +107,8 @@
 		"partner": "Socio",
 		"subscriber": "Suscriptor",
 		"month": "{count, plural, =0 {} =1 {} other {# meses}}",
-		"year": "{count, plural, one {# año} other {# años}}"
+		"year": "{count, plural, one {# año} other {# años}}",
+		"points": "Puntos del Canal"
 	},
 	"set": {
 		"label": "Conjunto",

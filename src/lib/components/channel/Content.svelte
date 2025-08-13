@@ -1,11 +1,12 @@
 <script lang="ts">
-	import type { ChannelContent, EmoteBadge, SubTier } from '$lib/types/common';
+	import type { ChannelContent, EmoteBadge, SubTier, UserData } from '$lib/types/common';
 
+	import { UUID } from '$lib/utils';
 	import { _ } from 'svelte-i18n';
 
 	import ImageGrid from '$lib/components/ImageGrid.svelte';
 
-	export let userId: string | undefined;
+	export let userData: UserData | null;
 	export let content: ChannelContent;
 
 	function getTitle(item: EmoteBadge | SubTier | null, key: string, tier?: number): string {
@@ -67,7 +68,7 @@
 										image: value.flair,
 										name: $_('common.flair'),
 										owner: null,
-										version: `${Number(tier) * 1000}/${userId}`,
+										version: `${Number(tier) * 1000}/${userData?.id ?? ''}`,
 										provider: 'twitch'
 									}
 								]}
@@ -94,4 +95,27 @@
 			</div>
 		{/if}
 	{/each}
+
+	{#if content.points && (userData?.roles.isAffiliate || userData?.roles.isPartner)}
+		{@const pointsItem = [
+			{
+				id: 'points',
+				image: content.points.image,
+				name: content.points.name,
+				owner: null,
+				version: `${content.points.image.match(UUID)}/${userData?.id ?? ''}`,
+				provider: 'twitch'
+			}
+		]}
+
+		<div class="content-section mb-4">
+			<h2 class="mb-2 text-xl font-semibold">
+				{$_('channel.points')}
+			</h2>
+
+			<div class="space-y-2">
+				<ImageGrid items={pointsItem} placeholderCount={1} />
+			</div>
+		</div>
+	{/if}
 </div>

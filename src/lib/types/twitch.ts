@@ -141,6 +141,19 @@ export interface Channel {
 	socialMedias: SocialMedia[];
 	creatorBadgeFlair: CreatorBadgeFlair;
 	localEmoteSets: LocalEmoteSet[] | null;
+	communityPointsSettings: {
+		name: string | null;
+		image: {
+			image_url_1x: string;
+			image_url_2x: string;
+			image_url_4x: string;
+		} | null;
+		defaultImage: {
+			image_url_1x: string;
+			image_url_2x: string;
+			image_url_4x: string;
+		};
+	};
 }
 
 export interface SocialMedia {

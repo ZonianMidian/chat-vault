@@ -97,6 +97,7 @@ export interface ChannelContent {
 	subT2: SubTier | null;
 	subT3: SubTier | null;
 	bits: EmoteBadge;
+	points?: ChannelPoints;
 }
 
 export interface EmoteBadge {
@@ -109,6 +110,11 @@ export interface SubTier {
 	emotes: Emotes[];
 	flair?: string;
 	badges: Badges[];
+}
+
+export interface ChannelPoints {
+	name: string;
+	image: string;
 }
 
 export interface UserData {

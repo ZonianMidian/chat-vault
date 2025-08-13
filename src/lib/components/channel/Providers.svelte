@@ -151,7 +151,7 @@
 		<svelte:fragment slot="content">
 			{#if providerData && content}
 				<TabContent isActive={activeTab === data.provider}>
-					<Content {content} userId={user?.id} />
+					<Content {content} userData={user} />
 				</TabContent>
 			{/if}
 

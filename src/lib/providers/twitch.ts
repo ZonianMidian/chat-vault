@@ -339,6 +339,12 @@ export async function getTwitchChannel(userLogin: string): Promise<ChannelData> 
 			bits: {
 				emotes: mapEmotes(bitsEmotes),
 				badges: [] as Badges[]
+			},
+			points: {
+				image:
+					data.channel.communityPointsSettings.image?.image_url_4x ??
+					data.channel.communityPointsSettings.defaultImage.image_url_4x,
+				name: data.channel.communityPointsSettings.name ?? $format('channel.points')
 			}
 		}
 	};
