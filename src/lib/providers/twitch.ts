@@ -462,9 +462,9 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 			provider: 'twitch',
 			owner,
 			images: [
-				`https://badge-flair-twitch-subs-aws.s3-us-west-2.amazonaws.com/${channel}/${version}/18x18.png`,
-				`https://badge-flair-twitch-subs-aws.s3-us-west-2.amazonaws.com/${channel}/${version}/36x36.png`,
-				`https://badge-flair-twitch-subs-aws.s3-us-west-2.amazonaws.com/${channel}/${version}/72x72.png`
+				`https://badge-flair-twitch-subs-aws.s3-us-west-2.amazonaws.com/${owner.id}/${version}/18x18.png`,
+				`https://badge-flair-twitch-subs-aws.s3-us-west-2.amazonaws.com/${owner.id}/${version}/36x36.png`,
+				`https://badge-flair-twitch-subs-aws.s3-us-west-2.amazonaws.com/${owner.id}/${version}/72x72.png`
 			],
 			description: $format('common.flair'),
 			version: version,
