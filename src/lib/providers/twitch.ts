@@ -187,8 +187,8 @@ export async function getTwitchSet(setId: string): Promise<Set> {
 	};
 }
 
-export async function getTwitchUser(userLogin: string): Promise<User> {
-	const url = `https://api.ivr.fi/v2/twitch/user?login=${encodeURIComponent(userLogin)}`;
+export async function getTwitchUser(user: string, isId = false): Promise<User> {
+	const url = `https://api.ivr.fi/v2/twitch/user?${isId ? 'id' : 'login'}=${encodeURIComponent(user)}`;
 
 	const res = await fetch(url);
 	if (!res.ok) {
@@ -196,12 +196,20 @@ export async function getTwitchUser(userLogin: string): Promise<User> {
 		throw new Error(`[Twitch] User | ${res.status}: ${message}`);
 	}
 
-	const data: User = (await res.json())?.[0];
+	const data: TwitchUser = (await res.json())?.[0];
 	if (!data) {
 		throw new Error(`[Twitch] User | 404: ${$format('status.404')}`);
 	}
 
-	return data;
+	const userName = compareName(data.login, data.displayName);
+
+	return {
+		id: data.id,
+		username: userName,
+		avatar: data.logo,
+		source: `https://twitch.tv/${userName}`,
+		platform: 'twitch'
+	};
 }
 
 export async function getTwitchChannel(userLogin: string): Promise<ChannelData> {
@@ -441,7 +449,31 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 	const isId = /^\d{1,10}$/.test(channel ?? version);
 	const isUUID = UUID.test(id);
 
-	if (!channel && !version && isUUID) {
+	if (id === 'flair' && channel) {
+		if (!['2000', '3000'].includes(version)) {
+			throw new Error(`[Twitch] Badge | 404: ${$format('status.404')}`);
+		}
+
+		owner = await getTwitchUser(channel, isId);
+
+		return {
+			id: 'flair',
+			name: $format('common.flair'),
+			provider: 'twitch',
+			owner,
+			images: [
+				`https://badge-flair-twitch-subs-aws.s3-us-west-2.amazonaws.com/${channel}/${version}/18x18.png`,
+				`https://badge-flair-twitch-subs-aws.s3-us-west-2.amazonaws.com/${channel}/${version}/36x36.png`,
+				`https://badge-flair-twitch-subs-aws.s3-us-west-2.amazonaws.com/${channel}/${version}/72x72.png`
+			],
+			description: $format('common.flair'),
+			version: version,
+			related,
+			setId: null, // badge.id,
+			source: `https://twitch.tv/subs/${owner?.username}`,
+			createdAt: null
+		};
+	} else if (!channel && !version && isUUID) {
 		const url = `https://static-cdn.jtvnw.net/badges/v1/${id}/3`;
 		const res = await fetch(url);
 		if (!res.ok) {

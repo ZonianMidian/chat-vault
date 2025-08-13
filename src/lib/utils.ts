@@ -123,7 +123,7 @@ export function includesFromArray(str: string, arr: string[]): boolean {
 }
 
 export async function getImageInfo(url: string, proxy: boolean): Promise<Sizes> {
-	if (includesFromArray(url, ['imgur.com', 'ivr'])) {
+	if (includesFromArray(url, ['imgur', 'ivr', 'amazonaws'])) {
 		proxy = true;
 	} else if (includesFromArray(url, ['wsrv.nl']) || url.startsWith('/')) {
 		proxy = false;

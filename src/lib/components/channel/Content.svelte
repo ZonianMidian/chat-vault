@@ -5,6 +5,7 @@
 
 	import ImageGrid from '$lib/components/ImageGrid.svelte';
 
+	export let userId: string | undefined;
 	export let content: ChannelContent;
 
 	function getTitle(item: EmoteBadge | SubTier | null, key: string, tier?: number): string {
@@ -66,12 +67,20 @@
 										image: value.flair,
 										name: $_('common.flair'),
 										owner: null,
-										version: tier,
+										version: `${Number(tier) * 1000}/${userId}`,
 										provider: 'twitch'
 									}
 								]}
-								<ImageGrid items={flairItem} placeholderCount={1} />
+
+								<ImageGrid
+									items={flairItem}
+									placeholderCount={1}
+									versionKey="version"
+									linkPrefix="badge"
+									nameKey="name"
+								/>
 							{/if}
+
 							<ImageGrid
 								items={value.badges}
 								placeholderCount={18}
