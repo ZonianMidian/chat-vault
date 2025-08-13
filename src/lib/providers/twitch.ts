@@ -343,7 +343,7 @@ export async function getTwitchChannel(userLogin: string): Promise<ChannelData> 
 					id: badge.setID,
 					title: getCheerName(badge.title),
 					value: $number(Number(badge.version)),
-					version: `${badge.version}/${data.login}`,
+					version: `${badge.version}/${data.id}`,
 					description: badge.description,
 					image: badge.image_url_4x,
 					provider: 'twitch'
@@ -362,7 +362,7 @@ export async function getTwitchChannel(userLogin: string): Promise<ChannelData> 
 					id: badge.setID,
 					title: $format('channel.subscriber'),
 					value: formatDuration(months),
-					version: `${badge.version}/${data.login}`,
+					version: `${badge.version}/${data.id}`,
 					description: badge.description,
 					image: badge.image_url_4x,
 					provider: 'twitch'
@@ -438,9 +438,10 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 		list: [] as Badges[]
 	};
 
-	const isId = UUID.test(id);
+	const isId = /^\d{1,10}$/.test(channel ?? version);
+	const isUUID = UUID.test(id);
 
-	if (!channel && !version && isId) {
+	if (!channel && !version && isUUID) {
 		const url = `https://static-cdn.jtvnw.net/badges/v1/${id}/3`;
 		const res = await fetch(url);
 		if (!res.ok) {
@@ -477,7 +478,7 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 				provider: 'twitch'
 			};
 		}
-	} else if (!channel && !isId) {
+	} else if (!channel && !isUUID) {
 		const globalData = await findGlobalBadge(id, version ?? '1', 'twitch');
 		if (!globalData.badge) {
 			throw new Error(`[Twitch] Badge | 404: ${$format('status.404')}`);
@@ -499,7 +500,7 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 		};
 	} else {
 		const query = `query ChannelBadges {
-		    user(login: "${channel ?? version}", lookupType: ALL) {
+		    user(${isId ? 'id' : 'login'}: "${channel ?? version}", lookupType: ALL) {
 		        id
 		        login
 		        displayName
@@ -541,7 +542,7 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 
 		const badges = userData.broadcastBadges;
 		const data = badges.find((b) =>
-			isId ? b.image_url_4x.includes(id) : b.setID === id && b.version === version
+			isUUID ? b.image_url_4x.includes(id) : b.setID === id && b.version === version
 		);
 
 		if (!data) {
