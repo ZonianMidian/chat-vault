@@ -10,11 +10,23 @@ export interface TwitchEmote {
 	emoteSetID: string;
 	emoteAssetType: AssetType;
 	artist?: Artist | null;
-	emoteState: 'ACTIVE' | 'INACTIVE' | 'ARCHIVED' | 'DELETED';
-	emoteType: string;
 	emoteTier?: number;
 	source?: string;
 	emoteBitCost?: number;
+	emoteState: 'ACTIVE' | 'INACTIVE' | 'PENDING' | 'ARCHIVED' | 'DELETED';
+	emoteType:
+		| 'SUBSCRIPTIONS'
+		| 'ARCHIVE'
+		| 'SMILIES'
+		| 'BITS_BADGE_TIERS'
+		| 'PRIME'
+		| 'TURBO'
+		| 'GLOBALS'
+		| 'TWO_FACTOR'
+		| 'LIMITED_TIME'
+		| 'MEGA_COMMERCE'
+		| 'HYPE_TRAIN'
+		| 'FOLLOWER';
 }
 
 export interface TwitchSet {
