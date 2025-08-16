@@ -37,16 +37,29 @@ import { fetchGlobalBadges } from '$lib/badges/fetchGlobals';
 
 export async function getTwitchEmote(emoteId: string): Promise<Emote> {
 	const url = `https://api.potat.app/twitch/emotes?id=${encodeURIComponent(emoteId)}`;
+	const fallbackUrl = `https://api.ivr.fi/v2/twitch/emotes/${encodeURIComponent(emoteId)}?id=true`;
 
-	const res = await fetch(url);
-	if (!res.ok) {
-		const message = res.status === 500 ? $format('status.500') : res.statusText;
-		throw new Error(`[Twitch] Emote | ${res.status}: ${message}`);
+	let data: TwitchEmote | undefined;
+	let res: Response | undefined;
+
+	try {
+		res = await fetch(url);
+		if (!res.ok) throw new Error();
+		data = (await res.json())?.data?.[0];
+	} catch (e) {
+		if (res?.status === 404) {
+			throw new Error(`[Twitch] Emote | 404: ${$format('status.404')}`);
+		}
+		res = await fetch(fallbackUrl);
+		if (!res.ok) {
+			const message = res.status === 404 ? $format('status.404') : $format('status.500');
+			throw new Error(`[Twitch] Emote | ${res.status}: ${message}`);
+		}
+		data = await res.json();
 	}
 
-	const data: TwitchEmote = (await res.json())?.data?.[0];
 	if (!data) {
-		throw new Error(`[Twitch] Emote | 400: ${$format('status.404')}`);
+		throw new Error(`[Twitch] Emote | 404: ${$format('status.404')}`);
 	}
 
 	let userName;

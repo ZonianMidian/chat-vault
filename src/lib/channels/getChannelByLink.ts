@@ -132,8 +132,6 @@ function isValidUsername(username: string, platform: Platforms | 'kick'): boolea
 		return false;
 	}
 
-	console.log(username);
-
 	switch (platform) {
 		case 'youtube':
 			if (username.startsWith('@')) {
