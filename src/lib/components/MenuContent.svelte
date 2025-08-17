@@ -11,16 +11,16 @@
 </script>
 
 <li class="w-fit {href ? '' : 'pointer-events-none'}">
-	<div>
+	<svelte:element this={href ? 'a' : 'span'} {...href ? { href } : {}}>
 		{#if icon}
 			<svelte:component this={icon} class="h-4 w-4" />
 		{/if}
 
-		<svelte:element this={href ? 'a' : 'span'} {...href ? { href } : {}}>
+		<div>
 			{$_(label)}:
 			<span class={href ? 'text-secondary link' : 'text-primary'}>
 				<slot>{content}</slot>
 			</span>
-		</svelte:element>
-	</div>
+		</div>
+	</svelte:element>
 </li>
