@@ -5,7 +5,7 @@
 		"platform": "Plataforma",
 		"unknown": "Desconhecido",
 		"error": "Erro",
-		"flair": "Marcador",
+		"flair": "Etiqueta",
 		"yes": "Sim",
 		"no": "Não",
 		"info": {
@@ -28,22 +28,23 @@
 	},
 	"error": {
 		"provider": "Provedor não suportado",
-		"id": "Provedor e ID são necessários",
+		"id": "Provedor e ID são obrigatórios",
 		"unknown": "Erro desconhecido",
 		"image": "Imagem não encontrada"
 	},
 	"global": {
 		"label": "Global",
 		"emote": "Emotes globais",
-		"badge": "Emblemas globais"
+		"badge": "Distintivos globais"
 	},
 	"search": {
-		"label": "Pesquisar",
-		"set": "Pesquisar conjuntos...",
-		"emote": "Pesquisar emotes...",
-		"badge": "Pesquisar emblemas...",
-		"channel": "Pesquisar canais...",
-		"placeholder": "Pesquisar..."
+		"label": "Buscar",
+		"set": "Buscar conjuntos...",
+		"emote": "Buscar emotes...",
+		"badge": "Buscar distintivos...",
+		"channel": "Buscar canais...",
+		"placeholder": "Buscar...",
+		"message": "Você pode buscar usando um nome ou inserindo um link direto."
 	},
 	"provider": {
 		"twitch": "Twitch",
@@ -57,7 +58,7 @@
 		"menu": "Menu",
 		"sets": "Conjuntos",
 		"emotes": "Emotes",
-		"badges": "Emblemas",
+		"badges": "Distintivos",
 		"channels": "Canais"
 	},
 	"construction": {
@@ -66,14 +67,27 @@
 	},
 	"emote": {
 		"label": "Emote",
+		"search": "Buscar emotes",
 		"info": {
 			"artist": "Artista",
 			"approved": "Aprovado",
 			"set": "Conjunto",
+			"tier": "",
 			"status": {
-				"label": "Estado",
+				"label": "Status",
 				"public": "Público",
 				"private": "Privado"
+			},
+			"type": {
+				"label": "",
+				"archive": "",
+				"smilies": "",
+				"prime": "",
+				"turbo": "",
+				"2fa": "",
+				"limited_time": "",
+				"hype_train": "",
+				"deleted": ""
 			}
 		},
 		"channels": {
@@ -92,8 +106,9 @@
 	},
 	"channel": {
 		"label": "Canal",
+		"search": "Buscar canais",
 		"emotes": "Emotes do canal",
-		"badges": "Emblemas do canal",
+		"badges": "Distintivos do canal",
 		"followers": "{count, plural, one {# seguidor} other {# seguidores}}",
 		"viewers": "{count, plural, one {# espectador} other {# espectadores}}",
 		"category": "Categoria",
@@ -104,7 +119,8 @@
 		"partner": "Parceiro",
 		"subscriber": "Inscrito",
 		"month": "{count, plural, =0 {} =1 {} other {# meses}}",
-		"year": "{count, plural, one {# ano} other {# anos}}"
+		"year": "{count, plural, one {# ano} other {# anos}}",
+		"points": "Pontos do canal"
 	},
 	"set": {
 		"label": "Conjunto",
@@ -116,7 +132,7 @@
 		"global": "Globais"
 	},
 	"badge": {
-		"label": "Emblema",
+		"label": "Distintivo",
 		"month": "{count, plural, =0 {Inscrito} =1 {Inscrito} other {Inscrito: # meses}}",
 		"year": "{count, plural, one {Inscrito: # ano} other {Inscrito: # anos}}",
 		"bits": "{cost, plural, one {# Bit} other {# Bits}}",

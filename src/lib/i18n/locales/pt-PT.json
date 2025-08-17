@@ -43,7 +43,8 @@
 		"emote": "Pesquisar emotes...",
 		"badge": "Procurar emblemas...",
 		"channel": "Pesquisar canais...",
-		"placeholder": "Pesquisar..."
+		"placeholder": "Pesquisar...",
+		"message": "Você pode pesquisar usando um nome ou inserindo um link direto."
 	},
 	"provider": {
 		"twitch": "Twitch",
@@ -66,14 +67,27 @@
 	},
 	"emote": {
 		"label": "Emote",
+		"search": "Pesquisar emotes",
 		"info": {
 			"artist": "Artista",
 			"approved": "Aprovado",
 			"set": "Definir",
+			"tier": "",
 			"status": {
 				"label": "Estado",
 				"public": "Público",
 				"private": "Privado"
+			},
+			"type": {
+				"label": "",
+				"archive": "",
+				"smilies": "",
+				"prime": "",
+				"turbo": "",
+				"2fa": "",
+				"limited_time": "",
+				"hype_train": "",
+				"deleted": ""
 			}
 		},
 		"channels": {
@@ -92,6 +106,7 @@
 	},
 	"channel": {
 		"label": "Canal",
+		"search": "Pesquisar canais",
 		"emotes": "Emotes do canal",
 		"badges": "Emblemas do canal",
 		"followers": "{count, plural, one {# seguidor} other {# seguidores}}",
@@ -104,7 +119,8 @@
 		"partner": "Parceiro",
 		"subscriber": "Subscritor",
 		"month": "{count, plural, one {}=0 {} =1 {} other {#-meses}}",
-		"year": "{count, plural, one {#-year} other {#-anos}}"
+		"year": "{count, plural, one {#-year} other {#-anos}}",
+		"points": "Pontos do Canal"
 	},
 	"set": {
 		"label": "Definir",
