@@ -120,6 +120,7 @@ export async function getKickEmote(emoteId: string): Promise<Emote> {
 		public: true,
 		animated: false,
 		global: !!isGlobal,
+		deleted: false,
 		channels: {
 			total: 0,
 			list: []

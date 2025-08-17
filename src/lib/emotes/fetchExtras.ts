@@ -18,6 +18,8 @@ export async function fetchExtras(
 		artist: null,
 		image: null,
 		tier: null,
+		cost: null,
+		type: null,
 		related: {
 			total: 0,
 			list: []
@@ -103,7 +105,13 @@ export async function fetchExtras(
 				result.deletedAt = new Date(matchedItem.emoteDeleted);
 			}
 
-			result.tier = matchedItem.tier;
+			result.type = matchedItem.origin;
+
+			if (matchedItem.origin === 'BITS_BADGE_TIERS') {
+				result.cost = matchedItem.tier;
+			} else if (matchedItem.origin === 'SUBSCRIPTIONS') {
+				result.tier = matchedItem.tier;
+			}
 
 			if (provider === 'twitch' && matchedItem.artist) {
 				result.artist = {

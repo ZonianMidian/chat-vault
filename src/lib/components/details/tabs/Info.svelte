@@ -8,6 +8,7 @@
 		CheckCircle,
 		CalendarX2,
 		LetterText,
+		Shredder,
 		XCircle,
 		Folder,
 		Brush,
@@ -19,12 +20,14 @@
 
 	import MenuContent from '$lib/components/MenuContent.svelte';
 	import TabContent from '$lib/components/TabContent.svelte';
+	import { emoteVariants } from '$lib/utils';
 
 	export let item: Emote | Badge | null;
 	export let type: 'emote' | 'badge';
 	export let deletedAt: Date | null;
 	export let createdAt: Date | null;
 	export let isLoading: boolean;
+	export let isDeleted: boolean;
 	export let isActive: boolean;
 
 	let placeholderCount = 5;
@@ -53,8 +56,6 @@
 				return $format('set.global');
 			case 'CHANNEL':
 				return $format('channel.label');
-			case 'DELETED':
-				return $format('emote.info.type.deleted');
 			case 'PRIME':
 				return $format('emote.info.type.prime');
 			case 'TURBO':
@@ -77,6 +78,18 @@
 				</li>
 			{/each}
 		{:else}
+			{#if type === 'emote' && item && 'public' in item}
+				<MenuContent
+					icon={isDeleted || deletedAt ? Shredder : item?.public ? Eye : Lock}
+					label="emote.info.status.label"
+					content={isDeleted || deletedAt
+						? $_('emote.info.status.deleted')
+						: item?.public
+							? $_('emote.info.status.public')
+							: $_('emote.info.status.private')}
+				/>
+			{/if}
+
 			{#if createdAt}
 				<MenuContent
 					icon={CalendarPlus}
@@ -102,7 +115,7 @@
 				/>
 			{/if}
 
-			{#if type === 'emote' && item && (item as Emote).type && 'type' in item}
+			{#if type === 'emote' && item && (item as Emote)?.type && 'type' in item}
 				<MenuContent
 					icon={Tags}
 					label="emote.info.type.label"
@@ -110,7 +123,7 @@
 				/>
 			{/if}
 
-			{#if type === 'badge' && item && (item as Badge).cost && 'cost' in item}
+			{#if item && (item as Badge)?.cost && 'cost' in item}
 				<MenuContent
 					icon={Coins}
 					label="badge.info.cost"
@@ -118,11 +131,11 @@
 				/>
 			{/if}
 
-			{#if type === 'emote' && item && (item as Emote).tier && 'tier' in item}
+			{#if type === 'emote' && item && (item as Emote)?.tier && 'tier' in item}
 				<MenuContent icon={Coins} label="emote.info.tier" content={String(item.tier)} />
 			{/if}
 
-			{#if type === 'badge' && item && (item as Badge)?.description && 'description' in item}
+			{#if type === 'badge' && item && 'description' in item}
 				<MenuContent
 					icon={LetterText}
 					label="badge.info.description"
@@ -139,17 +152,7 @@
 				/>
 			{/if}
 
-			{#if type === 'emote' && item && (item as Emote).public && 'public' in item}
-				<MenuContent
-					icon={item?.public ? Eye : Lock}
-					label="emote.info.status.label"
-					content={item?.public
-						? $_('emote.info.status.public')
-						: $_('emote.info.status.private')}
-				/>
-			{/if}
-
-			{#if type === 'emote' && item && (item as Emote).public && 'approved' in item}
+			{#if type === 'emote' && item && 'approved' in item && !isDeleted && !deletedAt && !['GLOBALS', 'SMILIES'].includes(item?.type ?? '')}
 				<MenuContent
 					icon={item?.approved ? CheckCircle : XCircle}
 					label="emote.info.approved"

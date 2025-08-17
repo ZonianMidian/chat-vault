@@ -6,6 +6,19 @@ const cacheKey = 'originData';
 
 const cacheDuration = 24 * 60 * 60 * 1000; // 24h
 
+const getOrigin = (type: string): string | null => {
+	switch (type) {
+		case 'Bits':
+			return 'BITS_BADGE_TIERS';
+		case 'Sub':
+			return 'SUBSCRIPTIONS';
+		case 'Global':
+			return 'GLOBALS';
+		default:
+			return null;
+	}
+};
+
 export async function getCachedOriginData(): Promise<Data[]> {
 	return getOrCacheData<Data[]>(
 		async () => {
@@ -23,6 +36,7 @@ export async function getCachedOriginData(): Promise<Data[]> {
 							: item.emoteID,
 					name: item.name,
 					type: item.type?.split(' ')[0].toLowerCase(),
+					origin: getOrigin(item.type?.split(' ').slice(-1)[0]),
 					tier: item.tier ? Number(item.tier) : null,
 					text: item.text,
 					notes: item.notes,

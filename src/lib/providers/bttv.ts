@@ -59,6 +59,7 @@ export async function getBTTVEmote(emoteId: string): Promise<Emote> {
 		animated: data.animated,
 		zeroWidth: zeroWidthEmotes.includes(emoteId),
 		global: data.global,
+		deleted: false,
 		channels: await getBTTVChannels(emoteId)
 	};
 }

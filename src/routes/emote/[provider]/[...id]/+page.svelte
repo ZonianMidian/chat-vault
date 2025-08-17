@@ -106,6 +106,14 @@
 				emote.tier = extras.tier;
 			}
 
+			if (extras?.cost) {
+				emote.cost = extras.cost;
+			}
+
+			if (extras?.type) {
+				emote.type = extras.type;
+			}
+
 			isLoading.extras = false;
 		} catch (err) {
 			console.warn(`[${$_('emote.label')}] Extras:`, err);

@@ -101,6 +101,10 @@
 	let isEmoteGlobal = $derived(() => {
 		return type === 'emote' && (data as Emote)?.global;
 	});
+
+	let isEmoteDeleted = $derived(() => {
+		return type === 'emote' && (data as Emote)?.deleted;
+	});
 </script>
 
 {#if error || !data}
@@ -209,6 +213,7 @@
 						<InfoTab
 							isActive={activeTab === 'info'}
 							isLoading={isLoading.info}
+							isDeleted={isEmoteDeleted() ?? false}
 							item={data}
 							{createdAt}
 							{deletedAt}

@@ -18,7 +18,9 @@ export interface Emote {
 	animated: boolean;
 	zeroWidth?: boolean;
 	tier?: number | null;
+	cost?: number | null;
 	global: boolean;
+	deleted: boolean;
 }
 
 export interface EmotePage {
@@ -181,6 +183,8 @@ export interface Extras {
 	artist?: User | null;
 	image?: string | null;
 	tier?: number | null;
+	cost?: number | null;
+	type?: string | null;
 	related: {
 		total: number;
 		list: Emotes[] | Badges[];

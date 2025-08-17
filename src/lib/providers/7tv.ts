@@ -143,6 +143,7 @@ export async function get7TVEmote(emoteId: string): Promise<Emote> {
 		animated: data.animated,
 		zeroWidth: [256, 257].includes(data.flags),
 		global: !!isGlobal,
+		deleted: false,
 		channels: {
 			total: data.channels.total,
 			list: data.channels.items

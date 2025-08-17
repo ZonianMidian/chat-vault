@@ -131,12 +131,14 @@ export async function getTwitchEmote(emoteId: string): Promise<Emote> {
 		setId: data?.emoteSetID,
 		source: `https://twitch.tv/${data.emoteType === 'SUBSCRIPTIONS' ? 'subs/' : ''}${userName}`,
 		createdAt: null,
-		type: data?.emoteType ?? (data?.emoteState === 'DELETED' ? 'DELETED' : null),
+		type: data?.emoteType ?? null,
 		approved: data?.emoteState !== 'PENDING' ? true : false,
 		public: data?.emoteState === 'ACTIVE' ? true : false,
 		animated: data?.emoteAssetType === 'ANIMATED' ? true : false,
-		tier: data?.emoteTier ?? null,
+		tier: data?.emoteTier,
+		cost: data?.emoteBitCost,
 		global: !!isGlobal,
+		deleted: data?.emoteState === 'DELETED' ? true : false,
 		channels: {
 			total: 0,
 			list: []

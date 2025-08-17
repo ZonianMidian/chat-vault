@@ -68,6 +68,7 @@ export async function getFFZEmote(emoteId: string): Promise<Emote> {
 		public: data.public,
 		animated: data.animated,
 		global: !!isGlobal,
+		deleted: false,
 		channels: { total: data.use_count, list: [] }
 	};
 }

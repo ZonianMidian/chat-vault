@@ -76,7 +76,8 @@
 			"status": {
 				"label": "Estado",
 				"public": "Público",
-				"private": "Privado"
+				"private": "Privado",
+				"deleted": "Eliminado"
 			},
 			"type": {
 				"label": "Tipo",
@@ -86,8 +87,7 @@
 				"turbo": "Turbo",
 				"2fa": "Autenticación de Dos Factores",
 				"limited_time": "Tiempo Limitado",
-				"hype_train": "Tren del Hype",
-				"deleted": "Eliminado"
+				"hype_train": "Tren del Hype"
 			}
 		},
 		"channels": {
