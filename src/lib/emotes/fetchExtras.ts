@@ -91,7 +91,7 @@ export async function fetchExtras(
 
 		let matchedItem = supi.find((item) => item.emoteID === emoteId && item.type === provider);
 
-		if (!matchedItem) {
+		if (!matchedItem && provider !== 'twitch') {
 			matchedItem = supi.find(
 				(item) => item.name?.toLowerCase() === emoteName?.toLowerCase()
 			);
