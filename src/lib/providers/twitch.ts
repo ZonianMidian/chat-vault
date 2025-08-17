@@ -36,6 +36,22 @@ import {
 } from '$lib/utils';
 import { fetchGlobalBadges } from '$lib/badges/fetchGlobals';
 
+const getType = (type: string, isGlobal = false): string | null => {
+	switch (type) {
+		case 'bits':
+			return 'BITS_BADGE_TIERS';
+		case 'subscriber':
+			return 'SUBSCRIPTIONS';
+		case 'flair':
+			return 'FLAIR';
+		case 'points':
+			return 'CHANNEL_POINTS';
+		default:
+			if (isGlobal) return 'GLOBALS';
+			return null;
+	}
+};
+
 export async function getTwitchEmote(emoteId: string): Promise<Emote> {
 	const url = `https://api.potat.app/twitch/emotes?id=${encodeURIComponent(emoteId)}`;
 	const fallbackUrl = `https://api.ivr.fi/v2/twitch/emotes/${encodeURIComponent(emoteId)}?id=true`;
@@ -250,7 +266,7 @@ export async function getTwitchChannel(userLogin: string): Promise<ChannelData> 
 			image: `https://static-cdn.jtvnw.net/emoticons/v2/${e.id}/default/dark/3.0`,
 			owner: e.artist ? compareName(e.artist.login, e.artist.displayName) : null,
 			provider: 'twitch',
-			bitsCost: e.bits?.cost ?? undefined
+			value: e.bits?.cost ? $number(Number(e.bits?.cost)) : undefined
 		}));
 
 	const { channel, subEmotes, cheer, broadcastBadges } = data;
@@ -381,6 +397,7 @@ export async function getTwitchChannel(userLogin: string): Promise<ChannelData> 
 					version: `${badge.version}/${data.id}`,
 					description: badge.description,
 					image: badge.image_url_4x,
+					type: 'BITS_BADGE_TIERS',
 					provider: 'twitch'
 				});
 			} else if (badge.setID === 'subscriber') {
@@ -400,6 +417,8 @@ export async function getTwitchChannel(userLogin: string): Promise<ChannelData> 
 					version: `${badge.version}/${data.id}`,
 					description: badge.description,
 					image: badge.image_url_4x,
+					type: 'SUBSCRIPTIONS',
+					tier,
 					provider: 'twitch'
 				});
 			}
@@ -455,8 +474,14 @@ export async function getTwitchGlobalBadges(): Promise<Badges[]> {
 						? formatDuration(Number(badge.version))
 						: undefined,
 			version: badge.version,
-			description: badge.description?.trim()?.length > 0 ? badge.description : null,
+			type: getType(badge.setID),
+			description:
+				badge.description?.trim()?.length > 0 && badge.setID !== 'subscriber'
+					? badge.description
+					: null,
 			image: badge.image_url_4x,
+			clickAction: badge.onClickAction,
+			clickURL: badge.clickURL,
 			provider: 'twitch'
 		}))
 	);
@@ -513,10 +538,13 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 				`https://badge-flair-twitch-subs-aws.s3-us-west-2.amazonaws.com/${badgeId}/${version}/36x36.png`,
 				`https://badge-flair-twitch-subs-aws.s3-us-west-2.amazonaws.com/${badgeId}/${version}/72x72.png`
 			],
-			description: $format('common.flair'),
+			description: null,
 			version: version,
 			related,
 			setId: null,
+			type: 'FLAIR',
+			tier: Number(version) / 1000,
+			global: badgeId === 'default',
 			source: channel ? `https://twitch.tv/subs/${owner?.username}` : null,
 			createdAt: null
 		};
@@ -692,10 +720,11 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 	}
 
 	const badgeId = badge.image.match(UUID);
+	const versionNum = Number(badge.version);
 
 	return {
 		id: badge.id,
-		name: badge.id === 'subscriber' ? formatDuration(Number(badge.version), true) : badge.title,
+		name: badge.id === 'subscriber' ? formatDuration(versionNum, true) : badge.title,
 		provider: 'twitch',
 		owner,
 		images: [
@@ -704,7 +733,7 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 			`https://static-cdn.jtvnw.net/badges/v1/${badgeId}/3`
 		],
 		description: badge.description,
-		cost: badge.id === 'bits' ? Number(badge.version) : undefined,
+		cost: badge.id === 'bits' ? versionNum : undefined,
 		version: badge.version,
 		clickAction: badge.clickAction,
 		clickURL:
@@ -713,6 +742,16 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 				: (badge.clickURL ?? null),
 		related,
 		setId: null, // badge.id,
+		global: isGlobal,
+		tier:
+			badge.id === 'subscriber'
+				? versionNum >= 3000
+					? 3
+					: versionNum >= 2000
+						? 2
+						: 1
+				: undefined,
+		type: getType(badge.id, isGlobal),
 		source:
 			isGlobal || !owner
 				? null

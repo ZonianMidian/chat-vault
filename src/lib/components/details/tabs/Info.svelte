@@ -20,7 +20,6 @@
 
 	import MenuContent from '$lib/components/MenuContent.svelte';
 	import TabContent from '$lib/components/TabContent.svelte';
-	import { emoteVariants } from '$lib/utils';
 
 	export let item: Emote | Badge | null;
 	export let type: 'emote' | 'badge';
@@ -36,6 +35,8 @@
 		switch (type) {
 			case 'BITS_BADGE_TIERS':
 				return $format('set.bits');
+			case 'CHANNEL_POINTS':
+				return $format('channel.points');
 			case 'MEGA_COMMERCE':
 				return $format('emote.info.type.hype_train');
 			case 'SUBSCRIPTIONS':
@@ -60,6 +61,8 @@
 				return $format('emote.info.type.prime');
 			case 'TURBO':
 				return $format('emote.info.type.turbo');
+			case 'FLAIR':
+				return $format('common.flair');
 			default:
 				return $format('common.unknown');
 		}
@@ -115,7 +118,7 @@
 				/>
 			{/if}
 
-			{#if type === 'emote' && item && (item as Emote)?.type && 'type' in item}
+			{#if item && item.type && 'type' in item}
 				<MenuContent
 					icon={Tags}
 					label="emote.info.type.label"
@@ -123,7 +126,7 @@
 				/>
 			{/if}
 
-			{#if item && (item as Badge)?.cost && 'cost' in item}
+			{#if item && item.cost && 'cost' in item}
 				<MenuContent
 					icon={Coins}
 					label="badge.info.cost"
@@ -131,11 +134,11 @@
 				/>
 			{/if}
 
-			{#if type === 'emote' && item && (item as Emote)?.tier && 'tier' in item}
+			{#if item && item.tier && 'tier' in item}
 				<MenuContent icon={Coins} label="emote.info.tier" content={String(item.tier)} />
 			{/if}
 
-			{#if type === 'badge' && item && 'description' in item}
+			{#if type === 'badge' && item && (item as Badge)?.description && 'description' in item}
 				<MenuContent
 					icon={LetterText}
 					label="badge.info.description"
@@ -145,9 +148,10 @@
 
 			{#if type === 'badge' && item && (item as Badge)?.clickAction && 'clickAction' in item}
 				<MenuContent
+					external={true}
 					icon={SquareMousePointer}
 					label="badge.info.action.label"
-					content={$_(`badge.info.action.${item.clickAction}`)}
+					content={$_(`badge.info.action.${item.clickAction?.toLowerCase()}`)}
 					href={item.clickURL || null}
 				/>
 			{/if}

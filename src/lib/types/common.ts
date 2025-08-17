@@ -38,7 +38,7 @@ export interface Emotes {
 	image: string;
 	owner: string | null;
 	zeroWidth?: boolean;
-	bitsCost?: number;
+	value?: string;
 	provider: string;
 }
 
@@ -174,6 +174,8 @@ export interface Badges {
 	clickAction?: string | null;
 	clickURL?: string | null;
 	image: string;
+	tier?: number | null;
+	type?: string | null;
 	provider: string;
 }
 
@@ -239,7 +241,10 @@ export interface Badge {
 	clickURL?: string | null;
 	related: { total: number; list: Badges[] };
 	cost?: number;
+	tier?: number;
 	source: string | null;
+	type?: string | null;
+	global: boolean;
 	createdAt: Date | null;
 }
 

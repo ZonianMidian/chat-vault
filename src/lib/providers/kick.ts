@@ -294,6 +294,7 @@ export async function getKickChannel(userLogin: string): Promise<ChannelData> {
 					value: formatDuration(badge.months),
 					description: null,
 					version: data.slug,
+					type: 'SUBSCRIPTIONS',
 					image: rezizeImageUrl(
 						`https://files.kick.com/channel_subscriber_badges/${badge.id}/original`,
 						72
@@ -371,6 +372,7 @@ export async function getKickBadge(badgeId: string): Promise<Badge> {
 			image: url,
 			description: null,
 			version: '',
+			type: 'SUBSCRIPTIONS',
 			provider: 'kick'
 		};
 
@@ -387,10 +389,8 @@ export async function getKickBadge(badgeId: string): Promise<Badge> {
 
 		badge = {
 			...globalData.badge,
-			description:
-				globalData.badge.id === 'subscriber'
-					? formatDuration(parseInt(globalData.badge.version), true)
-					: globalData.badge.title
+			type: globalData.badge.id === 'subscriber' ? 'SUBSCRIPTIONS' : 'GLOBALS',
+			description: globalData.badge.id === 'subscriber' ? null : globalData.badge.title
 		};
 		isGlobal = true;
 		related = {
@@ -437,8 +437,9 @@ export async function getKickBadge(badgeId: string): Promise<Badge> {
 		badge = {
 			id: 'subscriber',
 			title: formatDuration(badgeData.months, true),
-			description: formatDuration(badgeData.months, true),
+			description: null,
 			version: badgeData.months.toString(),
+			type: 'SUBSCRIPTIONS',
 			image: `https://files.kick.com/channel_subscriber_badges/${id}/original`,
 			provider: 'kick'
 		};
@@ -463,8 +464,9 @@ export async function getKickBadge(badgeId: string): Promise<Badge> {
 			id: 'subscriber',
 			title: $format('channel.subscriber'),
 			value: formatDuration(badge.months),
-			description: formatDuration(badge.months, true),
+			description: null,
 			version: `${badge.months.toString()}/${data.slug}`,
+			type: 'SUBSCRIPTIONS',
 			image: `https://files.kick.com/channel_subscriber_badges/${badge.id}/original`,
 			provider: 'kick'
 		}));
@@ -491,6 +493,8 @@ export async function getKickBadge(badgeId: string): Promise<Badge> {
 		version: badge.version,
 		related,
 		setId: null,
+		type: badge.type,
+		global: isGlobal,
 		source: isGlobal || !owner ? null : `https://kick.com/${owner?.username}/subscribe`,
 		createdAt: null
 	};

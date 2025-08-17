@@ -98,10 +98,6 @@
 		return type === 'emote' && (data as Emote)?.zeroWidth;
 	});
 
-	let isEmoteGlobal = $derived(() => {
-		return type === 'emote' && (data as Emote)?.global;
-	});
-
 	let isEmoteDeleted = $derived(() => {
 		return type === 'emote' && (data as Emote)?.deleted;
 	});
@@ -142,7 +138,7 @@
 
 			<ImageList
 				zeroWidth={isEmoteZeroWidth() ?? false}
-				global={isEmoteGlobal() ?? false}
+				global={data.global ?? false}
 				images={data?.images || []}
 				isLoading={isLoading.info}
 				provider={provider ?? ''}

@@ -244,14 +244,14 @@
 				<span class="mt-1 truncate text-center text-sm font-medium">
 					{getItemTitle(item)}
 				</span>
-				{#if linkPrefix === 'emote' && (item as any)['owner']}
+				{#if linkPrefix === 'emote' && (item as Emotes)['owner']}
 					<small class="text-info/80 truncate text-xs">
-						{(item as any)['owner']}
+						{(item as Emotes)['owner']}
 					</small>
 				{/if}
-				{#if linkPrefix === 'badge' && (item as any)['value']}
-					<small class="text-info/80 truncate text-xs">
-						{(item as any)['value']}
+				{#if linkPrefix === 'badge' || (linkPrefix === 'emote' && item && item['value'])}
+					<small class="text-primary/80 truncate text-xs">
+						{item['value']}
 					</small>
 				{/if}
 			</svelte:element>
