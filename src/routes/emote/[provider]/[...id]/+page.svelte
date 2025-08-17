@@ -90,11 +90,7 @@
 				emote.name
 			);
 
-			if (extras?.artist && !emote.artist) {
-				emote.artist = extras.artist;
-			}
-
-			if (extras?.createdAt && !createdAt) {
+			if (!createdAt && extras?.createdAt) {
 				createdAt = extras.createdAt;
 			}
 
@@ -102,16 +98,20 @@
 				deletedAt = extras.deletedAt;
 			}
 
-			if (extras?.tier) {
+			if (!emote.artist && extras?.artist) {
+				emote.artist = extras.artist;
+			}
+
+			if (extras?.type && !emote.type) {
+				emote.type = extras.type;
+			}
+
+			if (extras?.tier && !emote.tier && emote.type === 'SUBSCRIPTIONS') {
 				emote.tier = extras.tier;
 			}
 
-			if (extras?.cost) {
+			if (extras?.cost && !emote.cost && emote.type === 'BITS_BADGE_TIERS') {
 				emote.cost = extras.cost;
-			}
-
-			if (extras?.type) {
-				emote.type = extras.type;
 			}
 
 			isLoading.extras = false;
