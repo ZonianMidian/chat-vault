@@ -37,9 +37,10 @@ export async function getYouTubeEmote(emoteId: string): Promise<Emote> {
 		source: isGlobal ? 'https://youtube.com/@YouTube' : `https://youtube.com`,
 		createdAt: null,
 		approved: true,
-		type: isGlobal ? 'GLOBAL' : 'CHANNEL',
+		type: isGlobal ? 'GLOBALS' : 'CHANNEL',
 		public: true,
 		animated: false,
+		global: !!isGlobal,
 		channels: {
 			total: 0,
 			list: []

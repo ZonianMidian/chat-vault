@@ -15,18 +15,18 @@ export interface TwitchEmote {
 	emoteBitCost?: number;
 	emoteState: 'ACTIVE' | 'INACTIVE' | 'PENDING' | 'ARCHIVED' | 'DELETED';
 	emoteType:
+		| 'BITS_BADGE_TIERS'
+		| 'MEGA_COMMERCE'
 		| 'SUBSCRIPTIONS'
+		| 'LIMITED_TIME'
+		| 'HYPE_TRAIN'
+		| 'TWO_FACTOR'
+		| 'FOLLOWER'
 		| 'ARCHIVE'
 		| 'SMILIES'
-		| 'BITS_BADGE_TIERS'
-		| 'PRIME'
-		| 'TURBO'
 		| 'GLOBALS'
-		| 'TWO_FACTOR'
-		| 'LIMITED_TIME'
-		| 'MEGA_COMMERCE'
-		| 'HYPE_TRAIN'
-		| 'FOLLOWER';
+		| 'PRIME'
+		| 'TURBO';
 }
 
 export interface TwitchSet {

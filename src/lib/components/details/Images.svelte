@@ -2,7 +2,7 @@
 	import type { Sizes } from '$lib/types/common';
 
 	import { onDestroy, onMount, untrack } from 'svelte';
-	import { Sun, Moon, Layers2 } from '@lucide/svelte';
+	import { Sun, Moon, Layers2, Globe } from '@lucide/svelte';
 	import { inlineSvg } from '@svelte-put/inline-svg';
 	import { isDarkMode } from '$lib/tools/isDarkMode';
 	import { _ } from 'svelte-i18n';
@@ -14,6 +14,7 @@
 		provider = 'twitch',
 		zeroWidth = false,
 		isLoading = true,
+		global = false,
 		type = 'emote',
 		images = [],
 		name = ''
@@ -24,6 +25,7 @@
 		provider?: string;
 		zeroWidth?: boolean;
 		isLoading?: boolean;
+		global?: boolean;
 		type?: string;
 		images?: string[];
 		name?: string;
@@ -101,13 +103,29 @@
 	<div class="absolute top-2 left-2">
 		{#if isLoading}
 			<div class="skeleton h-6 w-6 rounded-full"></div>
-		{:else if zeroWidth}
-			<div
-				aria-label={$_('common.zeroWidth')}
-				class:text-[#ea76cb]={!darkBackground}
-				class:text-[#f5c2e7]={darkBackground}
-			>
-				<Layers2 class="h-6 w-6" />
+		{:else}
+			<div class="flex h-6 w-6">
+				{#if global}
+					<div
+						aria-label={$_('global.label')}
+						class="mr-1"
+						class:text-[#1e66f5]={!darkBackground}
+						class:text-[#89b4fa]={darkBackground}
+						title={$_('global.label')}
+					>
+						<Globe />
+					</div>
+				{/if}
+				{#if zeroWidth}
+					<div
+						aria-label={$_('common.zeroWidth')}
+						class:text-[#ea76cb]={!darkBackground}
+						class:text-[#f5c2e7]={darkBackground}
+						title={$_('common.zeroWidth')}
+					>
+						<Layers2 />
+					</div>
+				{/if}
 			</div>
 		{/if}
 	</div>

@@ -17,6 +17,7 @@ export async function fetchExtras(
 		deletedAt: null,
 		artist: null,
 		image: null,
+		tier: null,
 		related: {
 			total: 0,
 			list: []
@@ -101,6 +102,8 @@ export async function fetchExtras(
 			if (matchedItem.emoteDeleted && !result.deletedAt) {
 				result.deletedAt = new Date(matchedItem.emoteDeleted);
 			}
+
+			result.tier = matchedItem.tier;
 
 			if (provider === 'twitch' && matchedItem.artist) {
 				result.artist = {

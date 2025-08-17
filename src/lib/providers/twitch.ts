@@ -22,16 +22,17 @@ import ImageData from '$lib/emotes/data/images.json';
 import {
 	findEmoteOrigin,
 	findGlobalBadge,
+	findGlobalEmote,
+	rezizeImageUrl,
 	formatDuration,
 	generateString,
 	getCheerName,
 	compareName,
 	sortBadges,
+	getFavicon,
 	$number,
 	$format,
-	UUID,
-	getFavicon,
-	rezizeImageUrl
+	UUID
 } from '$lib/utils';
 import { fetchGlobalBadges } from '$lib/badges/fetchGlobals';
 
@@ -95,6 +96,8 @@ export async function getTwitchEmote(emoteId: string): Promise<Emote> {
 
 	const artist = data?.artist ? compareName(data.artist.login, data.artist.displayName) : null;
 
+	const isGlobal = await findGlobalEmote(emoteId, 'twitch');
+
 	return {
 		id: emoteId,
 		name: data?.emoteCode,
@@ -128,10 +131,12 @@ export async function getTwitchEmote(emoteId: string): Promise<Emote> {
 		setId: data?.emoteSetID,
 		source: `https://twitch.tv/${data.emoteType === 'SUBSCRIPTIONS' ? 'subs/' : ''}${userName}`,
 		createdAt: null,
-		approved: true,
-		type: data?.emoteType ?? null,
-		public: data?.emoteState == 'ACTIVE' ? true : false,
-		animated: data?.emoteAssetType == 'ANIMATED' ? true : false,
+		type: data?.emoteType ?? (data?.emoteState === 'DELETED' ? 'DELETED' : null),
+		approved: data?.emoteState !== 'PENDING' ? true : false,
+		public: data?.emoteState === 'ACTIVE' ? true : false,
+		animated: data?.emoteAssetType === 'ANIMATED' ? true : false,
+		tier: data?.emoteTier ?? null,
+		global: !!isGlobal,
 		channels: {
 			total: 0,
 			list: []

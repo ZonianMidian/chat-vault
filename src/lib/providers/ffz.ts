@@ -8,7 +8,8 @@ import type {
 	Set
 } from '$lib/types/common';
 import type { FFZEmote, FFZGlobals, FFZSet, FFZUser } from '$lib/types/ffz';
-import { $format, compareName, proxyUrl } from '$lib/utils';
+
+import { $format, compareName, findGlobalEmote, proxyUrl } from '$lib/utils';
 
 export async function getFFZEmote(emoteId: string): Promise<Emote> {
 	const url = `https://api.frankerfacez.com/v2/emote/${encodeURIComponent(emoteId)}`;
@@ -29,6 +30,8 @@ export async function getFFZEmote(emoteId: string): Promise<Emote> {
 	const userName = compareName(data.owner.name, data.owner.display_name);
 
 	const isAnimated = data.animated ? '/animated' : '';
+
+	const isGlobal = await findGlobalEmote(emoteId, 'ffz');
 
 	return {
 		id: emoteId.toString(),
@@ -61,9 +64,10 @@ export async function getFFZEmote(emoteId: string): Promise<Emote> {
 		source: `https://frankerfacez.com/emoticon/${emoteId}`,
 		createdAt: data.created_at,
 		approved: data.status === 1,
-		type: 'CHANNEL',
+		type: isGlobal ? 'GLOBALS' : 'CHANNEL',
 		public: data.public,
 		animated: data.animated,
+		global: !!isGlobal,
 		channels: { total: data.use_count, list: [] }
 	};
 }

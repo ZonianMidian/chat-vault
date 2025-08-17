@@ -9,7 +9,7 @@ import type {
 } from '$lib/types/common';
 import type { STVEmote, STVChannel, Connection, STVSet } from '$lib/types/7tv';
 
-import { $format, compareName } from '$lib/utils';
+import { $format, compareName, findGlobalEmote } from '$lib/utils';
 
 function transformUserData(user: STVChannel): User | null {
 	if (!user || user.id === '00000000000000000000000000') return null;
@@ -115,6 +115,8 @@ export async function get7TVEmote(emoteId: string): Promise<Emote> {
 
 	const owner = transformUserData(data.owner);
 
+	const isGlobal = await findGlobalEmote(emoteId, '7tv');
+
 	return {
 		id: emoteId,
 		name: data.name,
@@ -136,10 +138,11 @@ export async function get7TVEmote(emoteId: string): Promise<Emote> {
 		source: `https://7tv.app/emotes/${emoteId}`,
 		createdAt: data.created_at,
 		approved: data.listed,
-		type: '',
+		type: isGlobal ? 'GLOBALS' : 'CHANNEL',
 		public: data.flags % 2 === 0,
 		animated: data.animated,
 		zeroWidth: [256, 257].includes(data.flags),
+		global: !!isGlobal,
 		channels: {
 			total: data.channels.total,
 			list: data.channels.items

@@ -54,10 +54,11 @@ export async function getBTTVEmote(emoteId: string): Promise<Emote> {
 		source: `https://betterttv.com/emotes/${emoteId}`,
 		createdAt: data.createdAt,
 		approved: data.approvalStatus === 'APPROVED' || data.approvalStatus === 'AUTO_APPROVED',
-		type: data.global ? 'GLOBAL' : 'CHANNEL',
+		type: data.global ? 'GLOBALS' : 'CHANNEL',
 		public: data.sharing,
 		animated: data.animated,
 		zeroWidth: zeroWidthEmotes.includes(emoteId),
+		global: data.global,
 		channels: await getBTTVChannels(emoteId)
 	};
 }

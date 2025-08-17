@@ -72,10 +72,22 @@
 			"artist": "Artist",
 			"approved": "Approved",
 			"set": "Set",
+			"tier": "Tier",
 			"status": {
 				"label": "Status",
 				"public": "Public",
 				"private": "Private"
+			},
+			"type": {
+				"label": "Type",
+				"archive": "Archived",
+				"smilies": "Smilies",
+				"prime": "Prime",
+				"turbo": "Turbo",
+				"2fa": "Two-Factor Authentication",
+				"limited_time": "Limited Time",
+				"hype_train": "Hype Train",
+				"deleted": "Deleted"
 			}
 		},
 		"channels": {

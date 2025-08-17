@@ -72,10 +72,22 @@
 			"artist": "Artista",
 			"approved": "Aprobado",
 			"set": "Conjunto",
+			"tier": "Nivel",
 			"status": {
 				"label": "Estado",
 				"public": "Público",
 				"private": "Privado"
+			},
+			"type": {
+				"label": "Tipo",
+				"archive": "Archivado",
+				"smilies": "Emoticonos",
+				"prime": "Prime",
+				"turbo": "Turbo",
+				"2fa": "Autenticación de Dos Factores",
+				"limited_time": "Tiempo Limitado",
+				"hype_train": "Tren del Hype",
+				"deleted": "Eliminado"
 			}
 		},
 		"channels": {

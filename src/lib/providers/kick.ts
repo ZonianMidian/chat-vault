@@ -116,9 +116,10 @@ export async function getKickEmote(emoteId: string): Promise<Emote> {
 		source: owner ? `https://kick.com/${owner.username}${subOnly ? '/subscribe' : ''}` : null,
 		createdAt: null,
 		approved: true,
-		type: isGlobal ? 'GLOBAL' : 'CHANNEL',
+		type: isGlobal ? 'GLOBALS' : 'CHANNEL',
 		public: true,
 		animated: false,
+		global: !!isGlobal,
 		channels: {
 			total: 0,
 			list: []

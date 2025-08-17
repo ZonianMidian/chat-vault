@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Badge, Emote } from '$lib/types/common';
 
-	import { _, date } from 'svelte-i18n';
+	import { _, date, format } from 'svelte-i18n';
 	import {
 		SquareMousePointer,
 		CalendarPlus,
@@ -11,9 +11,10 @@
 		XCircle,
 		Folder,
 		Brush,
-		Globe,
 		Coins,
-		Lock
+		Lock,
+		Tags,
+		Eye
 	} from '@lucide/svelte';
 
 	import MenuContent from '$lib/components/MenuContent.svelte';
@@ -27,6 +28,41 @@
 	export let isActive: boolean;
 
 	let placeholderCount = 5;
+
+	const getEmoteLabel = (type: string | null): string => {
+		switch (type) {
+			case 'BITS_BADGE_TIERS':
+				return $format('set.bits');
+			case 'MEGA_COMMERCE':
+				return $format('emote.info.type.hype_train');
+			case 'SUBSCRIPTIONS':
+				return $format('set.sub');
+			case 'LIMITED_TIME':
+				return $format('emote.info.type.limited_time');
+			case 'HYPE_TRAIN':
+				return $format('emote.info.type.hype_train');
+			case 'TWO_FACTOR':
+				return $format('emote.info.type.2fa');
+			case 'FOLLOWER':
+				return $format('set.follower');
+			case 'ARCHIVE':
+				return $format('emote.info.type.archive');
+			case 'SMILIES':
+				return $format('emote.info.type.smilies');
+			case 'GLOBALS':
+				return $format('set.global');
+			case 'CHANNEL':
+				return $format('channel.label');
+			case 'DELETED':
+				return $format('emote.info.type.deleted');
+			case 'PRIME':
+				return $format('emote.info.type.prime');
+			case 'TURBO':
+				return $format('emote.info.type.turbo');
+			default:
+				return $format('common.unknown');
+		}
+	};
 </script>
 
 <TabContent {isActive}>
@@ -41,23 +77,6 @@
 				</li>
 			{/each}
 		{:else}
-			{#if type === 'emote' && item && (item as Emote)?.artist && 'artist' in item}
-				<MenuContent
-					icon={Brush}
-					label="emote.info.artist"
-					href={`/channel/${item.artist?.platform}/${item.artist?.username}`}
-					content={item.artist?.username}
-				/>
-			{/if}
-
-			{#if type === 'badge' && item && (item as Badge)?.cost && 'cost' in item}
-				<MenuContent
-					icon={Coins}
-					label="badge.info.cost"
-					content={$_('badge.bits', { values: { cost: item.cost } })}
-				/>
-			{/if}
-
 			{#if createdAt}
 				<MenuContent
 					icon={CalendarPlus}
@@ -72,6 +91,35 @@
 					label="common.info.removed"
 					content={$date(new Date(deletedAt), { format: 'long' })}
 				/>
+			{/if}
+
+			{#if type === 'emote' && item && (item as Emote)?.artist && 'artist' in item}
+				<MenuContent
+					icon={Brush}
+					label="emote.info.artist"
+					href={`/channel/${item.artist?.platform}/${item.artist?.username}`}
+					content={item.artist?.username}
+				/>
+			{/if}
+
+			{#if type === 'emote' && item && (item as Emote).type && 'type' in item}
+				<MenuContent
+					icon={Tags}
+					label="emote.info.type.label"
+					content={getEmoteLabel(item.type)}
+				/>
+			{/if}
+
+			{#if type === 'badge' && item && (item as Badge).cost && 'cost' in item}
+				<MenuContent
+					icon={Coins}
+					label="badge.info.cost"
+					content={$_('badge.bits', { values: { cost: item.cost } })}
+				/>
+			{/if}
+
+			{#if type === 'emote' && item && (item as Emote).tier && 'tier' in item}
+				<MenuContent icon={Coins} label="emote.info.tier" content={String(item.tier)} />
 			{/if}
 
 			{#if type === 'badge' && item && (item as Badge)?.description && 'description' in item}
@@ -93,7 +141,7 @@
 
 			{#if type === 'emote' && item && (item as Emote).public && 'public' in item}
 				<MenuContent
-					icon={item?.public ? Globe : Lock}
+					icon={item?.public ? Eye : Lock}
 					label="emote.info.status.label"
 					content={item?.public
 						? $_('emote.info.status.public')

@@ -23,6 +23,7 @@ export async function getCachedOriginData(): Promise<Data[]> {
 							: item.emoteID,
 					name: item.name,
 					type: item.type?.split(' ')[0].toLowerCase(),
+					tier: item.tier ? Number(item.tier) : null,
 					text: item.text,
 					notes: item.notes,
 					emoteAdded: item.emoteAdded,

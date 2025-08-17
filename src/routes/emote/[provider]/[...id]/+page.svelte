@@ -97,8 +97,13 @@
 			if (extras?.createdAt && !createdAt) {
 				createdAt = extras.createdAt;
 			}
+
 			if (extras?.deletedAt) {
 				deletedAt = extras.deletedAt;
+			}
+
+			if (extras?.tier) {
+				emote.tier = extras.tier;
 			}
 
 			isLoading.extras = false;

@@ -31,6 +31,7 @@ export interface Data {
 	emoteID: string;
 	name: string;
 	type: string;
+	tier: number | null;
 	text: string;
 	emoteAdded: Date | null;
 	emoteDeleted: Date | null;

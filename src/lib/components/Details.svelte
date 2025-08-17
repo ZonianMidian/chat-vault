@@ -97,6 +97,10 @@
 	let isEmoteZeroWidth = $derived(() => {
 		return type === 'emote' && (data as Emote)?.zeroWidth;
 	});
+
+	let isEmoteGlobal = $derived(() => {
+		return type === 'emote' && (data as Emote)?.global;
+	});
 </script>
 
 {#if error || !data}
@@ -134,6 +138,7 @@
 
 			<ImageList
 				zeroWidth={isEmoteZeroWidth() ?? false}
+				global={isEmoteGlobal() ?? false}
 				images={data?.images || []}
 				isLoading={isLoading.info}
 				provider={provider ?? ''}
