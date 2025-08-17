@@ -72,22 +72,22 @@
 			"artist": "Designer",
 			"approved": "Genehmigt",
 			"set": "Set",
-			"tier": "",
+			"tier": "Tier",
 			"status": {
 				"label": "Status",
 				"public": "Öffentlich",
-				"private": "Privat"
+				"private": "Privat",
+				"deleted": "Gelöscht"
 			},
 			"type": {
-				"label": "",
-				"archive": "",
-				"smilies": "",
-				"prime": "",
-				"turbo": "",
-				"2fa": "",
-				"limited_time": "",
-				"hype_train": "",
-				"deleted": ""
+				"label": "Typ",
+				"archive": "Archiviert",
+				"smilies": "Smileys",
+				"prime": "Prime",
+				"turbo": "Turbo",
+				"2fa": "Zwei-Faktor-Authentifizierung",
+				"limited_time": "Begrenzte Zeit",
+				"hype_train": "Hype Train"
 			}
 		},
 		"channels": {

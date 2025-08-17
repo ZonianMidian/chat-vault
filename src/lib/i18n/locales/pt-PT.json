@@ -72,22 +72,22 @@
 			"artist": "Artista",
 			"approved": "Aprovado",
 			"set": "Definir",
-			"tier": "",
+			"tier": "Nível",
 			"status": {
 				"label": "Estado",
 				"public": "Público",
-				"private": "Privado"
+				"private": "Privado",
+				"deleted": "Excluído"
 			},
 			"type": {
-				"label": "",
-				"archive": "",
-				"smilies": "",
-				"prime": "",
-				"turbo": "",
-				"2fa": "",
-				"limited_time": "",
-				"hype_train": "",
-				"deleted": ""
+				"label": "Tipo",
+				"archive": "Arquivado",
+				"smilies": "Sorrisos",
+				"prime": "Prime",
+				"turbo": "Turbo",
+				"2fa": "Autenticação de dois Fatores",
+				"limited_time": "Tempo limitado",
+				"hype_train": "Hype Train"
 			}
 		},
 		"channels": {

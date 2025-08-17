@@ -72,22 +72,22 @@
 			"artist": "Художник",
 			"approved": "Одобрено",
 			"set": "Набор",
-			"tier": "",
+			"tier": "Уровень",
 			"status": {
 				"label": "Статус",
 				"public": "Публичный",
-				"private": "Приватный"
+				"private": "Приватный",
+				"deleted": "Удалён"
 			},
 			"type": {
-				"label": "",
-				"archive": "",
-				"smilies": "",
-				"prime": "",
-				"turbo": "",
-				"2fa": "",
-				"limited_time": "",
-				"hype_train": "",
-				"deleted": ""
+				"label": "Тип",
+				"archive": "Архивный",
+				"smilies": "Улыбки",
+				"prime": "Прайм",
+				"turbo": "Турбо",
+				"2fa": "Двухфакторная аутентификация",
+				"limited_time": "Временный",
+				"hype_train": "Хайповоз"
 			}
 		},
 		"channels": {
