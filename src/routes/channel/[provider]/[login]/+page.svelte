@@ -91,13 +91,15 @@
 	<meta property="og:image" content={data.pageImage} />
 </svelte:head>
 
-<div class="flex min-h-[90vh] flex-col items-center justify-center px-3 py-5 2xl:px-0">
-	{#if error || !data || !user}
+{#if error || !data || !user}
+	<div class="flex min-h-[90vh] flex-col items-center justify-center px-3 py-5 2xl:px-0">
 		<Error error={error ?? $_('status.404')} />
-	{:else}
+	</div>
+{:else}
+	<div class="flex flex-col items-center justify-center px-3 py-5 xl:py-10 2xl:px-0">
 		<div class="bg-neutral mx-auto w-full max-w-7xl space-y-6 rounded-xl p-6 shadow-md">
 			<Profile {data} />
 			<Providers {data} {providers} {providerData} {isLoading} />
 		</div>
-	{/if}
-</div>
+	</div>
+{/if}
