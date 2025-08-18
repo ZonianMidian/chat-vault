@@ -61,7 +61,7 @@
 		createdAt = emote.createdAt ?? null;
 
 		let emoteVariant = null;
-		const emoteMatch = data.id.match(/_[A-Z]{2}$/);
+		const emoteMatch = data.id.match(/_([A-Z]{2})$/);
 		if (emoteMatch) {
 			emoteVariant = emoteMatch?.[1] ?? '';
 			emote.id = data.id.slice(0, -3);
