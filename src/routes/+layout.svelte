@@ -11,7 +11,7 @@
 </script>
 
 <svelte:head>
-	<meta property="og_site_name" content="Chat Vault" />
+	<meta property="og:site_name" content="Chat Vault" />
 	<meta property="og:type" content="website" />
 </svelte:head>
 
