@@ -45,9 +45,13 @@ export async function fetchEmote(provider: string, emoteId: string): Promise<Emo
 			updateURLPath(provider, canonical);
 		}
 
-		if (canonical === '7tv' && emoteId.length === 24 && browser) {
+		if (canonical === '7tv' && emoteId.length === 24) {
 			const newId = objectIdToUlid(emoteId);
-			updateURLPath(emoteId, newId);
+
+			if (browser) {
+				updateURLPath(emoteId, newId);
+			}
+
 			emoteId = newId;
 		}
 

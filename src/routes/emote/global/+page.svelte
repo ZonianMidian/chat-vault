@@ -105,6 +105,10 @@
 <svelte:head>
 	<title>{`Chat Vault | ${$_('global.emote')}`}</title>
 	<meta property="og:title" content={`Chat Vault | ${$_('global.emote')}`} />
+
+	<meta property="og:url" content="{page.url.origin}/emote/global" />
+	<link rel="canonical" href="{page.url.origin}/emote/global" />
+
 	<meta property="og:image" content="{page.url.origin}/favicon.png" />
 </svelte:head>
 

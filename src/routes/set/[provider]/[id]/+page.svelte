@@ -9,6 +9,7 @@
 	import Owner from '$lib/components/set/Owner.svelte';
 	import Error from '$lib/components/Error.svelte';
 	import { filterEmotes } from '$lib/utils';
+	import { page } from '$app/state';
 
 	let { data }: { data: SetPage } = $props();
 
@@ -23,6 +24,10 @@
 <svelte:head>
 	<title>{data.pageTitle}</title>
 	<meta property="og:title" content={data.pageTitle} />
+
+	<meta property="og:url" content="{page.url.origin}/{data.provider}/{set?.id}" />
+	<link rel="canonical" href="{page.url.origin}/{data.provider}/{set?.id}" />
+
 	<meta property="og:image" content={data.pageImage} />
 </svelte:head>
 

@@ -9,6 +9,7 @@
 
 	import { fetchEmotes } from '$lib/channels/fetchEmotes';
 	import { browser } from '$app/environment';
+	import { page } from '$app/state';
 	import { untrack } from 'svelte';
 	import { _ } from 'svelte-i18n';
 
@@ -88,6 +89,16 @@
 <svelte:head>
 	<title>{data.pageTitle}</title>
 	<meta property="og:title" content={data.pageTitle} />
+
+	<meta
+		property="og:url"
+		content="{page.url.origin}/{data.provider}/{user?.username?.toLowerCase()}"
+	/>
+	<link
+		rel="canonical"
+		href="{page.url.origin}/{data.provider}/{user?.username?.toLowerCase()}"
+	/>
+
 	<meta property="og:image" content={data.pageImage} />
 </svelte:head>
 

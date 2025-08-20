@@ -166,6 +166,10 @@
 		property="og:title"
 		content={`Chat Vault | ${$_('channel.search')}${hasSearched ? `: ${search}` : ''}`}
 	/>
+
+	<meta property="og:url" content="{page.url.origin}/channel/search" />
+	<link rel="canonical" href="{page.url.origin}/channel/search" />
+
 	<meta property="og:image" content="{page.url.origin}/favicon.png" />
 </svelte:head>
 

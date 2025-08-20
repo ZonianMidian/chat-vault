@@ -39,17 +39,21 @@ export async function fetchSet(provider: string, setId: string): Promise<Set> {
 			updateURLPath(provider, canonical);
 		}
 
-		if (canonical === '7tv' && setId.length === 24 && browser) {
+		if (canonical === '7tv' && setId.length === 24) {
 			const newId = objectIdToUlid(setId);
-			updateURLPath(setId, newId);
+
+			if (browser) {
+				updateURLPath(setId, newId);
+			}
+
 			setId = newId;
 		}
 
 		return await fetcher(setId);
 	} catch (err) {
-		console.error(`${$format('set.label')}:`, err);
+		console.error(`[${$format('set.label')}]:`, err);
 		throw new Error(
-			`${$format('set.label')}: ${err instanceof Error ? err.message : $format('error.unknown')}`
+			`[${$format('set.label')}]: ${err instanceof Error ? err.message : $format('error.unknown')}`
 		);
 	}
 }

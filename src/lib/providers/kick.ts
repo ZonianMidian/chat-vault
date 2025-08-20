@@ -102,7 +102,7 @@ export async function getKickEmote(emoteId: string): Promise<Emote> {
 	}
 
 	return {
-		id: id.toString(),
+		id: emoteId.toString().toLowerCase(),
 		name: badge.name,
 		provider: 'kick',
 		tags: [],
@@ -438,7 +438,7 @@ export async function getKickBadge(badgeId: string): Promise<Badge> {
 			id: 'subscriber',
 			title: formatDuration(badgeData.months, true),
 			description: null,
-			version: badgeData.months.toString(),
+			version: `${badgeData.months.toString()}/${data.slug}`,
 			type: 'SUBSCRIPTIONS',
 			image: `https://files.kick.com/channel_subscriber_badges/${id}/original`,
 			provider: 'kick'

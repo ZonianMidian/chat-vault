@@ -28,15 +28,21 @@ export async function fetchBadge(provider: string, emoteId: string): Promise<Bad
 			updateURLPath(provider, canonical);
 		}
 
-		if (canonical === '7tv' && emoteId.length === 24 && browser) {
+		if (canonical === '7tv' && emoteId.length === 24) {
 			const newId = objectIdToUlid(emoteId);
-			updateURLPath(emoteId, newId);
+
+			if (browser) {
+				updateURLPath(emoteId, newId);
+			}
+
 			emoteId = newId;
 		}
 
 		return await fetcher(emoteId);
 	} catch (err) {
 		console.error(`[${$format('badge.label')}]:`, err);
-		throw new Error(err instanceof Error ? err.message : $format('error.unknown'));
+		throw new Error(
+			`[${$format('badge.label')}]: ${err instanceof Error ? err.message : $format('error.unknown')}`
+		);
 	}
 }

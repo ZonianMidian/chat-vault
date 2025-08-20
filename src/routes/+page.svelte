@@ -15,7 +15,13 @@
 </script>
 
 <svelte:head>
+	<meta property="og:title" content="Chat Vault" />
+
+	<meta property="og:url" content="{page.url.origin}/" />
+	<link rel="canonical" href={page.url.origin} />
+
 	<meta property="og:image" content="{page.url.origin}/favicon.png" />
+
 	<script bind:this={jsonLdElement} type="application/ld+json">
 	</script>
 </svelte:head>

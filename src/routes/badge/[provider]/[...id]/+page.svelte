@@ -5,6 +5,7 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
 	import { getImageInfo } from '$lib/utils';
+	import { page } from '$app/state';
 	import { untrack } from 'svelte';
 	import { _ } from 'svelte-i18n';
 
@@ -179,6 +180,20 @@
 <svelte:head>
 	<title>{data.pageTitle}</title>
 	<meta property="og:title" content={data.pageTitle} />
+
+	<meta
+		property="og:url"
+		content="{page.url.origin}/badge/{data.provider}/{badge?.id.toLowerCase()}{badge?.version
+			? `/${badge?.version}`
+			: ''}"
+	/>
+	<link
+		rel="canonical"
+		href="{page.url.origin}/badge/{data.provider}/{badge?.id.toLowerCase()}{badge?.version
+			? `/${badge?.version}`
+			: ''}"
+	/>
+
 	<meta property="og:image" content={data.pageImage} />
 </svelte:head>
 

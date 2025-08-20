@@ -539,7 +539,7 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 				`https://badge-flair-twitch-subs-aws.s3-us-west-2.amazonaws.com/${badgeId}/${version}/72x72.png`
 			],
 			description: null,
-			version: version,
+			version: `${version}/${owner?.id}`,
 			related,
 			setId: null,
 			type: 'FLAIR',
@@ -663,7 +663,7 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 			id: data.setID,
 			title: data.title,
 			value: data.setID === 'bits' ? $number(Number(data.version)) : undefined,
-			version: data.version,
+			version: `${data.version}/${userData.id}`,
 			description: data.description,
 			clickAction: data.onClickAction?.length ? data.onClickAction.toLowerCase() : null,
 			clickURL: data.clickURL ?? null,
@@ -720,7 +720,7 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 	}
 
 	const badgeId = badge.image.match(UUID);
-	const versionNum = Number(badge.version);
+	const versionNum = Number(badge.version.split('/')[0]);
 
 	return {
 		id: badge.id,
@@ -734,7 +734,7 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 		],
 		description: badge.description,
 		cost: badge.id === 'bits' ? versionNum : undefined,
-		version: badge.version,
+		version: badge.version ?? '1',
 		clickAction: badge.clickAction,
 		clickURL:
 			badge.clickAction === 'subscribe'
