@@ -159,5 +159,71 @@
 			"trainwreckstv": "Trainwreckstv",
 			"vip": "VIP"
 		}
+	},
+	"landing": {
+		"hero": {
+			"subtitle": "Tu hub unificado para elementos de chat en plataformas de streaming.",
+			"description": "Descubre emotes, insignias y canales de Twitch, YouTube, Kick y extensiones de terceros populares organizado en un único lugar.",
+			"cta": {
+				"primary": "Explorar Emotes",
+				"secondary": "Buscar Canales"
+			}
+		},
+		"platforms": {
+			"title": "Plataformas Compatibles",
+			"subtitle": "Soportamos las principales plataformas de streaming y extensiones de terceros populares.",
+			"main": "Plataformas Principales",
+			"thirdparty": "Terceros"
+		},
+		"providers": {
+			"title": "Fuentes de Datos Completas",
+			"subtitle": "Recopilamos y organizamos datos de fuentes comunitarias confiables para ofrecerte información sobre el origen de emotes e insignias, además de guías detalladas sobre cómo obtenerlos.",
+			"community_title": "Datos Contribuidos por la Comunidad",
+			"community_description": "Nuestra información proviene de dos proveedores comunitarios fiables que mantienen bases de datos exhaustivas de elementos de chat y sus orígenes.",
+			"contribute_message": "Estas plataformas funcionan gracias a las contribuciones de la comunidad, por lo que te animamos a contribuir en sus respectivos sitios web para ayudar a mantener los datos precisos y actualizados.",
+			"our_partners": "Nuestros Socios de Datos",
+			"visit_website": "Visitar el sitio web"
+		},
+		"features": {
+			"title": "Todo Lo Que Necesitas",
+			"subtitle": "Herramientas completas para el descubrimiento y la organización de elementos de chat.",
+			"explore": "Explorar",
+			"emotes": {
+				"title": "Colección de Emotes",
+				"description": "Explora miles de emotes, incluidas ediciones limitadas exclusivas como Hype Train, emotes globales, niveles de suscripción, emotes eliminados y colecciones de eventos especiales."
+			},
+			"badges": {
+				"title": "Directorio de Insignias",
+				"description": "Consulta insignias globales de distintas plataformas, incluidas insignias de terceros, niveles de suscripción, logros especiales y conmemorativos de eventos."
+			},
+			"channels": {
+				"title": "Búsqueda de Canales",
+				"description": "Encuentra canales y sus elementos de chat específicos, ventajas de suscripción y emotes disponibles en todas las plataformas compatibles."
+			}
+		},
+		"why": {
+			"title": "¿Por qué elegir Chat Vault?",
+			"fast": {
+				"title": "Extremadamente Rápido",
+				"description": "Búsqueda rápida y resultados instantáneos."
+			},
+			"organized": {
+				"title": "Bien Organizado",
+				"description": "Todo categorizado y fácil de encontrar."
+			},
+			"updated": {
+				"title": "Siempre Actualizado",
+				"description": "Últimos emotes e insignias disponibles."
+			},
+			"free": {
+				"title": "Completamente Gratis",
+				"description": "Sin costos ocultos ni suscripciones. Todo sin anuncios."
+			}
+		},
+		"footer": {
+			"disclaimer": "No estamos afiliados a ninguna plataforma de streaming ni a servicios de emotes de terceros. Simplemente recopilamos información accesible públicamente con fines educativos e informativos.",
+			"translated_by": "Traducido por",
+			"translator_username": "ZonianMidian"
+		}
 	}
 }

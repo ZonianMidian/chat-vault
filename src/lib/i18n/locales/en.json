@@ -159,5 +159,71 @@
 			"trainwreckstv": "Trainwreckstv",
 			"vip": "VIP"
 		}
+	},
+	"landing": {
+		"hero": {
+			"subtitle": "Your unified hub for chat elements across streaming platforms.",
+			"description": "Discover emotes, badges, and channels from Twitch, YouTube, Kick, and popular third-party extensions in one organized place.",
+			"cta": {
+				"primary": "Explore Emotes",
+				"secondary": "Search Channels"
+			}
+		},
+		"platforms": {
+			"title": "Supported Platforms",
+			"subtitle": "We support major streaming platforms and popular third-party extensions.",
+			"main": "Main Platforms",
+			"thirdparty": "Third-Party"
+		},
+		"providers": {
+			"title": "Comprehensive Data Sources",
+			"subtitle": "We collect and organize data from trusted community-driven sources to provide you with origin information for emotes and badges, plus detailed guides on how to obtain them.",
+			"community_title": "Community-Powered Data",
+			"community_description": "Our information comes from two trusted community-driven providers that maintain comprehensive databases of chat elements and their origins.",
+			"contribute_message": "These platforms are powered by community contributions, so we encourage you to contribute to their respective websites to help keep the data accurate and up-to-date.",
+			"our_partners": "Our Data Partners",
+			"visit_website": "Visit Website"
+		},
+		"features": {
+			"title": "Everything You Need",
+			"subtitle": "Comprehensive tools for chat element discovery and organization.",
+			"explore": "Explore",
+			"emotes": {
+				"title": "Emotes Collection",
+				"description": "Browse thousands of emotes including exclusive limited editions like Hype Train, global emotes, subscription tiers, deleted emotes, and special event collections."
+			},
+			"badges": {
+				"title": "Badge Directory",
+				"description": "View global badges from different platforms, including third-party badges, subscription tiers, special achievements, and event commemoratives."
+			},
+			"channels": {
+				"title": "Channel Search",
+				"description": "Find channels and their specific chat elements, subscription perks, and available emotes across all supported platforms."
+			}
+		},
+		"why": {
+			"title": "Why Choose Chat Vault?",
+			"fast": {
+				"title": "Lightning Fast",
+				"description": "Quick search and instant results."
+			},
+			"organized": {
+				"title": "Well Organized",
+				"description": "Everything categorized and easy to find."
+			},
+			"updated": {
+				"title": "Always Updated",
+				"description": "Latest emotes and badges available."
+			},
+			"free": {
+				"title": "Completely Free",
+				"description": "No hidden costs or subscriptions. All without ads."
+			}
+		},
+		"footer": {
+			"disclaimer": "We are not affiliated with any streaming platform or third-party emote service. We simply collect publicly accessible information for educational and informational purposes.",
+			"translated_by": "Translated by",
+			"translator_username": "ZonianMidian"
+		}
 	}
 }
