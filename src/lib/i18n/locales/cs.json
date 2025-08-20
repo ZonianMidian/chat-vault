@@ -1,0 +1,163 @@
+{
+	"common": {
+		"noResults": "Žádné výsledky",
+		"zeroWidth": "Překrytí",
+		"platform": "Platforma",
+		"unknown": "Neznámý",
+		"error": "Chyba",
+		"flair": "Stylový odznak",
+		"yes": "Ano",
+		"no": "Ne",
+		"info": {
+			"label": "Informace",
+			"created": "Vytvořeno",
+			"removed": "Odstraněno dne",
+			"related": "Související"
+		}
+	},
+	"theme": {
+		"label": "Téma",
+		"system": "Systém",
+		"dark": "Tmavý",
+		"light": "Světlý"
+	},
+	"status": {
+		"404": "Nenalezeno",
+		"500": "Interní chyba serveru",
+		"503": "Služba není k dispozici"
+	},
+	"error": {
+		"provider": "Nepodporovaný poskytovatel",
+		"id": "Poskytovatel a ID jsou vyžadovány",
+		"unknown": "Neznámá chyba",
+		"image": "Obrázek nenalezen"
+	},
+	"global": {
+		"label": "Globální",
+		"emote": "Globální emotikony",
+		"badge": "Globální odznaky"
+	},
+	"search": {
+		"label": "Hledat",
+		"set": "Hledat sady...",
+		"emote": "Hledat emoty...",
+		"badge": "Hledat odznaky...",
+		"channel": "Hledat kanály...",
+		"placeholder": "Hledat...",
+		"message": "Můžete hledat pomocí jména nebo zadáním přímého odkazu."
+	},
+	"provider": {
+		"twitch": "Twitch",
+		"youtube": "YouTube",
+		"kick": "Kick",
+		"bttv": "BetterTTV",
+		"ffz": "FrankerFaceZ",
+		"7tv": "7TV"
+	},
+	"navbar": {
+		"menu": "Menu",
+		"sets": "Sety",
+		"emotes": "Emotikony",
+		"badges": "Odznaky",
+		"channels": "Kanály"
+	},
+	"construction": {
+		"title": "Ve výstavbě!",
+		"description": "Tato sekce je stále ve vývoji. Vraťte se brzy, abyste viděli aktualizace."
+	},
+	"emote": {
+		"label": "Emotikon",
+		"search": "Hledat emotikony",
+		"info": {
+			"artist": "Umělec",
+			"approved": "Schváleno",
+			"set": "Set",
+			"tier": "Úroveň",
+			"status": {
+				"label": "Status",
+				"public": "Veřejné",
+				"private": "Soukromé",
+				"deleted": "Odstraněno"
+			},
+			"type": {
+				"label": "Typ",
+				"archive": "Archivováno",
+				"smilies": "Smajlíci",
+				"prime": "Prime",
+				"turbo": "Turbo",
+				"2fa": "Dvoufázové ověření",
+				"limited_time": "Omezený čas",
+				"hype_train": "Hype Train"
+			}
+		},
+		"channels": {
+			"label": "Kanály"
+		},
+		"variants": {
+			"label": "Varianty"
+		},
+		"origin": {
+			"label": "Původ",
+			"translate": "Přeložit",
+			"undo": "Vrátit zpět",
+			"source": "Zdroj",
+			"author": "Autor"
+		}
+	},
+	"channel": {
+		"label": "Kanál",
+		"search": "Hledat kanály",
+		"emotes": "Emotikony kanálu",
+		"badges": "Odznaky kanálu",
+		"followers": "{count, plural, one {# sledující} other {# sledujících}}",
+		"viewers": "{count, plural, one {# divák} other {# diváků}}",
+		"category": "Kategorie",
+		"preview": "Náhled",
+		"mature": "Pro dospělé",
+		"staff": "Zaměstnanec",
+		"affiliate": "Spolupracovník",
+		"partner": "Partner",
+		"subscriber": "Odběratel",
+		"month": "{count, plural, =0 {} =1 {} other {#-měsíců}}",
+		"year": "{count, plural, one {#-year} other {#-let}}",
+		"points": "Věrnostní body"
+	},
+	"set": {
+		"label": "Set",
+		"title": "Emotikony uživatele {user}",
+		"follower": "Sledující",
+		"sub": "Odběratel",
+		"bits": "Bity",
+		"tier": "Úroveň {tier}",
+		"global": "Globální"
+	},
+	"badge": {
+		"label": "Odznak",
+		"month": "{count, plural, =0 {Odběratel} =1 {Odběratel} other {Odběratel: #-měsíců}}",
+		"year": "{count, plural, one {Odběratel: #-rok} few {Odběratel: #-roky} other {Odběratel: #-let}}",
+		"bits": "{cost, plural, one {# Bit} other {# Bity}}",
+		"info": {
+			"cost": "Cena",
+			"description": "Popis",
+			"action": {
+				"label": "Akce",
+				"subscribe": "Odebírat",
+				"visit_url": "Přejít na adresu URL"
+			}
+		},
+		"kick": {
+			"bot": "Bot",
+			"broadcaster": "Vysílající",
+			"founder": "Zakladatel",
+			"moderator": "Moderátor",
+			"og": "OG",
+			"partner": "Ověřený",
+			"sidekick": "Pomocník",
+			"staff": "Zaměstnanec",
+			"sub-gifter": "{count, plural, =0 {Dárce Předplatného} one {Daroval # Předplatné} other {Daroval # Předplatných}}",
+			"subscriber": "Odběratel",
+			"trainwreckstv": "Trainwreckstv",
+			"vip": "VIP"
+		}
+	}
+}
