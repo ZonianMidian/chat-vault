@@ -1,12 +1,12 @@
 import type {
+	CategoryInfo,
 	ChannelData,
-	Emote,
+	Socials,
 	Badges,
 	Emotes,
-	CategoryInfo,
-	Socials,
-	User,
-	Badge
+	Emote,
+	Badge,
+	User
 } from '$lib/types/common';
 import type { Category, KickEmotes, KickGlobals, KickUser, UserData } from '$lib/types/kick';
 
@@ -18,8 +18,8 @@ import {
 	socialConfig,
 	compareName,
 	sortBadges,
-	$format,
-	getFavicon
+	getFavicon,
+	$format
 } from '$lib/utils';
 
 const defaultAvatar = 'https://kick.com/img/default-profile-pictures/default2.jpeg';
@@ -335,9 +335,10 @@ export async function getKickGlobalBadges(): Promise<Badges[]> {
 			badges.push({
 				id,
 				title: $format(`badge.kick.${id}`, { values: { count: version || '0' } }),
-				image: imagePath,
-				description: null,
+				type: id === 'subscriber' ? 'SUBSCRIPTIONS' : 'GLOBALS',
 				version: version || '1',
+				description: null,
+				image: imagePath,
 				provider: 'kick'
 			});
 		}
