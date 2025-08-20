@@ -39,6 +39,7 @@ export interface Emotes {
 	owner: string | null;
 	zeroWidth?: boolean;
 	value?: string;
+	type?: string | null;
 	provider: string;
 }
 

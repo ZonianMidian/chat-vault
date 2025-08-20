@@ -149,7 +149,7 @@
 				bind:darkBackground
 			/>
 
-			{#if type === 'emote' || (type === 'badge' && data.owner)}
+			{#if type === 'emote' || type === 'badge'}
 				<Tabs bind:activeTab>
 					<svelte:fragment slot="tabs" let:changeTab let:activeTab>
 						<TabButton

@@ -29,7 +29,7 @@ const kickAvatar =
 export async function getKickEmote(emoteId: string): Promise<Emote> {
 	let [id, channel] = emoteId.split('/');
 
-	let badge: Emotes | null = null;
+	let emote: Emotes | null = null;
 	let owner: User | null = null;
 	let isGlobal = false;
 	let subOnly = false;
@@ -51,10 +51,11 @@ export async function getKickEmote(emoteId: string): Promise<Emote> {
 			throw new Error(`[Kick] Emote | 404: ${$format('status.404')}`);
 		}
 
-		badge = {
+		emote = {
 			id: emoteData.id.toString(),
 			name: emoteData.name,
 			image: `https://files.kick.com/emotes/${emoteData.id}/fullsize`,
+			type: emoteData.subscribers_only ? 'SUBSCRIPTIONS' : 'FOLLOWER',
 			owner: userData[0].slug,
 			provider: 'kick'
 		};
@@ -71,9 +72,9 @@ export async function getKickEmote(emoteId: string): Promise<Emote> {
 			platform: 'kick'
 		};
 	} else {
-		badge = await findGlobalEmote(id, 'kick');
+		emote = await findGlobalEmote(id, 'kick');
 
-		if (!badge) {
+		if (!emote) {
 			const url = rezizeImageUrl(`https://files.kick.com/emotes/${id}/fullsize`, 70);
 
 			const res = await fetch(url);
@@ -81,10 +82,11 @@ export async function getKickEmote(emoteId: string): Promise<Emote> {
 				throw new Error(`[Kick] Emote | 404: ${$format('status.404')}`);
 			}
 
-			badge = {
+			emote = {
 				id: id.toString(),
 				name: '',
 				image: `https://files.kick.com/emotes/${id}/fullsize`,
+				type: 'CHANNEL',
 				owner: null,
 				provider: 'kick'
 			};
@@ -103,7 +105,7 @@ export async function getKickEmote(emoteId: string): Promise<Emote> {
 
 	return {
 		id: emoteId.toString().toLowerCase(),
-		name: badge.name,
+		name: emote.name,
 		provider: 'kick',
 		tags: [],
 		artist: null,
@@ -116,7 +118,7 @@ export async function getKickEmote(emoteId: string): Promise<Emote> {
 		source: owner ? `https://kick.com/${owner.username}${subOnly ? '/subscribe' : ''}` : null,
 		createdAt: null,
 		approved: true,
-		type: isGlobal ? 'GLOBALS' : 'CHANNEL',
+		type: isGlobal ? 'GLOBALS' : (emote.type ?? 'CHANNEL'),
 		public: true,
 		animated: false,
 		global: !!isGlobal,
@@ -272,6 +274,7 @@ export async function getKickChannel(userLogin: string): Promise<ChannelData> {
 						id: `${emote.id}/${data.slug}`,
 						name: emote.name,
 						image: `https://files.kick.com/emotes/${emote.id}/fullsize`,
+						type: 'FOLLOWER',
 						owner: null,
 						provider: 'kick'
 					})),
@@ -285,6 +288,7 @@ export async function getKickChannel(userLogin: string): Promise<ChannelData> {
 						id: `${emote.id}/${data.slug}`,
 						name: emote.name,
 						image: `https://files.kick.com/emotes/${emote.id}/fullsize`,
+						type: 'SUBSCRIPTIONS',
 						owner: null,
 						provider: 'kick'
 					})),
