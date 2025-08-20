@@ -95,7 +95,7 @@
 	});
 
 	let isEmoteZeroWidth = $derived(() => {
-		return type === 'emote' && (data as Emote)?.zeroWidth;
+		return type === 'emote' && (data as Emote)?.zero_width;
 	});
 
 	let isEmoteDeleted = $derived(() => {
@@ -137,7 +137,7 @@
 			</div>
 
 			<ImageList
-				zeroWidth={isEmoteZeroWidth() ?? false}
+				zero_width={isEmoteZeroWidth() ?? false}
 				global={data.global ?? false}
 				images={data?.images || []}
 				isLoading={isLoading.info}

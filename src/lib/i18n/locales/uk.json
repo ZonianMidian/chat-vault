@@ -1,7 +1,7 @@
 {
 	"common": {
-		"noResults": "Німа результатів",
-		"zeroWidth": "Оверлейний",
+		"no_results": "Німа результатів",
+		"zero_width": "Оверлейний",
 		"platform": "Платформа",
 		"unknown": "Невідомо",
 		"error": "Помилка",

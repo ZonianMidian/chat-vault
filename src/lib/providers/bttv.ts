@@ -57,7 +57,7 @@ export async function getBTTVEmote(emoteId: string): Promise<Emote> {
 		type: data.global ? 'GLOBALS' : 'CHANNEL',
 		public: data.sharing,
 		animated: data.animated,
-		zeroWidth: zeroWidthEmotes.includes(emoteId),
+		zero_width: zeroWidthEmotes.includes(emoteId),
 		global: data.global,
 		deleted: false,
 		channels: await getBTTVChannels(emoteId)
@@ -117,7 +117,7 @@ export async function getBTTVGlobalEmotes(): Promise<Emotes[]> {
 		name: emote.code,
 		image: `https://cdn.betterttv.net/emote/${emote.id}/3x.webp`,
 		owner: EmoteAuthor[emote.id as keyof typeof EmoteAuthor] || 'NightDev',
-		zeroWidth: zeroWidthEmotes.includes(emote.id),
+		zero_width: zeroWidthEmotes.includes(emote.id),
 		provider: 'bttv'
 	}));
 }
@@ -168,7 +168,7 @@ export async function getBTTVEmotes(
 					name: emote.code,
 					owner: emote.user ? compareName(emote.user.name, emote.user.displayName) : null,
 					image: `https://cdn.betterttv.net/emote/${emote.id}/3x.webp`,
-					zeroWidth: zeroWidthEmotes.includes(emote.id),
+					zero_width: zeroWidthEmotes.includes(emote.id),
 					provider: 'bttv'
 				}))
 			}
@@ -218,7 +218,7 @@ export async function getBTTVSet(setId: string): Promise<Set> {
 			name: emote.code,
 			owner: emote.user ? compareName(emote.user.name, emote.user.displayName) : null,
 			image: `https://cdn.betterttv.net/emote/${emote.id}/3x.webp`,
-			zeroWidth: zeroWidthEmotes.includes(emote.id),
+			zero_width: zeroWidthEmotes.includes(emote.id),
 			provider: 'bttv'
 		}))
 	};

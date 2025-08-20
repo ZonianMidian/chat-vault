@@ -141,7 +141,7 @@ export async function get7TVEmote(emoteId: string): Promise<Emote> {
 		type: isGlobal ? 'GLOBALS' : 'CHANNEL',
 		public: data.flags % 2 === 0,
 		animated: data.animated,
-		zeroWidth: [256, 257].includes(data.flags),
+		zero_width: [256, 257].includes(data.flags),
 		global: !!isGlobal,
 		deleted: false,
 		channels: {
@@ -230,7 +230,7 @@ export async function get7TVGlobalEmotes(): Promise<Emotes[]> {
 		id: emote.id,
 		name: emote.name,
 		image: `https://cdn.7tv.app/emote/${emote.id}/4x.avif`,
-		zeroWidth: [256, 257].includes(emote.data.flags as number),
+		zero_width: [256, 257].includes(emote.data.flags as number),
 		owner: transformUserData(emote.data.owner as STVChannel)?.username || null,
 		provider: '7tv'
 	}));
@@ -317,7 +317,7 @@ export async function get7TVEmotes(
 				id: emote.id,
 				name: emote.name,
 				image: `https://cdn.7tv.app/emote/${emote.id}/4x.avif`,
-				zeroWidth: [256, 257].includes(emote.data.flags as number),
+				zero_width: [256, 257].includes(emote.data.flags as number),
 				owner:
 					emote.data.owner && emote.data.owner.id !== '00000000000000000000000000'
 						? compareName(emote.data.owner.username, emote.data.owner.display_name)
@@ -354,7 +354,7 @@ export async function get7TVSet(setId: string): Promise<Set> {
 			id: emote.id,
 			name: emote.name,
 			image: `https://cdn.7tv.app/emote/${emote.id}/4x.avif`,
-			zeroWidth: [256, 257].includes(emote.data.flags as number),
+			zero_width: [256, 257].includes(emote.data.flags as number),
 			owner:
 				emote.data.owner && emote.data.owner.id !== '00000000000000000000000000'
 					? compareName(emote.data.owner.username, emote.data.owner.display_name)

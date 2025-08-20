@@ -1,7 +1,9 @@
 {
+	"language": "English",
 	"common": {
-		"noResults": "No Results",
-		"zeroWidth": "Overlay",
+		"select_language": "Select Language",
+		"no_results": "No Results",
+		"zero_width": "Overlay",
 		"platform": "Platform",
 		"unknown": "Unknown",
 		"error": "Error",

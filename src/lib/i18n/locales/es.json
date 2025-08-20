@@ -1,7 +1,9 @@
 {
+	"language": "Español",
 	"common": {
-		"noResults": "Sin Resultados",
-		"zeroWidth": "Superposición",
+		"select_language": "Seleccionar Idioma",
+		"no_results": "Sin Resultados",
+		"zero_width": "Superposición",
 		"platform": "Plataforma",
 		"unknown": "Desconocido",
 		"error": "Error",

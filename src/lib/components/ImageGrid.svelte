@@ -210,8 +210,8 @@
 				alt="Provider"
 			/>
 		{/if}
-		{#if (item as any)['zeroWidth']}
-			<div aria-label={$_('common.zeroWidth')} class="text-[#ea76cb] dark:text-[#f5c2e7]">
+		{#if (item as any)['zero_width']}
+			<div aria-label={$_('common.zero_width')} class="text-[#ea76cb] dark:text-[#f5c2e7]">
 				<Layers2 class="h-5 w-5 p-0.5" />
 			</div>
 		{/if}

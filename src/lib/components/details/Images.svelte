@@ -12,7 +12,7 @@
 		imageUrls = new Map(),
 		darkBackground = $bindable(true),
 		provider = 'twitch',
-		zeroWidth = false,
+		zero_width = false,
 		isLoading = true,
 		global = false,
 		type = 'emote',
@@ -23,7 +23,7 @@
 		imageUrls?: Map<string, string>;
 		darkBackground?: boolean;
 		provider?: string;
-		zeroWidth?: boolean;
+		zero_width?: boolean;
 		isLoading?: boolean;
 		global?: boolean;
 		type?: string;
@@ -116,12 +116,12 @@
 						<Globe />
 					</div>
 				{/if}
-				{#if zeroWidth}
+				{#if zero_width}
 					<div
-						aria-label={$_('common.zeroWidth')}
+						aria-label={$_('common.zero_width')}
 						class:text-[#ea76cb]={!darkBackground}
 						class:text-[#f5c2e7]={darkBackground}
-						title={$_('common.zeroWidth')}
+						title={$_('common.zero_width')}
 					>
 						<Layers2 />
 					</div>

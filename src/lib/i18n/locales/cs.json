@@ -1,7 +1,7 @@
 {
 	"common": {
-		"noResults": "Žádné výsledky",
-		"zeroWidth": "Překrytí",
+		"no_results": "Žádné výsledky",
+		"zero_width": "Překrytí",
 		"platform": "Platforma",
 		"unknown": "Neznámý",
 		"error": "Chyba",

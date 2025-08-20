@@ -16,7 +16,7 @@ export interface Emote {
 	approved: boolean;
 	public: boolean;
 	animated: boolean;
-	zeroWidth?: boolean;
+	zero_width?: boolean;
 	tier?: number | null;
 	cost?: number | null;
 	global: boolean;
@@ -37,7 +37,7 @@ export interface Emotes {
 	name: string;
 	image: string;
 	owner: string | null;
-	zeroWidth?: boolean;
+	zero_width?: boolean;
 	value?: string;
 	type?: string | null;
 	provider: string;

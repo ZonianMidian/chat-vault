@@ -1,7 +1,7 @@
 {
 	"common": {
-		"noResults": "Keine Ergebnisse",
-		"zeroWidth": "Overlay",
+		"no_results": "Keine Ergebnisse",
+		"zero_width": "Overlay",
 		"platform": "Plattform",
 		"unknown": "Unbekannt",
 		"error": "Fehler",

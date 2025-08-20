@@ -14,7 +14,7 @@
 		/>
 	</div>
 	<div>
-		<h1 class="text-6xl font-bold">{$_('common.noResults')}</h1>
+		<h1 class="text-6xl font-bold">{$_('common.no_results')}</h1>
 		<span class="text-2xl">{search?.length ? `"${search}"` : ''}</span>
 	</div>
 </div>

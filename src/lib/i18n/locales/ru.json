@@ -1,7 +1,7 @@
 {
 	"common": {
-		"noResults": "Ничего не найдено",
-		"zeroWidth": "Оверлэйный",
+		"no_results": "Ничего не найдено",
+		"zero_width": "Оверлэйный",
 		"platform": "Платформа",
 		"unknown": "Неизвестно",
 		"error": "Ошибка",

@@ -1,7 +1,7 @@
 {
 	"common": {
-		"noResults": "Nenhum resultado encontrado",
-		"zeroWidth": "Sobreposição",
+		"no_results": "Nenhum resultado encontrado",
+		"zero_width": "Sobreposição",
 		"platform": "Plataforma",
 		"unknown": "Desconhecido",
 		"error": "Erro",
