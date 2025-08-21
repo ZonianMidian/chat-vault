@@ -401,6 +401,7 @@
 
 		<div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
 			{#each whyFeatures as feature, i}
+				{@const Icon = feature.icon}
 				<div
 					class="hover:bg-base-200 group rounded-2xl p-6 text-center transition-all duration-300"
 					class:animate-slide-up={whyVisible}
@@ -410,7 +411,7 @@
 						<div
 							class="rounded-full bg-gradient-to-br {feature.gradient} p-4 transition-transform duration-300 group-hover:scale-110"
 						>
-							<svelte:component this={feature.icon} class="h-8 w-8 text-white" />
+							<Icon class="h-8 w-8 text-white" />
 						</div>
 					</div>
 					<h3 class="mb-2 text-xl font-bold">{$_(feature.titleKey)}</h3>
@@ -547,6 +548,7 @@
 
 		<div class="grid grid-cols-1 gap-8 md:grid-cols-2">
 			{#each contributeOptions as option, i}
+				{@const Icon = option.icon}
 				<div
 					class="bg-base-200 group rounded-3xl p-8 shadow-xl transition-all duration-500 hover:shadow-2xl"
 					class:animate-slide-up={contributeVisible}
@@ -556,7 +558,7 @@
 						<div
 							class="mx-auto mb-4 h-20 w-20 rounded-full bg-gradient-to-br {option.gradient} flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
 						>
-							<svelte:component this={option.icon} class="h-10 w-10 text-white" />
+							<Icon class="h-10 w-10 text-white" />
 						</div>
 						<h3 class="mb-4 text-2xl font-bold">
 							{$_(option.titleKey)}
