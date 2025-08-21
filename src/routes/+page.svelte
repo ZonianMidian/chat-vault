@@ -165,6 +165,7 @@
 </script>
 
 <svelte:head>
+	<title>Chat Vault</title>
 	<meta property="og:title" content="Chat Vault" />
 
 	<meta name="description" content={$_('landing.hero.subtitle')} />
