@@ -1,7 +1,8 @@
 {
 	"language": "Čeština",
 	"common": {
-		"no_results": "Žádné výsledky",
+		"select_language": "Vybrat jazyk",
+		"no_results": "Žádné Výsledky",
 		"zero_width": "Překrytí",
 		"platform": "Platforma",
 		"unknown": "Neznámý",
@@ -162,7 +163,87 @@
 		}
 	},
 	"landing": {
+		"hero": {
+			"subtitle": "Vaše sjednocené centrum pro chatové funkce na všech streamovacích platformách.",
+			"description": "Objevujte emotikony, odznaky a kanály z Twitche, YouTubu, Kicku a populárních rozšíření třetích stran na jednom organizovaném místě.",
+			"cta": {
+				"primary": "Prozkoumat emotikony",
+				"secondary": "Hledat kanály"
+			}
+		},
+		"platforms": {
+			"title": "Podporované Platformy",
+			"subtitle": "Podporujeme hlavní streamovací platformy a populární rozšíření třetích stran.",
+			"main": "Hlavní Platformy",
+			"thirdparty": "Aplikace třetích stran"
+		},
+		"providers": {
+			"title": "Komplexní zdroje dat",
+			"subtitle": "Shromažďujeme a organizujeme data ze spolehlivých zdrojů, abychom vám poskytli informace o kanálech, emotikonech, odznacích a dalších.",
+			"community_title": "Data poháněná komunitou",
+			"community_description": "Část našich informací pochází od poskytovatelů založených komunitou, kteří spravují rozsáhlé databáze s chatovacími položkami, jejich původy a jak je získat.",
+			"contribute_message": "Tyto platformy stojí na příspěvcích komunity, proto budeme rádi, když i vy přispějete na jejich webových stránkách a pomůžete tak udržet data přesná a aktuální.",
+			"our_partners": "Naši partneři dat",
+			"visit_website": "Navštivte webovou stránku",
+			"apis": {
+				"title": "Další Zdroje Dat",
+				"description": "Používáme také nativní API ze streamovacích platforem a jejich doplňků třetích stran spolu s dalšími API jako:",
+				"conclusion": "To nám umožňuje zaručit nejvyšší kvalitu údajů a informací dostupných z různých zdrojů."
+			}
+		},
+		"features": {
+			"title": "Vše, co potřebujete",
+			"subtitle": "Široká sada nástrojů pro objevování a uspořádání prvků chatu.",
+			"explore": "Prozkoumat",
+			"emotes": {
+				"title": "Kolekce Emotikonů",
+				"description": "Objevujte tisíce emotikonů – od exkluzivních limitovaných edic, jako je Hype Train, přes globální emotikony a předplatitelské úrovně, až po smazané emotikony a speciální kolekce z událostí."
+			},
+			"badges": {
+				"title": "Adresář Odznaků",
+				"description": "Prohlédněte si globální odznaky z různých platforem včetně odznaků třetích stran, úrovní předplatného, speciálních ocenění a pamětních odznaků k událostem."
+			},
+			"channels": {
+				"title": "Vyhledávání Kanálů",
+				"description": "Objevujte kanály spolu s jejich chatovacími prvky, benefity předplatného a dostupnými emotikony na všech podporovaných platformách."
+			}
+		},
+		"why": {
+			"title": "Proč si vybrat Chat Vault?",
+			"fast": {
+				"title": "Rychlost Blesku",
+				"description": "Rychlé hledání a okamžité výsledky."
+			},
+			"organized": {
+				"title": "Dobře Organizovaný",
+				"description": "Vše přehledně roztříděné a snadno k nalezení."
+			},
+			"updated": {
+				"title": "Vždy Aktualizováno",
+				"description": "Nejnovější emotikony a odznaky k dispozici."
+			},
+			"free": {
+				"title": "Zcela Zdarma",
+				"description": "Žádné skryté poplatky ani předplatné. Vše bez reklam."
+			}
+		},
+		"contribute": {
+			"title": "Přispějte do Chat Vaultu",
+			"subtitle": "Pomozte nám zlepšit a rozšířit Chat Vault pro celou streamovací komunitu.",
+			"opensource": {
+				"title": "Máme otevřený zdrojový kód",
+				"description": "Můžete nám posílat návrhy, hlásit problémy nebo přispívat kódem na web prostřednictvím našeho repozitáře na GitHubu. Vaše příspěvky pomáhají zlepšovat Chat Vault pro všechny.",
+				"cta": "Zobrazit na GitHubu"
+			},
+			"translate": {
+				"title": "Přeložit Web",
+				"description": "Pomozte nám oslovit globální publikum tím, že přispějete překlady do nových jazyků nebo vylepšíte stávající prostřednictvím našeho projektu na Crowdin.",
+				"cta": "Pomozte Nám Překládat"
+			}
+		},
 		"footer": {
+			"disclaimer": "S žádnou streamovací platformou ani službou třetí strany poskytující emoty nejsme nijak propojeni. Jednoduše shromažďujeme veřejně dostupné informace pro vzdělávací a informační účely.",
+			"translated_by": "Přeložil",
 			"translator_username": "FELYP8"
 		}
 	}

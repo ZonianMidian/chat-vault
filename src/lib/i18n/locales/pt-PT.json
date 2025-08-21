@@ -1,6 +1,7 @@
 {
 	"language": "Português (Portugal)",
 	"common": {
+		"select_language": "Selecionar Idioma",
 		"no_results": "Nenhum resultado encontrado",
 		"zero_width": "Sobreposição",
 		"platform": "Plataforma",
@@ -42,7 +43,7 @@
 		"label": "Pesquisar",
 		"set": "Pesquisar conjuntos...",
 		"emote": "Pesquisar emotes...",
-		"badge": "Procurar emblemas...",
+		"badge": "Pesquisar emblemas...",
 		"channel": "Pesquisar canais...",
 		"placeholder": "Pesquisar...",
 		"message": "Você pode pesquisar usando um nome ou inserindo um link direto."
@@ -162,7 +163,87 @@
 		}
 	},
 	"landing": {
+		"hero": {
+			"subtitle": "Sua central unificada para elementos de chat entre as plataformas de streaming.",
+			"description": "Descubra emotes, emblemas e canais da Twitch, YouTube, Kick e extensões populares de terceiros em um lugar organizado.",
+			"cta": {
+				"primary": "Explorar Emotes",
+				"secondary": "Pesquisar Canais"
+			}
+		},
+		"platforms": {
+			"title": "Plataformas Suportadas",
+			"subtitle": "Suportamos as principais plataformas de streaming e extensões populares de terceiros.",
+			"main": "Plataformas Principais",
+			"thirdparty": "Extensões de Terceiros"
+		},
+		"providers": {
+			"title": "Fontes de Dados Compreensivas",
+			"subtitle": "Nós coletamos e organizamos dados de fontes confiáveis para lhe fornecer informações sobre canais, emotes, emblemas e muito mais.",
+			"community_title": "Dados Contribuídos pela Comunidade",
+			"community_description": "Algumas das nossas informações vêm de provedores orientados pela comunidade que mantêm bases de dados abrangentes sobre itens do chat, suas origens e como obtê-las.",
+			"contribute_message": "Estas plataformas são suportadas por contribuições da comunidade, por isso encorajamos que contribua nos respetivos sites para ajudar a manter os dados corretos e atualizados.",
+			"our_partners": "Nossos Parceiros de Dados",
+			"visit_website": "Visitar Site",
+			"apis": {
+				"title": "Fontes de Dados Adicionais",
+				"description": "Nós também utilizamos APIs nativas de plataformas de streaming e os seus add-ons de terceiros, juntamente com APIs adicionais, tais como:",
+				"conclusion": "Isto permite-nos garantir a melhor qualidade dos dados e da informação disponíveis a partir de diferentes fontes."
+			}
+		},
+		"features": {
+			"title": "Tudo que Precisa",
+			"subtitle": "Ferramentas abrangentes para a descoberta e organização de elementos do chat.",
+			"explore": "Explorar",
+			"emotes": {
+				"title": "Coleção de Emotes",
+				"description": "Procure milhares de emotes, incluindo de edições limitadas exclusivas como Hype Train, emotes globais, níveis de subscrição, emotes excluídos e coleções especiais de eventos."
+			},
+			"badges": {
+				"title": "Diretório de Emblemas",
+				"description": "Veja emblemas globais de diferentes plataformas, incluindo emblemas de terceiros, níveis de subscrição, conquistas especiais e comemorações de eventos."
+			},
+			"channels": {
+				"title": "Pesquisa de Canais",
+				"description": "Encontre canais e os seus elementos de chat específicos, vantagens de subscrição e emotes disponíveis em todas as plataformas suportadas."
+			}
+		},
+		"why": {
+			"title": "Por que Escolher o Chat Vault?",
+			"fast": {
+				"title": "Velocidade da Luz",
+				"description": "Pesquisa rápida e resultados instantâneos."
+			},
+			"organized": {
+				"title": "Bem Organizado",
+				"description": "Tudo categorizado e fácil de encontrar."
+			},
+			"updated": {
+				"title": "Sempre Atualizado",
+				"description": "Emotes e emblemas mais recentes disponíveis."
+			},
+			"free": {
+				"title": "Completamente Grátis",
+				"description": "Sem custos ou assinaturas. Tudo sem anúncios."
+			}
+		},
+		"contribute": {
+			"title": "Contribua para o Chat Vault",
+			"subtitle": "Ajude-nos a melhorar e expandir o Chat Vault para toda a comunidade de streaming.",
+			"opensource": {
+				"title": "Somos Código-fonte Aberto",
+				"description": "Podes enviar sugestões, relatar problemas ou contribuir com código para o site através do nosso repositório no GitHub. As tuas contribuições ajudam a tornar o Chat Vault melhor para todos.",
+				"cta": "Ver no GitHub"
+			},
+			"translate": {
+				"title": "Traduzir a Web",
+				"description": "Ajude-nos a alcançar um público global contribuindo com traduções para novas línguas ou melhorando as existentes através do nosso projeto Crowdin.",
+				"cta": "Ajuda a Traduzir"
+			}
+		},
 		"footer": {
+			"disclaimer": "Nós não somos afiliados com nenhuma plataforma de streaming ou serviço de emotes de terceiros. Nós simplesmente coletamos informações acessíveis ao público para fins educativos e informativos.",
+			"translated_by": "Traduzido por",
 			"translator_username": "Leafyzito"
 		}
 	}
