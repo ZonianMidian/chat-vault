@@ -121,7 +121,7 @@
 </svelte:head>
 
 <nav class="navbar bg-base-200 sticky top-0 z-50 shadow">
-	<div class="navbar-start w-1/3 transition-opacity hover:opacity-80 lg:w-auto">
+	<div class="navbar-start w-fit transition-opacity hover:opacity-80 lg:w-auto">
 		<a href="/" class="flex items-center gap-2">
 			<img src="/logo.svg" alt="Logo" class="h-10 w-10" />
 			<span class="text-2xl font-black">Chat Vault</span>
@@ -142,25 +142,27 @@
 			{/each}
 		</ul>
 
-		{@render languageDropdown(
-			'btn btn-ghost transition-all duration-200 hover:bg-base-100 hidden lg:flex text-xl font-medium',
-			true
-		)}
-
 		{@render themeDropdown(
 			'btn btn-ghost transition-all duration-200 hover:bg-base-100 hidden lg:flex text-xl font-medium',
 			true
 		)}
 
+		{@render languageDropdown(
+			'btn btn-ghost transition-all duration-200 hover:bg-base-100 hidden lg:flex text-xl font-medium',
+			true
+		)}
+
 		<div class="flex items-center gap-2 lg:hidden">
-			{@render languageDropdown(
-				'btn btn-ghost transition-all duration-200 hover:bg-base-100',
-				false
-			)}
 			{@render themeDropdown(
 				'btn btn-ghost transition-all duration-200 hover:bg-base-100',
 				false
 			)}
+
+			{@render languageDropdown(
+				'btn btn-ghost transition-all duration-200 hover:bg-base-100',
+				false
+			)}
+
 			{@render navigationDropdown()}
 		</div>
 	</div>
@@ -225,7 +227,7 @@
 					<button
 						type="button"
 						class="btn btn-sm btn-block mb-1 justify-start gap-3 text-lg font-medium transition-all duration-200 {currentLocale ===
-						localeOption.code
+							localeOption.code || currentLocale.startsWith(`${localeOption.code}-`)
 							? 'btn-active bg-info text-primary-content'
 							: 'btn-ghost hover:bg-accent hover:text-accent-content'}"
 						onclick={() => handleLocaleChange(localeOption.code)}

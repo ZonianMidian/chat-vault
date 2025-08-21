@@ -250,7 +250,7 @@
 		</div>
 	</div>
 
-	<div class="h-10 md:h-20 lg:h-30"></div>
+	<div class="h-5 md:h-20 lg:h-30"></div>
 </section>
 
 <section id="platforms" class="bg-base-100 py-20">
@@ -596,7 +596,7 @@
 				class="text-base-content/40 flex flex-col items-center justify-center gap-4 text-xs sm:flex-row"
 			>
 				<span>v{version}</span>
-				{#if $locale && $locale !== 'en'}
+				{#if $locale && !$locale.startsWith('en')}
 					{@const translators = $_('landing.footer.translator_username').split(';')}
 					<span class="hidden sm:block">•</span>
 					<span>
