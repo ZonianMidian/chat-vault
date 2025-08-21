@@ -1,8 +1,8 @@
 import type { Badge, BadgePage } from '$lib/types/common.js';
 
-import { fetchGlobalBadges } from '$lib/badges/fetchGlobals';
-import { fetchBadge } from '$lib/badges/fetchBadge.js';
 import { $format, rezizeImageUrl } from '$lib/utils.js';
+import { fetchBadge } from '$lib/badges/fetchBadge.js';
+import { waitLocale } from 'svelte-i18n';
 import { error } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageLoad} */
@@ -13,7 +13,7 @@ export async function load({ params, url }): Promise<BadgePage> {
 		throw error(400, $format('error.id'));
 	}
 
-	await fetchGlobalBadges('all');
+	await waitLocale();
 
 	try {
 		const badge: Badge = await fetchBadge(provider, id);
