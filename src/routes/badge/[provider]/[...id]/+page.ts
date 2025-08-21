@@ -18,7 +18,7 @@ export async function load({ params, url }): Promise<BadgePage> {
 	try {
 		const badge: Badge = await fetchBadge(provider, id);
 
-		const pageTitle = `Chat Vault | ${$format('badge.label')}: ${badge?.name ?? ''}`;
+		const pageTitle = `${$format('badge.label')}: ${badge?.name ?? ''}`;
 		let pageImage =
 			badge?.images?.[2] ??
 			badge?.images?.[1] ??
@@ -41,7 +41,7 @@ export async function load({ params, url }): Promise<BadgePage> {
 		};
 	} catch (err) {
 		const errorMessage = (err as Error).message;
-		const pageTitle = `Chat Vault | Error`;
+		const pageTitle = 'Error';
 
 		return {
 			id,

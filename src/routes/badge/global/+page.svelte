@@ -116,8 +116,8 @@
 </script>
 
 <svelte:head>
-	<title>{`Chat Vault | ${$_('global.badge')}`}</title>
-	<meta property="og:title" content={`Chat Vault | ${$_('global.badge')}`} />
+	<title>{`${$_('global.badge')} | Chat Vault`}</title>
+	<meta property="og:title" content={$_('global.badge')} />
 
 	<meta property="og:url" content="{page.url.origin}/badge/global" />
 	<link rel="canonical" href="{page.url.origin}/badge/global" />

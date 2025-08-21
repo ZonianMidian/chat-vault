@@ -87,7 +87,7 @@
 </script>
 
 <svelte:head>
-	<title>{data.pageTitle}</title>
+	<title>{`${data.pageTitle} | Chat Vault`}</title>
 	<meta property="og:title" content={data.pageTitle} />
 
 	<meta

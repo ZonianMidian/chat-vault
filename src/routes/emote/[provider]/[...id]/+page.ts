@@ -15,7 +15,7 @@ export async function load({ params, url }): Promise<EmotePage> {
 	try {
 		const emote: Emote = await fetchEmote(provider, id);
 
-		const pageTitle = `Chat Vault | ${$format('emote.label')}: ${emote?.name ?? ''}`;
+		const pageTitle = `${$format('emote.label')}: ${emote?.name ?? ''}`;
 		let pageImage =
 			emote?.images?.[2] ??
 			emote?.images?.[1] ??
@@ -35,7 +35,7 @@ export async function load({ params, url }): Promise<EmotePage> {
 		};
 	} catch (err) {
 		const errorMessage = (err as Error).message;
-		const pageTitle = `Chat Vault | Error`;
+		const pageTitle = 'Error';
 
 		return {
 			pageImage: `${url.origin}/favicon.png`,

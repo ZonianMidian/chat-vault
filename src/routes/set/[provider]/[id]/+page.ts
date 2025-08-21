@@ -15,7 +15,7 @@ export async function load({ params, url }): Promise<SetPage> {
 	try {
 		const set: Set = await fetchSet(provider, id);
 
-		const pageTitle = `Chat Vault | ${$format('set.label')}: ${set.name}`;
+		const pageTitle = `${$format('set.label')}: ${set.name}`;
 		const pageImage = set.owner?.avatar ?? `${url.origin}/favicon.png`;
 
 		return {
@@ -27,7 +27,7 @@ export async function load({ params, url }): Promise<SetPage> {
 		};
 	} catch (err) {
 		const errorMessage = (err as Error).message;
-		const pageTitle = `Chat Vault | Error`;
+		const pageTitle = 'Error';
 
 		return {
 			pageImage: `${url.origin}/favicon.png`,

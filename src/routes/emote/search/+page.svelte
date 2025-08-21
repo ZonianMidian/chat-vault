@@ -6,8 +6,8 @@
 </script>
 
 <svelte:head>
-	<title>{`Chat Vault | ${$_('navbar.emotes')}`}</title>
-	<meta property="og:title" content={`Chat Vault | ${$_('navbar.emotes')}`} />
+	<title>{`${$_('navbar.emotes')} | Chat Vault`}</title>
+	<meta property="og:title" content={$_('navbar.emotes')} />
 
 	<meta property="og:url" content="{page.url.origin}/emote/search" />
 	<link rel="canonical" href="{page.url.origin}/emote/search" />

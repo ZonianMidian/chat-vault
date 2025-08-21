@@ -305,7 +305,7 @@
 </script>
 
 <svelte:head>
-	<title>{data.pageTitle}</title>
+	<title>{`${data.pageTitle} | Chat Vault`}</title>
 	<meta property="og:title" content={data.pageTitle} />
 
 	<meta property="og:url" content="{page.url.origin}/{data.provider}/{data.emote.id}" />

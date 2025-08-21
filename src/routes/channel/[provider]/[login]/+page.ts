@@ -15,7 +15,7 @@ export async function load({ params, url }): Promise<ChannelPage> {
 	try {
 		const channel: ChannelData = await fetchChannel(provider, login);
 
-		const pageTitle = `Chat Vault | ${$format('channel.label')}: ${compareName(login, channel.user.username)}`;
+		const pageTitle = `${$format('channel.label')}: ${compareName(login, channel.user.username)}`;
 		const pageImage = channel.user.images.avatar ?? `${url.origin}/favicon.png`;
 
 		return {
@@ -27,7 +27,7 @@ export async function load({ params, url }): Promise<ChannelPage> {
 		};
 	} catch (err) {
 		const errorMessage = (err as Error).message;
-		const pageTitle = `Chat Vault | Error`;
+		const pageTitle = 'Error';
 
 		return {
 			id: '',

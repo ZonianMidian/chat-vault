@@ -161,10 +161,10 @@
 </script>
 
 <svelte:head>
-	<title>{`Chat Vault | ${$_('channel.search')}${hasSearched ? `: ${search}` : ''}`}</title>
+	<title>{`${$_('channel.search')}${hasSearched ? `: ${search}` : ''} | Chat Vault`}</title>
 	<meta
 		property="og:title"
-		content={`Chat Vault | ${$_('channel.search')}${hasSearched ? `: ${search}` : ''}`}
+		content={`${$_('channel.search')}${hasSearched ? `: ${search}` : ''}`}
 	/>
 
 	<meta property="og:url" content="{page.url.origin}/channel/search" />

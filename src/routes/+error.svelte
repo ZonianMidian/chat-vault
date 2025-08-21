@@ -6,8 +6,8 @@
 </script>
 
 <svelte:head>
-	<title>{`Chat Vault | ${$_('common.error')}`}</title>
-	<meta property="og:title" content={`Chat Vault | ${$_('common.error')}`} />
+	<title>{`${$_('common.error')} | Chat Vault`}</title>
+	<meta property="og:title" content={$_('common.error')} />
 	<meta property="og:image" content="{page.url.origin}/favicon.png" />
 </svelte:head>
 
