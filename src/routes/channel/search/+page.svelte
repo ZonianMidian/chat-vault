@@ -173,7 +173,7 @@
 	<meta property="og:image" content="{page.url.origin}/favicon.png" />
 </svelte:head>
 
-<div class="flex flex-col items-center justify-center px-3 py-5 xl:py-15 2xl:px-0">
+<div class="container-general">
 	<div class="bg-neutral mx-auto w-full max-w-7xl space-y-6 rounded-xl p-6 shadow-md">
 		<h1 class="text-4xl font-bold sm:text-left">{$_('channel.search')}</h1>
 

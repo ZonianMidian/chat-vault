@@ -18,7 +18,7 @@
 <Navbar />
 <main>
 	{#if navigating.to}
-		<div class="flex min-h-[90vh] flex-col items-center justify-center px-3 py-5 2xl:px-0">
+		<div class="container-general container-h">
 			<span class="loading loading-dots loading-xl"></span>
 		</div>
 	{:else}

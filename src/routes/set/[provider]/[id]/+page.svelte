@@ -32,11 +32,11 @@
 </svelte:head>
 
 {#if error || !data}
-	<div class="flex min-h-[90vh] flex-col items-center justify-center px-3 py-5 2xl:px-0">
+	<div class="container-general container-h">
 		<Error error={error ?? $_('status.404')} />
 	</div>
 {:else}
-	<div class="flex flex-col items-center justify-center px-3 py-5 xl:py-10 2xl:px-0">
+	<div class="container-general">
 		<div class="bg-neutral mx-auto w-full max-w-7xl space-y-6 rounded-xl p-6 shadow-md">
 			<div
 				class="mb-6 flex w-full flex-col items-center space-y-3 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-4"

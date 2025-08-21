@@ -115,6 +115,14 @@
 	width: 1.75em;
 }
 
+.container-general {
+	@apply flex flex-col items-center justify-center px-4 py-5 xl:py-10 2xl:px-0;
+}
+
+.container-h {
+	@apply min-h-[calc(100vh-72px)];
+}
+
 @media (prefers-color-scheme: dark) {
 	img[src$='ffz.svg'] {
 		filter: brightness(1000%);

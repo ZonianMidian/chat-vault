@@ -120,7 +120,7 @@
 <section
 	bind:this={heroSection}
 	id="hero"
-	class="from-base-200 via-base-100 to-base-200 relative flex min-h-screen flex-col justify-center overflow-hidden bg-gradient-to-br lg:min-h-[90vh]"
+	class="from-base-200 via-base-100 to-base-200 container-general container-h relative overflow-hidden bg-gradient-to-br"
 >
 	<div class="absolute inset-0 opacity-20">
 		<div

@@ -112,7 +112,7 @@
 	<meta property="og:image" content="{page.url.origin}/favicon.png" />
 </svelte:head>
 
-<div class="flex min-h-[90vh] flex-col items-center justify-center px-3 py-5 2xl:px-0">
+<div class="container-general container-h">
 	{#if (error || !globalEmotes.length) && !isLoading}
 		<Error error={error ?? $_('status.500')} />
 	{:else}

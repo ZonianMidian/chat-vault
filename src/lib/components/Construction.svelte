@@ -3,7 +3,7 @@
 	import { _ } from 'svelte-i18n';
 </script>
 
-<div class="flex min-h-[90vh] items-center justify-center px-3 py-5 2xl:px-0">
+<div class="container-general container-h">
 	<div
 		class="bg-warning/10 border-warning/30 flex min-h-60 max-w-7xl flex-col items-center justify-center gap-4 rounded-xl border-2 p-8 shadow-lg"
 	>
