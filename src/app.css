@@ -123,8 +123,6 @@
 	@apply min-h-[calc(100vh-72px)];
 }
 
-@media (prefers-color-scheme: dark) {
-	img[src$='ffz.svg'] {
-		filter: brightness(1000%);
-	}
+[data-theme='dark'] img[src$='ffz.svg'] {
+	filter: brightness(1000%);
 }

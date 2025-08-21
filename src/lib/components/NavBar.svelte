@@ -34,7 +34,6 @@
 		const html = document.documentElement;
 
 		if (theme === 'system' || theme === null) {
-			html.removeAttribute('data-theme');
 			currentTheme = 'system';
 		} else {
 			html.setAttribute('data-theme', theme);
@@ -108,17 +107,6 @@
 		});
 	});
 </script>
-
-<svelte:head>
-	<script>
-		(function () {
-			const savedTheme = localStorage.getItem('theme');
-			if (savedTheme) {
-				document.documentElement.setAttribute('data-theme', savedTheme);
-			}
-		})();
-	</script>
-</svelte:head>
 
 <nav class="navbar bg-base-200 sticky top-0 z-50 shadow">
 	<div class="navbar-start w-fit transition-opacity hover:opacity-80 lg:w-auto">
