@@ -758,5 +758,5 @@ export function getFlagImage(locale: string): string {
 	}
 
 	if (!code) return '';
-	return `http://purecatamphetamine.github.io/country-flag-icons/3x2/${code.toUpperCase()}.svg`;
+	return `https://purecatamphetamine.github.io/country-flag-icons/3x2/${code.toUpperCase()}.svg`;
 }
