@@ -1,16 +1,19 @@
 <script lang="ts">
-	import { Zap, Target, RotateCcw, Gem } from '@lucide/svelte';
+	import { Zap, Target, RotateCcw, Gem, Github, Languages } from '@lucide/svelte';
 	import { version } from '$app/environment';
 	import { locale } from 'svelte-i18n';
 	import { page } from '$app/state';
 	import { onMount } from 'svelte';
 	import { _ } from 'svelte-i18n';
 
-	let jsonLdElement: HTMLScriptElement;
-	let heroSection: HTMLElement;
-	let featuresVisible = $state(false);
+	let contributeVisible = $state(false);
 	let platformsVisible = $state(false);
 	let providersVisible = $state(false);
+	let featuresVisible = $state(false);
+	let whyVisible = $state(false);
+
+	let jsonLdElement: HTMLScriptElement;
+	let heroSection: HTMLElement;
 
 	const platforms = [
 		{ name: 'Twitch', logo: '/logos/twitch.svg', url: 'https://twitch.tv' },
@@ -33,9 +36,11 @@
 		{ name: 'Supibot', logo: '/logos/supibot.svg', url: 'https://supinic.com/data/origin/list' }
 	];
 
-	function openExternalLink(url: string) {
-		window.open(url, '_blank', 'noopener,noreferrer');
-	}
+	const additionalApis = [
+		{ name: 'SpanixTeam', url: 'https://api.spanix.team' },
+		{ name: 'PotatBotat', url: 'https://potat.app/api/docs' },
+		{ name: 'IVR', url: 'https://api.ivr.fi/v2/docs' }
+	];
 
 	const features = [
 		{
@@ -58,6 +63,52 @@
 		}
 	];
 
+	const whyFeatures = [
+		{
+			titleKey: 'landing.why.fast.title',
+			descKey: 'landing.why.fast.description',
+			icon: Zap,
+			gradient: 'from-orange-400 to-red-500'
+		},
+		{
+			titleKey: 'landing.why.organized.title',
+			descKey: 'landing.why.organized.description',
+			icon: Target,
+			gradient: 'from-blue-400 to-purple-500'
+		},
+		{
+			titleKey: 'landing.why.updated.title',
+			descKey: 'landing.why.updated.description',
+			icon: RotateCcw,
+			gradient: 'from-green-400 to-emerald-500'
+		},
+		{
+			titleKey: 'landing.why.free.title',
+			descKey: 'landing.why.free.description',
+			icon: Gem,
+			gradient: 'from-purple-400 to-pink-500'
+		}
+	];
+
+	const contributeOptions = [
+		{
+			titleKey: 'landing.contribute.opensource.title',
+			descKey: 'landing.contribute.opensource.description',
+			icon: Github,
+			url: 'https://github.com/ZonianMidian/chat-vault',
+			ctaKey: 'landing.contribute.opensource.cta',
+			gradient: 'from-gray-700 to-gray-900'
+		},
+		{
+			titleKey: 'landing.contribute.translate.title',
+			descKey: 'landing.contribute.translate.description',
+			icon: Languages,
+			url: 'https://crowdin.com/project/chat-vault',
+			ctaKey: 'landing.contribute.translate.cta',
+			gradient: 'from-green-500 to-blue-500'
+		}
+	];
+
 	onMount(() => {
 		const observerOptions = {
 			threshold: 0.1,
@@ -72,19 +123,29 @@
 				if (entry.target.id === 'platforms' && entry.isIntersecting) {
 					platformsVisible = true;
 				}
+				if (entry.target.id === 'why' && entry.isIntersecting) {
+					whyVisible = true;
+				}
 				if (entry.target.id === 'providers' && entry.isIntersecting) {
 					providersVisible = true;
+				}
+				if (entry.target.id === 'contribute' && entry.isIntersecting) {
+					contributeVisible = true;
 				}
 			});
 		}, observerOptions);
 
 		const featuresSection = document.getElementById('features');
 		const platformsSection = document.getElementById('platforms');
+		const whySection = document.getElementById('why');
 		const providersSection = document.getElementById('providers');
+		const contributeSection = document.getElementById('contribute');
 
 		if (featuresSection) observer.observe(featuresSection);
 		if (platformsSection) observer.observe(platformsSection);
+		if (whySection) observer.observe(whySection);
 		if (providersSection) observer.observe(providersSection);
+		if (contributeSection) observer.observe(contributeSection);
 
 		return () => observer.disconnect();
 	});
@@ -120,7 +181,7 @@
 <section
 	bind:this={heroSection}
 	id="hero"
-	class="from-base-200 via-base-100 to-base-200 container-general container-h relative overflow-hidden bg-gradient-to-br"
+	class="from-base-200 via-base-100 to-base-200 relative flex min-h-screen flex-col justify-center overflow-hidden bg-gradient-to-br lg:min-h-[calc(100vh-72px)]"
 >
 	<div class="absolute inset-0 opacity-20">
 		<div
@@ -143,7 +204,7 @@
 			<div class="mb-8 flex justify-center">
 				<img
 					src="/logo.svg"
-					alt="Chat Vault Logo"
+					alt="Chat Vault"
 					class="h-32 w-32 drop-shadow-2xl transition-transform duration-500 ease-out hover:scale-110"
 				/>
 			</div>
@@ -189,7 +250,7 @@
 		</div>
 	</div>
 
-	<div class="h-20 lg:h-30"></div>
+	<div class="h-10 md:h-20 lg:h-30"></div>
 </section>
 
 <section id="platforms" class="bg-base-100 py-20">
@@ -208,19 +269,25 @@
 				<h3 class="mb-8 text-center text-2xl font-bold">{$_('landing.platforms.main')}</h3>
 				<div class="grid grid-cols-3 gap-8">
 					{#each platforms as platform, i}
-						<button
-							class="bg-base-200 hover:bg-base-300 group flex cursor-pointer flex-col items-center rounded-2xl p-3 transition-all duration-500 hover:scale-110 hover:shadow-xl"
+						<a
+							target="_blank"
+							href={platform.url}
+							rel="noopener noreferrer"
 							class:animate-slide-up={platformsVisible}
-							style="animation-delay: {i * 200}ms;"
-							onclick={() => openExternalLink(platform.url)}
+							class="bg-base-200 hover:bg-base-300 group flex cursor-pointer flex-col items-center rounded-2xl px-2 py-5 transition-all duration-500 hover:scale-110 hover:shadow-xl"
 						>
-							<img
-								src={platform.logo}
-								alt="{platform.name} logo"
-								class="mb-4 h-16 w-16 transition-transform duration-300 group-hover:scale-110"
-							/>
-							<span class="text-lg font-semibold break-all">{platform.name}</span>
-						</button>
+							<button
+								class="flex cursor-pointer flex-col items-center justify-center"
+								style="animation-delay: {i * 200}ms;"
+							>
+								<img
+									src={platform.logo}
+									alt={platform.name}
+									class="mb-4 h-16 w-16 transition-transform duration-300 group-hover:scale-110"
+								/>
+								<span class="text-lg font-semibold break-all">{platform.name}</span>
+							</button>
+						</a>
 					{/each}
 				</div>
 			</div>
@@ -231,21 +298,27 @@
 				</h3>
 				<div class="grid grid-cols-3 gap-8">
 					{#each thirdParty as tp, i}
-						<button
-							class="bg-base-200 hover:bg-base-300 group flex cursor-pointer flex-col items-center rounded-2xl p-3 transition-all duration-500 hover:scale-110 hover:shadow-xl"
+						<a
+							href={tp.url}
+							target="_blank"
+							rel="noopener noreferrer"
 							class:animate-slide-up={platformsVisible}
-							style="animation-delay: {(i + 3) * 200}ms;"
-							onclick={() => openExternalLink(tp.url)}
+							class="bg-base-200 hover:bg-base-300 group flex cursor-pointer flex-col items-center rounded-2xl px-2 py-5 transition-all duration-500 hover:scale-110 hover:shadow-xl"
 						>
-							<img
-								src={tp.logo}
-								alt="{tp.name} logo"
-								class="mb-4 h-16 w-16 transition-transform duration-300 group-hover:scale-110"
-							/>
-							<span class="text-center text-sm font-semibold break-all"
-								>{tp.name}</span
+							<button
+								class="flex cursor-pointer flex-col items-center justify-center"
+								style="animation-delay: {(i + 3) * 200}ms;"
 							>
-						</button>
+								<img
+									src={tp.logo}
+									alt={tp.name}
+									class="mb-4 h-16 w-16 transition-transform duration-300 group-hover:scale-110"
+								/>
+								<span class="text-center text-sm font-semibold break-all"
+									>{tp.name}</span
+								>
+							</button>
+						</a>
 					{/each}
 				</div>
 			</div>
@@ -253,85 +326,7 @@
 	</div>
 </section>
 
-<section id="providers" class="from-base-200 to-base-300 bg-gradient-to-br py-20">
-	<div class="container mx-auto px-6">
-		<div class="mb-16 text-center">
-			<h2 class="mb-6 text-4xl font-bold md:text-5xl">
-				{$_('landing.providers.title')}
-			</h2>
-			<p class="text-base-content/70 mx-auto max-w-3xl text-xl leading-relaxed">
-				{$_('landing.providers.subtitle')}
-			</p>
-		</div>
-
-		<div class="mx-auto max-w-4xl">
-			<div class="bg-base-100 rounded-3xl p-8 shadow-xl md:p-12">
-				<div class="grid grid-cols-1 items-center gap-8 md:grid-cols-2">
-					<div class="space-y-6">
-						<h3 class="mb-4 text-2xl font-bold md:text-3xl">
-							{$_('landing.providers.community_title')}
-						</h3>
-						<p class="text-base-content/70 leading-relaxed">
-							{$_('landing.providers.community_description')}
-						</p>
-						<p class="text-base-content/60 text-sm leading-relaxed">
-							{$_('landing.providers.contribute_message')}
-						</p>
-					</div>
-
-					<div class="space-y-6">
-						<h4 class="mb-6 text-center text-xl font-bold">
-							{$_('landing.providers.our_partners')}
-						</h4>
-						<div class="grid grid-cols-1 gap-4">
-							{#each dataProviders as provider, i}
-								<button
-									class="group bg-base-200 hover:bg-base-300 cursor-pointer rounded-2xl p-6 shadow-lg transition-all duration-500 hover:scale-105 hover:shadow-2xl"
-									class:animate-slide-up={providersVisible}
-									style="animation-delay: {i * 300}ms;"
-									onclick={() => openExternalLink(provider.url)}
-								>
-									<div class="flex items-center justify-center gap-4">
-										<img
-											src={provider.logo}
-											alt="{provider.name} logo"
-											class="h-12 w-12 transition-transform duration-300 group-hover:scale-110"
-										/>
-										<div class="text-center">
-											<h5
-												class="group-hover:text-primary text-lg font-bold transition-colors duration-300"
-											>
-												{provider.name}
-											</h5>
-											<p class="text-base-content/60 text-sm">
-												{$_('landing.providers.visit_website')}
-											</p>
-										</div>
-										<svg
-											class="text-base-content/40 group-hover:text-primary h-5 w-5 transition-all duration-300 group-hover:translate-x-1"
-											fill="none"
-											stroke="currentColor"
-											viewBox="0 0 24 24"
-										>
-											<path
-												stroke-linecap="round"
-												stroke-linejoin="round"
-												stroke-width="2"
-												d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-											></path>
-										</svg>
-									</div>
-								</button>
-							{/each}
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
-<section id="features" class="bg-base-100 py-20">
+<section id="features" class="from-base-200 to-base-300 bg-gradient-to-br py-20">
 	<div class="container mx-auto px-6">
 		<div class="mb-16 text-center">
 			<h2 class="mb-6 text-4xl font-bold md:text-5xl">
@@ -351,7 +346,7 @@
 					style="animation-delay: {i * 200}ms;"
 				>
 					<div
-						class="bg-base-200 border-base-300 hover:border-primary/50 h-full rounded-3xl border p-8 shadow-xl transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
+						class="bg-base-100 border-base-300 hover:border-primary/50 h-full rounded-3xl border p-8 shadow-xl transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
 					>
 						<div class="mb-6">
 							<div
@@ -396,7 +391,7 @@
 	</div>
 </section>
 
-<section class="from-base-200 to-base-300 bg-gradient-to-br py-20">
+<section id="why" class="bg-base-100 py-20">
 	<div class="container mx-auto px-6">
 		<div class="mb-16 text-center">
 			<h2 class="mb-6 text-4xl font-bold md:text-5xl">
@@ -405,66 +400,190 @@
 		</div>
 
 		<div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+			{#each whyFeatures as feature, i}
+				<div
+					class="hover:bg-base-200 group rounded-2xl p-6 text-center transition-all duration-300"
+					class:animate-slide-up={whyVisible}
+					style="animation-delay: {i * 150}ms;"
+				>
+					<div class="mb-4 flex justify-center">
+						<div
+							class="rounded-full bg-gradient-to-br {feature.gradient} p-4 transition-transform duration-300 group-hover:scale-110"
+						>
+							<svelte:component this={feature.icon} class="h-8 w-8 text-white" />
+						</div>
+					</div>
+					<h3 class="mb-2 text-xl font-bold">{$_(feature.titleKey)}</h3>
+					<p class="text-base-content/70">{$_(feature.descKey)}</p>
+				</div>
+			{/each}
+		</div>
+	</div>
+</section>
+
+<section id="providers" class="from-base-200 to-base-300 bg-gradient-to-br py-20">
+	<div class="container mx-auto px-6">
+		<div class="mb-16 text-center">
+			<h2 class="mb-6 text-4xl font-bold md:text-5xl">
+				{$_('landing.providers.title')}
+			</h2>
+			<p class="text-base-content/70 mx-auto max-w-3xl text-xl leading-relaxed">
+				{$_('landing.providers.subtitle')}
+			</p>
+		</div>
+
+		<div class="mx-auto max-w-6xl space-y-8">
 			<div
-				class="hover:bg-base-100 group rounded-2xl p-6 text-center transition-all duration-300"
+				class="bg-base-100 rounded-3xl p-8 shadow-xl md:p-12"
+				class:animate-slide-up={providersVisible}
 			>
-				<div class="mb-4 flex justify-center">
-					<div
-						class="rounded-full bg-gradient-to-br from-orange-400 to-red-500 p-4 transition-transform duration-300 group-hover:scale-110"
-					>
-						<Zap class="h-8 w-8 text-white" />
+				<div class="grid grid-cols-1 items-center gap-8 md:grid-cols-2">
+					<div class="space-y-6">
+						<h3 class="mb-4 text-2xl font-bold md:text-3xl">
+							{$_('landing.providers.community_title')}
+						</h3>
+						<p class="text-base-content/70 leading-relaxed">
+							{$_('landing.providers.community_description')}
+						</p>
+						<p class="text-base-content/60 text-sm leading-relaxed">
+							{$_('landing.providers.contribute_message')}
+						</p>
+					</div>
+
+					<div class="space-y-6">
+						<h4 class="mb-6 text-center text-xl font-bold">
+							{$_('landing.providers.our_partners')}
+						</h4>
+						<div class="grid grid-cols-1 gap-4">
+							{#each dataProviders as provider, i}
+								<a
+									target="_blank"
+									href={provider.url}
+									rel="noopener noreferrer"
+									class:animate-slide-up={providersVisible}
+									class="group bg-base-200 hover:bg-base-300 flex cursor-pointer justify-center rounded-2xl p-6 shadow-lg transition-all duration-500 hover:scale-105 hover:shadow-2xl"
+								>
+									<button
+										class="cursor-pointer"
+										style="animation-delay: {i * 300}ms;"
+									>
+										<div class="flex items-center justify-center gap-4">
+											<img
+												src={provider.logo}
+												alt={provider.name}
+												class="h-12 w-12 rounded-sm transition-transform duration-300 group-hover:scale-110"
+											/>
+											<div class="text-center">
+												<h5
+													class="group-hover:text-primary text-lg font-bold transition-colors duration-300"
+												>
+													{provider.name}
+												</h5>
+												<p class="text-base-content/60 text-sm">
+													{$_('landing.providers.visit_website')}
+												</p>
+											</div>
+											<svg
+												class="text-base-content/40 group-hover:text-primary h-5 w-5 transition-all duration-300 group-hover:translate-x-1"
+												fill="none"
+												stroke="currentColor"
+												viewBox="0 0 24 24"
+											>
+												<path
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													stroke-width="2"
+													d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+												></path>
+											</svg>
+										</div>
+									</button>
+								</a>
+							{/each}
+						</div>
 					</div>
 				</div>
-				<h3 class="mb-2 text-xl font-bold">{$_('landing.why.fast.title')}</h3>
-				<p class="text-base-content/70">{$_('landing.why.fast.description')}</p>
 			</div>
 
 			<div
-				class="hover:bg-base-100 group rounded-2xl p-6 text-center transition-all duration-300"
+				class="bg-base-100 rounded-3xl p-8 shadow-xl md:p-12"
+				class:animate-slide-up={providersVisible}
+				style="animation-delay: 400ms;"
 			>
-				<div class="mb-4 flex justify-center">
-					<div
-						class="rounded-full bg-gradient-to-br from-blue-400 to-purple-500 p-4 transition-transform duration-300 group-hover:scale-110"
-					>
-						<Target class="h-8 w-8 text-white" />
-					</div>
+				<div class="space-y-6 text-center">
+					<h3 class="text-2xl font-bold md:text-3xl">
+						{$_('landing.providers.apis.title')}
+					</h3>
+					<p class="text-base-content/70 leading-relaxed">
+						{$_('landing.providers.apis.description')}
+						{#each additionalApis as api, i}
+							<a
+								href={api.url}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="link hover:text-primary font-semibold transition-colors duration-300"
+							>
+								{api.name}</a
+							>{#if i < additionalApis.length - 2},&nbsp;{:else if i === additionalApis.length - 2}&nbsp;&&nbsp;{/if}
+						{/each}.
+						{$_('landing.providers.apis.conclusion')}
+					</p>
 				</div>
-				<h3 class="mb-2 text-xl font-bold">{$_('landing.why.organized.title')}</h3>
-				<p class="text-base-content/70">{$_('landing.why.organized.description')}</p>
-			</div>
-
-			<div
-				class="hover:bg-base-100 group rounded-2xl p-6 text-center transition-all duration-300"
-			>
-				<div class="mb-4 flex justify-center">
-					<div
-						class="rounded-full bg-gradient-to-br from-green-400 to-emerald-500 p-4 transition-transform duration-300 group-hover:scale-110"
-					>
-						<RotateCcw class="h-8 w-8 text-white" />
-					</div>
-				</div>
-				<h3 class="mb-2 text-xl font-bold">{$_('landing.why.updated.title')}</h3>
-				<p class="text-base-content/70">{$_('landing.why.updated.description')}</p>
-			</div>
-
-			<div
-				class="hover:bg-base-100 group rounded-2xl p-6 text-center transition-all duration-300"
-			>
-				<div class="mb-4 flex justify-center">
-					<div
-						class="rounded-full bg-gradient-to-br from-purple-400 to-pink-500 p-4 transition-transform duration-300 group-hover:scale-110"
-					>
-						<Gem class="h-8 w-8 text-white" />
-					</div>
-				</div>
-				<h3 class="mb-2 text-xl font-bold">{$_('landing.why.free.title')}</h3>
-				<p class="text-base-content/70">{$_('landing.why.free.description')}</p>
 			</div>
 		</div>
 	</div>
 </section>
 
-<footer class="bg-base-100 py-8">
+<section id="contribute" class="bg-base-100 py-20">
+	<div class="container mx-auto px-6">
+		<div class="mb-16 text-center">
+			<h2 class="mb-6 text-4xl font-bold md:text-5xl">
+				{$_('landing.contribute.title')}
+			</h2>
+			<p class="text-base-content/70 mx-auto max-w-3xl text-xl leading-relaxed">
+				{$_('landing.contribute.subtitle')}
+			</p>
+		</div>
+
+		<div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+			{#each contributeOptions as option, i}
+				<div
+					class="bg-base-200 group rounded-3xl p-8 shadow-xl transition-all duration-500 hover:shadow-2xl"
+					class:animate-slide-up={contributeVisible}
+					style="animation-delay: {i * 300}ms;"
+				>
+					<div class="mb-6 text-center">
+						<div
+							class="mx-auto mb-4 h-20 w-20 rounded-full bg-gradient-to-br {option.gradient} flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+						>
+							<svelte:component this={option.icon} class="h-10 w-10 text-white" />
+						</div>
+						<h3 class="mb-4 text-2xl font-bold">
+							{$_(option.titleKey)}
+						</h3>
+					</div>
+
+					<p class="text-base-content/70 mb-8 text-center leading-relaxed">
+						{$_(option.descKey)}
+					</p>
+
+					<div class="text-center">
+						<a
+							href={option.url}
+							target="_blank"
+							rel="noopener noreferrer"
+							class="btn btn-primary btn-lg hover:shadow-primary/50 px-8 shadow-lg transition-all duration-300 hover:scale-105"
+						>
+							{$_(option.ctaKey)}
+						</a>
+					</div>
+				</div>
+			{/each}
+		</div>
+	</div>
+</section>
+
+<footer class="from-base-200 to-base-300 bg-gradient-to-br py-8">
 	<div class="container mx-auto px-6">
 		<div class="space-y-3 text-center">
 			<p class="text-base-content/60 mx-auto max-w-2xl text-sm leading-relaxed">

@@ -179,12 +179,17 @@
 		},
 		"providers": {
 			"title": "Comprehensive Data Sources",
-			"subtitle": "We collect and organize data from trusted community-driven sources to provide you with origin information for emotes and badges, plus detailed guides on how to obtain them.",
+			"subtitle": "We collect and organize data from reliable sources to provide you with information about channels, emotes, badges, and more.",
 			"community_title": "Community-Powered Data",
-			"community_description": "Our information comes from two trusted community-driven providers that maintain comprehensive databases of chat elements and their origins.",
+			"community_description": "Some of our information comes from trusted community-driven providers who maintain comprehensive databases on chat items, their origins, and how to obtain them.",
 			"contribute_message": "These platforms are powered by community contributions, so we encourage you to contribute to their respective websites to help keep the data accurate and up-to-date.",
 			"our_partners": "Our Data Partners",
-			"visit_website": "Visit Website"
+			"visit_website": "Visit Website",
+			"apis": {
+				"title": "Additional Data Sources",
+				"description": "We also utilize native APIs from streaming platforms and their third-party add-ons, along with additional APIs such as:",
+				"conclusion": "This allows us to guarantee the highest quality of data and information available from different sources."
+			}
 		},
 		"features": {
 			"title": "Everything You Need",
@@ -220,6 +225,20 @@
 			"free": {
 				"title": "Completely Free",
 				"description": "No hidden costs or subscriptions. All without ads."
+			}
+		},
+		"contribute": {
+			"title": "Contribute to Chat Vault",
+			"subtitle": "Help us improve and expand Chat Vault for the entire streaming community.",
+			"opensource": {
+				"title": "We're Open Source",
+				"description": "You can submit suggestions, report issues, or contribute code to the website through our GitHub repository. Your contributions help make Chat Vault better for everyone.",
+				"cta": "View on GitHub"
+			},
+			"translate": {
+				"title": "Translate the Web",
+				"description": "Help us reach a global audience by contributing translations for new languages or improving existing ones through our Crowdin project.",
+				"cta": "Help Translate"
 			}
 		},
 		"footer": {
