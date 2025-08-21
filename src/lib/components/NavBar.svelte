@@ -65,6 +65,7 @@
 
 	function handleLocaleChange(newLocale: string) {
 		localStorage.setItem('locale', newLocale);
+		localStorage.removeItem('globalBadges');
 		locale.set(newLocale);
 
 		currentLocale = newLocale;

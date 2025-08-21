@@ -19,7 +19,13 @@ function getInitialLocale() {
 		return defaultLocale;
 	}
 	const savedLocale = window.localStorage.getItem('locale');
-	return savedLocale ?? getLocaleFromNavigator();
+	const value = savedLocale ?? getLocaleFromNavigator();
+
+	if (value) {
+		window.localStorage.setItem('locale', value);
+	}
+
+	return value;
 }
 
 init({

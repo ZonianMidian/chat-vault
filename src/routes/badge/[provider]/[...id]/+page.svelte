@@ -5,9 +5,10 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
 	import { getImageInfo } from '$lib/utils';
+	import { _, locale } from 'svelte-i18n';
+	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import { untrack } from 'svelte';
-	import { _ } from 'svelte-i18n';
 
 	import Details from '$lib/components/Details.svelte';
 
@@ -21,6 +22,7 @@
 
 	let createdAt = $state<Date | null>(null);
 	let deletedAt = $state<Date | null>(null);
+	let currentLocale = $state('en');
 	let itemsPerPage = $state(18);
 	let variantCount = $state(0);
 
@@ -52,6 +54,12 @@
 
 		loadExtrasData();
 		loadImageSizes();
+	}
+
+	function reloadPage() {
+		const thisPage = window.location.pathname;
+
+		goto('/').then(() => goto(thisPage));
 	}
 
 	async function loadExtrasData() {
@@ -167,7 +175,23 @@
 	});
 
 	onMount(() => {
+		let hasMounted = false;
+		const unsubscribeLocale = locale.subscribe((value) => {
+			untrack(() => {
+				if (hasMounted && value && value !== currentLocale) {
+					currentLocale = value;
+					reloadPage();
+				}
+				if (!hasMounted && value) {
+					currentLocale = value;
+					hasMounted = true;
+				}
+			});
+		});
+
 		onDestroy(() => {
+			unsubscribeLocale();
+
 			for (const url of imageUrls.values()) {
 				if (url.startsWith('blob:')) {
 					URL.revokeObjectURL(url);

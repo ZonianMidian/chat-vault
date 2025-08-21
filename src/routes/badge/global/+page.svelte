@@ -2,24 +2,26 @@
 	import type { Badges } from '$lib/types/common';
 
 	import { fetchGlobalBadges } from '$lib/badges/fetchGlobals';
+	import { onDestroy, onMount, untrack } from 'svelte';
 	import { browser } from '$app/environment';
-	import { onMount, untrack } from 'svelte';
+	import { normalizeText } from '$lib/utils';
 	import { Search } from '@lucide/svelte';
+	import { _, locale } from 'svelte-i18n';
+	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
-	import { _ } from 'svelte-i18n';
 
 	import { getCachedOriginData } from '$lib/emotes/originCache';
 	import SearchError from '$lib/components/SearchError.svelte';
 	import Collapsible from '$lib/components/Collapsible.svelte';
 	import ImageGrid from '$lib/components/ImageGrid.svelte';
 	import Error from '$lib/components/Error.svelte';
-	import { normalizeText } from '$lib/utils';
 
 	let prevOpenGroups = $state<Record<string, boolean>>({});
 	let openGroups = $state<Record<string, boolean>>({});
 	let globalBadges = $state<Badges[]>([]);
 	let error = $state<string | null>(null);
 	let placeholderCount = $state(2);
+	let currentLocale = $state('en');
 	let isLoading = $state(true);
 	let search = $state('');
 
@@ -55,6 +57,12 @@
 				normalizeText(e.title).toLowerCase().includes(s) ||
 				normalizeText(e.provider).toLowerCase().includes(s)
 		);
+	}
+
+	function reloadPage() {
+		const thisPage = window.location.pathname;
+
+		goto('/').then(() => goto(thisPage));
 	}
 
 	$effect(() => {
@@ -110,7 +118,24 @@
 				}
 			});
 
+			let hasMounted = false;
+			const unsubscribeLocale = locale.subscribe((value) => {
+				untrack(() => {
+					if (hasMounted && value && value !== currentLocale) {
+						currentLocale = value;
+						reloadPage();
+					}
+					if (!hasMounted && value) {
+						currentLocale = value;
+						hasMounted = true;
+					}
+				});
+			});
+
 			getCachedOriginData();
+			onDestroy(() => {
+				unsubscribeLocale();
+			});
 		}
 	});
 </script>

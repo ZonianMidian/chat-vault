@@ -52,6 +52,20 @@ const getType = (type: string, isGlobal = false): string | null => {
 	}
 };
 
+const getLang = (): string => {
+	let lang = '';
+
+	if (typeof window !== 'undefined') {
+		const storage = window.localStorage.getItem('locale');
+
+		if (storage) {
+			lang = `${storage},`;
+		}
+	}
+
+	return `${lang}${getLocaleFromNavigator() || 'en-US'};q=0.9`;
+};
+
 export async function getTwitchEmote(emoteId: string): Promise<Emote> {
 	const url = `https://api.potat.app/twitch/emotes?id=${encodeURIComponent(emoteId)}`;
 	const fallbackUrl = `https://api.ivr.fi/v2/twitch/emotes/${encodeURIComponent(emoteId)}?id=true`;
@@ -447,7 +461,7 @@ export async function getTwitchGlobalBadges(): Promise<Badges[]> {
 		credentials: 'omit',
 		method: 'POST',
 		headers: {
-			'Accept-Language': `${getLocaleFromNavigator() || 'en-US'};q=0.9`,
+			'Accept-Language': getLang(),
 			'Client-ID': 'kimne78kx3ncx6brgo4mv6wki5h1ko'
 		},
 		body: JSON.stringify({ query })
@@ -631,7 +645,7 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 			credentials: 'omit',
 			method: 'POST',
 			headers: {
-				'Accept-Language': `${getLocaleFromNavigator() || 'en-US'};q=0.9`,
+				'Accept-Language': getLang(),
 				'Client-ID': 'kimne78kx3ncx6brgo4mv6wki5h1ko'
 			},
 			body: JSON.stringify({ query })
@@ -778,7 +792,7 @@ export async function searchTwitchChannel(search: string, limit = 50): Promise<U
 		credentials: 'omit',
 		method: 'POST',
 		headers: {
-			'Accept-Language': `${getLocaleFromNavigator() || 'en-US'};q=0.9`,
+			'Accept-Language': getLang(),
 			'Client-ID': 'kimne78kx3ncx6brgo4mv6wki5h1ko'
 		},
 		body: JSON.stringify({ query })

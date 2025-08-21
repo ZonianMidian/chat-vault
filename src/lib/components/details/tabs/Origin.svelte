@@ -2,7 +2,7 @@
 	import type { Origin } from '$lib/types/common';
 
 	import { ExternalLink, Languages, Undo2 } from '@lucide/svelte';
-	import { _, getLocaleFromNavigator } from 'svelte-i18n';
+	import { _, locale, getLocaleFromNavigator } from 'svelte-i18n';
 	import { renderMarkdown } from '$lib/tools/marked';
 	import { translateText } from '$lib/utils';
 	import { untrack } from 'svelte';
@@ -19,12 +19,16 @@
 		isActive: boolean;
 	} = $props();
 
-	let translatedTexts = $state<Record<number, { text?: string; notes?: string }>>({});
+	let translatedTexts = $state<Record<string, { text?: string; notes?: string }>>({});
 	let placeholders = $state<Record<number, { text: string[]; notes: string[] }>>({});
-	let translated = $state<Record<number, boolean>>({});
+	let translated = $state<Record<string, boolean>>({});
 
 	const gridClass = $derived(
 		`grid grid-cols-1 gap-6 md:grid-cols-1 ${origins.length > 1 ? 'md:grid-cols-2' : ''}`
+	);
+
+	const language = $derived(
+		$locale ? $locale.split('-')[0] : (getLocaleFromNavigator()?.split('-')[0] ?? 'en')
 	);
 
 	function extractPlaceholders(str: string | undefined | null): {
@@ -51,8 +55,8 @@
 
 	async function handleTranslate(idx: number, origin: Origin) {
 		untrack(async () => {
-			if (!translated[idx]) {
-				if (!translatedTexts[idx]) {
+			if (!translated[`${idx}-${language}`]) {
+				if (!translatedTexts[`${idx}-${language}`]) {
 					const result: { text?: string; notes?: string } = {};
 
 					const originText = extractPlaceholders(origin.text);
@@ -60,35 +64,29 @@
 
 					placeholders = {
 						...placeholders,
-						[idx]: {
+						[`${idx}-${language}`]: {
 							text: originText.placeholders,
 							notes: originNotes.placeholders
 						}
 					};
 
 					if (origin.text) {
-						const translatedText = await translateText(
-							originText.replaced,
-							getLocaleFromNavigator()
-						);
+						const translatedText = await translateText(originText.replaced, language);
 						result.text = restorePlaceholders(translatedText, originText.placeholders);
 					}
 					if (origin.notes) {
-						const translatedNotes = await translateText(
-							originNotes.replaced,
-							getLocaleFromNavigator()
-						);
+						const translatedNotes = await translateText(originNotes.replaced, language);
 						result.notes = restorePlaceholders(
 							translatedNotes,
 							originNotes.placeholders
 						);
 					}
 
-					translatedTexts = { ...translatedTexts, [idx]: result };
+					translatedTexts = { ...translatedTexts, [`${idx}-${language}`]: result };
 				}
-				translated = { ...translated, [idx]: true };
+				translated = { ...translated, [`${idx}-${language}`]: true };
 			} else {
-				translated = { ...translated, [idx]: false };
+				translated = { ...translated, [`${idx}-${language}`]: false };
 			}
 		});
 	}
@@ -111,15 +109,15 @@
 							<button
 								type="button"
 								class="text-accent hover:link-accent flex cursor-pointer items-center"
-								aria-label={translated[idx]
+								aria-label={translated[`${idx}-${language}`]
 									? $_('emote.origin.undo')
 									: $_('emote.origin.translate')}
 								onclick={() => handleTranslate(idx, origin)}
-								title={translated[idx]
+								title={translated[`${idx}-${language}`]
 									? $_('emote.origin.undo')
 									: $_('emote.origin.translate')}
 							>
-								{#if translated[idx]}
+								{#if translated[`${idx}-${language}`]}
 									<Undo2 class="h-4 w-4" />
 								{:else}
 									<Languages class="h-4 w-4" />
@@ -143,8 +141,9 @@
 							class="text-base-content/90 markdown-content text-sm wrap-anywhere whitespace-pre-line"
 						>
 							{@html renderMarkdown(
-								translated[idx] && translatedTexts[idx]?.text
-									? translatedTexts[idx].text
+								translated[`${idx}-${language}`] &&
+									translatedTexts[`${idx}-${language}`]?.text
+									? (translatedTexts[`${idx}-${language}`].text ?? '')
 									: origin.text
 							)}
 						</div>
@@ -154,8 +153,9 @@
 							class="text-base-content/70 markdown-content text-xs wrap-anywhere whitespace-pre-line"
 						>
 							{@html renderMarkdown(
-								translated[idx] && translatedTexts[idx]?.notes
-									? translatedTexts[idx].notes
+								translated[`${idx}-${language}`] &&
+									translatedTexts[`${idx}-${language}`]?.notes
+									? (translatedTexts[`${idx}-${language}`].notes ?? '')
 									: origin.notes
 							)}
 						</div>
