@@ -2,7 +2,7 @@
 	import type { StreamInfo } from '$lib/types/common';
 
 	import { onDestroy, onMount, untrack } from 'svelte';
-	import getFlag from '$lib/tools/langEmoji';
+	import { getFlagEmoji } from '$lib/tools/language';
 	import { getElapsed } from '$lib/utils';
 	import { X } from '@lucide/svelte';
 	import { _ } from 'svelte-i18n';
@@ -160,7 +160,7 @@
 						<p class="md:text-md text-sm">
 							{$_('channel.viewers', { values: { count: stream.viewers } })} ·
 							{stream.language}
-							{getFlag(stream.language)}
+							{getFlagEmoji(stream.language)}
 							{stream.isMature ? ` · 🔞 ${$_('channel.mature')}` : ''}
 						</p>
 						<p class="md:text-md text-sm text-gray-500">{elapsed}</p>

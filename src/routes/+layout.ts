@@ -5,7 +5,14 @@ import '$lib/i18n';
 
 export const load: LayoutLoad = async () => {
 	if (browser) {
-		locale.set(window.navigator.language);
+		const savedLocale = localStorage.getItem('locale');
+
+		if (!savedLocale) {
+			locale.set(window.navigator.language);
+			localStorage.setItem('locale', window.navigator.language);
+		} else {
+			locale.set(savedLocale);
+		}
 	}
 	await waitLocale();
 };

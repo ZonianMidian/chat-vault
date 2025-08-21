@@ -1,12 +1,17 @@
 <script lang="ts">
 	import type { Theme } from '$lib/types/common';
 
-	import { AlignJustify, Monitor, Moon, Sun, ChevronDown } from '@lucide/svelte';
+	import { AlignJustify, Monitor, Moon, Sun, ChevronDown, Languages, Flag } from '@lucide/svelte';
 	import { isDarkMode, setTheme } from '$lib/tools/isDarkMode';
-	import { onDestroy, onMount, untrack } from 'svelte';
-	import { _ } from 'svelte-i18n';
+	import { onMount, onDestroy, untrack } from 'svelte';
+	import { getFlagImage } from '$lib/tools/language';
+	import { _, locale } from 'svelte-i18n';
 
+	let availableLocales = $state<Array<{ code: string; language: string }>>([]);
+	let imageErrors = $state(new Set<string>());
 	let currentTheme = $state<Theme>('system');
+	let localesLoading = $state(true);
+	let currentLocale = $state('en');
 	let darkSchema = $state(true);
 
 	const navLinks = [
@@ -38,6 +43,38 @@
 		setTheme(theme);
 	}
 
+	async function loadAvailableLocales() {
+		const context = import.meta.glob('$lib/i18n/locales/*.json');
+		const locales: Array<{ code: string; language: string }> = [];
+
+		for (const [key, loadLocale] of Object.entries(context)) {
+			const match = key.match(/\/([^\/]+)\.json/);
+			if (match) {
+				const code = match[1];
+				try {
+					const localeData = (await loadLocale()) as any;
+					locales.push({ code, language: localeData.default?.language || code });
+				} catch (error) {
+					console.error(`[Locale] Error - ${code}:`, error);
+				}
+			}
+		}
+
+		availableLocales = locales.sort((a, b) => a.language.localeCompare(b.language));
+		localesLoading = false;
+	}
+
+	function handleLocaleChange(newLocale: string) {
+		localStorage.setItem('locale', newLocale);
+		locale.set(newLocale);
+
+		currentLocale = newLocale;
+	}
+
+	function handleImageError(code: string) {
+		imageErrors = new Set([...imageErrors, code]);
+	}
+
 	onMount(() => {
 		const savedTheme = localStorage.getItem('theme') as Theme;
 		if (savedTheme) {
@@ -46,20 +83,28 @@
 		} else {
 			currentTheme = 'system';
 		}
-	});
 
-	onMount(() => {
-		const unsubscribe = isDarkMode.subscribe((value) => {
+		const unsubscribeDarkMode = isDarkMode.subscribe((value) => {
 			untrack(() => {
 				darkSchema = value;
 				const savedTheme = value ? 'dark' : 'light';
-
 				document.documentElement.setAttribute('data-theme', savedTheme);
 			});
 		});
 
+		const unsubscribeLocale = locale.subscribe((value) => {
+			untrack(() => {
+				if (value) {
+					currentLocale = value;
+				}
+			});
+		});
+
+		loadAvailableLocales();
+
 		onDestroy(() => {
-			unsubscribe();
+			unsubscribeDarkMode();
+			unsubscribeLocale();
 		});
 	});
 </script>
@@ -76,7 +121,7 @@
 </svelte:head>
 
 <nav class="navbar bg-base-200 sticky top-0 z-50 shadow">
-	<div class="lg:navbar-start transition-opacity hover:opacity-80">
+	<div class="navbar-start w-1/3 transition-opacity hover:opacity-80 lg:w-auto">
 		<a href="/" class="flex items-center gap-2">
 			<img src="/logo.svg" alt="Logo" class="h-10 w-10" />
 			<span class="text-2xl font-black">Chat Vault</span>
@@ -97,12 +142,21 @@
 			{/each}
 		</ul>
 
+		{@render languageDropdown(
+			'btn btn-ghost transition-all duration-200 hover:bg-base-100 hidden lg:flex text-xl font-medium',
+			true
+		)}
+
 		{@render themeDropdown(
 			'btn btn-ghost transition-all duration-200 hover:bg-base-100 hidden lg:flex text-xl font-medium',
 			true
 		)}
 
 		<div class="flex items-center gap-2 lg:hidden">
+			{@render languageDropdown(
+				'btn btn-ghost transition-all duration-200 hover:bg-base-100',
+				false
+			)}
 			{@render themeDropdown(
 				'btn btn-ghost transition-all duration-200 hover:bg-base-100',
 				false
@@ -137,6 +191,61 @@
 					<span>{option.label}</span>
 				</button>
 			{/each}
+		</div>
+	</div>
+{/snippet}
+
+{#snippet languageDropdown(buttonClass: string, showChevron: boolean)}
+	<div class="dropdown dropdown-end">
+		<div role="button" class={buttonClass} tabindex="0">
+			<Languages class="h-7 w-7 transition-all" />
+			{#if showChevron}
+				<ChevronDown class="h-3 w-3 opacity-60" />
+			{/if}
+		</div>
+		<div
+			class="dropdown-content bg-base-300 rounded-box z-[1] mt-3 max-h-72 w-auto min-w-[16rem] overflow-y-auto p-2 shadow-2xl"
+		>
+			<a
+				type="button"
+				target="_blank"
+				rel="noopener noreferrer"
+				href="https://crowdin.com/project/chat-vault"
+				class="btn btn-link hover:text-accent w-full justify-center text-lg font-semibold transition-all duration-200 hover:font-extrabold"
+			>
+				{$_('landing.contribute.translate.title')}
+			</a>
+			<div class="divider my-1"></div>
+			{#if localesLoading}
+				<div class="flex justify-center p-4">
+					<span class="loading loading-spinner loading-xl"></span>
+				</div>
+			{:else}
+				{#each availableLocales as localeOption}
+					<button
+						type="button"
+						class="btn btn-sm btn-block mb-1 justify-start gap-3 text-lg font-medium transition-all duration-200 {currentLocale ===
+						localeOption.code
+							? 'btn-active bg-info text-primary-content'
+							: 'btn-ghost hover:bg-accent hover:text-accent-content'}"
+						onclick={() => handleLocaleChange(localeOption.code)}
+					>
+						<div class="flex h-4 w-6 items-center justify-center">
+							{#if imageErrors.has(localeOption.code)}
+								<Flag class="h-4 w-4 opacity-70" />
+							{:else}
+								<img
+									src={getFlagImage(localeOption.code)}
+									alt={localeOption.code}
+									class="h-4 w-6 rounded-sm object-cover"
+									onerror={() => handleImageError(localeOption.code)}
+								/>
+							{/if}
+						</div>
+						<span class="truncate">{localeOption.language}</span>
+					</button>
+				{/each}
+			{/if}
 		</div>
 	</div>
 {/snippet}

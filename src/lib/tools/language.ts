@@ -732,7 +732,7 @@ let languages: Record<string, string> = {
 	zza: 'TR'
 };
 
-export default function getFlagEmoji(locale: string): string {
+export function getFlagEmoji(locale: string): string {
 	const parts = locale.toUpperCase().split(/-|_/);
 	const lang = parts.shift()!;
 	let code = parts.pop();
@@ -746,4 +746,17 @@ export default function getFlagEmoji(locale: string): string {
 	const offset = 0x1f1e6 - 0x41;
 	const [codePoint1, codePoint2] = [code.codePointAt(0)!, code.codePointAt(1)!];
 	return String.fromCodePoint(codePoint1 + offset, codePoint2 + offset);
+}
+
+export function getFlagImage(locale: string): string {
+	const parts = locale.toLowerCase().split(/-|_/);
+	const lang = parts.shift()!;
+	let code = parts.pop();
+
+	if (!/^[a-z]{2}$/.test(code ?? '')) {
+		code = languages[lang];
+	}
+
+	if (!code) return '';
+	return `http://purecatamphetamine.github.io/country-flag-icons/3x2/${code.toUpperCase()}.svg`;
 }
