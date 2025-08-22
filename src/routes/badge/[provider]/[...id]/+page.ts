@@ -18,7 +18,6 @@ export async function load({ params, url }): Promise<BadgePage> {
 	try {
 		const badge: Badge = await fetchBadge(provider, id);
 
-		const pageTitle = `${$format('badge.label')}: ${badge?.name ?? ''}`;
 		let pageImage =
 			badge?.images?.[2] ??
 			badge?.images?.[1] ??
@@ -36,19 +35,16 @@ export async function load({ params, url }): Promise<BadgePage> {
 			id,
 			provider: badge.provider,
 			badge: badge,
-			pageTitle,
 			pageImage
 		};
 	} catch (err) {
 		const errorMessage = (err as Error).message;
-		const pageTitle = 'Error';
 
 		return {
 			id,
 			provider,
 			error: errorMessage,
 			badge: null,
-			pageTitle,
 			pageImage: `${url.origin}/favicon.png`
 		};
 	}

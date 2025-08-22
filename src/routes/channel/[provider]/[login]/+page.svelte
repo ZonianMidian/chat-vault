@@ -27,6 +27,7 @@
 	let content = $derived<ChannelContent | null>(data.channel?.content ?? null);
 	let user = $derived<UserData | null>(data?.channel?.user ?? null);
 
+	const pageTitle = $derived(`${$_('channel.label')}: ${user?.username ?? ''}`);
 	let providerData = $derived(shouldTrigger(content));
 
 	function shouldTrigger(content: ChannelContent | null): boolean {
@@ -87,8 +88,8 @@
 </script>
 
 <svelte:head>
-	<title>{`${data.pageTitle} | Chat Vault`}</title>
-	<meta property="og:title" content={data.pageTitle} />
+	<title>{`${error ? $_('common.error') : pageTitle} | Chat Vault`}</title>
+	<meta property="og:title" content={error ? $_('common.error') : pageTitle} />
 
 	<meta
 		property="og:url"

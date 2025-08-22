@@ -1,31 +1,26 @@
 import { getLocaleFromNavigator, init, register } from 'svelte-i18n';
+import { chooseSupported } from '$lib/utils';
 import { browser } from '$app/environment';
 
+const context = import.meta.glob('$lib/i18n/locales/*.json');
 const defaultLocale = 'en';
 
-const context = import.meta.glob('$lib/i18n/locales/*.json');
-Object.keys(context).forEach((key) => {
-	const match = key.match(/\/([^\/]+)\.json/);
-	if (match) {
-		const locale = match[1];
-		register(locale, () => {
-			return import(`$lib/i18n/locales/${locale}.json`);
-		});
-	}
+export const supported = Object.keys(context)
+	.map((path) => path.match(/\/([^\/]+)\.json$/)?.[1])
+	.filter(Boolean) as string[];
+
+supported.forEach((locale) => {
+	register(locale, () => import(`$lib/i18n/locales/${locale}.json`));
 });
 
-function getInitialLocale() {
-	if (!browser) {
-		return defaultLocale;
-	}
-	const savedLocale = window.localStorage.getItem('locale');
-	const value = savedLocale ?? getLocaleFromNavigator();
+function getInitialLocale(): string {
+	if (!browser) return defaultLocale;
 
-	if (value) {
-		window.localStorage.setItem('locale', value);
-	}
+	const saved = localStorage.getItem('locale');
+	if (saved) return saved;
 
-	return value;
+	const navigatorLocale = getLocaleFromNavigator() ?? defaultLocale;
+	return chooseSupported(navigatorLocale, supported) ?? defaultLocale;
 }
 
 init({

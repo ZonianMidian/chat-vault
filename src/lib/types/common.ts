@@ -28,7 +28,6 @@ export interface EmotePage {
 	emote: Emote | null;
 	error?: string;
 	provider: string;
-	pageTitle: string;
 	pageImage: string;
 }
 
@@ -48,7 +47,6 @@ export interface SetPage {
 	set: Set | null;
 	error?: string;
 	provider: string;
-	pageTitle: string;
 	pageImage: string;
 }
 
@@ -60,6 +58,7 @@ export interface Set {
 	tags: string[];
 	owner: User | null;
 	emotes: Emotes[];
+	tier?: string | null;
 	source: string;
 	provider: string;
 }
@@ -85,7 +84,6 @@ export interface ChannelPage {
 	channel: ChannelData | null;
 	error?: string;
 	provider: string;
-	pageTitle: string;
 	pageImage: string;
 }
 
@@ -254,7 +252,6 @@ export interface BadgePage {
 	badge: Badge | null;
 	error?: string;
 	provider: string;
-	pageTitle: string;
 	pageImage: string;
 }
 

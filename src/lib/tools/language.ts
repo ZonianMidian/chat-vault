@@ -726,6 +726,7 @@ let languages: Record<string, string> = {
 	'zh-Bopo': 'TW',
 	'zh-Hanb': 'TW',
 	'zh-Hant': 'TW',
+	'zh-Hans': 'CN',
 	zlm: 'TG',
 	zmi: 'MY',
 	zu: 'ZA',

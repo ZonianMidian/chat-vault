@@ -46,6 +46,7 @@
 		channels: false
 	});
 
+	const pageTitle = $derived(`${$_('emote.label')}: ${emote?.name ?? ''}`);
 	let currentEmoteKey = $derived(`${data.provider}-${data.id}`);
 
 	function getTabPage(tabId: string): number {
@@ -305,8 +306,8 @@
 </script>
 
 <svelte:head>
-	<title>{`${data.pageTitle} | Chat Vault`}</title>
-	<meta property="og:title" content={data.pageTitle} />
+	<title>{`${error ? $_('common.error') : pageTitle} | Chat Vault`}</title>
+	<meta property="og:title" content={error ? $_('common.error') : pageTitle} />
 
 	<meta property="og:url" content="{page.url.origin}/{data.provider}/{data.emote.id}" />
 	<link rel="canonical" href="{page.url.origin}/{data.provider}/{data.emote.id}" />

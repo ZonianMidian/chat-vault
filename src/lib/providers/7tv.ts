@@ -304,7 +304,7 @@ export async function get7TVEmotes(
 		bots: [],
 		sets: data.emote_sets.map((set) => ({
 			id: set.id,
-			name: set.name,
+			name: set.name.endsWith(`\'s Emotes`) ? null : set.name,
 			subtitle: null,
 			tags: [],
 			source: `https://7tv.app/users/${data.id}/emote-sets`,
@@ -344,7 +344,7 @@ export async function get7TVSet(setId: string): Promise<Set> {
 
 	return {
 		id: data.id,
-		name: data.name,
+		name: data.name.endsWith(`\'s Emotes`) ? null : data.name,
 		subtitle: null,
 		tags: data.tags,
 		owner: transformUserData(data.owner),

@@ -15,25 +15,21 @@ export async function load({ params, url }): Promise<SetPage> {
 	try {
 		const set: Set = await fetchSet(provider, id);
 
-		const pageTitle = `${$format('set.label')}: ${set.name}`;
 		const pageImage = set.owner?.avatar ?? `${url.origin}/favicon.png`;
 
 		return {
 			provider: set.provider,
-			pageTitle,
 			pageImage,
 			set,
 			id
 		};
 	} catch (err) {
 		const errorMessage = (err as Error).message;
-		const pageTitle = 'Error';
 
 		return {
 			pageImage: `${url.origin}/favicon.png`,
 			error: errorMessage,
 			set: null,
-			pageTitle,
 			provider,
 			id
 		};

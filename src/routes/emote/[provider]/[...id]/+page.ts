@@ -15,7 +15,6 @@ export async function load({ params, url }): Promise<EmotePage> {
 	try {
 		const emote: Emote = await fetchEmote(provider, id);
 
-		const pageTitle = `${$format('emote.label')}: ${emote?.name ?? ''}`;
 		let pageImage =
 			emote?.images?.[2] ??
 			emote?.images?.[1] ??
@@ -29,19 +28,16 @@ export async function load({ params, url }): Promise<EmotePage> {
 		return {
 			pageImage: pageImage.replace(/\.avif$/, '.webp'),
 			provider: emote.provider,
-			pageTitle,
 			emote,
 			id
 		};
 	} catch (err) {
 		const errorMessage = (err as Error).message;
-		const pageTitle = 'Error';
 
 		return {
 			pageImage: `${url.origin}/favicon.png`,
 			error: errorMessage,
 			emote: null,
-			pageTitle,
 			provider,
 			id
 		};

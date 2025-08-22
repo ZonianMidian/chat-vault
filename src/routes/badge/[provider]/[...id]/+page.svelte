@@ -41,6 +41,7 @@
 		extras: true
 	});
 
+	let pageTitle = $derived(`${$_('badge.label')}: ${badge?.name ?? ''}`);
 	let currentBadgeKey = $derived(`${data.provider}-${data.id}`);
 
 	function getTabPage(tabId: string): number {
@@ -178,13 +179,20 @@
 		let hasMounted = false;
 		const unsubscribeLocale = locale.subscribe((value) => {
 			untrack(() => {
-				if (hasMounted && value && value !== currentLocale) {
-					currentLocale = value;
-					reloadPage();
-				}
-				if (!hasMounted && value) {
-					currentLocale = value;
+				if (!value) return;
+
+				const shouldReload =
+					hasMounted &&
+					value !== currentLocale &&
+					['kick', 'twitch'].includes(data.provider) &&
+					['GLOBALS', 'SUBSCRIPTIONS'].includes(badge?.type ?? '');
+
+				currentLocale = value;
+
+				if (!hasMounted) {
 					hasMounted = true;
+				} else if (shouldReload) {
+					reloadPage();
 				}
 			});
 		});
@@ -202,8 +210,8 @@
 </script>
 
 <svelte:head>
-	<title>{`${data.pageTitle} | Chat Vault`}</title>
-	<meta property="og:title" content={data.pageTitle} />
+	<title>{`${error ? $_('common.error') : pageTitle} | Chat Vault`}</title>
+	<meta property="og:title" content={error ? $_('common.error') : pageTitle} />
 
 	<meta
 		property="og:url"

@@ -52,6 +52,24 @@ export const emoteVariants = [
 	'WH'
 ];
 
+export const localeMapping = {
+	zh: {
+		'zh-Hant': 'zh-TW',
+		'zh-TW': 'zh-TW',
+		'zh-HK': 'zh-TW',
+		'zh-MO': 'zh-TW',
+		'zh-Hans': 'zh-CN',
+		'zh-CN': 'zh-CN',
+		'zh-SG': 'zh-CN',
+		zh: 'zh-CN'
+	},
+	pt: {
+		pt: 'pt-BR',
+		'pt-BR': 'pt-BR',
+		'pt-PT': 'pt-PT'
+	}
+} as const;
+
 export const socialConfig: Record<string, string> = {
 	instagram: 'https://instagram.com/',
 	twitter: 'https://twitter.com/',
@@ -509,4 +527,43 @@ export function debounce<T extends (...args: any[]) => any>(
 	};
 
 	return debounced;
+}
+
+export function normalizeLocale(locale: string): string {
+	return locale.replace(/_/g, '-');
+}
+
+export function mapLocale(input: string, supported: string[]): string | null {
+	if (!input) return null;
+
+	const normalized = normalizeLocale(input);
+	const [lang] = normalized.split('-');
+
+	const langMapping = localeMapping[lang as keyof typeof localeMapping];
+	if (langMapping) {
+		const mapped =
+			langMapping[normalized as keyof typeof langMapping] ||
+			langMapping[lang as keyof typeof langMapping];
+		if (mapped && supported.includes(mapped)) {
+			return mapped;
+		}
+	}
+
+	return null;
+}
+
+export function chooseSupported(value: string, supported: string[]): string | null {
+	if (!value) return null;
+
+	const normalized = normalizeLocale(value);
+
+	if (supported.includes(normalized)) return normalized;
+
+	const mapped = mapLocale(normalized, supported);
+	if (mapped) return mapped;
+
+	const baseLang = normalized.split('-')[0];
+	if (supported.includes(baseLang)) return baseLang;
+
+	return null;
 }

@@ -21,9 +21,9 @@
 	];
 
 	const themeOptions = [
-		{ value: 'system', label: $_('theme.system'), icon: Monitor },
-		{ value: 'dark', label: $_('theme.dark'), icon: Moon },
-		{ value: 'light', label: $_('theme.light'), icon: Sun }
+		{ value: 'system', key: 'theme.system', icon: Monitor },
+		{ value: 'dark', key: 'theme.dark', icon: Moon },
+		{ value: 'light', key: 'theme.light', icon: Sun }
 	];
 
 	function getThemeIcon() {
@@ -67,12 +67,18 @@
 		localStorage.setItem('locale', newLocale);
 		localStorage.removeItem('globalBadges');
 		locale.set(newLocale);
-
-		currentLocale = newLocale;
 	}
 
 	function handleImageError(code: string) {
 		imageErrors = new Set([...imageErrors, code]);
+	}
+
+	function getLocaleButtonClass(localeCode: string): string {
+		const isActive = currentLocale === localeCode || currentLocale.startsWith(`${localeCode}-`);
+
+		return isActive
+			? 'btn-active bg-info text-primary-content'
+			: 'btn-ghost hover:bg-accent hover:text-accent-content';
 	}
 
 	onMount(() => {
@@ -108,6 +114,10 @@
 		});
 	});
 </script>
+
+<svelte:head>
+	<meta property="og:locale" content={currentLocale.replace('-', '_')} />
+</svelte:head>
 
 <nav class="navbar bg-base-200 sticky top-0 z-50 shadow">
 	<div class="navbar-start w-fit transition-opacity hover:opacity-80 lg:w-auto">
@@ -179,7 +189,7 @@
 					onclick={() => handleThemeChange(option.value as Theme)}
 				>
 					<option.icon class="h-5 w-5" />
-					<span>{option.label}</span>
+					<span>{$_(option.key)}</span>
 				</button>
 			{/each}
 		</div>
@@ -215,10 +225,9 @@
 				{#each availableLocales as localeOption}
 					<button
 						type="button"
-						class="btn btn-sm btn-block mb-1 justify-start gap-3 text-lg font-medium transition-all duration-200 {currentLocale ===
-							localeOption.code || currentLocale.startsWith(`${localeOption.code}-`)
-							? 'btn-active bg-info text-primary-content'
-							: 'btn-ghost hover:bg-accent hover:text-accent-content'}"
+						class="btn btn-sm btn-block mb-1 justify-start gap-3 text-lg font-medium transition-all duration-200 {getLocaleButtonClass(
+							localeOption.code
+						)}"
 						onclick={() => handleLocaleChange(localeOption.code)}
 					>
 						<div class="flex h-4 w-6 items-center justify-center">

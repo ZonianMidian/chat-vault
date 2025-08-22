@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Badge, Emote } from '$lib/types/common';
 
-	import { _, date, format } from 'svelte-i18n';
+	import { _, date } from 'svelte-i18n';
 	import {
 		SquareMousePointer,
 		CalendarPlus,
@@ -34,37 +34,37 @@
 	const getEmoteLabel = (type: string | null): string => {
 		switch (type) {
 			case 'BITS_BADGE_TIERS':
-				return $format('set.bits');
+				return 'set.bits';
 			case 'CHANNEL_POINTS':
-				return $format('channel.points');
+				return 'channel.points';
 			case 'MEGA_COMMERCE':
-				return $format('emote.info.type.hype_train');
+				return 'emote.info.type.hype_train';
 			case 'SUBSCRIPTIONS':
-				return $format('set.sub');
+				return 'set.sub';
 			case 'LIMITED_TIME':
-				return $format('emote.info.type.limited_time');
+				return 'emote.info.type.limited_time';
 			case 'HYPE_TRAIN':
-				return $format('emote.info.type.hype_train');
+				return 'emote.info.type.hype_train';
 			case 'TWO_FACTOR':
-				return $format('emote.info.type.2fa');
+				return 'emote.info.type.2fa';
 			case 'FOLLOWER':
-				return $format('set.follower');
+				return 'set.follower';
 			case 'ARCHIVE':
-				return $format('emote.info.type.archive');
+				return 'emote.info.type.archive';
 			case 'SMILIES':
-				return $format('emote.info.type.smilies');
+				return 'emote.info.type.smilies';
 			case 'GLOBALS':
-				return $format('set.global');
+				return 'set.global';
 			case 'CHANNEL':
-				return $format('channel.label');
+				return 'channel.label';
 			case 'PRIME':
-				return $format('emote.info.type.prime');
+				return 'emote.info.type.prime';
 			case 'TURBO':
-				return $format('emote.info.type.turbo');
+				return 'emote.info.type.turbo';
 			case 'FLAIR':
-				return $format('common.flair');
+				return 'common.flair';
 			default:
-				return $format('common.unknown');
+				return 'common.unknown';
 		}
 	};
 </script>
@@ -122,7 +122,7 @@
 				<MenuContent
 					icon={Tags}
 					label="emote.info.type.label"
-					content={getEmoteLabel(item.type)}
+					content={$_(getEmoteLabel(item.type))}
 				/>
 			{/if}
 

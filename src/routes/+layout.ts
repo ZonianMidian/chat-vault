@@ -9,7 +9,6 @@ export const load: LayoutLoad = async () => {
 
 		if (!savedLocale) {
 			locale.set(window.navigator.language);
-			localStorage.setItem('locale', window.navigator.language);
 		} else {
 			locale.set(savedLocale);
 		}

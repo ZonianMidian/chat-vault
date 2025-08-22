@@ -186,7 +186,7 @@ export async function getFFZEmotes(
 		bots: data.room.user_badges?.['2'] || [],
 		sets: Object.values(data.sets).map((set) => ({
 			id: set.id.toString(),
-			name: $format('set.title', { values: { user: userName } }),
+			name: null,
 			subtitle: null,
 			tags: [],
 			source: `https://frankerfacez.com/channel/${data.room.id}`,

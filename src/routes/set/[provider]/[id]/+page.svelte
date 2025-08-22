@@ -19,11 +19,16 @@
 	const error = $derived(data.error || null);
 	const setEmotes = $derived(set?.emotes || []);
 	const filteredEmotes = $derived(filterEmotes(setEmotes, search));
+
+	const title = $derived(
+		set?.name ?? $_('set.title', { values: { user: set?.owner?.username } })
+	);
+	const pageTitle = $derived(`${$_('set.label')}: ${title}`);
 </script>
 
 <svelte:head>
-	<title>{`${data.pageTitle} | Chat Vault`}</title>
-	<meta property="og:title" content={data.pageTitle} />
+	<title>{`${error ? $_('common.error') : pageTitle} | Chat Vault`}</title>
+	<meta property="og:title" content={error ? $_('common.error') : pageTitle} />
 
 	<meta property="og:url" content="{page.url.origin}/{data.provider}/{set?.id}" />
 	<link rel="canonical" href="{page.url.origin}/{data.provider}/{set?.id}" />
@@ -43,12 +48,12 @@
 			>
 				<div class="flex flex-1">
 					<h1 class="text-4xl font-bold sm:text-left">
-						{set?.name ?? $_('set.title', { values: { user: set?.owner?.username } })}
+						{title}
 					</h1>
 					{#if set?.subtitle}
 						<h1 class="text-4xl font-bold sm:text-left">:&nbsp;</h1>
 						<h2 class="text-secondary self-end text-2xl font-semibold sm:text-left">
-							{set?.subtitle}
+							{$_(set?.subtitle, { values: { tier: set.tier } })}
 						</h2>
 					{/if}
 				</div>

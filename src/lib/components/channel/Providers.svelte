@@ -213,7 +213,12 @@
 																changeSet(provider.provider, set)}
 														>
 															<span class="my-2 font-medium"
-																>{set.name}</span
+																>{set.name ??
+																	$_('set.title', {
+																		values: {
+																			user: user?.username
+																		}
+																	})}</span
 															>
 															<span class="text-xs opacity-70"
 																>({set.emotes?.length ?? 0})</span

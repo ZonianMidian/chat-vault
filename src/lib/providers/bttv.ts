@@ -201,7 +201,7 @@ export async function getBTTVSet(setId: string): Promise<Set> {
 
 	return {
 		id: data.id,
-		name: $format('set.title', { values: { user: userName } }),
+		name: null,
 		subtitle: null,
 		tags: [],
 		source: `https://betterttv.net/users/${data.id}`,

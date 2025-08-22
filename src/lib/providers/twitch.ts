@@ -208,19 +208,20 @@ export async function getTwitchSet(setId: string): Promise<Set> {
 	const set = data[0];
 	const userName = set.channelID ? compareName(set.channelLogin, set.channelName) : 'Twitch';
 	const subtitle =
-		(!set.channelID && $format('set.global')) ||
-		(set.tier && $format('set.tier', { values: { tier: set.tier } })) ||
-		(set.emoteList?.[0]?.type === 'FOLLOWER' && $format('set.follower')) ||
-		(set.emoteList?.[0]?.type === 'BITS_BADGE_TIERS' && $format('set.bits')) ||
+		(!set.channelID && 'set.global') ||
+		(set.tier && 'set.tier') ||
+		(set.emoteList?.[0]?.type === 'FOLLOWER' && 'set.follower') ||
+		(set.emoteList?.[0]?.type === 'BITS_BADGE_TIERS' && 'set.bits') ||
 		null;
 
 	return {
 		id: setId,
-		name: $format('set.title', { values: { user: userName } }),
+		name: null,
 		subtitle,
 		tags: [],
 		source: `https://twitch.tv/${set.tier ? 'subs/' : ''}${userName}`,
 		provider: 'twitch',
+		tier: set.tier ?? null,
 		owner: {
 			id: set.channelID ?? '12826',
 			username: userName,
