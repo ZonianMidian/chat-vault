@@ -8,6 +8,7 @@
 	} from '$lib/types/common';
 
 	import { ChevronDown, Search } from '@lucide/svelte';
+	import { replaceState } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import { filterEmotes } from '$lib/utils';
 	import { _ } from 'svelte-i18n';
@@ -45,6 +46,7 @@
 		for (const [providerKey, search] of Object.entries(searches)) {
 			const currentSet = currentSets[providerKey];
 			const emotes = currentSet?.emotes || [];
+
 			result[providerKey] = filterEmotes(emotes, search || '');
 		}
 		return result;
@@ -63,24 +65,30 @@
 		return data.provider;
 	}
 
-	function parseHash(): { provider: string | null; setId: string | null } {
-		if (!browser) return { provider: null, setId: null };
+	function parseHash(): { provider: string | null; setId: string | null; query: string | null } {
+		if (!browser) return { provider: null, setId: null, query: null };
 
 		const hash = window.location.hash.slice(1);
-		if (!hash) return { provider: null, setId: null };
+		if (!hash) return { provider: null, setId: null, query: null };
 
-		const parts = hash.split('-');
-		const provider = parts[0];
+		const [hashPart, queryPart] = hash.split('?');
+		const parts = hashPart.split('-');
+
 		const setId = parts.length > 1 ? parts.slice(1).join('-') : null;
+		const provider = parts[0];
+
+		let query = null;
+		if (queryPart) {
+			const urlParams = new URLSearchParams(queryPart);
+			const qParam = urlParams.get('q');
+
+			query = qParam ? decodeURIComponent(qParam) : null;
+		}
 
 		const availableProviders = providers?.map((p: ChannelProvider) => p.provider) || [];
 		const validProvider = availableProviders.includes(provider) ? provider : null;
 
-		return { provider: validProvider, setId };
-	}
-
-	function findSetInProvider(provider: ChannelProvider, setId: string): Set | null {
-		return provider.sets?.find((set: Set) => set.id === setId) || null;
+		return { provider: validProvider, setId, query };
 	}
 
 	function getMainSet(provider: ChannelProvider): Set | null {
@@ -88,58 +96,37 @@
 		return provider.sets.find((set: Set) => set.mainSet) || provider.sets[0];
 	}
 
-	function updateUrlHash(tabId: string, setId?: string): void {
-		if (!browser) return;
-
+	function buildHashUrl(tabId: string, setId?: string, query?: string): string {
 		const isProviderTab = providers?.some((p: ChannelProvider) => p.provider === tabId);
 
-		if (isProviderTab) {
-			const provider = providers?.find((p: ChannelProvider) => p.provider === tabId);
-			const mainSet = provider ? getMainSet(provider) : null;
-
-			if (setId && mainSet && setId !== mainSet.id) {
-				window.history.replaceState(
-					null,
-					'',
-					`${window.location.pathname}#${tabId}-${setId}`
-				);
-			} else {
-				window.history.replaceState(null, '', `${window.location.pathname}#${tabId}`);
-			}
-		} else if (tabId === data.provider) {
-			window.history.replaceState(null, '', window.location.pathname);
+		if (!isProviderTab || tabId === data.provider) {
+			return window.location.pathname;
 		}
-	}
 
-	function syncUrlWithCurrentState(): void {
-		if (!browser) return;
-
-		const currentSet = currentSets[activeTab];
-		const provider = providers?.find((p: ChannelProvider) => p.provider === activeTab);
+		const provider = providers?.find((p: ChannelProvider) => p.provider === tabId);
 		const mainSet = provider ? getMainSet(provider) : null;
 
-		if (activeTab === data.provider) {
-			window.history.replaceState(null, '', window.location.pathname);
-		} else if (provider) {
-			if (currentSet && mainSet && currentSet.id !== mainSet.id) {
-				window.history.replaceState(
-					null,
-					'',
-					`${window.location.pathname}#${activeTab}-${currentSet.id}`
-				);
-			} else {
-				window.history.replaceState(null, '', `${window.location.pathname}#${activeTab}`);
-			}
-		} else {
-			const optimalTab = getOptimalTab();
-			window.history.replaceState(
-				null,
-				'',
-				optimalTab === data.provider
-					? window.location.pathname
-					: `${window.location.pathname}#${optimalTab}`
-			);
+		let hashPart = tabId;
+		if (setId && mainSet && setId !== mainSet.id) {
+			hashPart = `${tabId}-${setId}`;
 		}
+
+		let fullUrl = `${window.location.pathname}#${hashPart}`;
+		if (query && query.trim()) {
+			fullUrl = `${window.location.pathname}#${hashPart}?q=${encodeURIComponent(query)}`;
+		}
+
+		return fullUrl;
+	}
+
+	function updateUrl(): void {
+		if (!browser) return;
+
+		const currentQuery = searches[activeTab];
+		const currentSet = currentSets[activeTab];
+		const newUrl = buildHashUrl(activeTab, currentSet?.id, currentQuery);
+
+		replaceState(newUrl, {});
 	}
 
 	function initializeSets(): void {
@@ -163,41 +150,41 @@
 			}
 		}
 
-		currentSets = newCurrentSets;
-		searches = newSearches;
-		initKey = key;
-
-		const { provider: hashProvider, setId: hashSetId } = parseHash();
+		const { provider: hashProvider, setId: hashSetId, query: hashQuery } = parseHash();
 		let finalTab = hashProvider || getOptimalTab();
 
-		if (hashProvider && hashSetId) {
+		if (hashProvider) {
 			const provider = providers.find((p: ChannelProvider) => p.provider === hashProvider);
 			if (provider) {
-				const targetSet = findSetInProvider(provider, hashSetId);
-				if (targetSet) {
-					newCurrentSets[hashProvider] = targetSet;
-					currentSets = { ...currentSets, ...newCurrentSets };
+				if (hashSetId) {
+					const targetSet = provider.sets?.find((set: Set) => set.id === hashSetId);
+					if (targetSet) {
+						newCurrentSets[hashProvider] = targetSet;
+					}
+				}
+				if (hashQuery) {
+					newSearches[hashProvider] = hashQuery;
 				}
 			}
 		}
 
-		if (activeTab !== finalTab) {
-			activeTab = finalTab;
-		}
+		currentSets = newCurrentSets;
+		searches = newSearches;
+		activeTab = finalTab;
+		initKey = key;
 
-		syncUrlWithCurrentState();
+		updateUrl();
 	}
 
 	function changeSet(providerKey: string, newSet: Set): void {
 		currentSets = { ...currentSets, [providerKey]: newSet };
 		searches = { ...searches, [providerKey]: '' };
-		updateUrlHash(providerKey, newSet.id);
+		updateUrl();
 	}
 
 	function handleTabChange(tabId: string): void {
-		const currentSet = currentSets[tabId];
-		updateUrlHash(tabId, currentSet?.id);
 		activeTab = tabId;
+		updateUrl();
 	}
 
 	$effect(() => {
@@ -205,44 +192,50 @@
 			initializeSets();
 		}
 
-		if (browser) {
-			const handleHashChange = (): void => {
-				const { provider: hashProvider, setId: hashSetId } = parseHash();
+		if (!browser) return;
 
-				if (hashProvider) {
-					if (activeTab !== hashProvider) {
-						activeTab = hashProvider;
-					}
+		const setCurrentSet = (provider: ChannelProvider, hashSetId: string | null): void => {
+			const targetSet = hashSetId
+				? provider.sets?.find((set: Set) => set.id === hashSetId)
+				: null;
 
-					if (hashSetId) {
-						const provider = providers?.find(
-							(p: ChannelProvider) => p.provider === hashProvider
-						);
-						if (provider) {
-							const targetSet = findSetInProvider(provider, hashSetId);
-							if (targetSet && currentSets[hashProvider]?.id !== targetSet.id) {
-								currentSets = { ...currentSets, [hashProvider]: targetSet };
-							} else if (!targetSet) {
-								const mainSet = getMainSet(provider);
-								if (mainSet) {
-									currentSets = { ...currentSets, [hashProvider]: mainSet };
-								}
-								syncUrlWithCurrentState();
-							}
-						}
-					}
-				} else {
-					const optimalTab = getOptimalTab();
-					if (activeTab !== optimalTab) {
-						activeTab = optimalTab;
-					}
-					syncUrlWithCurrentState();
-				}
-			};
+			const setToUse = targetSet || getMainSet(provider);
 
-			window.addEventListener('hashchange', handleHashChange);
-			return () => window.removeEventListener('hashchange', handleHashChange);
-		}
+			if (setToUse) {
+				currentSets = { ...currentSets, [provider.provider]: setToUse };
+			}
+		};
+
+		const handleProviderFound = (
+			provider: ChannelProvider,
+			hashSetId: string | null,
+			hashQuery: string | null
+		): void => {
+			setCurrentSet(provider, hashSetId);
+			searches = { ...searches, [provider.provider]: hashQuery || '' };
+		};
+
+		const handleHashChange = (): void => {
+			const { provider: hashProvider, setId: hashSetId, query: hashQuery } = parseHash();
+
+			if (!hashProvider) {
+				activeTab = getOptimalTab();
+				updateUrl();
+				return;
+			}
+
+			const provider = providers?.find((p: ChannelProvider) => p.provider === hashProvider);
+
+			if (provider) {
+				activeTab = hashProvider;
+				handleProviderFound(provider, hashSetId, hashQuery);
+			}
+
+			updateUrl();
+		};
+
+		window.addEventListener('hashchange', handleHashChange);
+		return () => window.removeEventListener('hashchange', handleHashChange);
 	});
 </script>
 
@@ -266,12 +259,12 @@
 		<svelte:fragment slot="tabs" let:changeTab let:activeTab>
 			{#if providerData}
 				<TabButton
-					id={data.provider}
 					label={$_(`provider.${data.provider}`)}
 					isActive={activeTab === data.provider}
 					image={`/logos/${data.provider}.svg`}
-					{isLoading}
 					changeTab={handleTabChange}
+					id={data.provider}
+					{isLoading}
 				/>
 			{/if}
 
@@ -279,13 +272,13 @@
 				{#each providers.filter((p: ChannelProvider) => p.sets?.length) as provider}
 					{@const currentSet = currentSets[provider.provider]}
 					<TabButton
-						id={provider.provider}
+						count={currentSet?.emotes?.length === 0 ? null : currentSet?.emotes?.length}
 						label={$_(`provider.${provider.provider}`)}
 						isActive={activeTab === provider.provider}
 						image={`/logos/${provider.provider}.svg`}
-						count={currentSet?.emotes?.length === 0 ? null : currentSet?.emotes?.length}
-						{isLoading}
 						changeTab={handleTabChange}
+						id={provider.provider}
+						{isLoading}
 					/>
 				{/each}
 			{/if}
@@ -308,8 +301,8 @@
 						>
 							<div class="flex flex-1 flex-col items-center gap-2 md:flex-row">
 								<a
-									href={currentSet?.source}
 									target="_blank"
+									href={currentSet?.source}
 									rel="noopener noreferrer"
 									aria-label={$_(`provider.${provider.provider}`)}
 								>
@@ -379,6 +372,7 @@
 								<input
 									type="search"
 									required
+									oninput={() => updateUrl()}
 									placeholder={$_('search.emote')}
 									bind:value={searches[provider.provider]}
 								/>
