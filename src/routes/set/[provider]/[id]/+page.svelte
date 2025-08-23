@@ -68,15 +68,15 @@
 				</label>
 			</div>
 
-			{#if filteredEmotes?.length === 0}
-				<SearchError {search} />
-			{:else}
-				<div class="bg-base-100 rounded-lg p-[1rem]">
-					<Owner provider={data?.provider} owner={set?.owner} source={set?.source} />
-					<div class="divider my-4"></div>
+			<div class="bg-base-100 rounded-lg p-[1rem]">
+				<Owner provider={data?.provider} owner={set?.owner} source={set?.source} />
+				<div class="divider my-4"></div>
+				{#if filteredEmotes?.length === 0}
+					<SearchError {search} />
+				{:else}
 					<ImageGrid items={filteredEmotes} linkPrefix="emote" />
-				</div>
-			{/if}
+				{/if}
+			</div>
 		</div>
 	</div>
 {/if}
