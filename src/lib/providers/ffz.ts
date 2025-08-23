@@ -186,7 +186,7 @@ export async function getFFZEmotes(
 		bots: data.room.user_badges?.['2'] || [],
 		sets: Object.values(data.sets).map((set) => ({
 			id: set.id.toString(),
-			name: null,
+			name: set.title.startsWith('Channel:') ? null : set.title,
 			subtitle: null,
 			tags: [],
 			source: `https://frankerfacez.com/channel/${data.room.id}`,
@@ -240,7 +240,7 @@ export async function getFFZSet(setId: string): Promise<Set> {
 
 	return {
 		id: setId.toString(),
-		name: set.title,
+		name: set.title.startsWith('Channel:') ? null : set.title,
 		subtitle: null,
 		tags: [],
 		source: `https://frankerfacez.com/channel/${set.owner.name}`,
