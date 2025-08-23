@@ -1,6 +1,7 @@
 {
 	"language": "Deutsch",
 	"common": {
+		"select_language": "Sprache auswählen",
 		"no_results": "Keine Ergebnisse",
 		"zero_width": "Overlay",
 		"platform": "Plattform",
@@ -162,8 +163,88 @@
 		}
 	},
 	"landing": {
+		"hero": {
+			"subtitle": "Dein zentraler Hub für Chatelemente auf allen Streaming-Plattformen.",
+			"description": "Entdecke Emotes, Badges und Channels von Twitch, YouTube, Kick sowie beliebten Erweiterungen übersichtlich an einem Ort.",
+			"cta": {
+				"primary": "Entdecke Emotes",
+				"secondary": "Kanäle durchsuchen"
+			}
+		},
+		"platforms": {
+			"title": "Unterstützte Plattformen",
+			"subtitle": "Wir unterstützen große Streaming-Plattformen und beliebte Erweiterungen.",
+			"main": "Hauptplattformen",
+			"thirdparty": "Drittanbieter"
+		},
+		"providers": {
+			"title": "Umfassende Datenquellen",
+			"subtitle": "Wir sammeln und organisieren Daten aus zuverlässigen Quellen, um dir Informationen über Kanäle, Emotes, Abzeichen und vieles mehr zur Verfügung zu stellen.",
+			"community_title": "Community-gestützte Daten",
+			"community_description": "Einige unserer Informationen stammen von Community-basierten Anbietern, die umfassende Datenbanken zu Chat-Items, deren Herkunft und deren Beschaffungsmöglichkeiten unterhalten.",
+			"contribute_message": "Diese Plattformen leben von Community-Beiträgen. Wir ermutigen dich daher, auf den jeweiligen Websites mitzuwirken, um die Daten korrekt und aktuell zu halten.",
+			"our_partners": "Unsere Datenpartner",
+			"visit_website": "Webseite besuchen",
+			"apis": {
+				"title": "Zusätzliche Datenquellen",
+				"description": "Wir verwenden auch native APIs von Streaming-Plattformen und deren Add-ons von Drittanbietern, zusammen mit zusätzlichen APIs wie:",
+				"conclusion": "Dies ermöglicht es uns, die höchste Qualität der Daten und Informationen aus verschiedenen Quellen zu garantieren."
+			}
+		},
+		"features": {
+			"title": "Alles was Du brauchst",
+			"subtitle": "Umfassende Tools zur Entdeckung und Organisation von Chatelementen.",
+			"explore": "Entdecken",
+			"emotes": {
+				"title": "Emote-Sammlung",
+				"description": "Durchstöbere tausende Emotes, darunter exklusive Limited Editions wie Hype Train, globale Emotes, Abo-Stufen, gelöschte Emotes und spezielle Event-Sammlungen."
+			},
+			"badges": {
+				"title": "Badge-Verzeichnis",
+				"description": "Sieh Dir globale Badges verschiedener Plattformen an, darunter Drittanbieter-Badges, Abo-Stufen, besondere Erfolge und Event-Abzeichen."
+			},
+			"channels": {
+				"title": "Kanal-Suche",
+				"description": "Finde Channels und ihre spezifischen Chatelemente, Abo-Vorteile und verfügbaren Emotes auf allen unterstützten Plattformen."
+			}
+		},
+		"why": {
+			"title": "Warum Chat Vault wählen?",
+			"fast": {
+				"title": "Blitzschnell",
+				"description": "Schnelle Suche und sofortige Resultate."
+			},
+			"organized": {
+				"title": "Gut organisiert",
+				"description": "Alles kategorisiert und leicht zu finden."
+			},
+			"updated": {
+				"title": "Immer aktuell",
+				"description": "Die neuesten Emotes und Badges verfügbar."
+			},
+			"free": {
+				"title": "Vollständig kostenlos",
+				"description": "Keine versteckten Kosten oder Abonnements. Ganz ohne Werbung."
+			}
+		},
+		"contribute": {
+			"title": "Zum Chat Vault beitragen",
+			"subtitle": "Helfen Sie uns, Chat Vault für die gesamte Streaming-Community zu verbessern und zu erweitern.",
+			"opensource": {
+				"title": "Wir sind Open Source",
+				"description": "Du kannst über unser GitHub-Repository Vorschläge einreichen, Probleme melden oder Code zur Website beitragen. Deine Beiträge helfen dabei, Chat Vault für alle besser zu machen.",
+				"cta": "Auf GitHub ansehen"
+			},
+			"translate": {
+				"title": "Übersetzen Sie das Web",
+				"description": "Helfen Sie uns, ein globales Publikum zu erreichen, indem Sie Übersetzungen für neue Sprachen beisteuern oder bestehende über unser Crowdin-Projekt verbessern.",
+				"cta": "Hilf beim Übersetzen"
+			}
+		},
 		"footer": {
-			"translator_username": "LUCAS19961;maersux"
+			"disclaimer": "Wir stehen in keiner Verbindung zu Streaming-Plattformen oder Drittanbieter-Emote-Diensten. Wir sammeln lediglich öffentlich zugängliche Informationen zu Bildungs- und Informationszwecken.",
+			"translated_by": "Übersetzt von",
+			"translator_username": "LUCAS19961;maersux;stylv"
 		}
 	}
 }
