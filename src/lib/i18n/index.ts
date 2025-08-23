@@ -17,7 +17,7 @@ function getInitialLocale(): string {
 	if (!browser) return defaultLocale;
 
 	const saved = localStorage.getItem('locale');
-	if (saved) return saved;
+	if (saved) return chooseSupported(saved, supported) ?? defaultLocale;
 
 	const navigatorLocale = getLocaleFromNavigator() ?? defaultLocale;
 	return chooseSupported(navigatorLocale, supported) ?? defaultLocale;
