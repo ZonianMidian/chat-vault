@@ -4,11 +4,11 @@
 	import { getChannelByLink } from '$lib/channels/getChannelByLink';
 	import { searchChannel } from '$lib/channels/searchChannel';
 	import { calculateSimilarity, debounce } from '$lib/utils';
-	import { browser } from '$app/environment';
+	import { goto, replaceState } from '$app/navigation';
 	import { Search, Info } from '@lucide/svelte';
-	import { goto } from '$app/navigation';
-	import { page } from '$app/state';
+	import { browser } from '$app/environment';
 	import { onMount, untrack } from 'svelte';
+	import { page } from '$app/state';
 	import { _ } from 'svelte-i18n';
 
 	import SearchError from '$lib/components/SearchError.svelte';
@@ -16,9 +16,14 @@
 
 	let error = $state<string | null>(null);
 	let channels = $state<User[]>([]);
+	let isInitialized = $state(false);
 	let hasSearched = $state(false);
-	let isLoading = $state(true);
+	let isLoading = $state(false);
 	let search = $state('');
+
+	let urlQuery = $derived(page.url.searchParams.get('q') || '');
+
+	const debouncedSearch = debounce((searchTerm: string) => performSearch(searchTerm, true), 1000);
 
 	function cleanSearchText(text: string): string {
 		return text
@@ -47,10 +52,10 @@
 			.map(({ similarity, ...item }) => item);
 	}
 
-	function updateUrlParams(searchTerm: string): void {
+	function updateUrl(searchTerm: string): void {
 		if (!browser) return;
 
-		const url = new URL(window.location.href);
+		const url = new URL(page.url);
 
 		if (searchTerm.trim()) {
 			url.searchParams.set('q', searchTerm);
@@ -58,14 +63,32 @@
 			url.searchParams.delete('q');
 		}
 
-		window.history.replaceState({}, '', url);
+		replaceState(url, {});
 	}
 
-	async function performSearch(searchTerm: string): Promise<void> {
+	function handleInput(searchValue: string): void {
+		if (!isInitialized) return;
+
+		if (isUrl(searchValue.trim())) {
+			debouncedSearch(searchValue.trim());
+			return;
+		}
+
+		const cleanedSearch = cleanSearchText(searchValue);
+
+		if (cleanedSearch !== searchValue.replace(/\s/g, '')) {
+			search = cleanedSearch;
+			return;
+		}
+
+		debouncedSearch(cleanedSearch);
+	}
+
+	async function performSearch(searchTerm: string, shouldUpdateUrl = true): Promise<void> {
 		const trimmedTerm = searchTerm.trim();
 
 		if (!trimmedTerm) {
-			updateUrlParams('');
+			if (shouldUpdateUrl) updateUrl('');
 			hasSearched = false;
 			channels = [];
 			error = null;
@@ -76,7 +99,7 @@
 		isLoading = true;
 		error = null;
 
-		updateUrlParams(trimmedTerm);
+		if (shouldUpdateUrl) updateUrl(trimmedTerm);
 
 		try {
 			if (isUrl(trimmedTerm)) {
@@ -110,50 +133,34 @@
 		}
 	}
 
-	const debouncedSearch = debounce((searchTerm: string) => {
-		performSearch(searchTerm);
-	}, 1000);
-
-	function handleSearchInput(searchValue: string): void {
-		if (isUrl(searchValue.trim())) {
-			debouncedSearch(searchValue.trim());
-			return;
-		}
-
-		const cleanedSearch = cleanSearchText(searchValue);
-
-		if (cleanedSearch !== searchValue.replace(/\s/g, '')) {
-			search = cleanedSearch;
-			return;
-		}
-
-		debouncedSearch(cleanedSearch);
-	}
-
-	function initializeFromUrl(): void {
-		if (!browser) return;
-
-		const urlParams = new URLSearchParams(window.location.search);
-		const queryParam = urlParams.get('q');
-
-		if (queryParam) {
-			search = queryParam;
-			hasSearched = true;
-			performSearch(queryParam);
-		}
-	}
+	$effect(() => {
+		untrack(() => {
+			if (!isInitialized) {
+				search = urlQuery;
+				if (urlQuery) {
+					performSearch(urlQuery, false);
+				}
+				isInitialized = true;
+			} else if (urlQuery !== search) {
+				search = urlQuery;
+				if (urlQuery) {
+					performSearch(urlQuery, false);
+				} else {
+					hasSearched = false;
+					channels = [];
+					error = null;
+				}
+			}
+		});
+	});
 
 	$effect(() => {
-		if (search !== undefined) {
-			untrack(() => {
-				handleSearchInput(search);
-			});
+		if (isInitialized) {
+			handleInput(search);
 		}
 	});
 
 	onMount(() => {
-		initializeFromUrl();
-
 		return () => {
 			debouncedSearch.cancel();
 		};
