@@ -35,7 +35,7 @@
 	{:else}
 		{#if owner}
 			<a
-				href={`/channel/${owner.platform}/${owner.username}`}
+				href={`/channel/${owner.platform}/${owner.username}#${provider}`}
 				class="flex items-center gap-2 transition-opacity hover:opacity-80"
 				aria-label="{$_(`provider.owner.platform`)}: {owner.username}"
 			>

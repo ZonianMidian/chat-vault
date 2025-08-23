@@ -8,6 +8,7 @@
 	} from '$lib/types/common';
 
 	import { ChevronDown, Search } from '@lucide/svelte';
+	import { browser } from '$app/environment';
 	import { filterEmotes } from '$lib/utils';
 	import { _ } from 'svelte-i18n';
 
@@ -62,6 +63,85 @@
 		return data.provider;
 	}
 
+	function parseHash(): { provider: string | null; setId: string | null } {
+		if (!browser) return { provider: null, setId: null };
+
+		const hash = window.location.hash.slice(1);
+		if (!hash) return { provider: null, setId: null };
+
+		const parts = hash.split('-');
+		const provider = parts[0];
+		const setId = parts.length > 1 ? parts.slice(1).join('-') : null;
+
+		const availableProviders = providers?.map((p: ChannelProvider) => p.provider) || [];
+		const validProvider = availableProviders.includes(provider) ? provider : null;
+
+		return { provider: validProvider, setId };
+	}
+
+	function findSetInProvider(provider: ChannelProvider, setId: string): Set | null {
+		return provider.sets?.find((set: Set) => set.id === setId) || null;
+	}
+
+	function getMainSet(provider: ChannelProvider): Set | null {
+		if (!provider.sets?.length) return null;
+		return provider.sets.find((set: Set) => set.mainSet) || provider.sets[0];
+	}
+
+	function updateUrlHash(tabId: string, setId?: string): void {
+		if (!browser) return;
+
+		const isProviderTab = providers?.some((p: ChannelProvider) => p.provider === tabId);
+
+		if (isProviderTab) {
+			const provider = providers?.find((p: ChannelProvider) => p.provider === tabId);
+			const mainSet = provider ? getMainSet(provider) : null;
+
+			if (setId && mainSet && setId !== mainSet.id) {
+				window.history.replaceState(
+					null,
+					'',
+					`${window.location.pathname}#${tabId}-${setId}`
+				);
+			} else {
+				window.history.replaceState(null, '', `${window.location.pathname}#${tabId}`);
+			}
+		} else if (tabId === data.provider) {
+			window.history.replaceState(null, '', window.location.pathname);
+		}
+	}
+
+	function syncUrlWithCurrentState(): void {
+		if (!browser) return;
+
+		const currentSet = currentSets[activeTab];
+		const provider = providers?.find((p: ChannelProvider) => p.provider === activeTab);
+		const mainSet = provider ? getMainSet(provider) : null;
+
+		if (activeTab === data.provider) {
+			window.history.replaceState(null, '', window.location.pathname);
+		} else if (provider) {
+			if (currentSet && mainSet && currentSet.id !== mainSet.id) {
+				window.history.replaceState(
+					null,
+					'',
+					`${window.location.pathname}#${activeTab}-${currentSet.id}`
+				);
+			} else {
+				window.history.replaceState(null, '', `${window.location.pathname}#${activeTab}`);
+			}
+		} else {
+			const optimalTab = getOptimalTab();
+			window.history.replaceState(
+				null,
+				'',
+				optimalTab === data.provider
+					? window.location.pathname
+					: `${window.location.pathname}#${optimalTab}`
+			);
+		}
+	}
+
 	function initializeSets(): void {
 		if (!providers) return;
 
@@ -75,9 +155,11 @@
 
 		for (const provider of providers) {
 			if (provider.sets?.length) {
-				const mainSet = provider.sets.find((set: Set) => set.mainSet) || provider.sets[0];
-				newCurrentSets[provider.provider] = mainSet;
-				newSearches[provider.provider] = searches[provider.provider] || '';
+				const mainSet = getMainSet(provider);
+				if (mainSet) {
+					newCurrentSets[provider.provider] = mainSet;
+					newSearches[provider.provider] = searches[provider.provider] || '';
+				}
 			}
 		}
 
@@ -85,20 +167,81 @@
 		searches = newSearches;
 		initKey = key;
 
-		const optimalTab = getOptimalTab();
-		if (activeTab !== optimalTab) {
-			activeTab = optimalTab;
+		const { provider: hashProvider, setId: hashSetId } = parseHash();
+		let finalTab = hashProvider || getOptimalTab();
+
+		if (hashProvider && hashSetId) {
+			const provider = providers.find((p: ChannelProvider) => p.provider === hashProvider);
+			if (provider) {
+				const targetSet = findSetInProvider(provider, hashSetId);
+				if (targetSet) {
+					newCurrentSets[hashProvider] = targetSet;
+					currentSets = { ...currentSets, ...newCurrentSets };
+				}
+			}
 		}
+
+		if (activeTab !== finalTab) {
+			activeTab = finalTab;
+		}
+
+		syncUrlWithCurrentState();
 	}
 
 	function changeSet(providerKey: string, newSet: Set): void {
 		currentSets = { ...currentSets, [providerKey]: newSet };
 		searches = { ...searches, [providerKey]: '' };
+		updateUrlHash(providerKey, newSet.id);
+	}
+
+	function handleTabChange(tabId: string): void {
+		const currentSet = currentSets[tabId];
+		updateUrlHash(tabId, currentSet?.id);
+		activeTab = tabId;
 	}
 
 	$effect(() => {
 		if (providers) {
 			initializeSets();
+		}
+
+		if (browser) {
+			const handleHashChange = (): void => {
+				const { provider: hashProvider, setId: hashSetId } = parseHash();
+
+				if (hashProvider) {
+					if (activeTab !== hashProvider) {
+						activeTab = hashProvider;
+					}
+
+					if (hashSetId) {
+						const provider = providers?.find(
+							(p: ChannelProvider) => p.provider === hashProvider
+						);
+						if (provider) {
+							const targetSet = findSetInProvider(provider, hashSetId);
+							if (targetSet && currentSets[hashProvider]?.id !== targetSet.id) {
+								currentSets = { ...currentSets, [hashProvider]: targetSet };
+							} else if (!targetSet) {
+								const mainSet = getMainSet(provider);
+								if (mainSet) {
+									currentSets = { ...currentSets, [hashProvider]: mainSet };
+								}
+								syncUrlWithCurrentState();
+							}
+						}
+					}
+				} else {
+					const optimalTab = getOptimalTab();
+					if (activeTab !== optimalTab) {
+						activeTab = optimalTab;
+					}
+					syncUrlWithCurrentState();
+				}
+			};
+
+			window.addEventListener('hashchange', handleHashChange);
+			return () => window.removeEventListener('hashchange', handleHashChange);
 		}
 	});
 </script>
@@ -128,7 +271,7 @@
 					isActive={activeTab === data.provider}
 					image={`/logos/${data.provider}.svg`}
 					{isLoading}
-					{changeTab}
+					changeTab={handleTabChange}
 				/>
 			{/if}
 
@@ -142,7 +285,7 @@
 						image={`/logos/${provider.provider}.svg`}
 						count={currentSet?.emotes?.length === 0 ? null : currentSet?.emotes?.length}
 						{isLoading}
-						{changeTab}
+						changeTab={handleTabChange}
 					/>
 				{/each}
 			{/if}
