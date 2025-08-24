@@ -12,9 +12,6 @@
 	let featuresVisible = $state(false);
 	let whyVisible = $state(false);
 
-	let jsonLdElement: HTMLScriptElement;
-	let heroSection: HTMLElement;
-
 	const platforms = [
 		{ name: 'Twitch', logo: '/logos/twitch.svg', url: 'https://twitch.tv' },
 		{ name: 'YouTube', logo: '/logos/youtube.svg', url: 'https://youtube.com' },
@@ -149,19 +146,6 @@
 
 		return () => observer.disconnect();
 	});
-
-	$effect(() => {
-		if (jsonLdElement && page.url.origin) {
-			const jsonLd = {
-				'@context': 'https://schema.org',
-				'@type': 'WebSite',
-				name: 'Chat Vault',
-				url: `${page.url.origin}/`,
-				description: $_('landing.hero.subtitle')
-			};
-			jsonLdElement.textContent = JSON.stringify(jsonLd);
-		}
-	});
 </script>
 
 <svelte:head>
@@ -175,12 +159,9 @@
 	<link rel="canonical" href="{page.url.origin}/" />
 
 	<meta property="og:image" content="{page.url.origin}/favicon.png" />
-
-	<script bind:this={jsonLdElement} type="application/ld+json"></script>
 </svelte:head>
 
 <section
-	bind:this={heroSection}
 	id="hero"
 	class="from-base-200 via-base-100 to-base-200 relative flex min-h-screen flex-col justify-center overflow-hidden bg-gradient-to-br lg:min-h-[calc(100vh-72px)]"
 >
