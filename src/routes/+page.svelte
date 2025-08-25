@@ -218,7 +218,7 @@
 					href="/channel/search"
 					class="btn btn-outline btn-lg px-8 text-lg transition-all duration-300 hover:scale-105"
 				>
-					{$_('landing.hero.cta.secondary')}
+					{$_('channel.search')}
 				</a>
 			</div>
 		</div>

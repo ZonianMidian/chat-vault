@@ -92,9 +92,6 @@
 				"hype_train": "Hype Train"
 			}
 		},
-		"channels": {
-			"label": "Kanály"
-		},
 		"variants": {
 			"label": "Varianty"
 		},
@@ -167,8 +164,7 @@
 			"subtitle": "Vaše sjednocené centrum pro chatové funkce na všech streamovacích platformách.",
 			"description": "Objevujte emotikony, odznaky a kanály z Twitche, YouTubu, Kicku a populárních rozšíření třetích stran na jednom organizovaném místě.",
 			"cta": {
-				"primary": "Prozkoumat emotikony",
-				"secondary": "Hledat kanály"
+				"primary": "Prozkoumat emotikony"
 			}
 		},
 		"platforms": {

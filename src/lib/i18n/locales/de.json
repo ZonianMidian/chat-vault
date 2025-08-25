@@ -92,9 +92,6 @@
 				"hype_train": "Hype Train"
 			}
 		},
-		"channels": {
-			"label": "Channels"
-		},
 		"variants": {
 			"label": "Varianten"
 		},
@@ -167,8 +164,7 @@
 			"subtitle": "Dein zentraler Hub für Chatelemente auf allen Streaming-Plattformen.",
 			"description": "Entdecke Emotes, Badges und Channels von Twitch, YouTube, Kick sowie beliebten Erweiterungen übersichtlich an einem Ort.",
 			"cta": {
-				"primary": "Entdecke Emotes",
-				"secondary": "Kanäle durchsuchen"
+				"primary": "Entdecke Emotes"
 			}
 		},
 		"platforms": {

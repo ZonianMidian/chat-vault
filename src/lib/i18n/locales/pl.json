@@ -92,9 +92,6 @@
 				"hype_train": "Hype Train"
 			}
 		},
-		"channels": {
-			"label": "Kanały"
-		},
 		"variants": {
 			"label": "Warianty"
 		},
@@ -167,8 +164,7 @@
 			"subtitle": "Twoje uniwersalne centrum dla elementów czatu na platformach streamingowych.",
 			"description": "Odkryj emotki, odznaki i kanały z Twitch, YouTube, Kick i inne popularne rozszerzenia w jednym miejscu.",
 			"cta": {
-				"primary": "Przeglądaj emotki",
-				"secondary": "Szukaj kanałów"
+				"primary": "Przeglądaj emotki"
 			}
 		},
 		"platforms": {

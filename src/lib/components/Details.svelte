@@ -163,7 +163,7 @@
 						{#if shouldShowChannelsTab()}
 							<TabButton
 								id="channels"
-								label={$_('emote.channels.label')}
+								label={$_('navbar.channels')}
 								icon={Users}
 								count={channelsTotal()}
 								isActive={activeTab === 'channels'}

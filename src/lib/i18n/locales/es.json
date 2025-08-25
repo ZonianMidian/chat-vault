@@ -92,9 +92,6 @@
 				"hype_train": "Tren del Hype"
 			}
 		},
-		"channels": {
-			"label": "Canales"
-		},
 		"variants": {
 			"label": "Variantes"
 		},
@@ -167,8 +164,7 @@
 			"subtitle": "Tu hub unificado para elementos de chat en plataformas de streaming.",
 			"description": "Descubre emotes, insignias y canales de Twitch, YouTube, Kick y extensiones de terceros populares organizado en un único lugar.",
 			"cta": {
-				"primary": "Explorar Emotes",
-				"secondary": "Buscar Canales"
+				"primary": "Explorar Emotes"
 			}
 		},
 		"platforms": {

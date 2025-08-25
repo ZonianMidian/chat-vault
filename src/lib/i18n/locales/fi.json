@@ -92,9 +92,6 @@
 				"hype_train": "Hype-juna"
 			}
 		},
-		"channels": {
-			"label": "Kanavat"
-		},
 		"variants": {
 			"label": "Variantit"
 		},
@@ -167,8 +164,7 @@
 			"subtitle": "Yhtenäinen keskus kaikille chat-elementeille eri suoratoistoalustoilla.",
 			"description": "Tutustu emoteihin, merkkeihin ja kanaviin Twitchissä, YouTubessa, Kickissä ja suosituissa kolmannen osapuolen laajennuksissa – kaikki yhdessä paikassa.",
 			"cta": {
-				"primary": "Tutki Emoteja",
-				"secondary": "Etsi kanavia"
+				"primary": "Tutki Emoteja"
 			}
 		},
 		"platforms": {
