@@ -1,0 +1,250 @@
+{
+	"language": "Polski",
+	"common": {
+		"select_language": "Wybierz język",
+		"no_results": "Brak wyników",
+		"zero_width": "Nakładka",
+		"platform": "Platforma",
+		"unknown": "Nieznane",
+		"error": "Błąd",
+		"flair": "Ozdoba",
+		"yes": "Tak",
+		"no": "Nie",
+		"info": {
+			"label": "Informacje",
+			"created": "Utworzono",
+			"removed": "Usunięto",
+			"related": "Powiązane"
+		}
+	},
+	"theme": {
+		"label": "Motyw",
+		"system": "Systemowy",
+		"dark": "Ciemny",
+		"light": "Jasny"
+	},
+	"status": {
+		"404": "Nie znaleziono",
+		"500": "Wewnętrzny błąd serwera",
+		"503": "Usługa jest niedostępna"
+	},
+	"error": {
+		"provider": "Nieobsługiwany dostawca",
+		"id": "Dostawca i ID są wymagane",
+		"unknown": "Nieznany błąd",
+		"image": "Nie znaleziono obrazu"
+	},
+	"global": {
+		"label": "Globalne",
+		"emote": "Globalne Emotki",
+		"badge": "Globalne odznaki"
+	},
+	"search": {
+		"label": "Szukaj",
+		"set": "Szukaj zestawów...",
+		"emote": "Szukaj emotek...",
+		"badge": "Szukaj odznak...",
+		"channel": "Szukaj kanałów...",
+		"placeholder": "Szukaj...",
+		"message": "Możesz wyszukać używając nazwy lub podając bezpośredni link."
+	},
+	"provider": {
+		"twitch": "Twitch",
+		"youtube": "YouTube",
+		"kick": "Kick",
+		"bttv": "BetterTTV",
+		"ffz": "FrankerFaceZ",
+		"7tv": "7TV"
+	},
+	"navbar": {
+		"menu": "Menu",
+		"sets": "Zestawy",
+		"emotes": "Emotki",
+		"badges": "Odznaki",
+		"channels": "Kanały"
+	},
+	"construction": {
+		"title": "W budowie!",
+		"description": "Ta sekcja jest w trakcie opracowywania. Wróć wkrótce, aby zobaczyć aktualizacje."
+	},
+	"emote": {
+		"label": "Emotka",
+		"search": "Szukaj emotek",
+		"info": {
+			"artist": "Twórca",
+			"approved": "Zaakceptowano",
+			"set": "Zestaw",
+			"tier": "Poziom",
+			"status": {
+				"label": "Status",
+				"public": "Publiczna",
+				"private": "Prywatna",
+				"deleted": "Usunięto"
+			},
+			"type": {
+				"label": "Typ",
+				"archive": "Zarchiwizowano",
+				"smilies": "Emotki",
+				"prime": "Prime",
+				"turbo": "Turbo",
+				"2fa": "Weryfikacja dwuetapowa",
+				"limited_time": "Ograniczone czasowo",
+				"hype_train": "Hype Train"
+			}
+		},
+		"channels": {
+			"label": "Kanały"
+		},
+		"variants": {
+			"label": "Warianty"
+		},
+		"origin": {
+			"label": "Pochodzenie",
+			"translate": "Tłumacz",
+			"undo": "Cofnij",
+			"source": "Źródło",
+			"author": "Autor"
+		}
+	},
+	"channel": {
+		"label": "Kanał",
+		"search": "Szukaj kanałów",
+		"emotes": "Emotki kanału",
+		"badges": "Odznaki kanału",
+		"followers": "{count, plural, one {# obserwujący} other {# obserwujących}}",
+		"viewers": "{count, plural, one {# widz} other {# widzów}}",
+		"category": "Kategoria",
+		"preview": "Podgląd",
+		"mature": "Dla dorosłych",
+		"staff": "Personel",
+		"affiliate": "Towarzysz",
+		"partner": "Partner",
+		"subscriber": "Subskrybent",
+		"month": "{count, plural, =0 {} =1 {} few {# miesiące} other {# miesięcy}}",
+		"year": "{count, plural, =0 {# lat} =1 {# rok} few {# lata} other {# lat}}",
+		"points": "Punkty kanału"
+	},
+	"set": {
+		"label": "Zestaw",
+		"title": "Emotki {user}",
+		"follower": "Obserwujący",
+		"sub": "Subskrybent",
+		"bits": "Bitsy",
+		"tier": "Poziom {tier}",
+		"global": "Globalne"
+	},
+	"badge": {
+		"label": "Odznaka",
+		"month": "{count, plural, =0 {Subskrybent} =1 {Subskrybent} other {Subskrybent: {count, plural, few {# miesiące} other {# miesięcy}}}}",
+		"year": "Subskrybent: {count, plural, =0 {# lat} =1 {# rok} few {# lata} other {# lat}}",
+		"bits": "{count, plural, =0 {# Bitsów} =1 {# Bit} few {# Bitsy} other {# Bitsów}}",
+		"info": {
+			"cost": "Koszt",
+			"description": "Opis",
+			"action": {
+				"label": "Akcja",
+				"subscribe": "Subskrybuj",
+				"visit_url": "Odwiedź URL"
+			}
+		},
+		"kick": {
+			"bot": "Bot",
+			"broadcaster": "Nadawca",
+			"founder": "Założyciel",
+			"moderator": "Moderator",
+			"og": "OG",
+			"partner": "Zweryfikowany",
+			"sidekick": "Pomocnik",
+			"staff": "Personel",
+			"sub-gifter": "{count, plural, =0 {Darczyńca subów} one {Podarowano # Suba} few {Podarowano # Suby} other {Podarowano # Subów}}",
+			"subscriber": "Subskrybent",
+			"trainwreckstv": "Trainwreckstv",
+			"vip": "VIP"
+		}
+	},
+	"landing": {
+		"hero": {
+			"subtitle": "Twoje uniwersalne centrum dla elementów czatu na platformach streamingowych.",
+			"description": "Odkryj emotki, odznaki i kanały z Twitch, YouTube, Kick i inne popularne rozszerzenia w jednym miejscu.",
+			"cta": {
+				"primary": "Przeglądaj emotki",
+				"secondary": "Szukaj kanałów"
+			}
+		},
+		"platforms": {
+			"title": "Wspierane platformy",
+			"subtitle": "Wspieramy główne platformy streamingowe i popularne zewnętrzne rozszerzenia.",
+			"main": "Główne platformy",
+			"thirdparty": "Zasoby zewnętrzne"
+		},
+		"providers": {
+			"title": "Kompleksowe źródła danych",
+			"subtitle": "Zbieramy i organizujemy dane z wiarygodnych źródeł, aby dostarczyć Ci informacji o kanałach, emotach, odznakach i nie tylko.",
+			"community_title": "Dane dostarczane przez społeczność",
+			"community_description": "Niektóre z naszych informacji pochodzą od dostawców działających w oparciu o potrzeby społeczności, którzy prowadzą kompleksowe bazy danych na temat artykułów czatu, ich pochodzenia i sposobów ich uzyskania.",
+			"contribute_message": "Platformy te są wspierane przez wkład społeczności, dlatego zachęcamy do udzielania się na ich stronach internetowych, aby pomóc w utrzymaniu dokładności i aktualności danych.",
+			"our_partners": "Nasi partnerzy danych",
+			"visit_website": "Odwiedź stronę",
+			"apis": {
+				"title": "Dodatkowe źródła danych",
+				"description": "Używamy również natywnych interfejsów API z platform streamingowych i ich zewnętrznych rozszerzeń wraz z dodatkowymi API, takimi jak:",
+				"conclusion": "Dzięki temu możemy zagwarantować najwyższą jakość danych i informacji dostępnych z różnych źródeł."
+			}
+		},
+		"features": {
+			"title": "Wszystko, czego potrzebujesz",
+			"subtitle": "Kompleksowe narzędzia do odkrywania elementów czatu i organizacji.",
+			"explore": "Przeglądaj",
+			"emotes": {
+				"title": "Kolekcja emotek",
+				"description": "Przeglądaj tysiące emotek, w tym ekskluzywne ograniczone edycje, takie jak Hype Train, globalne emotki, poziomy subskrypcji, usunięte emotki, oraz kolekcje specjalnych z wydarzeń."
+			},
+			"badges": {
+				"title": "Katalog odznak",
+				"description": "Zobacz globalne odznaki z różnych platform, w tym odznaki z zewnętrznych usług, poziomy subskrypcji, specjalne osiągnięcia i upamiętnienia wydarzeń."
+			},
+			"channels": {
+				"title": "Wyszukiwanie kanału",
+				"description": "Znajdź kanały i ich konkretne elementy czatu, dodatki subskrypcji i dostępne emotki na wszystkich wspieranych platformach."
+			}
+		},
+		"why": {
+			"title": "Dlaczego Chat Vault?",
+			"fast": {
+				"title": "Szybkość działania",
+				"description": "Szybkie wyszukiwanie i natychmiastowe wyniki."
+			},
+			"organized": {
+				"title": "Dobre uporządkowanie",
+				"description": "Wszystko skategoryzowane i łatwe do znalezienia."
+			},
+			"updated": {
+				"title": "Zawsze aktualizowane",
+				"description": "Dostępne najnowsze emotki i odznaki."
+			},
+			"free": {
+				"title": "Zupełnie za darmo",
+				"description": "Brak ukrytych kosztów lub subskrypcji. Wszystko bez reklam."
+			}
+		},
+		"contribute": {
+			"title": "Pomóż w rozwoju Chat Vault",
+			"subtitle": "Pomóż nam ulepszyć i rozwinąć Chat Vault dla całej społeczności streamingowej.",
+			"opensource": {
+				"title": "Jesteśmy Open Source",
+				"description": "Możesz zgłaszać sugestie, problemy lub dodawać kod do strony internetowej za pośrednictwem naszego repozytorium GitHub. Twój wkład pomaga sprawić, by Chat Vault był lepszy dla wszystkich.",
+				"cta": "Wyświetl na GitHubie"
+			},
+			"translate": {
+				"title": "Przetłumacz stronę",
+				"description": "Pomóż nam dotrzeć do globalnej publiczności, przyczyniając się do tłumaczenia nowych języków lub ulepszając istniejące języki poprzez nasz projekt Crowdin.",
+				"cta": "Pomóż tłumaczyć"
+			}
+		},
+		"footer": {
+			"disclaimer": "Nie jesteśmy powiązani z żadną platformą streamingową ani zewnętrzną platformą od emotek. Zbieramy publicznie dostępne informacje do celów edukacyjnych i informacyjnych.",
+			"translated_by": "Przetłumaczone przez",
+			"translator_username": "Lopa77"
+		}
+	}
+}

@@ -1,0 +1,250 @@
+{
+	"language": "Suomi",
+	"common": {
+		"select_language": "Valitse kieli",
+		"no_results": "Ei tuloksia",
+		"zero_width": "Peitetaso",
+		"platform": "Alusta",
+		"unknown": "Tuntematon",
+		"error": "Virhe",
+		"flair": "Tyylikuvake",
+		"yes": "Kyllä",
+		"no": "Ei",
+		"info": {
+			"label": "Tiedot",
+			"created": "Luotu",
+			"removed": "Poistettu",
+			"related": "Liittyvät"
+		}
+	},
+	"theme": {
+		"label": "Teema",
+		"system": "Järjestelmä",
+		"dark": "Tumma",
+		"light": "Vaalea"
+	},
+	"status": {
+		"404": "Ei löytynyt",
+		"500": "Sisäinen palvelinvirhe",
+		"503": "Palvelu ei ole käytettävissä"
+	},
+	"error": {
+		"provider": "Ei tuettu palveluntarjoaja",
+		"id": "Vaaditaan palveluntarjoaja ja ID",
+		"unknown": "Tuntematon virhe",
+		"image": "Kuvaa ei löytynyt"
+	},
+	"global": {
+		"label": "Globaali",
+		"emote": "Globaalit Emotet",
+		"badge": "Globaalit Merkit"
+	},
+	"search": {
+		"label": "Etsi",
+		"set": "Etsi settejä...",
+		"emote": "Etsi emoteja...",
+		"badge": "Etsi merkkejä...",
+		"channel": "Etsi kanavia...",
+		"placeholder": "Etsi...",
+		"message": "Voit etsiä käyttämällä nimeä tai syöttämällä suoran linkin."
+	},
+	"provider": {
+		"twitch": "Twitch",
+		"youtube": "YouTube",
+		"kick": "Kick",
+		"bttv": "BetterTTV",
+		"ffz": "FrankerFaceZ",
+		"7tv": "7TV"
+	},
+	"navbar": {
+		"menu": "Valikko",
+		"sets": "Setit",
+		"emotes": "Emotet",
+		"badges": "Merkit",
+		"channels": "Kanavat"
+	},
+	"construction": {
+		"title": "Rakenteilla!",
+		"description": "Tämä osio on vielä kehitteillä. Palaa pian takaisin nähdäksesi päivitykset."
+	},
+	"emote": {
+		"label": "Emote",
+		"search": "Etsi Emoteja",
+		"info": {
+			"artist": "Artisti",
+			"approved": "Hyväksytty",
+			"set": "Setti",
+			"tier": "Taso",
+			"status": {
+				"label": "Tila",
+				"public": "Julkinen",
+				"private": "Yksityinen",
+				"deleted": "Poistettu"
+			},
+			"type": {
+				"label": "Tyyppi",
+				"archive": "Arkistoitu",
+				"smilies": "Hymiöt",
+				"prime": "Prime",
+				"turbo": "Turbo",
+				"2fa": "Kaksivaiheinen tunnistautuminen",
+				"limited_time": "Rajoitetun ajan",
+				"hype_train": "Hype-juna"
+			}
+		},
+		"channels": {
+			"label": "Kanavat"
+		},
+		"variants": {
+			"label": "Variantit"
+		},
+		"origin": {
+			"label": "Alkuperä",
+			"translate": "Käännä",
+			"undo": "Kumoa",
+			"source": "Lähde",
+			"author": "Tekijä"
+		}
+	},
+	"channel": {
+		"label": "Kanava",
+		"search": "Etsi kanavia",
+		"emotes": "Kanavan Emotet",
+		"badges": "Kanavan Merkit",
+		"followers": "{count, plural,one {# seuraaja}other {# seuraajaa}}",
+		"viewers": "{count, plural,one {# katsoja}other {# katsojaa}}",
+		"category": "Kategoria",
+		"preview": "Esikatsele",
+		"mature": "Aikuisille suunnattu ",
+		"staff": "Henkilökunta",
+		"affiliate": "Affiliaatti",
+		"partner": "Kumppani",
+		"subscriber": "Tilaaja",
+		"month": "{count, plural,=0 {}=1 {}other {#-kuukautta}}",
+		"year": "{count, plural,one {#-vuoden}other {#-vuotta}}",
+		"points": "Kanavan Pisteet"
+	},
+	"set": {
+		"label": "Setti",
+		"title": "{user} Emotet",
+		"follower": "Seuraaja",
+		"sub": "Tilaaja",
+		"bits": "Bitit",
+		"tier": "Taso {tier}",
+		"global": "Globaalit"
+	},
+	"badge": {
+		"label": "Merkit",
+		"month": "{count, plural, one {}=0 {Tilaaja} =1 {Tilaaja} other {Tilaaja: #-kuukautta}}",
+		"year": "{count, plural, one {Tilaaja: #-year} other {Tilaaja: #-vuotta}}",
+		"bits": "{cost, plural, one {# Bitti} other {# Bittiä}}",
+		"info": {
+			"cost": "Kustannukset",
+			"description": "Kuvaus",
+			"action": {
+				"label": "Toiminta",
+				"subscribe": "Tilaa",
+				"visit_url": "Vieraile URL-osoitteessa"
+			}
+		},
+		"kick": {
+			"bot": "Botti",
+			"broadcaster": "Lähettäjä",
+			"founder": "Perustaja",
+			"moderator": "Moderaattori",
+			"og": "OG",
+			"partner": "Vahvistettu",
+			"sidekick": "Apuri",
+			"staff": "Henkilökunta",
+			"sub-gifter": "{count, plural, =0 {Lahjoittaja} one {Lahjoittanut # Tilauksen} other {Lahjoittanut # Tilausta}}",
+			"subscriber": "Tilaaja",
+			"trainwreckstv": "Trainwreckstv",
+			"vip": "VIP"
+		}
+	},
+	"landing": {
+		"hero": {
+			"subtitle": "Yhtenäinen keskus kaikille chat-elementeille eri suoratoistoalustoilla.",
+			"description": "Tutustu emoteihin, merkkeihin ja kanaviin Twitchissä, YouTubessa, Kickissä ja suosituissa kolmannen osapuolen laajennuksissa – kaikki yhdessä paikassa.",
+			"cta": {
+				"primary": "Tutki Emoteja",
+				"secondary": "Etsi kanavia"
+			}
+		},
+		"platforms": {
+			"title": "Tuetut alustat",
+			"subtitle": "Tuemme suuria suoratoistoalustoja ja suosittuja kolmannen osapuolen laajennuksia.",
+			"main": "Pääalustat",
+			"thirdparty": "Kolmas osapuoli"
+		},
+		"providers": {
+			"title": "Kattavat tietolähteet",
+			"subtitle": "Keräämme ja järjestämme tietoa luotettavista lähteistä, jotta voimme tarjota sinulle tietoa kanavista, emoteista, merkeistä ja muista sisällöistä",
+			"community_title": "Yhteisölähtöinen tieto",
+			"community_description": "Osa tiedoistamme tulee yhteisölähtöisiltä tarjoajilta, jotka ylläpitävät kattavia tietokantoja chat-elementeistä, niiden alkuperästä ja hankintatavoista.",
+			"contribute_message": "Nämä alustat toimivat yhteisön avustuksella, joten kannustamme sinua osallistumaan niiden omilla sivustoilla, jotta tiedot pysyvät tarkkoina ja ajan tasalla.",
+			"our_partners": "Tietokumppanimme",
+			"visit_website": "Vieraile Sivustolla",
+			"apis": {
+				"title": "Ylimääräiset Tietolähteet",
+				"description": "Käytämme myös natiivi API suoratoistoalustojen ja niiden kolmannen osapuolen lisäosien, sekä ylimääräisiä API kuten:",
+				"conclusion": "Tämän avulla voimme taata, että eri lähteistä saatava tieto ja data ovat mahdollisimman korkealaatuisia."
+			}
+		},
+		"features": {
+			"title": "Kaikki mitä tarvitset",
+			"subtitle": "Kattavat työkalut chatti-elementtin löytämiseen ja järjestämiseen.",
+			"explore": "Selaa",
+			"emotes": {
+				"title": "Emote Kokoelma",
+				"description": "Selaa tuhansia emoteja, mukaan lukien eksklusiivisia rajoitetun ajan kuten Hype Train, globaalit emotet, tilaajatasot, poistetut emotet ja erikoistapahtumakokoelmia."
+			},
+			"badges": {
+				"title": "Merkki Hakemisto",
+				"description": "Näytä maailmanlaajuiset merkit eri alustoilta, mukaan lukien kolmannen osapuolen merkit, tilaajatasot, erityissaavutukset ja tapahtumamerkit."
+			},
+			"channels": {
+				"title": "Kanavan Haku",
+				"description": "Etsi kanavia ja niiden erityisiä chatti-elementtejä, tilausetuudet ja käytettävissä olevia emoteja kaikilla tuetuilla alustoilla."
+			}
+		},
+		"why": {
+			"title": "Miksi valita Chat Vault? ",
+			"fast": {
+				"title": "Salamannopea",
+				"description": "Pikahaku ja välittömät tulokset."
+			},
+			"organized": {
+				"title": "Hyvin Järjestetty",
+				"description": "Kaikki luokiteltu ja helppo löytää."
+			},
+			"updated": {
+				"title": "Aina Päivitetty",
+				"description": "Saatavilla uusimmat emotet ja merkit."
+			},
+			"free": {
+				"title": "Täysin Ilmainen",
+				"description": "Ei piilokustannuksia tai tilauksia. Kaikki ilman mainoksia."
+			}
+		},
+		"contribute": {
+			"title": "Osallistu Chat Vaultiin",
+			"subtitle": "Auta meitä parantamaan and laajentamaan Chat Vaultia koko suoratoistoyhteisölle.",
+			"opensource": {
+				"title": "Lähdekoodimme on avointa",
+				"description": "Voit lähettää ehdotuksia, raportoida ongelmista tai lisätä koodia sivustolle GitHub-arkistomme kautta. Sinun osallistumisesi auttavat tekemään Chat Vaultista paremman kaikille.",
+				"cta": "Katso GitHubissa"
+			},
+			"translate": {
+				"title": "Käännä verkkoa",
+				"description": "Auta meitä tavoittamaan globaali yleisö kääntämällä sisältöä uusille kielille tai parantamalla nykyisiä käännöksiä Crowdin-projektissamme.",
+				"cta": "Auta Kääntämään"
+			}
+		},
+		"footer": {
+			"disclaimer": "Emme ole sidoksissa mihinkään suoratoistoalustaan tai kolmannen osapuolen emojipalveluun. Keräämme ainoastaan julkisesti saatavilla olevaa tietoa opetuksellisiin ja informatiivisiin tarkoituksiin.",
+			"translated_by": "Kääntänyt:",
+			"translator_username": "Locotimon"
+		}
+	}
+}
