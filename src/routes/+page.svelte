@@ -155,8 +155,8 @@
 	<meta name="description" content={$_('landing.hero.subtitle')} />
 	<meta property="og:description" content={$_('landing.hero.subtitle')} />
 
-	<meta property="og:url" content="{page.url.origin}/" />
-	<link rel="canonical" href="{page.url.origin}/" />
+	<meta property="og:url" content={page.url.origin} />
+	<link rel="canonical" href={page.url.origin} />
 
 	<meta property="og:image" content="{page.url.origin}/favicon.png" />
 </svelte:head>

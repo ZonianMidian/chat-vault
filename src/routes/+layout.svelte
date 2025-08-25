@@ -15,7 +15,7 @@
 		'@context': 'https://schema.org',
 		'@type': 'WebSite',
 		name: 'Chat Vault',
-		url: `${page.url.origin}/`,
+		url: `${page.url.origin}`,
 		description: `${$_('landing.hero.subtitle')}`
 	};
 

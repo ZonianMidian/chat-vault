@@ -9,8 +9,8 @@
 	<title>{`${$_('navbar.emotes')} | Chat Vault`}</title>
 	<meta property="og:title" content={$_('navbar.emotes')} />
 
-	<meta property="og:url" content="{page.url.origin}/emote/" />
-	<link rel="canonical" href="{page.url.origin}/emote/" />
+	<meta property="og:url" content="{page.url.origin}/emote" />
+	<link rel="canonical" href="{page.url.origin}/emote" />
 
 	<meta property="og:image" content="{page.url.origin}/favicon.png" />
 </svelte:head>
