@@ -91,14 +91,16 @@
 	<title>{`${error ? $_('common.error') : pageTitle} | Chat Vault`}</title>
 	<meta property="og:title" content={error ? $_('common.error') : pageTitle} />
 
-	<meta
-		property="og:url"
-		content="{page.url.origin}/{data.provider}/{user?.username?.toLowerCase()}"
-	/>
-	<link
-		rel="canonical"
-		href="{page.url.origin}/{data.provider}/{user?.username?.toLowerCase()}"
-	/>
+	{#if !error && data.provider && user?.username}
+		<meta
+			property="og:url"
+			content="{page.url.origin}/channel/{data.provider}/{user.username.toLowerCase()}"
+		/>
+		<link
+			rel="canonical"
+			href="{page.url.origin}/channel/{data.provider}/{user.username.toLowerCase()}"
+		/>
+	{/if}
 
 	<meta property="og:image" content={data.pageImage} />
 </svelte:head>

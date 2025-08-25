@@ -213,18 +213,20 @@
 	<title>{`${error ? $_('common.error') : pageTitle} | Chat Vault`}</title>
 	<meta property="og:title" content={error ? $_('common.error') : pageTitle} />
 
-	<meta
-		property="og:url"
-		content="{page.url.origin}/badge/{data.provider}/{badge?.id.toLowerCase()}{badge?.version
-			? `/${badge?.version}`
-			: ''}"
-	/>
-	<link
-		rel="canonical"
-		href="{page.url.origin}/badge/{data.provider}/{badge?.id.toLowerCase()}{badge?.version
-			? `/${badge?.version}`
-			: ''}"
-	/>
+	{#if !error && data.provider && badge?.id}
+		<meta
+			property="og:url"
+			content="{page.url.origin}/badge/{data.provider}/{badge.id.toLowerCase()}{badge?.version
+				? `/${badge?.version}`
+				: ''}"
+		/>
+		<link
+			rel="canonical"
+			href="{page.url.origin}/badge/{data.provider}/{badge.id.toLowerCase()}{badge?.version
+				? `/${badge?.version}`
+				: ''}"
+		/>
+	{/if}
 
 	<meta property="og:image" content={data.pageImage} />
 </svelte:head>
