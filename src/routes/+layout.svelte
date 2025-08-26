@@ -23,6 +23,8 @@
 </script>
 
 <svelte:head>
+	<title>Chat Vault</title>
+
 	<meta property="og:site_name" content="Chat Vault" />
 	<meta property="og:type" content="website" />
 

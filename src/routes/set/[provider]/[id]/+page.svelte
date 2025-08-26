@@ -1,15 +1,15 @@
 <script lang="ts">
-	import type { Emotes, Set, SetPage } from '$lib/types/common';
+	import type { SetPage } from '$lib/types/common';
 
+	import { filterEmotes } from '$lib/utils';
 	import { Search } from '@lucide/svelte';
+	import { page } from '$app/state';
 	import { _ } from 'svelte-i18n';
 
 	import SearchError from '$lib/components/SearchError.svelte';
 	import ImageGrid from '$lib/components/ImageGrid.svelte';
 	import Owner from '$lib/components/set/Owner.svelte';
 	import Error from '$lib/components/Error.svelte';
-	import { filterEmotes } from '$lib/utils';
-	import { page } from '$app/state';
 
 	let { data }: { data: SetPage } = $props();
 
