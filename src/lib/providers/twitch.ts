@@ -577,7 +577,12 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 			badge = globalBadge;
 			isGlobal = true;
 
-			const relatedBadges = data.filter((b) => b.id === globalBadge.id);
+			const relatedBadges = data.filter(
+				(b) =>
+					b.id === globalBadge.id &&
+					b.version !== globalBadge.version &&
+					b.provider === 'twitch'
+			);
 			related = {
 				total: relatedBadges.length,
 				list: relatedBadges
