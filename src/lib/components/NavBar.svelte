@@ -122,7 +122,7 @@
 <nav class="navbar bg-base-200 sticky top-0 z-50 shadow">
 	<div class="navbar-start w-fit transition-opacity hover:opacity-80 lg:w-auto">
 		<a href="/" class="flex items-center gap-2">
-			<img src="/logo.svg" alt="Logo" class="h-10 w-10" />
+			<img src="/favicon.svg" alt="Logo" class="h-10 w-10" />
 			<span class="text-2xl font-black">Chat Vault</span>
 		</a>
 	</div>

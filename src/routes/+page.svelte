@@ -185,7 +185,7 @@
 		<div class="animate-fade-in-up w-full">
 			<div class="mb-8 flex justify-center">
 				<img
-					src="/logo.svg"
+					src="/favicon.svg"
 					alt="Chat Vault"
 					class="h-32 w-32 drop-shadow-2xl transition-transform duration-500 ease-out hover:scale-110"
 				/>
