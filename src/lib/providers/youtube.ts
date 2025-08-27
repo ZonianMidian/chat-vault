@@ -2,13 +2,13 @@ import type { Emote, Emotes } from '$lib/types/common';
 
 import Globals from '$lib/emotes/data/ytGlobals.json';
 
-import { $format, findGlobalEmote, proxyUrl } from '$lib/utils';
+import { $format, findGlobalEmote, imageProxy } from '$lib/utils';
 
 export async function getYouTubeEmote(emoteId: string): Promise<Emote> {
 	const isGlobal = await findGlobalEmote(emoteId, 'youtube');
 
 	if (!isGlobal) {
-		const url = `${proxyUrl}https://yt3.ggpht.com/${emoteId}=s48-c`;
+		const url = `${imageProxy}https://yt3.ggpht.com/${emoteId}=s48-c`;
 
 		const res = await fetch(url);
 		if (!res.ok) {
