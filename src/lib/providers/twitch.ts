@@ -443,7 +443,7 @@ export async function getTwitchChannel(userLogin: string): Promise<ChannelData> 
 }
 
 export async function getTwitchGlobalBadges(): Promise<Badges[]> {
-	const request = await fetch(`https://api.spanix.team/globals`, {
+	const request = await fetch(`https://api.spanix.team/global_badges`, {
 		headers: {
 			'Accept-Language': getLang()
 		}
