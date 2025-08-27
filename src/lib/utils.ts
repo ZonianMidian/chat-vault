@@ -13,6 +13,8 @@ export const $number = unwrapFunctionStore(number);
 export const imageProxy = 'https://wsrv.nl/?n=-1&url=';
 export const proxyUrl = 'https://corsproxy.io/?url=';
 
+export const definedStatus = [400, 404, 500, 503];
+
 export const UUID =
 	/[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}/g;
 

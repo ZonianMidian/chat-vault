@@ -31,7 +31,6 @@
 	};
 	let tabPages = $state<TabPageMap>({});
 
-	let error = $state<string | null>(data.error || null);
 	let badge = $state<Badge | null>(data.badge);
 	let badgeProvider = $state(data.provider);
 	let extras = $state<Extras | null>(null);
@@ -165,7 +164,6 @@
 				resetState();
 
 				badge = data.badge;
-				error = data.error || null;
 				badgeProvider = data.provider;
 
 				if (badge && browser) {
@@ -210,10 +208,10 @@
 </script>
 
 <svelte:head>
-	<title>{`${error ? $_('common.error') : pageTitle} | Chat Vault`}</title>
-	<meta property="og:title" content={error ? $_('common.error') : pageTitle} />
+	<title>{`${pageTitle} | Chat Vault`}</title>
+	<meta property="og:title" content={pageTitle} />
 
-	{#if !error && data.provider && badge?.id}
+	{#if data.provider && badge?.id}
 		<meta
 			property="og:url"
 			content="{page.url.origin}/badge/{data.provider}/{badge.id.toLowerCase()}{badge?.version
@@ -248,5 +246,4 @@
 	{prevPage}
 	{nextPage}
 	{extras}
-	{error}
 />

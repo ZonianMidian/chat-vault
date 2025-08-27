@@ -31,8 +31,6 @@ export async function fetchChannel(platform: string, channelLogin: string): Prom
 		return await fetcher(channelLogin);
 	} catch (err) {
 		console.error(`[${$format('channel.label')}] ${$format('common.platform')}:`, err);
-		throw new Error(
-			`[${$format('channel.label')}] ${$format('common.platform')}: ${err instanceof Error ? err.message : $format('error.unknown')}`
-		);
+		throw new Error(err instanceof Error ? err.message : $format('error.unknown'));
 	}
 }

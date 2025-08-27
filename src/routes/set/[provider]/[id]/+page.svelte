@@ -16,7 +16,6 @@
 	let search = $state('');
 
 	const set = $derived(data.set);
-	const error = $derived(data.error || null);
 	const setEmotes = $derived(set?.emotes || []);
 	const filteredEmotes = $derived(filterEmotes(setEmotes, search));
 
@@ -27,10 +26,10 @@
 </script>
 
 <svelte:head>
-	<title>{`${error ? $_('common.error') : pageTitle} | Chat Vault`}</title>
-	<meta property="og:title" content={error ? $_('common.error') : pageTitle} />
+	<title>{`${pageTitle} | Chat Vault`}</title>
+	<meta property="og:title" content={pageTitle} />
 
-	{#if !error && data.provider && set?.id}
+	{#if data.provider && set?.id}
 		<meta property="og:url" content="{page.url.origin}/set/{data.provider}/{set.id}" />
 		<link rel="canonical" href="{page.url.origin}/set/{data.provider}/{set.id}" />
 	{/if}
@@ -38,9 +37,9 @@
 	<meta property="og:image" content={data.pageImage} />
 </svelte:head>
 
-{#if error || !data}
+{#if !data}
 	<div class="container-general container-h">
-		<Error error={error ?? $_('status.404')} />
+		<Error error={$_('status.404')} />
 	</div>
 {:else}
 	<div class="container-general">

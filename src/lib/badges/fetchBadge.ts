@@ -41,8 +41,6 @@ export async function fetchBadge(provider: string, emoteId: string): Promise<Bad
 		return await fetcher(emoteId);
 	} catch (err) {
 		console.error(`[${$format('badge.label')}]:`, err);
-		throw new Error(
-			`[${$format('badge.label')}]: ${err instanceof Error ? err.message : $format('error.unknown')}`
-		);
+		throw new Error(err instanceof Error ? err.message : $format('error.unknown'));
 	}
 }

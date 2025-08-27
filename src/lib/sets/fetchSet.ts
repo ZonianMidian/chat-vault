@@ -52,8 +52,6 @@ export async function fetchSet(provider: string, setId: string): Promise<Set> {
 		return await fetcher(setId);
 	} catch (err) {
 		console.error(`[${$format('set.label')}]:`, err);
-		throw new Error(
-			`[${$format('set.label')}]: ${err instanceof Error ? err.message : $format('error.unknown')}`
-		);
+		throw new Error(err instanceof Error ? err.message : $format('error.unknown'));
 	}
 }

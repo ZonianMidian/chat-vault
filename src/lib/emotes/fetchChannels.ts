@@ -28,8 +28,6 @@ export async function fetchChannels(
 		}
 	} catch (err) {
 		console.error(`[${$format('emote.label')}] ${$format('navbar.channels')}:`, err);
-		throw new Error(
-			`[${$format('emote.label')}] ${$format('navbar.channels')}: ${err instanceof Error ? err.message : $format('error.unknown')}`
-		);
+		throw new Error(err instanceof Error ? err.message : $format('error.unknown'));
 	}
 }

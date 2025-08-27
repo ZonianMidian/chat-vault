@@ -1,6 +1,7 @@
 import type { ChannelData, ChannelPage } from '$lib/types/common.js';
 
 import { fetchChannel } from '$lib/channels/fetchChannel';
+import { waitLocale } from 'svelte-i18n';
 import { $format } from '$lib/utils.js';
 import { error } from '@sveltejs/kit';
 
@@ -8,8 +9,10 @@ import { error } from '@sveltejs/kit';
 export async function load({ params, url }): Promise<ChannelPage> {
 	let { provider, login } = params;
 
+	await waitLocale();
+
 	if (!provider || !login) {
-		throw error(400, $format('error.id'));
+		throw error(400, { message: $format('error.id'), custom: true });
 	}
 
 	try {
@@ -24,13 +27,9 @@ export async function load({ params, url }): Promise<ChannelPage> {
 		};
 	} catch (err) {
 		const errorMessage = (err as Error).message;
-
-		return {
-			id: '',
-			channel: null,
-			provider,
-			error: errorMessage,
-			pageImage: `${url.origin}/favicon.png`
-		};
+		throw error(Number(errorMessage.match(/\d+/)?.[0]) ?? 404, {
+			message: errorMessage,
+			custom: true
+		});
 	}
 }

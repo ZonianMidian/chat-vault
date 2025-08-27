@@ -9,11 +9,11 @@ import { error } from '@sveltejs/kit';
 export async function load({ params, url }): Promise<BadgePage> {
 	let { provider, id } = params;
 
-	if (!provider || !id) {
-		throw error(400, $format('error.id'));
-	}
-
 	await waitLocale();
+
+	if (!provider || !id) {
+		throw error(400, { message: $format('error.id'), custom: true });
+	}
 
 	try {
 		const badge: Badge = await fetchBadge(provider, id);
@@ -39,13 +39,9 @@ export async function load({ params, url }): Promise<BadgePage> {
 		};
 	} catch (err) {
 		const errorMessage = (err as Error).message;
-
-		return {
-			id,
-			provider,
-			error: errorMessage,
-			badge: null,
-			pageImage: `${url.origin}/favicon.png`
-		};
+		throw error(Number(errorMessage.match(/\d+/)?.[0]) ?? 404, {
+			message: errorMessage,
+			custom: true
+		});
 	}
 }

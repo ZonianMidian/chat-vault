@@ -41,8 +41,6 @@ export async function fetchEmotes(
 		}
 	} catch (err) {
 		console.error(`[${$format('channel.label')}] ${$format('navbar.emotes')}:`, err);
-		throw new Error(
-			`[${$format('channel.label')}] ${$format('navbar.emotes')}: ${err instanceof Error ? err.message : $format('error.unknown')}`
-		);
+		throw new Error(err instanceof Error ? err.message : $format('error.unknown'));
 	}
 }

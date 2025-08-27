@@ -18,7 +18,6 @@
 	let {
 		data = null,
 		extras = null,
-		error = null,
 		isLoading = {
 			info: true,
 			extras: true,
@@ -43,7 +42,6 @@
 	} = $props<{
 		data?: Emote | Badge | null;
 		extras?: Extras | null;
-		error?: string | null;
 		isLoading?: {
 			info: boolean;
 			extras: boolean;
@@ -103,9 +101,9 @@
 	});
 </script>
 
-{#if error || !data}
+{#if !data}
 	<div class="container-general container-h">
-		<Error error={error ?? $_('status.404')} />
+		<Error error={$_('status.404')} />
 	</div>
 {:else}
 	<div class="container-general">

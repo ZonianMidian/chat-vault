@@ -9,7 +9,7 @@ export async function load({ params, url }): Promise<SetPage> {
 	let { provider, id } = params;
 
 	if (!provider || !id) {
-		throw error(400, $format('error.id'));
+		throw error(400, { message: $format('error.id'), custom: true });
 	}
 
 	try {
@@ -25,13 +25,9 @@ export async function load({ params, url }): Promise<SetPage> {
 		};
 	} catch (err) {
 		const errorMessage = (err as Error).message;
-
-		return {
-			pageImage: `${url.origin}/favicon.png`,
-			error: errorMessage,
-			set: null,
-			provider,
-			id
-		};
+		throw error(Number(errorMessage.match(/\d+/)?.[0]) ?? 404, {
+			message: errorMessage,
+			custom: true
+		});
 	}
 }

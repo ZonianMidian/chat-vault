@@ -24,6 +24,7 @@
 		"light": "Claro"
 	},
 	"status": {
+		"400": "Solicitud Incorrecta",
 		"404": "No Encontrado",
 		"500": "Error Interno del Servidor",
 		"503": "Servicio No Disponible"

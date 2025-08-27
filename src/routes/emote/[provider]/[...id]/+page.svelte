@@ -34,7 +34,6 @@
 	};
 	let tabPages = $state<TabPageMap>({});
 
-	let error = $state<string | null>(data.error || null);
 	let emote = $state<Emote | null>(data.emote);
 	let emoteProvider = $state(data.provider);
 	let extras = $state<Extras | null>(null);
@@ -284,7 +283,6 @@
 				resetState();
 
 				emote = data.emote;
-				error = data.error || null;
 				emoteProvider = data.provider;
 
 				if (emote && browser) {
@@ -306,10 +304,10 @@
 </script>
 
 <svelte:head>
-	<title>{`${error ? $_('common.error') : pageTitle} | Chat Vault`}</title>
-	<meta property="og:title" content={error ? $_('common.error') : pageTitle} />
+	<title>{`${pageTitle} | Chat Vault`}</title>
+	<meta property="og:title" content={pageTitle} />
 
-	{#if !error && data.provider && emote?.id}
+	{#if data.provider && emote?.id}
 		<meta property="og:url" content="{page.url.origin}/emote/{data.provider}/{data.emote.id}" />
 		<link rel="canonical" href="{page.url.origin}/emote/{data.provider}/{data.emote.id}" />
 	{/if}
@@ -336,5 +334,4 @@
 	{prevPage}
 	{nextPage}
 	{extras}
-	{error}
 />

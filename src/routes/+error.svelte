@@ -1,8 +1,19 @@
 <script lang="ts">
+	import { definedStatus } from '$lib/utils';
 	import { page } from '$app/state';
 	import { _ } from 'svelte-i18n';
 
 	import Error from '$lib/components/Error.svelte';
+
+	const message = $state(page.error?.message ?? $_('error.unknown'));
+	const isDefined = definedStatus.includes(page.status ?? 0);
+	const isCustom = $state(page.error?.custom ?? false);
+
+	const error = isCustom
+		? message
+		: isDefined
+			? $_(`status.${page.status}`)
+			: $_('error.unknown');
 </script>
 
 <svelte:head>
@@ -12,5 +23,5 @@
 </svelte:head>
 
 <div class="container-general container-h">
-	<Error error={$_('status.404')} />
+	<Error {error} />
 </div>

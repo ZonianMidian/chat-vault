@@ -44,8 +44,6 @@ export async function fetchGlobalBadges(provider: string): Promise<Badges[]> {
 		}
 	} catch (err) {
 		console.error(`[${$format('global.label')}] ${$format('navbar.badges')}:`, err);
-		throw new Error(
-			`[${$format('global.label')}] ${$format('navbar.badges')}: ${err instanceof Error ? err.message : $format('error.unknown')}`
-		);
+		throw new Error(err instanceof Error ? err.message : $format('error.unknown'));
 	}
 }

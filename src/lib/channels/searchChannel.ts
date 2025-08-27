@@ -36,8 +36,6 @@ export async function searchChannel(
 		}
 	} catch (err) {
 		console.error(`[${$format('channel.label')}] ${$format('search.label')}:`, err);
-		throw new Error(
-			`[${$format('channel.label')}] ${$format('search.label')}: ${err instanceof Error ? err.message : $format('error.unknown')}`
-		);
+		throw new Error(err instanceof Error ? err.message : $format('error.unknown'));
 	}
 }

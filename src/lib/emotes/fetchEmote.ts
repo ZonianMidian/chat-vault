@@ -58,8 +58,6 @@ export async function fetchEmote(provider: string, emoteId: string): Promise<Emo
 		return await fetcher(emoteId);
 	} catch (err) {
 		console.error(`[${$format('emote.label')}]`, err);
-		throw new Error(
-			`[${$format('emote.label')}]: ${err instanceof Error ? err.message : $format('error.unknown')}`
-		);
+		throw new Error(err instanceof Error ? err.message : $format('error.unknown'));
 	}
 }

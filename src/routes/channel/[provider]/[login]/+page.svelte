@@ -20,7 +20,6 @@
 	const { data } = $props<{ data: ChannelPage }>();
 
 	let providers = $state<ChannelProvider[] | null>(null);
-	let error = $state<string | null>(data.error || null);
 	let isLoading = $state<boolean>(true);
 	let fetchKey = $state<string>('');
 
@@ -49,7 +48,6 @@
 
 		try {
 			isLoading = true;
-			error = null;
 			fetchKey = currentKey;
 
 			const result = await fetchEmotes('all', id, provider);
@@ -59,8 +57,7 @@
 			}
 		} catch (err) {
 			if (fetchKey === currentKey) {
-				console.error('Error fetching emotes:', err);
-				error = 'Error loading emotes';
+				console.error(err);
 				providers = null;
 			}
 		} finally {
@@ -81,17 +78,13 @@
 			});
 		}
 	});
-
-	$effect(() => {
-		error = data.error || null;
-	});
 </script>
 
 <svelte:head>
-	<title>{`${error ? $_('common.error') : pageTitle} | Chat Vault`}</title>
-	<meta property="og:title" content={error ? $_('common.error') : pageTitle} />
+	<title>{`${pageTitle} | Chat Vault`}</title>
+	<meta property="og:title" content={pageTitle} />
 
-	{#if !error && data.provider && user?.username}
+	{#if data.provider && user?.username}
 		<meta
 			property="og:url"
 			content="{page.url.origin}/channel/{data.provider}/{user.username.toLowerCase()}"
@@ -105,9 +98,9 @@
 	<meta property="og:image" content={data.pageImage} />
 </svelte:head>
 
-{#if error || !data || !user}
+{#if !data || !user}
 	<div class="container-general container-h">
-		<Error error={error ?? $_('status.404')} />
+		<Error error={$_('status.404')} />
 	</div>
 {:else}
 	<div class="container-general">

@@ -68,8 +68,6 @@ export async function fetchGlobalEmotes(provider: string): Promise<Emotes[]> {
 		}
 	} catch (err) {
 		console.error(`[${$format('global.label')}] ${$format('navbar.emotes')}:`, err);
-		throw new Error(
-			`[${$format('global.label')}] ${$format('navbar.emotes')}: ${err instanceof Error ? err.message : $format('error.unknown')}`
-		);
+		throw new Error(err instanceof Error ? err.message : $format('error.unknown'));
 	}
 }
