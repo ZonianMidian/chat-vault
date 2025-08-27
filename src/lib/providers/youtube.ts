@@ -1,5 +1,7 @@
 import type { Emote, Emotes } from '$lib/types/common';
 
+import Globals from '$lib/emotes/data/ytGlobals.json';
+
 import { $format, findGlobalEmote, proxyUrl } from '$lib/utils';
 
 export async function getYouTubeEmote(emoteId: string): Promise<Emote> {
@@ -50,19 +52,7 @@ export async function getYouTubeEmote(emoteId: string): Promise<Emote> {
 }
 
 export async function getYouTubeGlobalEmotes(): Promise<Emotes[]> {
-	const url = `${proxyUrl}https://gist.githubusercontent.com/ZonianMidian/fc833761e7d31a3e64cd0ff288d61067/raw/ad5b3332ecb837ae77205f8d9062d918d52a9ece/youtube_emojis.json`;
-
-	const res = await fetch(url);
-	if (!res.ok) {
-		throw new Error(`[YouTube] Global Emotes | 404: ${$format('status.404')}`);
-	}
-
-	const data = await res.json();
-	if (!data || !Array.isArray(data)) {
-		throw new Error(`[YouTube] Global Emotes | 500: ${$format('status.500')}`);
-	}
-
-	return data.map((emoji) => {
+	return Globals.map((emoji) => {
 		return {
 			id: emoji.id.toString(),
 			name: emoji.name,
