@@ -55,7 +55,6 @@ export interface Artist {
 export interface TwitchUser {
 	id: string;
 	login: string;
-	logo: string;
 	chatColor: string | null;
 	createdAt: Date;
 	description: string | null;

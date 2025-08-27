@@ -137,7 +137,7 @@ export async function getTwitchEmote(emoteId: string): Promise<Emote> {
 			data?.artist && artist
 				? {
 						id: data.artist.id,
-						avatar: `https://cdn.frankerfacez.com/avatar/twitch/${data.artist.id}`,
+						avatar: `https://api.spanix.team/avatar/id/${data.artist.id}/150`,
 						source: `https://twitch.tv/${artist}`,
 						username: artist,
 						platform: 'twitch'
@@ -146,7 +146,7 @@ export async function getTwitchEmote(emoteId: string): Promise<Emote> {
 		owner: userId
 			? {
 					id: userId,
-					avatar: `https://cdn.frankerfacez.com/avatar/twitch/${userId}`,
+					avatar: `https://api.spanix.team/avatar/id/${userId}/150`,
 					source: `https://twitch.tv/${userName}`,
 					platform: 'twitch',
 					username: userName ?? ''
@@ -192,7 +192,7 @@ export async function getTwitchGlobalEmotes(): Promise<Emotes[]> {
 }
 
 export async function getTwitchSet(setId: string): Promise<Set> {
-	const url = `https://api.ivr.fi/v2/twitch/emotes/sets?set_id=${setId}`;
+	const url = `https://api.spanix.team/get_set/${setId}`;
 	const res = await fetch(url);
 	if (!res.ok) {
 		const message = res.status === 500 ? $format('status.500') : res.statusText;
@@ -225,7 +225,7 @@ export async function getTwitchSet(setId: string): Promise<Set> {
 		owner: {
 			id: set.channelID ?? '12826',
 			username: userName,
-			avatar: `https://cdn.frankerfacez.com/avatar/twitch/${set.channelID ?? '12826'}`,
+			avatar: `https://api.spanix.team/avatar/id/${set.channelID ?? '12826'}/150`,
 			source: `https://twitch.tv/${userName}`,
 			platform: 'twitch'
 		},
@@ -240,7 +240,7 @@ export async function getTwitchSet(setId: string): Promise<Set> {
 }
 
 export async function getTwitchUser(user: string, isId = false): Promise<User> {
-	const url = `https://api.ivr.fi/v2/twitch/user?${isId ? 'id' : 'login'}=${encodeURIComponent(user)}`;
+	const url = `https://api.spanix.team/get_user/${isId ? 'id' : 'login'}/${encodeURIComponent(user)}`;
 
 	const res = await fetch(url);
 	if (!res.ok) {
@@ -248,7 +248,7 @@ export async function getTwitchUser(user: string, isId = false): Promise<User> {
 		throw new Error(`[Twitch] User | ${res.status}: ${message}`);
 	}
 
-	const data: TwitchUser = (await res.json())?.[0];
+	const data: TwitchUser = (await res.json())?.user;
 	if (!data) {
 		throw new Error(`[Twitch] User | 404: ${$format('status.404')}`);
 	}
@@ -258,7 +258,7 @@ export async function getTwitchUser(user: string, isId = false): Promise<User> {
 	return {
 		id: data.id,
 		username: userName,
-		avatar: data.logo,
+		avatar: data.profileImageURL,
 		source: `https://twitch.tv/${userName}`,
 		platform: 'twitch'
 	};
@@ -443,29 +443,10 @@ export async function getTwitchChannel(userLogin: string): Promise<ChannelData> 
 }
 
 export async function getTwitchGlobalBadges(): Promise<Badges[]> {
-	const query = `query GlobalBadges {
-    	badges {
-    	    id
-    	    title
-    	    setID
-    	    version
-    	    clickURL
-    	    description
-    	    onClickAction
-    	    image_url_1x: imageURL(size: NORMAL)
-    	    image_url_2x: imageURL(size: DOUBLE)
-    	    image_url_4x: imageURL(size: QUADRUPLE)
-    	}
-	}`;
-
-	const request = await fetch(`https://gql.twitch.tv/gql`, {
-		credentials: 'omit',
-		method: 'POST',
+	const request = await fetch(`https://api.spanix.team/globals`, {
 		headers: {
-			'Accept-Language': getLang(),
-			'Client-ID': 'kimne78kx3ncx6brgo4mv6wki5h1ko'
-		},
-		body: JSON.stringify({ query })
+			'Accept-Language': getLang()
+		}
 	});
 
 	if (!request.ok) {
@@ -473,7 +454,7 @@ export async function getTwitchGlobalBadges(): Promise<Badges[]> {
 		throw new Error(`[Twitch] Global Badges | ${request.status}: ${message}`);
 	}
 
-	const badges: TwitchBadge[] = (await request.json())?.data?.badges;
+	const badges: TwitchBadge[] = (await request.json())?.badges;
 	if (!badges || badges.length === 0) {
 		throw new Error(`[Twitch] Global Badges | 404: ${$format('status.404')}`);
 	}
@@ -526,7 +507,7 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 		} else {
 			owner = {
 				id: '12826',
-				avatar: 'https://cdn.frankerfacez.com/avatar/twitch/12826',
+				avatar: 'https://api.spanix.team/avatar/id/12826/150',
 				source: `https://twitch.tv/Twitch`,
 				platform: 'twitch',
 				username: 'Twitch'
@@ -590,7 +571,7 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 
 			owner = {
 				id: '12826',
-				avatar: 'https://cdn.frankerfacez.com/avatar/twitch/12826',
+				avatar: 'https://api.spanix.team/avatar/id/12826/150',
 				source: `https://twitch.tv/Twitch`,
 				platform: 'twitch',
 				username: 'Twitch'
@@ -620,49 +601,27 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 
 		owner = {
 			id: '12826',
-			avatar: 'https://cdn.frankerfacez.com/avatar/twitch/12826',
+			avatar: 'https://api.spanix.team/avatar/id/12826/150',
 			source: `https://twitch.tv/Twitch`,
 			platform: 'twitch',
 			username: 'Twitch'
 		};
 	} else {
-		const query = `query ChannelBadges {
-		    user(${isId ? 'id' : 'login'}: "${channel ?? version}", lookupType: ALL) {
-		        id
-		        login
-		        displayName
-		        profileImageURL(width: 300)
-		        broadcastBadges {
-		            id
-		            title
-		            setID
-		            version
-		            clickURL
-		            description
-		            onClickAction
-		            image_url_1x: imageURL(size: NORMAL)
-		            image_url_2x: imageURL(size: DOUBLE)
-		            image_url_4x: imageURL(size: QUADRUPLE)
-		        }
-		    }
-		}`;
-
-		const request = await fetch(`https://gql.twitch.tv/gql`, {
-			credentials: 'omit',
-			method: 'POST',
-			headers: {
-				'Accept-Language': getLang(),
-				'Client-ID': 'kimne78kx3ncx6brgo4mv6wki5h1ko'
-			},
-			body: JSON.stringify({ query })
-		});
+		const request = await fetch(
+			`https://api.spanix.team/get_badges/${isId ? 'id' : 'login'}/${channel ?? version}`,
+			{
+				headers: {
+					'Accept-Language': getLang()
+				}
+			}
+		);
 
 		if (!request.ok) {
 			const message = request.status === 500 ? $format('status.500') : request.statusText;
 			throw new Error(`[Twitch] Badge | ${request.status}: ${message}`);
 		}
 
-		const userData: TwitchUser = (await request.json()).data?.user;
+		const userData: TwitchUser = (await request.json())?.user;
 		if (!userData || !userData.broadcastBadges || userData.broadcastBadges.length === 0) {
 			throw new Error(`[Twitch] Badge | 404: ${$format('status.404')}`);
 		}
@@ -781,27 +740,10 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 }
 
 export async function searchTwitchChannel(search: string, limit = 50): Promise<User[]> {
-	const query = `query Channels {
-	    searchUsers(userQuery: "${search}", first: ${limit}) {
-	        edges {
-	            node {
-	                id
-	                login
-	                displayName
-	                profileImageURL(width: 600)
-	            }
-	        }
-	    }
-	}`;
-
-	const request = await fetch(`https://gql.twitch.tv/gql`, {
-		credentials: 'omit',
-		method: 'POST',
+	const request = await fetch(`https://api.spanix.team/search_user/${search}?limit=${limit}`, {
 		headers: {
-			'Accept-Language': getLang(),
-			'Client-ID': 'kimne78kx3ncx6brgo4mv6wki5h1ko'
-		},
-		body: JSON.stringify({ query })
+			'Accept-Language': getLang()
+		}
 	});
 
 	if (!request.ok) {
@@ -809,7 +751,7 @@ export async function searchTwitchChannel(search: string, limit = 50): Promise<U
 		throw new Error(`[Twitch] Channels | ${request.status}: ${message}`);
 	}
 
-	const searchData = (await request.json()).data?.searchUsers?.edges;
+	const searchData = (await request.json())?.searchUsers?.edges;
 	if (!searchData) {
 		throw new Error(`[Twitch] Channels | 404: ${$format('status.404')}`);
 	}

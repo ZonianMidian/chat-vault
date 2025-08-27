@@ -50,7 +50,7 @@ export async function getFFZEmote(emoteId: string): Promise<Emote> {
 				: null,
 		owner: {
 			id: data.owner.provider_id,
-			avatar: `https://cdn.frankerfacez.com/avatar/twitch/${data.owner.provider_id}`,
+			avatar: `https://cdn.frankerfacez.com/avatar/${data.owner.provider}/${data.owner.provider_id}`,
 			source: `https://frankerfacez.com/channel/${data.owner.name}`,
 			username: userName,
 			platform: data.owner.provider as Platforms
@@ -94,7 +94,7 @@ export async function getFFZChannels(emoteId: string, page: number = 1): Promise
 				list: [
 					{
 						id: '46622312',
-						avatar: 'https://cdn.frankerfacez.com/avatar/twitch/46622312',
+						avatar: 'https://api.spanix.team/avatar/id/46622312/150',
 						username: 'FrankerFaceZ',
 						platform: 'twitch'
 					}

@@ -41,7 +41,7 @@ export async function getBTTVEmote(emoteId: string): Promise<Emote> {
 		artist: null,
 		owner: {
 			id: data.user.providerId,
-			avatar: `https://cdn.frankerfacez.com/avatar/twitch/${data.user.providerId}`,
+			avatar: `https://api.spanix.team/avatar/id/${data.user.providerId}/150`,
 			source: `https://betterttv.com/users/${data.user.id}`,
 			username: userName,
 			platform: 'twitch'
@@ -209,7 +209,7 @@ export async function getBTTVSet(setId: string): Promise<Set> {
 		owner: {
 			id: data.providerId,
 			username: userName,
-			avatar: `https://cdn.frankerfacez.com/avatar/twitch/${data.providerId}`,
+			avatar: `https://api.spanix.team/avatar/id/${data.providerId}/150`,
 			source: `https://betterttv.net/users/${data.id}`,
 			platform: 'twitch'
 		},
