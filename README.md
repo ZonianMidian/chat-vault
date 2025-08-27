@@ -14,6 +14,7 @@ Help me translate Chat Vault into your language using [Crowdin](https://crowdin.
 
 - [@Paauulli](https://paauulli.me): Donor of the domain for the website.
 - [@treejadey](https://treejadey.com): Helped with the logo and design of the website.
+- [@catamphetamine](https://gitlab.com/catamphetamine): For its repository of [country-flag-icons](https://gitlab.com/catamphetamine/country-flag-icons) used in this project.
 
 ## Issues/Suggestions
 
