@@ -81,7 +81,7 @@ export const socialConfig: Record<string, string> = {
 
 export async function checkVariantExists(url: string): Promise<boolean> {
 	try {
-		const response = await fetch(url, { method: 'HEAD' });
+		const response = await fetch(`${imageProxy}${url}`, { method: 'HEAD' });
 		return response.ok;
 	} catch {
 		return false;
