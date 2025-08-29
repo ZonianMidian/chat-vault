@@ -1,12 +1,15 @@
 import type { Set, SetPage } from '$lib/types/common.js';
 
 import { fetchSet } from '$lib/sets/fetchSet';
+import { waitLocale } from 'svelte-i18n';
 import { $format } from '$lib/utils.js';
 import { error } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ params, url }): Promise<SetPage> {
 	let { provider, id } = params;
+
+	await waitLocale();
 
 	if (!provider || !id) {
 		throw error(400, { message: $format('error.id'), custom: true });

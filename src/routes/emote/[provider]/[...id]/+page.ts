@@ -1,12 +1,15 @@
 import type { Emote, EmotePage } from '$lib/types/common.js';
 
 import { fetchEmote } from '$lib/emotes/fetchEmote';
+import { waitLocale } from 'svelte-i18n';
 import { $format } from '$lib/utils.js';
 import { error } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ params, url }): Promise<EmotePage> {
 	let { provider, id } = params;
+
+	await waitLocale();
 
 	if (!provider || !id) {
 		throw error(400, { message: $format('error.id'), custom: true });
