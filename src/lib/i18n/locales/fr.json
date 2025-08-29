@@ -1,0 +1,246 @@
+{
+	"language": "Français",
+	"common": {
+		"select_language": "Sélectionnez une langue",
+		"no_results": "Aucun résultat",
+		"zero_width": "Surcouche",
+		"platform": "Plateforme",
+		"unknown": "Inconnu",
+		"error": "Erreur",
+		"flair": "Flair",
+		"yes": "Oui",
+		"no": "Non",
+		"info": {
+			"label": "Information",
+			"created": "Créé le",
+			"removed": "Supprimé le",
+			"related": "Lié"
+		}
+	},
+	"theme": {
+		"label": "Thème",
+		"system": "Système",
+		"dark": "Sombre",
+		"light": "Clair"
+	},
+	"status": {
+		"404": "Page non trouvée",
+		"500": "Erreur interne du serveur",
+		"503": "Service temporairement indisponible"
+	},
+	"error": {
+		"provider": "Fournisseur non pris en charge",
+		"id": "Fournisseur et ID requis",
+		"unknown": "Erreur inconnue",
+		"image": "Image non trouvée"
+	},
+	"global": {
+		"label": "Global",
+		"emote": "Émotes globales",
+		"badge": "Badges Globaux"
+	},
+	"search": {
+		"label": "Rechercher",
+		"set": "Rechercher des ensembles...",
+		"emote": "Rechercher des émotes...",
+		"badge": "Rechercher des badges...",
+		"channel": "Rechercher des chaînes...",
+		"placeholder": "Rechercher...",
+		"message": "Vous pouvez effectuer une recherche en utilisant un nom ou en entrant un lien direct."
+	},
+	"provider": {
+		"twitch": "Twitch",
+		"youtube": "YouTube",
+		"kick": "Kick",
+		"bttv": "BetterTTV",
+		"ffz": "FrankerFaceZ",
+		"7tv": "7TV"
+	},
+	"navbar": {
+		"menu": "Menu",
+		"sets": "Ensembles",
+		"emotes": "Émotes",
+		"badges": "Badges",
+		"channels": "Chaînes"
+	},
+	"construction": {
+		"title": "En cours de construction !",
+		"description": "Cette section est encore en cours de développement. Disponible bientôt."
+	},
+	"emote": {
+		"label": "Émote",
+		"search": "Rechercher des émotes",
+		"info": {
+			"artist": "Artiste",
+			"approved": "Validé",
+			"set": "Ensemble",
+			"tier": "Niveau",
+			"status": {
+				"label": "État",
+				"public": "Public",
+				"private": "Privé",
+				"deleted": "Supprimé"
+			},
+			"type": {
+				"label": "Type",
+				"archive": "Archivé",
+				"smilies": "Smileys",
+				"prime": "Prime",
+				"turbo": "Turbo",
+				"2fa": "Authentification à deux facteurs",
+				"limited_time": "Temps limité",
+				"hype_train": "Train de la Hype"
+			}
+		},
+		"variants": {
+			"label": "Variantes"
+		},
+		"origin": {
+			"label": "Origine",
+			"translate": "Traduire",
+			"undo": "Annuler",
+			"source": "Source",
+			"author": "Auteur"
+		}
+	},
+	"channel": {
+		"label": "Chaîne",
+		"search": "Rechercher des chaînes",
+		"emotes": "Émotes de la chaîne",
+		"badges": "Badges de la chaîne",
+		"followers": "{count, plural, one {# follower} other {# followers}}",
+		"viewers": "{count, plural, one {# spectateur} other {# spectateurs}}",
+		"category": "Catégorie",
+		"preview": "Aperçu",
+		"mature": "Adulte",
+		"staff": "Staff",
+		"affiliate": "Affilié",
+		"partner": "Partenaire",
+		"subscriber": "Abonné",
+		"month": "{count, plural, =0 {} =1 {} other {# mois}}",
+		"year": "{count, plural, one {# année} other {# ans}}",
+		"points": "Points de chaîne"
+	},
+	"set": {
+		"label": "Paramétrer",
+		"title": "Émotes de {user}",
+		"follower": "Follower",
+		"sub": "Abonné",
+		"bits": "Bits",
+		"tier": "Niveau {tier}",
+		"global": "Global"
+	},
+	"badge": {
+		"label": "Badge",
+		"month": "{count, plural, one {}=0 {Abonné} =1 {Abonné} other {Abonné: # mois}}",
+		"year": "{count, plural, one {Abonné: # an} other {Abonné: # ans}}",
+		"bits": "{cost, plural, one {# Bit} other {# Bits}}",
+		"info": {
+			"cost": "Prix",
+			"description": "Description",
+			"action": {
+				"label": "Action",
+				"subscribe": "S'abonner",
+				"visit_url": "Visiter URL"
+			}
+		},
+		"kick": {
+			"bot": "Bot",
+			"broadcaster": "Streameur",
+			"founder": "Fondateur",
+			"moderator": "Modérateur",
+			"og": "OG",
+			"partner": "Vérifié",
+			"sidekick": "Acolyte",
+			"staff": "Équipe",
+			"sub-gifter": "{count, plural, =0 {Sub Gift} one {Offert # Abonnement} other {Offert # Abonnements}}",
+			"subscriber": "Abonné",
+			"trainwreckstv": "Trainwreckstv",
+			"vip": "VIP"
+		}
+	},
+	"landing": {
+		"hero": {
+			"subtitle": "Votre hub unifié pour les éléments de chat sur les plateformes de streaming.",
+			"description": "Découvrez des émotes, des badges et des chaînes Twitch, YouTube, Kick, et des extensions tierces populaires dans un seul endroit organisé.",
+			"cta": {
+				"primary": "Explorer les émotes"
+			}
+		},
+		"platforms": {
+			"title": "Plateformes prises en charge",
+			"subtitle": "Nous prenons en charge les principales plateformes de streaming et les extensions tierces populaires.",
+			"main": "Plateformes principales",
+			"thirdparty": "Services tiers"
+		},
+		"providers": {
+			"title": "Sources de données globales",
+			"subtitle": "Nous recueillons et organisons des données à partir de sources fiables afin de vous fournir des informations sur les chaînes, les émotes, les badges, et plus encore.",
+			"community_title": "Données alimentées par la communauté",
+			"community_description": "Certaines de nos informations proviennent de fournisseurs axés sur la communauté, qui maintiennent des bases de données complètes sur des éléments de chat, leurs origines et comment les obtenir.",
+			"contribute_message": "Ces plates-formes sont alimentées par des contributions de la communauté, donc nous vous encourageons à contribuer à leurs sites Web respectifs afin d'aider à maintenir l'intégrité des données.",
+			"our_partners": "Nos partenaires de données",
+			"visit_website": "Visiter le site Web",
+			"apis": {
+				"title": "Sources de données supplémentaires",
+				"description": "Nous utilisons également des API natives à partir de plateformes de streaming et de leurs modules tiers, ainsi que des API supplémentaires telles que :",
+				"conclusion": "Cela nous permet de garantir la plus grande qualité des données et des informations disponibles de différentes sources."
+			}
+		},
+		"features": {
+			"title": "Tout ce dont vous avez besoin",
+			"subtitle": "Outils complets pour la découverte et l'organisation des éléments de chat.",
+			"explore": "Explorer",
+			"emotes": {
+				"title": "Collection d'émotes",
+				"description": "Parcourez des milliers d'émotes, y compris des éditions exclusives limitées telles que celles provenant du Hype Train, des émotes globales, des niveaux d'abonnement, des émotes supprimées, et des collections d'événements spéciaux."
+			},
+			"badges": {
+				"title": "Répertoire des badges",
+				"description": "Visualisez les badges globaux de différentes plateformes, y compris les badges provenant de sites tiers, des niveaux d'abonnement, des succès, et des évènements commémoratifs."
+			},
+			"channels": {
+				"title": "Recherche de chaîne",
+				"description": "Trouvez les chaînes et leurs éléments de chat spécifiques, les avantages d'abonnement et les émotes disponibles sur toutes les plateformes supportées."
+			}
+		},
+		"why": {
+			"title": "Pourquoi choisir Chat Vault?",
+			"fast": {
+				"title": "Ultra rapide",
+				"description": "Recherche rapide et résultats instantanés."
+			},
+			"organized": {
+				"title": "Bien organisé",
+				"description": "Tout est classé et facile à trouver."
+			},
+			"updated": {
+				"title": "Toujours à jour",
+				"description": "Les dernières émotes et les badges sont tout le temps disponibles."
+			},
+			"free": {
+				"title": "Entièrement gratuit",
+				"description": "Pas de coûts cachés ou d'abonnements. Le tout sans aucune publicité."
+			}
+		},
+		"contribute": {
+			"title": "Contribuer à Chat Vault",
+			"subtitle": "Aidez-nous à améliorer et à étendre Chat Vault pour aider toute la communauté du streaming.",
+			"opensource": {
+				"title": "Nous sommes Open Source",
+				"description": "Vous pouvez soumettre des suggestions, signaler des problèmes ou contribuer du code sur le site web via notre dépôt GitHub. Vos contributions aident à améliorer Chat Vault pour tous.",
+				"cta": "Voir sur GitHub"
+			},
+			"translate": {
+				"title": "Traduire le Web",
+				"description": "Aidez-nous à atteindre une plus grande audience, en contribuant des traductions pour de nouvelles langues, ou en améliorant les langues existantes grâce à notre projet Crowdin.",
+				"cta": "Aidez-nous à traduire"
+			}
+		},
+		"footer": {
+			"disclaimer": "Nous n'avons aucune affiliation avec une plateforme de streaming ou service d'émotes. Nous collectons simplement des informations mises à disposition du public à des fins éducatives et d'information.",
+			"translated_by": "Traduit par",
+			"translator_username": "MisterGlorp"
+		}
+	}
+}
