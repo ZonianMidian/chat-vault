@@ -377,10 +377,12 @@ export async function findGlobalBadge(
 	let related: Badges[] = [];
 
 	if (all) {
-		related = data.filter((item) => item.id === badgeId && item.provider === type);
+		related = data.filter((item) => item.id === badgeId);
 	} else {
 		related = data.filter(
-			(item) => item.id === badgeId && item.version !== badgeVersion && item.provider === type
+			(item) =>
+				(item.id === badgeId && item.version !== badgeVersion && item.provider === type) ||
+				(item.id === badgeId && item.provider !== type)
 		);
 	}
 
