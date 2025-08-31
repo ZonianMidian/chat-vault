@@ -381,14 +381,19 @@ export async function findGlobalBadge(
 	} else {
 		related = data.filter(
 			(item) =>
-				(item.id === badgeId && item.version !== badgeVersion && item.provider === type) ||
-				(item.id === badgeId && item.provider !== type)
+				item.id === badgeId &&
+				item.version !== badgeVersion &&
+				(item.provider === type || item.provider !== type)
 		);
 	}
 
 	return {
 		badge,
-		related
+		related: related.sort((a, b) => {
+			if (a.provider === type && b.provider !== type) return -1;
+			if (a.provider !== type && b.provider === type) return 1;
+			return 0;
+		})
 	};
 }
 
