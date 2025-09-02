@@ -1,0 +1,246 @@
+{
+	"language": "Italiano",
+	"common": {
+		"select_language": "Seleziona Lingua",
+		"no_results": "Nessun risultato",
+		"zero_width": "Sovrapposizione",
+		"platform": "Piattaforma",
+		"unknown": "Sconosciuto",
+		"error": "Errore",
+		"flair": "Icona",
+		"yes": "Si",
+		"no": "No",
+		"info": {
+			"label": "Informazione",
+			"created": "Creato nel",
+			"removed": "Rimosso il",
+			"related": "Correlati"
+		}
+	},
+	"theme": {
+		"label": "Tema",
+		"system": "Sistema",
+		"dark": "Scuro",
+		"light": "Chiaro"
+	},
+	"status": {
+		"404": "Non trovato",
+		"500": "Errore Interno del Server",
+		"503": "Servizio Non Disponibile"
+	},
+	"error": {
+		"provider": "Fornitore Non Supportato",
+		"id": "Fornitore e ID sono obbligatori",
+		"unknown": "Errore Sconosciuto",
+		"image": "Immagine non trovata"
+	},
+	"global": {
+		"label": "Globale",
+		"emote": "Emoticon Globali",
+		"badge": "StemmiGlobali"
+	},
+	"search": {
+		"label": "Cerca",
+		"set": "Cerca set...",
+		"emote": "Cerca emoticon...",
+		"badge": "Cerca stemmi...",
+		"channel": "Cerca sanali...",
+		"placeholder": "Cerca...",
+		"message": "Puoi cercare usando un nome o inserendo un link diretto."
+	},
+	"provider": {
+		"twitch": "Twitch",
+		"youtube": "YouTube",
+		"kick": "Kick",
+		"bttv": "BetterTTV",
+		"ffz": "FrankerFaceZ",
+		"7tv": "7TV"
+	},
+	"navbar": {
+		"menu": "Menu",
+		"sets": "Set",
+		"emotes": "Emoticon",
+		"badges": "Stemmi",
+		"channels": "Canali"
+	},
+	"construction": {
+		"title": "Sotto Costruzione!",
+		"description": "Questa sezione è ancora in fase di sviluppo. Torna presto a vedere gli aggiornamenti."
+	},
+	"emote": {
+		"label": "Emoticon",
+		"search": "Cerca Emoticon",
+		"info": {
+			"artist": "Artista",
+			"approved": "Approvato",
+			"set": "Set",
+			"tier": "Livello",
+			"status": {
+				"label": "Status",
+				"public": "Pubblico",
+				"private": "Privato",
+				"deleted": "Cancellato"
+			},
+			"type": {
+				"label": "Digita",
+				"archive": "Archiviato",
+				"smilies": "Smilies",
+				"prime": "Prime",
+				"turbo": "Turbo",
+				"2fa": "Autenticazione A Due Fattori",
+				"limited_time": "Tempo Limitato",
+				"hype_train": "Hype Train"
+			}
+		},
+		"variants": {
+			"label": "Varianti"
+		},
+		"origin": {
+			"label": "Origine",
+			"translate": "Traduci",
+			"undo": "Annulla",
+			"source": "Origine",
+			"author": "Autore"
+		}
+	},
+	"channel": {
+		"label": "Canale",
+		"search": "Cerca Canali",
+		"emotes": "Emoticon Del Canale",
+		"badges": "Stemmi Canali",
+		"followers": "{count, plural, one {# follower} other {# followers}}",
+		"viewers": "{count, plural, one {# spettatore} other {# spettatori}}",
+		"category": "Categoria",
+		"preview": "Anteprima",
+		"mature": "Maturo",
+		"staff": "Staff",
+		"affiliate": "Affiliato",
+		"partner": "Partner",
+		"subscriber": "Abbonato",
+		"month": "{count, plural, one {}=0 {} =1 {} other {#-mesi}}",
+		"year": "{count, plural, one {# anno} other {# anni}}",
+		"points": "Punti Canale"
+	},
+	"set": {
+		"label": "Set",
+		"title": "Emoticon di {user}",
+		"follower": "Follower",
+		"sub": "Abbonato",
+		"bits": "Bit",
+		"tier": "Livello {tier}",
+		"global": "Globali"
+	},
+	"badge": {
+		"label": "Stemma",
+		"month": "{count, plural, =0 {Abbonati} =1 {Abbonati} other {Abbonati: #-mesi}}",
+		"year": "{count, plural, one {Abbonati: #-anno} other {Abbonati: #-anni}}",
+		"bits": "{cost, plural, one {# Bit} other {# Bits}}",
+		"info": {
+			"cost": "Costo",
+			"description": "Descrizione",
+			"action": {
+				"label": "Azione",
+				"subscribe": "Abbonati",
+				"visit_url": "Visita URL"
+			}
+		},
+		"kick": {
+			"bot": "Bot",
+			"broadcaster": "Emittente",
+			"founder": "Fondatore",
+			"moderator": "Moderatore",
+			"og": "OG",
+			"partner": "Verificato",
+			"sidekick": "Sidekick",
+			"staff": "Staff",
+			"sub-gifter": "{count, plural, =0 {Regalatore} one {Regalò # Sub} other {Regalò # Abbonamenti}}",
+			"subscriber": "Abbonato",
+			"trainwreckstv": "Trainwreckstv",
+			"vip": "VIP"
+		}
+	},
+	"landing": {
+		"hero": {
+			"subtitle": "Il tuo hub unificato per gli elementi di chat attraverso le piattaforme di streaming.",
+			"description": "Scopri le emoticon, i stemmi e i canali da Twitch, YouTube, Kick, e le popolari estensioni Third-Party in un unico luogo organizzato.",
+			"cta": {
+				"primary": "Esplora Emoticon"
+			}
+		},
+		"platforms": {
+			"title": "Piattaforme supportate",
+			"subtitle": "Supportiamo le principali piattaforme di streaming e popolari estensioni Third-Party.",
+			"main": "Piattaforme Principali",
+			"thirdparty": "Third-Party"
+		},
+		"providers": {
+			"title": "Fonti Di Dati Complessive",
+			"subtitle": "Raccogliamo e organizziamo dati da fonti affidabili per fornirti informazioni su canali, emoticon, stemmi altro ancora.",
+			"community_title": "Dati Alimentati Alla Comunità",
+			"community_description": "Alcune delle nostre informazioni provengono da fornitori guidati dalla comunità che mantengono le database completi su elementi di chat, le loro origini e come ottenerli.",
+			"contribute_message": "Queste piattaforme sono alimentate da contributi della comunità, quindi ti invitiamo a contribuire ai loro rispettivi siti web per aiutare a mantenere i dati accurati e aggiornati.",
+			"our_partners": "I Nostri Data Partners",
+			"visit_website": "Visita il Sito Web",
+			"apis": {
+				"title": "Fonti dati aggiuntive",
+				"description": "Utilizziamo anche API native da piattaforme di streaming e loro componenti aggiuntivi Third-Party, insieme con API aggiuntive come:",
+				"conclusion": "Questo ci permette di garantire la massima qualità di dati e informazioni disponibili da diverse fonti."
+			}
+		},
+		"features": {
+			"title": "Tutto Ciò Che Ti Serve",
+			"subtitle": "Strumenti completi per la scoperta di elementi di chat e l'organizzazione.",
+			"explore": "Esplora",
+			"emotes": {
+				"title": "Collezione dei Emoticon ",
+				"description": "Sfoglia migliaia di emoticon tra cui edizioni limitate esclusive come Hype Train, emoticon globali, livelli di abbonamento, emoticon cancellate, e collezioni di eventi speciali."
+			},
+			"badges": {
+				"title": "Cartella di Stemmi",
+				"description": "Visualizza stemmi globali da diverse piattaforme, tra cui stemmi di Third-Party, livelli di abbonamento, realizzazioni speciali e commemorazioni di eventi."
+			},
+			"channels": {
+				"title": "Ricerca Canale",
+				"description": "Trova i canali e i loro specifici elementi di chat, i vantaggi di abbonamento e le emoticon disponibili su tutte le piattaforme supportate."
+			}
+		},
+		"why": {
+			"title": "Perché Scegliere Il Vault Chat?",
+			"fast": {
+				"title": "Spedizione rapida",
+				"description": "Ricerca rapida e risultati immediati."
+			},
+			"organized": {
+				"title": "Ben organizzato",
+				"description": "Tutto categorizzato e facile da trovare."
+			},
+			"updated": {
+				"title": "Sempre Aggiornato",
+				"description": "Ultime emoticon e stemmi disponibili."
+			},
+			"free": {
+				"title": "Completamente Gratuito",
+				"description": "Nessun costo nascosto o abbonamenti. Tutto senza pubblicità."
+			}
+		},
+		"contribute": {
+			"title": "Contribuisci alla Chat Vault",
+			"subtitle": "Aiutaci a migliorare ed espandere Chat Vault per l'intera comunità di streaming.",
+			"opensource": {
+				"title": "Siamo Open Source",
+				"description": "Puoi inviare suggerimenti, segnalare problemi o contribuire con il codice al sito web attraverso il nostro deposito GitHub. I tuoi contributi aiutano a migliorare la Chat Vault per tutti.",
+				"cta": "Vedi su GitHub"
+			},
+			"translate": {
+				"title": "Traduci la Web",
+				"description": "Aiutaci a raggiungere un pubblico globale contribuendo alle traduzioni per nuove lingue o migliorando quelle esistenti attraverso il nostro progetto Crowdin.",
+				"cta": "Aiutaci a tradurre"
+			}
+		},
+		"footer": {
+			"disclaimer": "Non siamo affiliati a nessuna piattaforma di streaming o a un servizio di emoticon di terze parti. Raccogliamo semplicemente informazioni accessibili al pubblico per scopi educativi e informativi.",
+			"translated_by": "Tradotto da",
+			"translator_username": "onoff_a"
+		}
+	}
+}
