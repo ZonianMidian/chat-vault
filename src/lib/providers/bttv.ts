@@ -38,7 +38,15 @@ export async function getBTTVEmote(emoteId: string): Promise<Emote> {
 		name: data.code,
 		provider: 'bttv',
 		tags: [],
-		artist: null,
+		artist:
+			data.attribution && data.attribution.toLowerCase() !== data.user.name
+				? {
+						avatar: `https://api.spanix.team/avatar/login/${data.attribution}/150`,
+						source: `https://twitch.tv/${data.user.id}`,
+						username: data.attribution,
+						platform: 'twitch'
+					}
+				: null,
 		owner: {
 			id: data.user.providerId,
 			avatar: `https://api.spanix.team/avatar/id/${data.user.providerId}/150`,

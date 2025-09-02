@@ -10,6 +10,7 @@ export interface BTTVEmote {
 	live: boolean;
 	sharing: boolean;
 	approvalStatus: 'APPROVED' | 'AUTO_APPROVED';
+	attribution?: string;
 	user: BTTVChannel;
 	modifier?: boolean;
 }
