@@ -26,8 +26,7 @@ export async function load({ params, url }): Promise<BadgePage> {
 
 		if (pageImage.startsWith('/')) {
 			pageImage = `${url.origin}${pageImage}`;
-		}
-		if (pageImage.endsWith('.svg')) {
+		} else {
 			pageImage = rezizeImageUrl(pageImage, 72);
 		}
 
