@@ -26,15 +26,13 @@ export async function load({ params, url }): Promise<BadgePage> {
 
 		if (pageImage.startsWith('/')) {
 			pageImage = `${url.origin}${pageImage}`;
-		} else {
-			pageImage = rezizeImageUrl(pageImage, 72);
 		}
 
 		return {
 			id,
 			provider: badge.provider,
 			badge: badge,
-			pageImage
+			pageImage: rezizeImageUrl(pageImage, 72)
 		};
 	} catch (err) {
 		const errorMessage = (err as Error).message;
