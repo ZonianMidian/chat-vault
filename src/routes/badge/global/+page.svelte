@@ -150,10 +150,12 @@
 	<meta property="og:image" content="{page.url.origin}/favicon.png" />
 </svelte:head>
 
-<div class="container-general container-h">
-	{#if (error || !globalBadges.length) && !isLoading}
+{#if (error || !globalBadges.length) && !isLoading}
+	<div class="container-general container-h">
 		<Error error={error ?? $_('status.500')} />
-	{:else}
+	</div>
+{:else}
+	<div class="container-general">
 		<div class="bg-neutral mx-auto w-full max-w-7xl space-y-6 rounded-xl p-6 shadow-md">
 			<div
 				class="mb-6 flex w-full flex-col items-center space-y-3 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-4"
@@ -199,5 +201,5 @@
 				{/each}
 			{/if}
 		</div>
-	{/if}
-</div>
+	</div>
+{/if}
