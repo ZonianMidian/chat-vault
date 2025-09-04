@@ -718,7 +718,9 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 		clickURL:
 			badge.clickAction === 'subscribe'
 				? `https://twitch.tv/subs/${owner?.username}`
-				: (badge.clickURL ?? null),
+				: badge.clickAction === 'GET_TURBO'
+					? 'https://twitch.tv/turbo'
+					: (badge.clickURL ?? null),
 		related,
 		setId: null, // badge.id,
 		global: isGlobal,

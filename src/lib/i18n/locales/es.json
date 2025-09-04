@@ -142,7 +142,8 @@
 			"action": {
 				"label": "Acción",
 				"subscribe": "Suscribirse",
-				"visit_url": "Visitar URL"
+				"visit_url": "Visitar URL",
+				"get_turbo": "Obtener Turbo"
 			}
 		},
 		"kick": {
