@@ -330,7 +330,7 @@ export function generateString(length: number): string {
 }
 
 export function rezizeImageUrl(url: string, size: number): string {
-	return `https://wsrv.nl/?url=${url}&w=${size}&h=${size}&n=-1&output=webp`;
+	return `https://wsrv.nl/?url=${url}&w=${size}&h=${size}&n=-1`;
 }
 
 export function sortBadges(badges: Badges[]): Badges[] {
