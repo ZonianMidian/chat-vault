@@ -429,8 +429,7 @@ export function filterEmotes(emotes: Emotes[], search: string): Emotes[] {
 	return emotes.filter(
 		(e) =>
 			normalizeText(e.name).toLowerCase().includes(s) ||
-			normalizeText(e.owner).toLowerCase().includes(s) ||
-			normalizeText(e.provider).toLowerCase().includes(s)
+			normalizeText(e.owner).toLowerCase().includes(s)
 	);
 }
 
