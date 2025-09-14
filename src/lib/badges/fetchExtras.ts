@@ -47,7 +47,7 @@ export async function fetchExtras(provider: string, badgeId: string): Promise<Ex
 						result.origin.push({
 							source: `https://streamdatabase.com/twitch/global-badges/${badgeId}`,
 							provider: 'StreamDatabase',
-							text: context.content || context.pending_content || '',
+							text: context.pending_content || context.content || '',
 							artist
 						});
 					}

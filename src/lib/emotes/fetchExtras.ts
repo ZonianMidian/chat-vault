@@ -81,7 +81,7 @@ export async function fetchExtras(
 						result.origin.push({
 							source: `https://streamdatabase.com/twitch/global-emotes/${emoteId}`,
 							provider: 'StreamDatabase',
-							text: context.content || context.pending_content || '',
+							text: context.pending_content || context.content || '',
 							artist
 						});
 					}
