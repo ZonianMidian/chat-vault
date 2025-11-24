@@ -108,9 +108,9 @@ export async function getTwitchEmote(emoteId: string): Promise<Emote> {
 	let images =
 		(ImageData as Record<string, Record<string, string[]>>).twitch?.[emoteId] ??
 		(matchedItem
-			? matchedItem.url.includes('i.ivr.fi')
+			? matchedItem.url?.includes('i.ivr.fi')
 				? [1, 2, 3].map((n) => matchedItem.url.replace('_3x.', `_${n}x.`))
-				: matchedItem.url.includes('i.imgur.com')
+				: matchedItem.url?.includes('i.imgur.com')
 					? [matchedItem.url]
 					: null
 			: null);

@@ -64,11 +64,13 @@ export async function fetchExtras(
 						result.createdAt = new Date(addedEntry.timestamp);
 					}
 
-					const removedEntry = [...sdb.data.history]
-						.reverse()
-						.find((entry: EmoteHistory) => entry.type === 'removed');
-					if (removedEntry?.timestamp && !result.deletedAt) {
-						result.deletedAt = new Date(removedEntry.timestamp);
+					if (sdb.data.added === false && !result.deletedAt) {
+						const removedEntry = [...sdb.data.history]
+							.reverse()
+							.find((entry: EmoteHistory) => entry.type === 'removed');
+						if (removedEntry?.timestamp) {
+							result.deletedAt = new Date(removedEntry.timestamp);
+						}
 					}
 
 					const context = sdb.data.contexts[0];

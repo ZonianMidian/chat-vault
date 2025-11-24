@@ -29,7 +29,7 @@ export async function load({ params, url }): Promise<ChannelPage> {
 		};
 	} catch (err) {
 		const errorMessage = (err as Error).message;
-		throw error(Number(errorMessage.match(/\d+/)?.[0]) ?? 404, {
+		throw error(Number(errorMessage.match(/\d+/)?.[0]) || 500, {
 			message: errorMessage,
 			custom: true
 		});
