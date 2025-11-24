@@ -677,7 +677,7 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 						: b.setID === 'subscriber'
 							? formatDuration(Number(b.version))
 							: undefined,
-				version: `${b.version}/${userData.login}`,
+				version: `${b.version}/${userData.id}`,
 				description: b.description,
 				image: b.image_url_4x,
 				provider: 'twitch'
