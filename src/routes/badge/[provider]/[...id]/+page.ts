@@ -5,6 +5,8 @@ import { fetchBadge } from '$lib/badges/fetchBadge.js';
 import { waitLocale } from 'svelte-i18n';
 import { error } from '@sveltejs/kit';
 
+export const ssr = false;
+
 /** @type {import('./$types').PageLoad} */
 export async function load({ params, url }): Promise<BadgePage> {
 	let { provider, id } = params;

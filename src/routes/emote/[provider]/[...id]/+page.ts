@@ -5,6 +5,8 @@ import { waitLocale } from 'svelte-i18n';
 import { $format } from '$lib/utils.js';
 import { error } from '@sveltejs/kit';
 
+export const ssr = false;
+
 /** @type {import('./$types').PageLoad} */
 export async function load({ params, url }): Promise<EmotePage> {
 	let { provider, id } = params;

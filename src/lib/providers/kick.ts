@@ -24,7 +24,7 @@ import {
 
 const defaultAvatar = 'https://kick.com/img/default-profile-pictures/default2.jpeg';
 const kickAvatar =
-	'https://files.kick.com/images/user/6937907/profile_image/conversion/08dd8362-0244-4b28-955c-09909fbab507-fullsize.webp';
+	'https://files.kick.com/images/user/6937907/profile_image/conversion/80a89cbd-7052-49cd-b710-16778899bd86-fullsize.webp';
 
 export async function getKickEmote(emoteId: string): Promise<Emote> {
 	let [id, channel] = emoteId.split('/');
