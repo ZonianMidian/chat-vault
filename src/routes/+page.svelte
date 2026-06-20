@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Zap, Target, RotateCcw, Gem, Github, Languages } from '@lucide/svelte';
+	import { Zap, Target, RotateCcw, Gem, GitPullRequest, Languages } from '@lucide/svelte';
 	import { version } from '$app/environment';
 	import { locale } from 'svelte-i18n';
 	import { page } from '$app/state';
@@ -91,7 +91,7 @@
 		{
 			titleKey: 'landing.contribute.opensource.title',
 			descKey: 'landing.contribute.opensource.description',
-			icon: Github,
+			icon: GitPullRequest,
 			url: 'https://github.com/ZonianMidian/chat-vault',
 			ctaKey: 'landing.contribute.opensource.cta',
 			gradient: 'from-gray-700 to-gray-900'

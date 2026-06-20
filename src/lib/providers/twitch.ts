@@ -320,7 +320,7 @@ export async function getTwitchChannel(userLogin: string): Promise<ChannelData> 
 	});
 
 	const socials = (list: SocialMedia[]): Socials[] =>
-		list.map(({ url, name, title }) => {
+		list?.map(({ url, name, title }) => {
 			let { url: cleanUrl, icon } = getFavicon(url);
 
 			return {
