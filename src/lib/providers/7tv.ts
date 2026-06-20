@@ -350,16 +350,17 @@ export async function get7TVSet(setId: string): Promise<Set> {
 		owner: transformUserData(data.owner),
 		source: `https://7tv.app/emote-sets/${setId}`,
 		provider: '7tv',
-		emotes: data.emotes?.map((emote) => ({
-			id: emote.id,
-			name: emote.name,
-			image: `https://cdn.7tv.app/emote/${emote.id}/4x.avif`,
-			zero_width: [256, 257].includes(emote.data.flags as number),
-			owner:
-				emote.data.owner && emote.data.owner.id !== '00000000000000000000000000'
-					? compareName(emote.data.owner.username, emote.data.owner.display_name)
-					: null,
-			provider: '7tv'
-		})) || []
+		emotes:
+			data.emotes?.map((emote) => ({
+				id: emote.id,
+				name: emote.name,
+				image: `https://cdn.7tv.app/emote/${emote.id}/4x.avif`,
+				zero_width: [256, 257].includes(emote.data.flags as number),
+				owner:
+					emote.data.owner && emote.data.owner.id !== '00000000000000000000000000'
+						? compareName(emote.data.owner.username, emote.data.owner.display_name)
+						: null,
+				provider: '7tv'
+			})) || []
 	};
 }

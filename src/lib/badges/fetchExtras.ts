@@ -1,9 +1,14 @@
 import type { BadgeRequest, BadgeHistory } from '$lib/types/streamdatabase';
 import type { Extras } from '$lib/types/common';
 
+import { customBadges } from '$lib/providers/twitch';
 import { $format } from '$lib/utils';
 
-export async function fetchExtras(provider: string, badgeId: string): Promise<Extras> {
+export async function fetchExtras(
+	provider: string,
+	badgeId: string,
+	channel?: string
+): Promise<Extras> {
 	const result: Extras = {
 		createdAt: null,
 		deletedAt: null,
@@ -17,22 +22,40 @@ export async function fetchExtras(provider: string, badgeId: string): Promise<Ex
 	try {
 		if (['twitch', 'kick'].includes(provider) && !/^\d{1,5}$/.test(badgeId)) {
 			try {
-				const response = await fetch(
-					`https://api.streamdatabase.com/twitch/global-badges/${badgeId}`
-				);
+				let response: Response;
+
+				if (
+					provider === 'twitch' &&
+					channel &&
+					customBadges.includes(badgeId.split('/')[0])
+				) {
+					response = await fetch(
+						`https://api.streamdatabase.com/twitch/channel-badges/${channel}/${badgeId}`
+					);
+				} else {
+					response = await fetch(
+						`https://api.streamdatabase.com/twitch/global-badges/${badgeId}`
+					);
+				}
+
 				if (response.ok) {
 					const sdb: BadgeRequest = await response.json();
 
-					const addedEntry = sdb.data.history.find(
+					const addedEntry = sdb.data?.history?.find(
 						(entry: BadgeHistory) => entry.type === 'added'
 					);
-					if (addedEntry?.timestamp && !result.createdAt) {
+
+					if (sdb.data.created_at) {
+						result.createdAt = new Date(sdb.data.created_at);
+					} else if (addedEntry?.timestamp && !result.createdAt) {
 						result.createdAt = new Date(addedEntry.timestamp);
 					}
 
-					const removedEntry = [...sdb.data.history]
-						.reverse()
-						.find((entry: BadgeHistory) => entry.type === 'removed');
+					const removedEntry = sdb.data?.history
+						? [...sdb.data.history]
+								.reverse()
+								.find((entry: BadgeHistory) => entry.type === 'removed')
+						: null;
 					if (removedEntry?.timestamp && !result.deletedAt) {
 						result.deletedAt = new Date(removedEntry.timestamp);
 					}

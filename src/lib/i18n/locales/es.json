@@ -129,7 +129,9 @@
 		"sub": "Suscriptor",
 		"bits": "Bits",
 		"tier": "Nivel {tier}",
-		"global": "Globales"
+		"global": "Globales",
+		"special_events": "Eventos Especiales",
+		"campaign": "Campañas"
 	},
 	"badge": {
 		"label": "Insignia",
@@ -144,6 +146,10 @@
 				"subscribe": "Suscribirse",
 				"visit_url": "Visitar URL",
 				"get_turbo": "Obtener Turbo"
+			},
+			"type": {
+				"watchtime": "Tiempo de Visualización",
+				"sub_or_gift": "Suscripción o Suscripción de Regalo"
 			}
 		},
 		"kick": {

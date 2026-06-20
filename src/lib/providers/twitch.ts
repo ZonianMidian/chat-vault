@@ -36,6 +36,17 @@ import {
 } from '$lib/utils';
 import { fetchGlobalBadges } from '$lib/badges/fetchGlobals';
 
+export const customBadges = [
+	'kc-subathon-2024',
+	'ariatopia',
+	'plaqueboymax-mixtape',
+	'speed-does-america',
+	'mafiathon-3-badge',
+	'k4sen-con-2025',
+	'1044725354-t-meow',
+	'campaign'
+];
+
 const getType = (type: string, isGlobal = false): string | null => {
 	switch (type) {
 		case 'bits':
@@ -48,6 +59,13 @@ const getType = (type: string, isGlobal = false): string | null => {
 			return 'CHANNEL_POINTS';
 		default:
 			if (isGlobal) return 'GLOBALS';
+
+			if (type.startsWith('campaign')) {
+				if (type.endsWith('mw')) return 'WATCHTIME';
+				if (type.endsWith('sub')) return 'SUB_OR_GIFT';
+			}
+
+			if (customBadges.includes(type)) return 'SPECIAL_EVENT';
 			return null;
 	}
 };
@@ -392,6 +410,14 @@ export async function getTwitchChannel(userLogin: string): Promise<ChannelData> 
 				emotes: mapEmotes(bitsEmotes),
 				badges: [] as Badges[]
 			},
+			special: {
+				emotes: [] as Emotes[],
+				badges: [] as Badges[]
+			},
+			campaign: {
+				emotes: [] as Emotes[],
+				badges: [] as Badges[]
+			},
 			points: {
 				image:
 					data.channel.communityPointsSettings.image?.image_url_4x ??
@@ -404,7 +430,27 @@ export async function getTwitchChannel(userLogin: string): Promise<ChannelData> 
 	broadcastBadges
 		.sort((a, b) => Number(a.version) - Number(b.version))
 		.forEach((badge) => {
-			if (badge.setID === 'bits') {
+			if (badge.setID.startsWith('campaign')) {
+				response.content.campaign.badges.push({
+					id: badge.setID,
+					title: badge.title,
+					version: `${badge.version}/${data.id}`,
+					description: badge.description,
+					image: badge.image_url_4x,
+					type: getType(badge.setID, false),
+					provider: 'twitch'
+				});
+			} else if (customBadges.includes(badge.setID)) {
+				response.content.special.badges.push({
+					id: badge.setID,
+					title: badge.title,
+					version: `${badge.version}/${data.id}`,
+					description: badge.description,
+					image: badge.image_url_4x,
+					type: 'SPECIAL_EVENT',
+					provider: 'twitch'
+				});
+			} else if (badge.setID === 'bits') {
 				response.content.bits.badges.push({
 					id: badge.setID,
 					title: getCheerName(badge.title),
@@ -470,7 +516,7 @@ export async function getTwitchGlobalBadges(): Promise<Badges[]> {
 						? formatDuration(Number(badge.version))
 						: undefined,
 			version: badge.version,
-			type: getType(badge.setID),
+			type: getType(badge.setID, true),
 			description:
 				badge.description?.trim()?.length > 0 && badge.setID !== 'subscriber'
 					? badge.description
@@ -495,7 +541,7 @@ export async function getTwitchBadge(idCode: string): Promise<Badge> {
 	};
 
 	const isId = /^\d{1,10}$/.test(channel ?? version);
-	const isUUID = UUID.test(id);
+	const isUUID = /^[\d a-fA-F]{8}-([\d a-fA-F]{4}-){3}[\d a-fA-F]{12}$/.test(id);
 
 	if (id === 'flair') {
 		if (!['2000', '3000'].includes(version)) {

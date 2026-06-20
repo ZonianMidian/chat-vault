@@ -97,6 +97,8 @@ export interface ChannelContent {
 	subT2: SubTier | null;
 	subT3: SubTier | null;
 	bits: EmoteBadge;
+	special: EmoteBadge;
+	campaign: EmoteBadge;
 	points?: ChannelPoints;
 }
 

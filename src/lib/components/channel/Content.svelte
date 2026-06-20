@@ -30,7 +30,9 @@
 		{ key: 'sub', value: content.sub, tier: 1 },
 		{ key: 'subT2', value: content.subT2, tier: 2 },
 		{ key: 'subT3', value: content.subT3, tier: 3 },
-		{ key: 'bits', value: content.bits }
+		{ key: 'bits', value: content.bits },
+		{ key: 'special_events', value: content.special },
+		{ key: 'campaign', value: content.campaign }
 	];
 </script>
 

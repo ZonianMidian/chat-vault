@@ -65,10 +65,13 @@
 	async function loadExtrasData() {
 		if (!badge) return;
 
+		const versionSegment = badge.version.split('/')[0];
+
 		try {
 			extras = await fetchExtras(
 				badge.provider,
-				`${badge.id}${badge.version ? `/${badge.version}` : ''}`
+				`${badge.id}${versionSegment ? `/${versionSegment}` : ''}`,
+				badge.owner?.username?.toLowerCase() ?? ''
 			);
 
 			if (extras?.createdAt && !createdAt) {

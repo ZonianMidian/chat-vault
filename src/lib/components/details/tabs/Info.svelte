@@ -39,14 +39,20 @@
 				return 'channel.points';
 			case 'MEGA_COMMERCE':
 				return 'emote.info.type.hype_train';
+			case 'SPECIAL_EVENT':
+				return 'set.special_events';
 			case 'SUBSCRIPTIONS':
 				return 'set.sub';
 			case 'LIMITED_TIME':
 				return 'emote.info.type.limited_time';
+			case 'SUB_OR_GIFT':
+				return 'badge.info.type.sub_or_gift';
 			case 'HYPE_TRAIN':
 				return 'emote.info.type.hype_train';
 			case 'TWO_FACTOR':
 				return 'emote.info.type.2fa';
+			case 'WATCHTIME':
+				return 'badge.info.type.watchtime';
 			case 'FOLLOWER':
 				return 'set.follower';
 			case 'ARCHIVE':

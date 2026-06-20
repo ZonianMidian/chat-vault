@@ -21,6 +21,7 @@ export interface BadgeData {
 	added: boolean;
 	user_count: UserCount;
 	contexts: Context[];
+	created_at?: string | null;
 }
 
 export interface CurrentEmote {
