@@ -9,6 +9,7 @@ import type {
 	User
 } from '$lib/types/common';
 import type { Category, KickEmotes, KickGlobals, KickUser, UserData } from '$lib/types/kick';
+import DateData from '$lib/badges/data/dates.json';
 
 import {
 	findGlobalEmote,
@@ -25,6 +26,12 @@ import {
 const defaultAvatar = 'https://kick.com/img/default-profile-pictures/default2.jpeg';
 const kickAvatar =
 	'https://files.kick.com/images/user/6937907/profile_image/conversion/80a89cbd-7052-49cd-b710-16778899bd86-fullsize.webp';
+
+interface Dates {
+	badgeName: string | null;
+	addedAt: string | null;
+	removedAt: string | null;
+}
 
 export async function getKickEmote(emoteId: string): Promise<Emote> {
 	let [id, channel] = emoteId.split('/');
@@ -311,6 +318,14 @@ export async function getKickChannel(userLogin: string): Promise<ChannelData> {
 			bits: {
 				emotes: [],
 				badges: []
+			},
+			special: {
+				emotes: [],
+				badges: []
+			},
+			campaign: {
+				emotes: [],
+				badges: []
 			}
 		}
 	};
@@ -318,7 +333,7 @@ export async function getKickChannel(userLogin: string): Promise<ChannelData> {
 
 export async function getKickGlobalBadges(): Promise<Badges[]> {
 	try {
-		const svgModules = import.meta.glob('/static/images/badge/kick/*.svg', {
+		const badgeModules = import.meta.glob('/static/images/badge/kick/*.{svg,png}', {
 			import: 'default',
 			query: 'url',
 			eager: true
@@ -326,15 +341,26 @@ export async function getKickGlobalBadges(): Promise<Badges[]> {
 
 		const badges: Badges[] = [];
 
-		for (const [path, _] of Object.entries(svgModules)) {
-			const fileName = path.split('/').pop()?.replace('.svg', '') || '';
-			const [id, version] = fileName.split('_');
+		for (const [path, _] of Object.entries(badgeModules)) {
+			const fileNameWithExtension = path.split('/').pop() || '';
 
-			const imagePath = `/images/badge/kick/${fileName}.svg`;
+			const extension = fileNameWithExtension.split('.').pop() || 'svg';
+			const fileName = fileNameWithExtension.replace(/\.(svg|png)$/, '');
+
+			const imagePath = `/images/badge/kick/${fileName}.${extension}`;
+			const [id, version] = fileName.split('~');
+
+			const name = (DateData['kick'] as Record<string, Dates>)[id]?.badgeName || null;
+
+			const translationKey = `badge.kick.${id}`;
+			const translatedTitle = $format(translationKey, { values: { count: version || '0' } });
+			const title =
+				name ||
+				(!translatedTitle || translatedTitle === translationKey ? id : translatedTitle);
 
 			badges.push({
 				id,
-				title: $format(`badge.kick.${id}`, { values: { count: version || '0' } }),
+				title,
 				type: id === 'subscriber' ? 'SUBSCRIPTIONS' : 'GLOBALS',
 				version: version || '1',
 				description: null,

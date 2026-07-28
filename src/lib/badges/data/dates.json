@@ -1,0 +1,46 @@
+{
+	"kick": {
+		"Flyby": {
+			"badgeName": "Flyby",
+			"addedAt": "2026-07-01T00:21:44.000Z",
+			"removedAt": null,
+			"source": "Kick"
+		},
+		"GOAT": {
+			"badgeName": "GOAT",
+			"addedAt": "2026-07-01T00:21:44.000Z",
+			"removedAt": null,
+			"source": "Kick"
+		},
+		"GoldenK": {
+			"badgeName": "Golden K",
+			"addedAt": "2026-07-01T00:21:44.000Z",
+			"removedAt": null,
+			"source": "Kick"
+		},
+		"Unikorn": {
+			"badgeName": "Unikorn",
+			"addedAt": "2026-07-01T00:21:44.000Z",
+			"removedAt": null,
+			"source": "Kick"
+		},
+		"kick_founder22": {
+			"badgeName": null,
+			"addedAt": "2026-07-20T08:10:16.000Z",
+			"removedAt": null,
+			"source": "Kick"
+		},
+		"kick_whale": {
+			"badgeName": null,
+			"addedAt": "2026-07-20T08:10:16.000Z",
+			"removedAt": null,
+			"source": "Kick"
+		},
+		"rs_ags_blade": {
+			"badgeName": "RuneScape Armadyl Godsword",
+			"addedAt": "2026-07-24T18:12:00.000Z",
+			"removedAt": null,
+			"source": "Kick"
+		}
+	}
+}

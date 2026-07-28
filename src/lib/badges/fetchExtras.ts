@@ -2,6 +2,7 @@ import type { BadgeRequest, BadgeHistory } from '$lib/types/streamdatabase';
 import type { Extras } from '$lib/types/common';
 
 import { customBadges } from '$lib/providers/twitch';
+import DateData from '$lib/badges/data/dates.json';
 import { $format } from '$lib/utils';
 
 export async function fetchExtras(
@@ -23,6 +24,29 @@ export async function fetchExtras(
 		if (['twitch', 'kick'].includes(provider) && !/^\d{1,5}$/.test(badgeId)) {
 			try {
 				let response: Response;
+
+				interface Dates {
+					badgeName: string | null;
+					addedAt: string | null;
+					removedAt: string | null;
+				}
+
+				if (
+					(DateData[provider as keyof typeof DateData] as Record<string, Dates>)?.[
+						badgeId.split('/')[0]
+					]
+				) {
+					const dateInfo = (
+						DateData[provider as keyof typeof DateData] as Record<string, Dates>
+					)[badgeId.split('/')[0]];
+
+					if (dateInfo.addedAt && !result.createdAt) {
+						result.createdAt = new Date(dateInfo.addedAt);
+					}
+					if (dateInfo.removedAt && !result.deletedAt) {
+						result.deletedAt = new Date(dateInfo.removedAt);
+					}
+				}
 
 				if (
 					provider === 'twitch' &&

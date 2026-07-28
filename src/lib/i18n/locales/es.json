@@ -164,7 +164,10 @@
 			"sub-gifter": "{count, plural, =0 {Regaló Suscripciones} one {Regaló # Suscripción} other {Regaló # Suscripciones}}",
 			"subscriber": "Suscriptor",
 			"trainwreckstv": "Trainwreckstv",
-			"vip": "VIP"
+			"vip": "VIP",
+			"kick_founder22": "Fundador KICK 22",
+			"kick_whale": "Ballena KICK",
+			"level": "Nivel {count}"
 		}
 	},
 	"landing": {

@@ -164,7 +164,10 @@
 			"sub-gifter": "{count, plural, =0 {Sub Gifter} one {Gifted # Sub} other {Gifted # Subs}}",
 			"subscriber": "Subscriber",
 			"trainwreckstv": "Trainwreckstv",
-			"vip": "VIP"
+			"vip": "VIP",
+			"kick_founder22": "KICK Founder 22",
+			"kick_whale": "KICK Whale",
+			"level": "Level {count}"
 		}
 	},
 	"landing": {
