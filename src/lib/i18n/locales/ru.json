@@ -150,10 +150,10 @@
 			"founder": "Основатель",
 			"moderator": "Модератор",
 			"og": "OG",
-			"partner": "Подтверждён",
+			"verified": "Подтверждён",
 			"sidekick": "Напарник",
 			"staff": "Команда",
-			"sub-gifter": "{count, plural, =0 {Даритель подписок} one {Подарил # подписку} few {Подарил # подписки} many {Подарил # подписок} other {Подарил # подписок}}",
+			"sub_gifter": "{count, plural, =0 {Даритель подписок} one {Подарил # подписку} few {Подарил # подписки} many {Подарил # подписок} other {Подарил # подписок}}",
 			"subscriber": "Подписчик",
 			"trainwreckstv": "Trainwreckstv",
 			"vip": "VIP"

@@ -150,10 +150,10 @@
 			"founder": "Fondateur",
 			"moderator": "Modérateur",
 			"og": "OG",
-			"partner": "Vérifié",
+			"verified": "Vérifié",
 			"sidekick": "Acolyte",
 			"staff": "Équipe",
-			"sub-gifter": "{count, plural, =0 {Sub Gift} one {Offert # Abonnement} other {Offert # Abonnements}}",
+			"sub_gifter": "{count, plural, =0 {Sub Gift} one {Offert # Abonnement} other {Offert # Abonnements}}",
 			"subscriber": "Abonné",
 			"trainwreckstv": "Trainwreckstv",
 			"vip": "VIP"
