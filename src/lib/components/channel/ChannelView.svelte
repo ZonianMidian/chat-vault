@@ -23,11 +23,15 @@
 	const user = $derived(channel.user);
 
 	const description = $derived(
-		user.bio ||
-			[
+		(() => {
+			const text = [
 				`[${$_(`provider.${channel.provider}`)}]`,
-				$_('channel.followers', { values: { count: user.followers } })
-			].join(' · ')
+				$_('channel.followers', { values: { count: user.followers } }),
+				String(user.bio ?? '')
+			].join(' · ');
+
+			return text.length > 160 ? `${text.slice(0, 157)}...` : text;
+		})()
 	);
 
 	const schema = $derived(

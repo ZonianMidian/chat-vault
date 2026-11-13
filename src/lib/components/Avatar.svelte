@@ -45,6 +45,7 @@
 		class:opacity-0={!loaded}
 		class:bg-base-200={failed}
 		onload={() => (loaded = true)}
+		draggable="false"
 		onerror={() => {
 			failed = true;
 			loaded = true;
