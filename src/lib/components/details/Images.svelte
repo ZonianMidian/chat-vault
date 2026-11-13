@@ -1,40 +1,30 @@
 <script lang="ts">
-	import type { Sizes } from '$lib/types/common';
-
-	import { onDestroy, onMount, untrack } from 'svelte';
 	import { Sun, Moon, Layers2, Globe } from '@lucide/svelte';
-	import { inlineSvg } from '@svelte-put/inline-svg';
-	import { isDarkMode } from '$lib/tools/isDarkMode';
+	import { isDarkMode } from '#lib/tools/theme.ts';
+	import { onMount } from 'svelte';
 	import { _ } from 'svelte-i18n';
 
+	import ImagePreview from '#lib/components/details/ImagePreview.svelte';
+
 	let {
-		imageSizes = new Map(),
-		imageUrls = new Map(),
-		darkBackground = $bindable(true),
-		provider = 'twitch',
-		zero_width = false,
-		isLoading = true,
-		global = false,
-		type = 'emote',
+		type,
+		provider,
 		images = [],
-		name = ''
+		name = '',
+		zero_width = false,
+		global = false,
+		isLoading = false
 	}: {
-		imageSizes?: Map<string, Sizes>;
-		imageUrls?: Map<string, string>;
-		darkBackground?: boolean;
-		provider?: string;
-		zero_width?: boolean;
-		isLoading?: boolean;
-		global?: boolean;
-		type?: string;
+		type: 'emote' | 'badge';
+		provider: string;
 		images?: string[];
 		name?: string;
+		zero_width?: boolean;
+		global?: boolean;
+		isLoading?: boolean;
 	} = $props();
 
-	const dimensions: {
-		emote: Record<string, string[]>;
-		badge: Record<string, string[]>;
-	} = {
+	const dimensions: Record<'emote' | 'badge', Record<string, string[]>> = {
 		emote: {
 			'7tv': ['32x32', '64x64', '96x96', '128x128'],
 			twitch: ['28x28', '56x56', '112x112'],
@@ -56,49 +46,29 @@
 		badge: ['18x18', '36x36', '72x72']
 	};
 
-	let imageError = $state<{ [idx: number]: boolean }>({});
-	let imageLoaded = $state<{ [idx: number]: boolean }>({});
+	const proxied = { emote: ['kick', 'youtube', 'bttv'], badge: ['kick', 'youtube'] };
 
-	const placeholderDimensions = $derived(
-		dimensions[type as 'emote' | 'badge'][provider] ||
-			defaultDimensions[type as 'emote' | 'badge']
+	const sizes = $derived(
+		(dimensions[type][provider] || defaultDimensions[type]).map((dimension) => {
+			const [width, height] = dimension.split('x').map(Number);
+			return { width, height };
+		})
 	);
 
-	$effect(() => {
-		if (images) {
-			untrack(() => {
-				imageError = {};
-				imageLoaded = {};
-			});
-		}
-	});
+	let darkBackground = $state<boolean | null>(null);
 
-	function onImgError(idx: number) {
-		imageError = { ...imageError, [idx]: true };
-	}
-
-	function onImgLoad(idx: number) {
-		imageLoaded = { ...imageLoaded, [idx]: true };
-	}
-
-	onMount(() => {
-		const unsubscribe = isDarkMode.subscribe((value) => {
-			untrack(() => {
-				darkBackground = value;
-			});
-		});
-
-		onDestroy(() => {
-			unsubscribe();
-		});
-	});
+	onMount(() =>
+		isDarkMode.subscribe((value) => {
+			darkBackground = value;
+		})
+	);
 </script>
 
 <div
 	class="relative flex min-h-50 justify-center rounded-xl p-4"
-	class:bg-[#eff1f5]={!darkBackground && !isLoading}
-	class:bg-[#0c0c16]={darkBackground && !isLoading}
-	class:bg-(--color-solid)={isLoading}
+	class:bg-[#eff1f5]={darkBackground === false}
+	class:bg-[#0c0c16]={darkBackground === true}
+	class:bg-(--color-solid)={darkBackground === null}
 >
 	<div class="absolute top-2 left-2">
 		{#if isLoading}
@@ -109,8 +79,9 @@
 					<div
 						aria-label={$_('global.label')}
 						class="mr-1"
-						class:text-[#1e66f5]={!darkBackground}
-						class:text-[#89b4fa]={darkBackground}
+						class:text-accent={darkBackground === null}
+						class:text-[#1e66f5]={darkBackground === false}
+						class:text-[#89b4fa]={darkBackground === true}
 						title={$_('global.label')}
 					>
 						<Globe />
@@ -120,7 +91,7 @@
 					<div
 						aria-label={$_('common.zero_width')}
 						class:text-[#ea76cb]={!darkBackground}
-						class:text-[#f5c2e7]={darkBackground}
+						class:text-[#f5c2e7]={darkBackground === true}
 						title={$_('common.zero_width')}
 					>
 						<Layers2 />
@@ -130,11 +101,15 @@
 		{/if}
 	</div>
 	<div class="absolute top-2 right-2">
-		{#if isLoading}
+		{#if isLoading || darkBackground === null}
 			<div class="skeleton h-6 w-6 rounded-full"></div>
 		{:else}
 			<label class="swap swap-rotate drop-shadow-md transition-opacity hover:opacity-80">
-				<input type="checkbox" class="theme-controller" bind:checked={darkBackground} />
+				<input
+					type="checkbox"
+					checked={darkBackground}
+					onchange={(event) => (darkBackground = event.currentTarget.checked)}
+				/>
 				<Sun class="swap-off h-6 w-6 text-gray-400" />
 				<Moon class="swap-on h-6 w-6 text-gray-400" />
 			</label>
@@ -142,13 +117,9 @@
 	</div>
 	<div class="flex flex-wrap content-center items-baseline justify-center gap-x-10 gap-y-5">
 		{#if isLoading}
-			{#each placeholderDimensions as dimension}
-				{@const [width, height] = dimension.split('x')}
+			{#each sizes as { width, height }, i (i)}
 				<div class="flex h-auto flex-col items-center justify-center">
-					<div
-						style="width: {width}px; height: {height}px;"
-						class="flex items-center justify-center"
-					>
+					<div style="width: {width}px; height: {height}px;">
 						<div class="skeleton h-full w-full rounded"></div>
 					</div>
 					<div class="skeleton mt-1 h-4 w-12"></div>
@@ -156,62 +127,15 @@
 				</div>
 			{/each}
 		{:else}
-			{#each images as image, i}
-				{@const data = imageSizes.get(image)}
-				{@const size = data?.size ?? $_('common.unknown')}
-
-				{@const [defaultWidth, defaultHeight] = placeholderDimensions[i]?.split('x')}
-				{@const width = provider === 'kick' ? defaultWidth : (data?.width ?? defaultWidth)}
-				{@const height =
-					provider === 'kick' ? defaultHeight : (data?.height ?? defaultHeight)}
-
-				<div class="flex h-auto flex-col items-center justify-center">
-					<div
-						style="width: {width}px; height: {height}px;"
-						class="flex items-center justify-center"
-					>
-						{#if imageError[i]}
-							<svg
-								{width}
-								{height}
-								use:inlineSvg={'/assets/error.svg'}
-								class:text-[#0c0c16]={!darkBackground}
-								class:text-[#eff1f5]={darkBackground}
-							/>
-						{:else if !imageLoaded[i]}
-							<div class="skeleton h-full w-full rounded"></div>
-							<img
-								src={imageUrls.get(image) || image}
-								alt={name}
-								class="hidden"
-								{width}
-								{height}
-								onload={() => onImgLoad(i)}
-								onerror={() => onImgError(i)}
-							/>
-						{:else}
-							<a href={image} target="_blank" rel="noopener noreferrer">
-								<img
-									src={imageUrls.get(image) || image}
-									class="transition-opacity hover:opacity-80"
-									class:shadow={!darkBackground}
-									alt={name}
-									{width}
-									{height}
-									onerror={() => onImgError(i)}
-								/>
-							</a>
-						{/if}
-					</div>
-					<div class="text-center text-gray-600">
-						<small class="text-[12px] font-bold">{width} x {height}</small>
-						{#if !imageLoaded[i] && !imageError[i]}
-							<div class="skeleton mt-1 h-3 w-10"></div>
-						{:else}
-							<div class="text-[8px] font-bold">{size}</div>
-						{/if}
-					</div>
-				</div>
+			{#each images as image, i (i)}
+				<ImagePreview
+					{image}
+					{name}
+					fallbackSize={sizes[i] ?? sizes[sizes.length - 1]}
+					keepSize={provider === 'kick'}
+					proxy={proxied[type].includes(provider)}
+					dark={darkBackground}
+				/>
 			{/each}
 		{/if}
 	</div>

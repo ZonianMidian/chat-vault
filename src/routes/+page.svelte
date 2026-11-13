@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { Zap, Target, RotateCcw, Gem, GitPullRequest, Languages } from '@lucide/svelte';
-	import { version } from '$app/environment';
-	import { locale } from 'svelte-i18n';
-	import { page } from '$app/state';
+	import { _, locale } from 'svelte-i18n';
+	import { resolve } from '$app/paths';
+	import { version } from '$app/env';
 	import { onMount } from 'svelte';
-	import { _ } from 'svelte-i18n';
+
+	import Seo from '#lib/components/Seo.svelte';
 
 	let contributeVisible = $state(false);
 	let platformsVisible = $state(false);
@@ -43,19 +44,19 @@
 		{
 			titleKey: 'landing.features.emotes.title',
 			descKey: 'landing.features.emotes.description',
-			href: '/emote',
+			href: resolve('/emote'),
 			gradient: 'from-purple-500 to-pink-500'
 		},
 		{
 			titleKey: 'landing.features.badges.title',
 			descKey: 'landing.features.badges.description',
-			href: '/badge/global',
+			href: resolve('/badge/global'),
 			gradient: 'from-blue-500 to-cyan-500'
 		},
 		{
 			titleKey: 'landing.features.channels.title',
 			descKey: 'landing.features.channels.description',
-			href: '/channel/search',
+			href: resolve('/channel/search'),
 			gradient: 'from-green-500 to-emerald-500'
 		}
 	];
@@ -148,22 +149,11 @@
 	});
 </script>
 
-<svelte:head>
-	<title>Chat Vault</title>
-	<meta property="og:title" content="Chat Vault" />
-
-	<meta name="description" content={$_('landing.hero.subtitle')} />
-	<meta property="og:description" content={$_('landing.hero.subtitle')} />
-
-	<meta property="og:url" content={page.url.origin} />
-	<link rel="canonical" href={page.url.origin} />
-
-	<meta property="og:image" content="{page.url.origin}/favicon.png" />
-</svelte:head>
+<Seo path="/" description={$_('landing.hero.subtitle')} />
 
 <section
 	id="hero"
-	class="from-base-200 via-base-100 to-base-200 relative flex min-h-screen flex-col justify-center overflow-hidden bg-gradient-to-br lg:min-h-[calc(100vh-72px)]"
+	class="from-base-200 via-base-100 to-base-200 relative flex min-h-screen flex-col justify-center overflow-hidden bg-linear-to-br lg:min-h-[calc(100vh-72px)]"
 >
 	<div class="absolute inset-0 opacity-20">
 		<div
@@ -192,7 +182,7 @@
 			</div>
 
 			<h1
-				class="from-primary via-secondary to-accent animate-gradient-shift mb-6 bg-gradient-to-r bg-clip-text text-5xl font-black text-transparent md:text-7xl"
+				class="from-primary via-secondary to-accent animate-gradient-shift mb-6 bg-linear-to-r bg-clip-text text-5xl font-black text-transparent md:text-7xl"
 			>
 				Chat Vault
 			</h1>
@@ -209,13 +199,13 @@
 
 			<div class="flex flex-col items-center justify-center gap-4 sm:flex-row">
 				<a
-					href="/emote"
+					href={resolve('/emote')}
 					class="btn btn-primary btn-lg hover:shadow-primary/50 px-8 text-lg shadow-2xl transition-all duration-300 hover:scale-105"
 				>
 					{$_('landing.hero.cta.primary')}
 				</a>
 				<a
-					href="/channel/search"
+					href={resolve('/channel/search')}
 					class="btn btn-outline btn-lg px-8 text-lg transition-all duration-300 hover:scale-105"
 				>
 					{$_('channel.search')}
@@ -250,11 +240,11 @@
 			<div class="space-y-8">
 				<h3 class="mb-8 text-center text-2xl font-bold">{$_('landing.platforms.main')}</h3>
 				<div class="grid grid-cols-3 gap-8">
-					{#each platforms as platform, i}
+					{#each platforms as platform, i (platform.name)}
 						<a
 							target="_blank"
 							href={platform.url}
-							rel="noopener noreferrer"
+							rel="external noopener noreferrer"
 							class:animate-slide-up={platformsVisible}
 							class="bg-base-200 hover:bg-base-300 group flex cursor-pointer flex-col items-center rounded-2xl px-2 py-5 transition-all duration-500 hover:scale-110 hover:shadow-xl"
 						>
@@ -279,11 +269,11 @@
 					{$_('landing.platforms.thirdparty')}
 				</h3>
 				<div class="grid grid-cols-3 gap-8">
-					{#each thirdParty as tp, i}
+					{#each thirdParty as tp, i (tp.name)}
 						<a
 							href={tp.url}
 							target="_blank"
-							rel="noopener noreferrer"
+							rel="external noopener noreferrer"
 							class:animate-slide-up={platformsVisible}
 							class="bg-base-200 hover:bg-base-300 group flex cursor-pointer flex-col items-center rounded-2xl px-2 py-5 transition-all duration-500 hover:scale-110 hover:shadow-xl"
 						>
@@ -308,7 +298,7 @@
 	</div>
 </section>
 
-<section id="features" class="from-base-200 to-base-300 bg-gradient-to-br py-20">
+<section id="features" class="from-base-200 to-base-300 bg-linear-to-br py-20">
 	<div class="container mx-auto px-6">
 		<div class="mb-16 text-center">
 			<h2 class="mb-6 text-4xl font-bold md:text-5xl">
@@ -320,7 +310,7 @@
 		</div>
 
 		<div class="grid grid-cols-1 gap-8 md:grid-cols-3">
-			{#each features as feature, i}
+			{#each features as feature, i (feature.href)}
 				<a
 					href={feature.href}
 					class="group block"
@@ -332,7 +322,7 @@
 					>
 						<div class="mb-6">
 							<div
-								class="h-16 w-16 rounded-2xl bg-gradient-to-br {feature.gradient} mb-4 flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+								class="h-16 w-16 rounded-2xl bg-linear-to-br {feature.gradient} mb-4 flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
 							>
 								<div class="h-8 w-8 rounded-lg bg-white opacity-90"></div>
 							</div>
@@ -382,7 +372,7 @@
 		</div>
 
 		<div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-			{#each whyFeatures as feature, i}
+			{#each whyFeatures as feature, i (feature.titleKey)}
 				{@const Icon = feature.icon}
 				<div
 					class="hover:bg-base-200 group rounded-2xl p-6 text-center transition-all duration-300"
@@ -391,7 +381,7 @@
 				>
 					<div class="mb-4 flex justify-center">
 						<div
-							class="rounded-full bg-gradient-to-br {feature.gradient} p-4 transition-transform duration-300 group-hover:scale-110"
+							class="rounded-full bg-linear-to-br {feature.gradient} p-4 transition-transform duration-300 group-hover:scale-110"
 						>
 							<Icon class="h-8 w-8 text-white" />
 						</div>
@@ -404,7 +394,7 @@
 	</div>
 </section>
 
-<section id="providers" class="from-base-200 to-base-300 bg-gradient-to-br py-20">
+<section id="providers" class="from-base-200 to-base-300 bg-linear-to-br py-20">
 	<div class="container mx-auto px-6">
 		<div class="mb-16 text-center">
 			<h2 class="mb-6 text-4xl font-bold md:text-5xl">
@@ -438,11 +428,11 @@
 							{$_('landing.providers.our_partners')}
 						</h4>
 						<div class="grid grid-cols-1 gap-4">
-							{#each dataProviders as provider, i}
+							{#each dataProviders as provider, i (provider.name)}
 								<a
 									target="_blank"
 									href={provider.url}
-									rel="noopener noreferrer"
+									rel="external noopener noreferrer"
 									class:animate-slide-up={providersVisible}
 									class="group bg-base-200 hover:bg-base-300 flex cursor-pointer justify-center rounded-2xl p-6 shadow-lg transition-all duration-500 hover:scale-105 hover:shadow-2xl"
 								>
@@ -499,17 +489,21 @@
 					</h3>
 					<p class="text-base-content/70 leading-relaxed">
 						{$_('landing.providers.apis.description')}
-						{#each additionalApis as api, i}
+						{#each additionalApis as api, i (api.url)}
 							<a
 								href={api.url}
 								target="_blank"
-								rel="noopener noreferrer"
+								rel="external noopener noreferrer"
 								class="link hover:text-primary font-semibold transition-colors duration-300"
+								>{api.name}</a
 							>
-								{api.name}</a
-							>{#if i < additionalApis.length - 2},&nbsp;{:else if i === additionalApis.length - 2}&nbsp;&&nbsp;{/if}
-						{/each}.
-						{$_('landing.providers.apis.conclusion')}
+
+							{#if i < additionalApis.length - 2}
+								,
+							{:else if i === additionalApis.length - 2}
+								&
+							{/if}
+						{/each}. {$_('landing.providers.apis.conclusion')}
 					</p>
 				</div>
 			</div>
@@ -529,7 +523,7 @@
 		</div>
 
 		<div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-			{#each contributeOptions as option, i}
+			{#each contributeOptions as option, i (option.url)}
 				{@const Icon = option.icon}
 				<div
 					class="bg-base-200 group rounded-3xl p-8 shadow-xl transition-all duration-500 hover:shadow-2xl"
@@ -538,7 +532,7 @@
 				>
 					<div class="mb-6 text-center">
 						<div
-							class="mx-auto mb-4 h-20 w-20 rounded-full bg-gradient-to-br {option.gradient} flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+							class="mx-auto mb-4 h-20 w-20 rounded-full bg-linear-to-br {option.gradient} flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
 						>
 							<Icon class="h-10 w-10 text-white" />
 						</div>
@@ -555,7 +549,7 @@
 						<a
 							href={option.url}
 							target="_blank"
-							rel="noopener noreferrer"
+							rel="external noopener noreferrer"
 							class="btn btn-primary btn-lg hover:shadow-primary/50 px-8 shadow-lg transition-all duration-300 hover:scale-105"
 						>
 							{$_(option.ctaKey)}
@@ -567,7 +561,7 @@
 	</div>
 </section>
 
-<footer class="from-base-200 to-base-300 bg-gradient-to-br py-8">
+<footer class="from-base-200 to-base-300 bg-linear-to-br py-8">
 	<div class="container mx-auto px-6">
 		<div class="space-y-3 text-center">
 			<p class="text-base-content/60 mx-auto max-w-2xl text-sm leading-relaxed">
@@ -583,15 +577,19 @@
 					<span class="hidden sm:block">•</span>
 					<span>
 						{$_('landing.footer.translated_by')}:
-						{#each translators as translator, i}
+						{#each translators as translator, i (translator)}
 							<a
 								href={`https://twitch.tv/${translator}`}
 								target="_blank"
-								rel="noopener noreferrer"
-								class="link"
+								rel="external noopener noreferrer"
+								class="link">{translator}</a
 							>
-								{translator}
-							</a>{#if i < translators.length - 2},&nbsp;{:else if i === translators.length - 2}&nbsp;&&nbsp;{/if}
+
+							{#if i < translators.length - 2}
+								,
+							{:else if i === translators.length - 2}
+								&
+							{/if}
 						{/each}
 					</span>
 				{/if}

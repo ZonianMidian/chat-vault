@@ -15,7 +15,7 @@ export interface KickUser {
 	livestream: Livestream | null;
 	role: null;
 	muted: boolean;
-	follower_badges: any[];
+	follower_badges: unknown[];
 	offline_banner_image: OfflineBannerImage | null;
 	can_host: boolean;
 	user: UserData;
@@ -146,9 +146,9 @@ export interface Media {
 	mime_type: string;
 	disk: string; // "s3";
 	size: number;
-	manipulations: any[];
+	manipulations: unknown[];
 	custom_properties: CustomProperties;
-	responsive_images: any[] | ResponsiveImagesClass;
+	responsive_images: unknown[] | ResponsiveImagesClass;
 	order_column: number;
 	created_at: Date;
 	updated_at: Date;
@@ -211,7 +211,7 @@ export interface PreviousLivestream {
 	thumbnail: OfflineBannerImage;
 	views: number;
 	lang_iso: string;
-	tags: any[];
+	tags: unknown[];
 	categories: Category[];
 	video: Video;
 }

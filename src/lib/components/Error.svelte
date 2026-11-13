@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 
-	export let error: string;
+	let { error }: { error: string } = $props();
 </script>
 
 <div
@@ -16,7 +16,7 @@
 		/>
 	</div>
 	<div>
-		<h1 class="text-3xl font-bold sm:text-6xl">{$_('common.error')}</h1>
+		<h2 class="text-3xl font-bold sm:text-6xl">{$_('common.error')}</h2>
 		<span class="text-md break-all sm:text-2xl sm:break-normal">{error}</span>
 	</div>
 </div>

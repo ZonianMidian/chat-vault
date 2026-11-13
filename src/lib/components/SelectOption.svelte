@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { Globe, ScanSearch } from '@lucide/svelte';
-	import { page } from '$app/state';
+	import { resolve } from '$app/paths';
 	import { _ } from 'svelte-i18n';
 
-	export let type: String;
+	let { type }: { type: 'emote' | 'badge' | 'channel' } = $props();
 </script>
 
 <div class="mx-auto grid w-full max-w-3xl grid-cols-1 gap-8 md:grid-cols-2">
 	<a
-		href="{page.url.href}/global"
+		href={type === 'badge' ? resolve('/badge/global') : resolve('/emote/global')}
 		class="card card-side bg-primary/10 hover:bg-primary/20 border-primary/30 hover:border-primary/60 group relative cursor-pointer overflow-hidden rounded-xl border-2 shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl"
 	>
 		<div
@@ -27,7 +27,7 @@
 	</a>
 
 	<a
-		href="{page.url.href}/search"
+		href={type === 'channel' ? resolve('/channel/search') : resolve('/emote/search')}
 		class="card card-side bg-accent/10 hover:bg-accent/20 border-accent/30 hover:border-accent/60 group relative cursor-pointer overflow-hidden rounded-xl border-2 shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl"
 	>
 		<div

@@ -168,6 +168,10 @@
 			"kick_founder22": "KICK Founder 22",
 			"kick_whale": "KICK Whale",
 			"level": "Level {count}"
+		},
+		"youtube": {
+			"member": "Member",
+			"membership": "{count, plural, =0 {New Member} =1 {Member: #-month} other {Member: #-months}}"
 		}
 	},
 	"landing": {

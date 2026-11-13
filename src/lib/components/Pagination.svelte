@@ -1,12 +1,19 @@
 <script lang="ts">
-	const { onPrevPage, onNextPage, itemsPerPage, currentPage, totalItems, maxPage } = $props<{
+	let {
+		onPrevPage,
+		onNextPage,
+		itemsPerPage,
+		currentPage,
+		totalItems,
+		maxPage
+	}: {
 		onPrevPage: () => void;
 		onNextPage: () => void;
 		itemsPerPage: number;
 		currentPage: number;
 		totalItems: number;
 		maxPage?: number;
-	}>();
+	} = $props();
 
 	const calculatedMaxPage = $derived(maxPage ?? Math.ceil(totalItems / itemsPerPage));
 </script>

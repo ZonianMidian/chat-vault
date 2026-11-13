@@ -23,13 +23,6 @@ export interface Emote {
 	deleted: boolean;
 }
 
-export interface EmotePage {
-	id: string;
-	emote: Emote | null;
-	provider: string;
-	pageImage: string;
-}
-
 export interface Emotes {
 	id: string;
 	name: string;
@@ -39,13 +32,6 @@ export interface Emotes {
 	value?: string;
 	type?: string | null;
 	provider: string;
-}
-
-export interface SetPage {
-	id: string;
-	set: Set | null;
-	provider: string;
-	pageImage: string;
 }
 
 export interface Set {
@@ -75,13 +61,6 @@ export interface Channel {
 	avatar: string;
 	platform: Platforms | 'kick';
 	posId?: string;
-}
-
-export interface ChannelPage {
-	id: string;
-	channel: ChannelData | null;
-	provider: string;
-	pageImage: string;
 }
 
 export interface ChannelData {
@@ -123,15 +102,22 @@ export interface UserData {
 	id: string;
 	color: string | null;
 	backgroundColor: string;
-	createdAt: Date;
+	createdAt: Date | null;
 	bio: string | null;
 	username: string;
+	slug: string;
 	roles: Roles;
 	followers: number;
 	socials: Socials[];
 	badge: { id: string; title: string; version: string; image: string } | null;
-	images: { avatar: string; banner: string | null; offline: string | null };
+	images: { avatar: string; banner: string | null };
 	stream: StreamInfo | null;
+	offline: OfflineInfo | null;
+}
+
+export interface OfflineInfo {
+	title: string | null;
+	image: string | null;
 }
 
 export interface Socials {
@@ -151,7 +137,7 @@ export interface StreamInfo {
 	title: string;
 	language: string;
 	isMature: boolean;
-	createdAt: Date;
+	createdAt: Date | null;
 	viewers: number;
 	preview: string;
 	category: CategoryInfo | null;
@@ -246,13 +232,33 @@ export interface Badge {
 	createdAt: Date | null;
 }
 
-export interface BadgePage {
-	id: string;
-	badge: Badge | null;
-	provider: string;
-	pageImage: string;
+export interface LocaleInfo {
+	code: string;
+	language: string;
 }
 
 export type Platforms = 'twitch' | 'youtube';
 
 export type Theme = 'dark' | 'light' | 'system' | null;
+
+export const typeLabels: Record<string, string> = {
+	BITS_BADGE_TIERS: 'set.bits',
+	CHANNEL_POINTS: 'channel.points',
+	MEGA_COMMERCE: 'emote.info.type.hype_train',
+	SPECIAL_EVENT: 'set.special_events',
+	SUBSCRIPTIONS: 'set.sub',
+	LIMITED_TIME: 'emote.info.type.limited_time',
+	SUB_OR_GIFT: 'badge.info.type.sub_or_gift',
+	HYPE_TRAIN: 'emote.info.type.hype_train',
+	TWO_FACTOR: 'emote.info.type.2fa',
+	WATCHTIME: 'badge.info.type.watchtime',
+	FOLLOWER: 'set.follower',
+	ARCHIVE: 'emote.info.type.archive',
+	SMILIES: 'emote.info.type.smilies',
+	MEMBERS: 'badge.youtube.member',
+	CHANNEL: 'channel.label',
+	GLOBALS: 'set.global',
+	PRIME: 'emote.info.type.prime',
+	TURBO: 'emote.info.type.turbo',
+	FLAIR: 'common.flair'
+};

@@ -1,6 +1,6 @@
 // https://github.com/10xjs/locale-emoji
 
-let languages: Record<string, string> = {
+const languages: Record<string, string> = {
 	aa: 'ET',
 	ab: 'GE',
 	abr: 'GH',

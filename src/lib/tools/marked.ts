@@ -1,31 +1,29 @@
-import { browser } from '$app/environment';
-import { marked } from 'marked';
+import { escapeHtml } from '#lib/utils/text.ts';
+import { Marked } from 'marked';
 
-function isExternalLink(href: string): boolean {
-	if (!browser) return false;
-	if (!/^https?:\/\//i.test(href)) return false;
+const isExternalLink = (href: string): boolean => /^https?:\/\//i.test(href);
+const isSafeLink = (href: string): boolean => isExternalLink(href) || href.startsWith('/');
 
-	try {
-		return new URL(href).origin !== window.location.origin;
-	} catch {
-		return false;
-	}
-}
+const marked = new Marked({
+	renderer: {
+		html({ text }) {
+			return escapeHtml(text);
+		},
+		link({ href, title, tokens }) {
+			const text = this.parser.parseInline(tokens);
+			if (!isSafeLink(href)) return text;
 
-export function renderMarkdown(md: string): string {
-	const html = marked.parse(md) as string;
+			const attributes = [
+				`href="${escapeHtml(href)}"`,
+				title ? `title="${escapeHtml(title)}"` : '',
+				isExternalLink(href) ? 'target="_blank" rel="noopener noreferrer"' : ''
+			];
 
-	const container = document.createElement('div');
-	container.innerHTML = html;
-
-	const links = container.getElementsByTagName('a');
-	for (const a of Array.from(links)) {
-		const href = a.getAttribute('href') ?? '';
-		if (isExternalLink(href)) {
-			a.setAttribute('target', '_blank');
-			a.setAttribute('rel', 'noopener noreferrer');
+			return `<a ${attributes.filter(Boolean).join(' ')}>${text}</a>`;
 		}
 	}
+});
 
-	return container.innerHTML;
+export function renderMarkdown(md: string): string {
+	return marked.parse(md, { async: false });
 }

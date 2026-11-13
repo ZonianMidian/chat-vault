@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 
-	export let search: string;
+	let { search = '' }: { search?: string } = $props();
 </script>
 
 <div

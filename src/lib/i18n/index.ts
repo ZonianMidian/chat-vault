@@ -1,29 +1,48 @@
-import { getLocaleFromNavigator, init, register } from 'svelte-i18n';
-import { chooseSupported } from '$lib/utils';
-import { browser } from '$app/environment';
+import { addMessages, init } from 'svelte-i18n';
+import { chooseSupported } from '#lib/utils/locale.ts';
 
-const context = import.meta.glob('$lib/i18n/locales/*.json');
-const defaultLocale = 'en';
+type Dictionary = Parameters<typeof addMessages>[1];
 
-export const supported = Object.keys(context)
-	.map((path) => path.match(/\/([^\/]+)\.json$/)?.[1])
-	.filter(Boolean) as string[];
+const loaders = import.meta.glob<Dictionary>('./locales/*.json', { import: 'default' });
 
-supported.forEach((locale) => {
-	register(locale, () => import(`$lib/i18n/locales/${locale}.json`));
-});
+export const defaultLocale = 'en';
 
-function getInitialLocale(): string {
-	if (!browser) return defaultLocale;
+export const supportedLocales = Object.keys(loaders)
+	.map((path) => path.match(/\/([^/]+)\.json$/)?.[1])
+	.filter((code): code is string => !!code);
 
-	const saved = localStorage.getItem('locale');
-	if (saved) return chooseSupported(saved, supported) ?? defaultLocale;
+const loading = new Map<string, Promise<void>>();
 
-	const navigatorLocale = getLocaleFromNavigator() ?? defaultLocale;
-	return chooseSupported(navigatorLocale, supported) ?? defaultLocale;
+function loadDictionary(code: string): Promise<void> {
+	let task = loading.get(code);
+
+	if (!task) {
+		const loader = loaders[`./locales/${code}.json`];
+		task = loader
+			? loader().then((messages) => addMessages(code, messages))
+			: Promise.resolve();
+
+		task.catch(() => loading.delete(code));
+		loading.set(code, task);
+	}
+
+	return task;
+}
+
+export async function loadLocale(code: string): Promise<void> {
+	await Promise.all([loadDictionary(code), loadDictionary(defaultLocale)]);
+}
+
+export function resolveLocale(...candidates: (string | null | undefined)[]): string {
+	for (const candidate of candidates) {
+		const match = chooseSupported(candidate, supportedLocales);
+		if (match) return match;
+	}
+
+	return defaultLocale;
 }
 
 init({
 	fallbackLocale: defaultLocale,
-	initialLocale: getInitialLocale()
+	initialLocale: defaultLocale
 });

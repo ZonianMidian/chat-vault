@@ -40,11 +40,12 @@
 	--color-base-content: #cdd6f4;
 
 	--color-solid: #0c0c16;
+	--color-contrast: white;
 }
 
 @plugin 'daisyui/theme' {
 	name: 'light';
-	default: true;
+	default: false;
 	prefersdark: false;
 	color-scheme: 'light';
 
@@ -81,6 +82,7 @@
 	--color-base-content: #4c4f69;
 
 	--color-solid: #eff1f5;
+	--color-contrast: black;
 }
 
 :root {

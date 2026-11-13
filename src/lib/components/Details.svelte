@@ -1,275 +1,175 @@
 <script lang="ts">
-	import type { Emote, Extras, Channel, Sizes, Badge } from '$lib/types/common';
+	import type { Badge, Badges, Emote, Emotes, Origin, Variant } from '#lib/types/common.ts';
 
 	import { Info, Users, Images, WandSparkles, BookText } from '@lucide/svelte';
 	import { _ } from 'svelte-i18n';
 
-	import ChannelsTab from '$lib/components/details/tabs/Channels.svelte';
-	import VariantsTab from '$lib/components/details/tabs/Variants.svelte';
-	import RelatedTab from '$lib/components/details/tabs/Related.svelte';
-	import OriginTab from '$lib/components/details/tabs/Origin.svelte';
-	import InfoTab from '$lib/components/details/tabs/Info.svelte';
-	import ImageList from '$lib/components/details/Images.svelte';
-	import Owner from '$lib/components/details/Owner.svelte';
-	import TabButton from '$lib/components/TabButton.svelte';
-	import Error from '$lib/components/Error.svelte';
-	import Tabs from '$lib/components/Tabs.svelte';
+	import ChannelsTab from '#lib/components/details/tabs/Channels.svelte';
+	import VariantsTab from '#lib/components/details/tabs/Variants.svelte';
+	import RelatedTab from '#lib/components/details/tabs/Related.svelte';
+	import OriginTab from '#lib/components/details/tabs/Origin.svelte';
+	import InfoTab from '#lib/components/details/tabs/Info.svelte';
+	import ImageList from '#lib/components/details/Images.svelte';
+	import Owner from '#lib/components/details/Owner.svelte';
+	import TabButton from '#lib/components/TabButton.svelte';
+	import Tabs from '#lib/components/Tabs.svelte';
 
 	let {
-		data = null,
-		extras = null,
-		isLoading = {
-			info: true,
-			extras: true,
-			variants: true,
-			channels: true
-		},
-		provider = null,
+		type,
+		provider,
+		item = null,
 		createdAt = null,
 		deletedAt = null,
-		tabPages = {},
-		itemsPerPage = 18,
-		channels = [],
-		type = 'emote',
-		darkBackground = $bindable(true),
-		activeTab = $bindable('info'),
-		variantCount = 0,
-		variantImages = new Map(),
-		imageSizes = new Map(),
-		imageUrls = new Map(),
-		nextPage = () => {},
-		prevPage = () => {}
-	} = $props<{
-		data?: Emote | Badge | null;
-		extras?: Extras | null;
-		isLoading?: {
-			info: boolean;
-			extras: boolean;
-			variants?: boolean;
-			channels?: boolean;
-		};
-		provider?: string | null;
-		createdAt?: Date | null;
-		deletedAt?: Date | null;
-		tabPages?: { [key: string]: number };
-		itemsPerPage?: number;
-		channels?: Channel[];
-		type?: 'emote' | 'badge';
-		darkBackground?: boolean;
-		activeTab?: string;
-		variantCount?: number;
-		variantImages?: Map<string, string>;
-		imageSizes?: Map<string, Sizes>;
-		imageUrls?: Map<string, string>;
-		nextPage?: (totalItems: number) => void;
-		prevPage?: () => void;
-	}>();
+		related = [],
+		variants = [],
+		origins = [],
+		relatedLoading = false,
+		variantsLoading = false,
+		originLoading = false
+	}: {
+		type: 'emote' | 'badge';
+		provider: string;
+		item?: Emote | Badge | null;
+		createdAt?: Date | string | null;
+		deletedAt?: Date | string | null;
+		related?: Emotes[] | Badges[];
+		variants?: Variant[];
+		origins?: Origin[];
+		relatedLoading?: boolean;
+		variantsLoading?: boolean;
+		originLoading?: boolean;
+	} = $props();
 
-	let shouldShowChannelsTab = $derived(() => {
-		return (
-			(type === 'emote' && ((data as Emote)?.channels?.total ?? 0) > 0) ||
-			activeTab === 'channels'
-		);
-	});
+	let activeTab = $state('info');
 
-	let shouldShowRelatedTab = $derived(() => {
-		return (extras?.related?.total ?? 0) > 0 || activeTab === 'related';
-	});
+	const emote = $derived(type === 'emote' ? (item as Emote | null) : null);
+	const channelsTotal = $derived(emote?.channels?.total ?? 0);
 
-	let shouldShowVariantsTab = $derived(() => {
-		return variantCount > 0 || activeTab === 'variants';
-	});
+	const showChannels = $derived(channelsTotal > 0);
+	const showRelated = $derived(related.length > 0);
+	const showVariants = $derived(variants.length > 0);
+	const showOrigin = $derived(origins.length > 0);
 
-	let shouldShowOriginTab = $derived(() => {
-		return (extras?.origin?.length ?? 0) > 0 || activeTab === 'origin';
-	});
-
-	let channelsTotal = $derived(() => {
-		return type === 'emote' ? ((data as Emote)?.channels?.total ?? 0) : 0;
-	});
-
-	let emoteTags = $derived(() => {
-		return type === 'emote' ? (data as Emote)?.tags || [] : [];
-	});
-
-	let isEmoteZeroWidth = $derived(() => {
-		return type === 'emote' && (data as Emote)?.zero_width;
-	});
-
-	let isEmoteDeleted = $derived(() => {
-		return type === 'emote' && (data as Emote)?.deleted;
-	});
+	const changeTab = (id: string) => (activeTab = id);
 </script>
 
-{#if !data}
-	<div class="container-general container-h">
-		<Error error={$_('status.404')} />
-	</div>
-{:else}
-	<div class="container-general">
-		<div class="bg-neutral mx-auto w-full max-w-7xl space-y-6 rounded-xl p-6 shadow-md">
-			<Owner
-				owner={data?.owner ?? null}
-				provider={provider ?? null}
-				source={data?.source}
-				isLoading={isLoading.info}
-			/>
+<div class="container-general">
+	<div class="bg-neutral mx-auto w-full max-w-7xl space-y-6 rounded-xl p-6 shadow-md">
+		<Owner owner={item?.owner ?? null} {provider} source={item?.source} isLoading={!item} />
 
-			<div class="text-center">
-				{#if isLoading.info}
-					<div class="skeleton mx-auto h-10 w-48"></div>
-				{:else if data}
-					<h2 class="text-base-content mt-2 text-3xl font-bold">{data.name}</h2>
-				{/if}
-				<div class="mt-2 flex justify-center gap-2">
-					{#if isLoading.info}
-						{#each Array(2) as _}
-							<div class="skeleton h-4 w-16"></div>
-						{/each}
-					{:else if data && type === 'emote' && emoteTags.length > 0}
-						{#each emoteTags() as tag}
-							<div class="badge badge-sm">{tag}</div>
-						{/each}
-					{/if}
-				</div>
-			</div>
-
-			<ImageList
-				zero_width={isEmoteZeroWidth() ?? false}
-				global={data.global ?? false}
-				images={data?.images || []}
-				isLoading={isLoading.info}
-				provider={provider ?? ''}
-				name={data?.name || ''}
-				{imageSizes}
-				{imageUrls}
-				{type}
-				bind:darkBackground
-			/>
-
-			{#if type === 'emote' || type === 'badge'}
-				<Tabs bind:activeTab>
-					<svelte:fragment slot="tabs" let:changeTab let:activeTab>
-						<TabButton
-							id="info"
-							label={$_('common.info.label')}
-							icon={Info}
-							isActive={activeTab === 'info'}
-							{changeTab}
-						/>
-
-						{#if shouldShowChannelsTab()}
-							<TabButton
-								id="channels"
-								label={$_('navbar.channels')}
-								icon={Users}
-								count={channelsTotal()}
-								isActive={activeTab === 'channels'}
-								{changeTab}
-							/>
-						{/if}
-
-						{#if shouldShowRelatedTab()}
-							<TabButton
-								id="related"
-								label={$_('common.info.related')}
-								icon={Images}
-								count={extras?.related?.total ?? 0}
-								isActive={activeTab === 'related'}
-								{changeTab}
-							/>
-						{/if}
-
-						{#if shouldShowVariantsTab()}
-							<TabButton
-								id="variants"
-								label={$_('emote.variants.label')}
-								icon={WandSparkles}
-								count={variantCount}
-								isActive={activeTab === 'variants'}
-								isLoading={isLoading.variants}
-								{changeTab}
-							/>
-						{/if}
-
-						{#if shouldShowOriginTab()}
-							<TabButton
-								id="origin"
-								label={$_('emote.origin.label')}
-								icon={BookText}
-								isActive={activeTab === 'origin'}
-								{changeTab}
-							/>
-						{/if}
-					</svelte:fragment>
-
-					<svelte:fragment slot="content">
-						<InfoTab
-							isActive={activeTab === 'info'}
-							isLoading={isLoading.info}
-							isDeleted={isEmoteDeleted() ?? false}
-							item={data}
-							{createdAt}
-							{deletedAt}
-							{type}
-						/>
-
-						{#if shouldShowChannelsTab()}
-							<ChannelsTab
-								isActive={activeTab === 'channels'}
-								isLoading={!!isLoading?.channels}
-								currentPage={tabPages.channels || 1}
-								{provider}
-								{channels}
-								totalChannels={channelsTotal()}
-								{itemsPerPage}
-								onPrevPage={prevPage}
-								onNextPage={() =>
-									type === 'emote' && data && 'channels' in data && data.channels
-										? nextPage((data as Emote).channels.total)
-										: null}
-							/>
-						{/if}
-
-						{#if shouldShowRelatedTab()}
-							<RelatedTab
-								isActive={activeTab === 'related'}
-								isLoading={isLoading.extras}
-								currentPage={tabPages[activeTab] || 1}
-								relatedEmotes={extras?.related?.list ?? []}
-								totalRelated={extras?.related?.total ?? 0}
-								{itemsPerPage}
-								{type}
-								onPrevPage={prevPage}
-								onNextPage={() =>
-									extras?.related ? nextPage(extras.related.total) : null}
-							/>
-						{/if}
-
-						{#if shouldShowVariantsTab()}
-							<VariantsTab
-								isActive={activeTab === 'variants'}
-								isLoading={!!isLoading?.variants}
-								currentPage={tabPages[activeTab] || 1}
-								{variantImages}
-								emoteName={data?.name || ''}
-								emoteId={data?.id || ''}
-								{itemsPerPage}
-								onPrevPage={prevPage}
-								onNextPage={() => nextPage(variantCount)}
-							/>
-						{/if}
-
-						{#if shouldShowOriginTab()}
-							<OriginTab
-								isActive={activeTab === 'origin'}
-								isLoading={isLoading.extras}
-								origins={extras?.origin ?? []}
-							/>
-						{/if}
-					</svelte:fragment>
-				</Tabs>
+		<div class="text-center">
+			{#if !item}
+				<div class="skeleton mx-auto h-10 w-48"></div>
+			{:else}
+				<h1 class="text-base-content mt-2 text-3xl font-bold">{item.name}</h1>
 			{/if}
+			<div class="mt-2 flex justify-center gap-2">
+				{#if !item}
+					{#each [0, 1] as index (index)}
+						<div class="skeleton h-4 w-16"></div>
+					{/each}
+				{:else}
+					{#each emote?.tags ?? [] as tag, i (i)}
+						<div class="badge badge-sm">{tag}</div>
+					{/each}
+				{/if}
+			</div>
 		</div>
+
+		<ImageList
+			zero_width={emote?.zero_width ?? false}
+			global={item?.global ?? false}
+			images={item?.images ?? []}
+			name={item?.name ?? ''}
+			isLoading={!item}
+			{provider}
+			{type}
+		/>
+
+		<Tabs>
+			{#snippet tabs()}
+				<TabButton
+					id="info"
+					label={$_('common.info.label')}
+					icon={Info}
+					isActive={activeTab === 'info'}
+					{changeTab}
+				/>
+
+				{#if showChannels}
+					<TabButton
+						id="channels"
+						label={$_('navbar.channels')}
+						icon={Users}
+						count={channelsTotal}
+						isActive={activeTab === 'channels'}
+						{changeTab}
+					/>
+				{/if}
+
+				{#if showRelated}
+					<TabButton
+						id="related"
+						label={$_('common.info.related')}
+						icon={Images}
+						count={related.length}
+						isActive={activeTab === 'related'}
+						{changeTab}
+					/>
+				{:else if item && relatedLoading}
+					<TabButton id="placeholder-related" isActive={false} changeTab={() => {}} />
+				{/if}
+
+				{#if showVariants}
+					<TabButton
+						id="variants"
+						label={$_('emote.variants.label')}
+						icon={WandSparkles}
+						count={variants.length}
+						isActive={activeTab === 'variants'}
+						{changeTab}
+					/>
+				{:else if item && variantsLoading}
+					<TabButton id="placeholder-variants" isActive={false} changeTab={() => {}} />
+				{/if}
+
+				{#if showOrigin}
+					<TabButton
+						id="origin"
+						label={$_('emote.origin.label')}
+						icon={BookText}
+						isActive={activeTab === 'origin'}
+						{changeTab}
+					/>
+				{:else if item && originLoading}
+					<TabButton id="placeholder-origin" isActive={false} changeTab={() => {}} />
+				{/if}
+			{/snippet}
+
+			{#snippet content()}
+				<InfoTab isActive={activeTab === 'info'} {item} {createdAt} {deletedAt} {type} />
+
+				{#if showChannels && emote}
+					<ChannelsTab
+						isActive={activeTab === 'channels'}
+						emoteId={emote.id}
+						initial={emote.channels}
+						{provider}
+					/>
+				{/if}
+
+				{#if showRelated}
+					<RelatedTab isActive={activeTab === 'related'} items={related} {type} />
+				{/if}
+
+				{#if showVariants}
+					<VariantsTab isActive={activeTab === 'variants'} {variants} />
+				{/if}
+
+				{#if showOrigin}
+					<OriginTab isActive={activeTab === 'origin'} {origins} />
+				{/if}
+			{/snippet}
+		</Tabs>
 	</div>
-{/if}
+</div>

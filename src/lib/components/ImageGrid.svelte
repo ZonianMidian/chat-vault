@@ -1,11 +1,12 @@
 <script lang="ts">
-	import type { Badges, Channel, Emotes, Variant, User } from '$lib/types/common';
+	import type { Badges, Channel, Emotes, Variant, User } from '#lib/types/common.ts';
 
-	import { inlineSvg } from '@svelte-put/inline-svg';
-	import { getCheerName } from '$lib/utils';
-	import { onMount, untrack } from 'svelte';
+	import { resolve } from '$app/paths';
+	import { getCheerName } from '#lib/utils/index.ts';
 	import { Layers2 } from '@lucide/svelte';
 	import { _ } from 'svelte-i18n';
+
+	import GridImage from '#lib/components/GridImage.svelte';
 
 	type Item = Channel | Emotes | Badges | Variant | User;
 
@@ -20,10 +21,10 @@
 		nameKey = 'name',
 		logo = false,
 		idKey = 'id'
-	} = $props<{
+	}: {
 		items?: Item[];
 		versionKey?: null | string;
-		linkPrefix?: null | string;
+		linkPrefix?: 'emote' | 'badge' | 'channel' | null;
 		providerKey?: string;
 		placeholderCount?: number;
 		imageKey?: string;
@@ -31,230 +32,108 @@
 		nameKey?: string;
 		logo?: boolean;
 		idKey?: string;
-	}>();
+	} = $props();
 
-	let imageLoaded = $state<Record<string, boolean>>({});
-	let imageError = $state<Record<string, string>>({});
-	let permanentImageCache = $state<Record<string, boolean>>({});
+	const field = (item: Item, key: string): string =>
+		((item as unknown as Record<string, unknown>)[key] as string) ?? '';
 
-	let getHref = $derived((): ((item: Item) => string | null) => {
-		return (item: Item): string | null =>
-			linkPrefix
-				? `/${linkPrefix}/${(item[providerKey as keyof Item] as string) || ''}/${(item[idKey as keyof Item] as string) || ''}${versionKey ? `/${item[versionKey as keyof Item] as string}` : ''}`
-				: null;
-	});
+	function getHref(item: Item): ReturnType<typeof resolve> {
+		if (linkPrefix === 'channel' && 'platform' in item) {
+			const login =
+				item.platform === 'youtube' && 'id' in item && item.id
+					? item.id
+					: item.username?.toLocaleLowerCase();
 
-	function getItemKey(item: Item): string {
-		const id: string = item[idKey as keyof Item] as string;
-		const provider: string = item[providerKey as keyof Item] as string;
-		return `${provider}-${id}`;
+			return login
+				? resolve('/channel/[provider]/[login]', {
+						provider: item.platform,
+						login
+					})
+				: resolve('/channel/search');
+		}
+
+		const versionValue = versionKey ? field(item, versionKey) : '';
+		const version = versionValue ? `/${versionValue}` : '';
+		const provider = field(item, providerKey);
+		const id = `${field(item, idKey)}${version}`;
+
+		return linkPrefix === 'badge'
+			? resolve('/badge/[provider]/[...id]', { provider, id })
+			: resolve('/emote/[provider]/[...id]', { provider, id });
 	}
 
-	function getImageUrl(item: Item): string {
-		return item[imageKey as keyof Item] as string;
-	}
+	function getTitle(item: Item): string {
+		const name = field(item, nameKey);
 
-	function getItemTitle(item: Item): string {
 		if (linkPrefix === 'badge') {
-			const name: string = item[nameKey as keyof Item] as string;
-			return (item as any).id === 'subscriber'
-				? $_('channel.subscriber')
-				: (item as any).id === 'bits'
-					? getCheerName(name)
-					: name;
-		}
-		return item[nameKey as keyof Item] as string;
-	}
-
-	function onImgError(itemKey: string): void {
-		imageError[itemKey] = linkPrefix === 'channel' ? '/assets/avatar.svg' : '/assets/error.svg';
-		imageLoaded[itemKey] = true;
-	}
-
-	function onImgLoad(itemKey: string, imageUrl: string): void {
-		imageLoaded[itemKey] = true;
-		permanentImageCache[imageUrl] = true;
-	}
-
-	function isImageCached(imageUrl: string): boolean {
-		if (permanentImageCache[imageUrl]) {
-			return true;
+			if (item.id === 'subscriber') return $_('channel.subscriber');
+			if (item.id === 'bits') return getCheerName(name);
 		}
 
-		const img: HTMLImageElement = new Image();
-		img.src = imageUrl;
-		const isCached: boolean = img.complete && img.naturalWidth > 0;
-
-		if (isCached) {
-			permanentImageCache[imageUrl] = true;
-		}
-
-		return isCached;
+		return name;
 	}
-
-	function updateImageStates(): void {
-		const previousImageLoaded: Record<string, boolean> = { ...imageLoaded };
-		const previousImageError: Record<string, string> = { ...imageError };
-
-		const newImageLoaded: Record<string, boolean> = {};
-		const newImageError: Record<string, string> = {};
-
-		items.forEach((item: Item): void => {
-			const itemKey: string = getItemKey(item);
-			const imageUrl: string = getImageUrl(item);
-
-			if (previousImageError[itemKey]) {
-				newImageError[itemKey] = previousImageError[itemKey];
-				newImageLoaded[itemKey] = true;
-			} else if (previousImageLoaded[itemKey] === true) {
-				newImageLoaded[itemKey] = true;
-				permanentImageCache[imageUrl] = true;
-			} else if (isImageCached(imageUrl)) {
-				newImageLoaded[itemKey] = true;
-			} else {
-				newImageLoaded[itemKey] = false;
-			}
-		});
-
-		imageLoaded = newImageLoaded;
-		imageError = newImageError;
-	}
-
-	$effect((): void => {
-		if (items.length > 0) {
-			untrack((): void => {
-				updateImageStates();
-			});
-		}
-	});
-
-	$effect((): (() => void) => {
-		return (): void => {
-			const currentKeys: Set<string> = new Set(
-				items.map((item: Item): string => getItemKey(item))
-			);
-			const currentUrls: Set<string> = new Set(
-				items.map((item: Item): string => getImageUrl(item))
-			);
-
-			Object.keys(imageLoaded).forEach((key: string): void => {
-				if (!currentKeys.has(key)) {
-					delete imageLoaded[key];
-					delete imageError[key];
-				}
-			});
-
-			Object.keys(permanentImageCache).forEach((url: string): void => {
-				if (!currentUrls.has(url)) {
-					delete permanentImageCache[url];
-				}
-			});
-		};
-	});
-
-	onMount((): void => {
-		items.forEach((item: Item): void => {
-			const itemKey: string = getItemKey(item);
-			const imageUrl: string = getImageUrl(item);
-			const img: HTMLImageElement | null = document.querySelector<HTMLImageElement>(
-				`img[data-key="${itemKey}"]`
-			);
-
-			if (img?.complete && img.naturalWidth > 0) {
-				imageLoaded[itemKey] = true;
-				permanentImageCache[imageUrl] = true;
-			}
-		});
-	});
 </script>
 
-{#snippet itemImage(item: Item, itemKey: string)}
-	{#if imageError[itemKey]}
-		<div
-			class:rounded-xs={linkPrefix === 'channel'}
-			class:bg-base-100={linkPrefix === 'channel'}
-		>
-			<svg class="h-16 w-16 object-contain" use:inlineSvg={imageError[itemKey]} />
-		</div>
-	{:else}
-		<div class="relative h-16 w-16">
-			<div
-				class="absolute inset-0 flex items-center justify-center"
-				class:hidden={imageLoaded[itemKey]}
-			>
-				<div class="skeleton h-16 w-16 rounded-xs"></div>
-			</div>
+{#snippet content(item: Item)}
+	{@const title = getTitle(item)}
 
-			<img
-				data-key={itemKey}
-				class="relative h-16 w-16 rounded-xs object-contain transition-opacity duration-200"
-				class:opacity-0={!imageLoaded[itemKey]}
-				class:opacity-100={imageLoaded[itemKey]}
-				src={getImageUrl(item)}
-				alt={getItemTitle(item)}
-				onerror={() => onImgError(itemKey)}
-				onload={() => onImgLoad(itemKey, getImageUrl(item))}
-				loading="lazy"
-			/>
-		</div>
-	{/if}
-{/snippet}
-
-{#snippet itemLabels(item: Item)}
 	<div class="absolute top-2 right-2 z-10 drop-shadow-md/50">
 		{#if logo}
 			<img
-				src={`/logos/${item[providerKey as keyof Item] as string}.svg`}
+				src={`/logos/${field(item, providerKey)}.svg`}
 				class="h-5 w-5 p-0.5"
 				draggable="false"
 				alt="Provider"
 			/>
 		{/if}
-		{#if (item as any)['zero_width']}
+		{#if 'zero_width' in item && item.zero_width}
 			<div aria-label={$_('common.zero_width')} class="text-[#ea76cb] dark:text-[#f5c2e7]">
 				<Layers2 class="h-5 w-5 p-0.5" />
 			</div>
 		{/if}
 	</div>
+
+	<GridImage
+		src={field(item, imageKey)}
+		alt={title}
+		fallback={linkPrefix === 'channel' ? '/assets/avatar.svg' : '/assets/error.svg'}
+		framed={linkPrefix === 'channel'}
+	/>
+
+	<span class="mt-1 truncate text-center text-sm font-medium">{title}</span>
+
+	{#if linkPrefix === 'emote' && 'owner' in item && item.owner}
+		<small class="text-info/80 truncate text-xs">{item.owner}</small>
+	{/if}
+	{#if 'value' in item && item.value && (linkPrefix === 'badge' || linkPrefix === 'emote')}
+		<small class="text-primary/80 truncate text-xs">{item.value}</small>
+	{/if}
 {/snippet}
 
 <div class="grid grid-cols-3 gap-4 sm:grid-cols-5 lg:grid-cols-7 xl:grid-cols-9">
 	{#if isLoading}
-		{#each Array(placeholderCount) as _, i}
+		{#each Array.from({ length: placeholderCount }, (_, i) => i) as index (index)}
 			<div class="bg-base-200 flex flex-col items-center rounded-lg px-2 py-5">
 				<div class="skeleton h-16 w-16 rounded-xs"></div>
 				<div class="skeleton mt-2 h-4 w-16"></div>
 			</div>
 		{/each}
 	{:else}
-		{#each items as item, idx}
-			{@const itemKey = getItemKey(item)}
-
-			<svelte:element
-				this={linkPrefix ? 'a' : 'button'}
-				{...linkPrefix
-					? { href: getHref()(item) }
-					: { type: 'button', 'aria-label': getItemTitle(item) }}
-				class="bg-base-300 relative flex h-full w-full flex-col items-center rounded-lg px-2 py-5 transition-opacity"
-				class:hover:opacity-80={linkPrefix}
-			>
-				{@render itemLabels(item)}
-				{@render itemImage(item, itemKey)}
-
-				<span class="mt-1 truncate text-center text-sm font-medium">
-					{getItemTitle(item)}
-				</span>
-				{#if linkPrefix === 'emote' && (item as Emotes)['owner']}
-					<small class="text-info/80 truncate text-xs">
-						{(item as Emotes)['owner']}
-					</small>
-				{/if}
-				{#if linkPrefix === 'badge' || (linkPrefix === 'emote' && item && item['value'])}
-					<small class="text-primary/80 truncate text-xs">
-						{item['value']}
-					</small>
-				{/if}
-			</svelte:element>
+		{#each items as item, i (i)}
+			{#if linkPrefix}
+				<a
+					href={getHref(item)}
+					class="bg-base-300 relative flex h-full w-full flex-col items-center rounded-lg px-2 py-5 transition-opacity hover:opacity-80"
+				>
+					{@render content(item)}
+				</a>
+			{:else}
+				<div
+					class="bg-base-300 relative flex h-full w-full flex-col items-center rounded-lg px-2 py-5"
+				>
+					{@render content(item)}
+				</div>
+			{/if}
 		{/each}
 	{/if}
 </div>

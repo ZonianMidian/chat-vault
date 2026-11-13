@@ -1,15 +1,16 @@
 <script lang="ts">
-	import type { Badge, Emote } from '$lib/types/common';
+	import { typeLabels, type Badge, type Emote } from '#lib/types/common.ts';
 
+	import { resolve } from '$app/paths';
 	import { _, date } from 'svelte-i18n';
 	import {
 		SquareMousePointer,
+		CircleCheckBig,
 		CalendarPlus,
-		CheckCircle,
+		TextInitial,
 		CalendarX2,
-		LetterText,
 		Shredder,
-		XCircle,
+		CircleX,
 		Folder,
 		Brush,
 		Coins,
@@ -18,67 +19,44 @@
 		Eye
 	} from '@lucide/svelte';
 
-	import MenuContent from '$lib/components/MenuContent.svelte';
-	import TabContent from '$lib/components/TabContent.svelte';
+	import MenuContent from '#lib/components/MenuContent.svelte';
+	import TabContent from '#lib/components/TabContent.svelte';
 
-	export let item: Emote | Badge | null;
-	export let type: 'emote' | 'badge';
-	export let deletedAt: Date | null;
-	export let createdAt: Date | null;
-	export let isLoading: boolean;
-	export let isDeleted: boolean;
-	export let isActive: boolean;
+	let {
+		item,
+		type,
+		isActive,
+		createdAt = null,
+		deletedAt = null
+	}: {
+		item: Emote | Badge | null;
+		type: 'emote' | 'badge';
+		isActive: boolean;
+		createdAt?: Date | string | null;
+		deletedAt?: Date | string | null;
+	} = $props();
 
-	let placeholderCount = 5;
+	const placeholderCount = 5;
 
-	const getEmoteLabel = (type: string | null): string => {
-		switch (type) {
-			case 'BITS_BADGE_TIERS':
-				return 'set.bits';
-			case 'CHANNEL_POINTS':
-				return 'channel.points';
-			case 'MEGA_COMMERCE':
-				return 'emote.info.type.hype_train';
-			case 'SPECIAL_EVENT':
-				return 'set.special_events';
-			case 'SUBSCRIPTIONS':
-				return 'set.sub';
-			case 'LIMITED_TIME':
-				return 'emote.info.type.limited_time';
-			case 'SUB_OR_GIFT':
-				return 'badge.info.type.sub_or_gift';
-			case 'HYPE_TRAIN':
-				return 'emote.info.type.hype_train';
-			case 'TWO_FACTOR':
-				return 'emote.info.type.2fa';
-			case 'WATCHTIME':
-				return 'badge.info.type.watchtime';
-			case 'FOLLOWER':
-				return 'set.follower';
-			case 'ARCHIVE':
-				return 'emote.info.type.archive';
-			case 'SMILIES':
-				return 'emote.info.type.smilies';
-			case 'GLOBALS':
-				return 'set.global';
-			case 'CHANNEL':
-				return 'channel.label';
-			case 'PRIME':
-				return 'emote.info.type.prime';
-			case 'TURBO':
-				return 'emote.info.type.turbo';
-			case 'FLAIR':
-				return 'common.flair';
-			default:
-				return 'common.unknown';
-		}
-	};
+	const emote = $derived(type === 'emote' ? (item as Emote | null) : null);
+	const badge = $derived(type === 'badge' ? (item as Badge | null) : null);
+
+	const isDeleted = $derived(!!emote?.deleted || !!deletedAt);
+
+	function artistHref(artist: NonNullable<Emote['artist']>): ReturnType<typeof resolve> {
+		const login =
+			artist.platform === 'youtube' && artist.id ? artist.id : (artist.username ?? '');
+
+		return login
+			? resolve('/channel/[provider]/[login]', { provider: artist.platform, login })
+			: resolve('/channel/search');
+	}
 </script>
 
 <TabContent {isActive}>
 	<ul class="menu menu-horizontal bg-base-100 w-full">
-		{#if isLoading}
-			{#each Array(placeholderCount) as _}
+		{#if !item}
+			{#each { length: placeholderCount }}
 				<li>
 					<div class="flex items-center gap-2">
 						<div class="skeleton h-4 w-4 rounded"></div>
@@ -87,13 +65,13 @@
 				</li>
 			{/each}
 		{:else}
-			{#if type === 'emote' && item && 'public' in item}
+			{#if emote}
 				<MenuContent
-					icon={isDeleted || deletedAt ? Shredder : item?.public ? Eye : Lock}
+					icon={isDeleted ? Shredder : emote.public ? Eye : Lock}
 					label="emote.info.status.label"
-					content={isDeleted || deletedAt
+					content={isDeleted
 						? $_('emote.info.status.deleted')
-						: item?.public
+						: emote.public
 							? $_('emote.info.status.public')
 							: $_('emote.info.status.private')}
 				/>
@@ -115,24 +93,24 @@
 				/>
 			{/if}
 
-			{#if type === 'emote' && item && (item as Emote)?.artist && 'artist' in item}
+			{#if emote?.artist}
 				<MenuContent
 					icon={Brush}
 					label="emote.info.artist"
-					href={`/channel/${item.artist?.platform}/${item.artist?.username}`}
-					content={item.artist?.username}
+					internalHref={artistHref(emote.artist)}
+					content={emote.artist.username}
 				/>
 			{/if}
 
-			{#if item && item.type && 'type' in item}
+			{#if item.type}
 				<MenuContent
 					icon={Tags}
 					label="emote.info.type.label"
-					content={$_(getEmoteLabel(item.type))}
+					content={$_(typeLabels[item.type] ?? 'common.unknown')}
 				/>
 			{/if}
 
-			{#if item && item.cost && 'cost' in item}
+			{#if item.cost}
 				<MenuContent
 					icon={Coins}
 					label="badge.info.cost"
@@ -140,41 +118,43 @@
 				/>
 			{/if}
 
-			{#if item && item.tier && 'tier' in item}
+			{#if item.tier}
 				<MenuContent icon={Coins} label="emote.info.tier" content={String(item.tier)} />
 			{/if}
 
-			{#if type === 'badge' && item && (item as Badge)?.description && 'description' in item}
+			{#if badge?.description}
 				<MenuContent
-					icon={LetterText}
+					icon={TextInitial}
 					label="badge.info.description"
-					content={item.description}
+					content={badge.description}
 				/>
 			{/if}
 
-			{#if type === 'badge' && item && (item as Badge)?.clickAction && 'clickAction' in item}
+			{#if badge?.clickAction}
 				<MenuContent
-					external={true}
 					icon={SquareMousePointer}
 					label="badge.info.action.label"
-					content={$_(`badge.info.action.${item.clickAction?.toLowerCase()}`)}
-					href={item.clickURL || null}
+					content={$_(`badge.info.action.${badge.clickAction.toLowerCase()}`)}
+					externalHref={badge.clickURL || null}
 				/>
 			{/if}
 
-			{#if type === 'emote' && item && 'approved' in item && !isDeleted && !deletedAt && !['GLOBALS', 'SMILIES'].includes(item?.type ?? '')}
+			{#if emote && !isDeleted && !['GLOBALS', 'SMILIES'].includes(emote.type ?? '')}
 				<MenuContent
-					icon={item?.approved ? CheckCircle : XCircle}
+					icon={emote.approved ? CircleCheckBig : CircleX}
 					label="emote.info.approved"
-					content={item?.approved ? $_('common.yes') : $_('common.no')}
+					content={emote.approved ? $_('common.yes') : $_('common.no')}
 				/>
 			{/if}
 
-			{#if item?.setId}
+			{#if item.setId}
 				<MenuContent
 					icon={Folder}
 					label="emote.info.set"
-					href={`/set/${item.provider}/${item.setId}`}
+					internalHref={resolve('/set/[provider]/[id]', {
+						provider: item.provider,
+						id: item.setId
+					})}
 					content={item.setId}
 				/>
 			{/if}

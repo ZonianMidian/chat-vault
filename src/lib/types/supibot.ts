@@ -7,7 +7,7 @@ export interface Origin {
 
 export interface OriginData {
 	ID: number;
-	emoteID: string;
+	emoteId?: string | null;
 	name: string;
 	tier: null | string;
 	raffle: Date | null;
@@ -19,16 +19,18 @@ export interface OriginData {
 	recordAdded: Date;
 	notes: null | string;
 	replaced: boolean;
-	artist: null | string;
-	reporter: string;
-	raffleWinner: null | string;
-	detailUrl: null | string;
+	authorName?: null | string;
+	reporterName?: null | string;
+	raffleWinnerName?: null | string;
 	url: string;
+	emoteID?: string | null;
+	artist?: null | string;
+	reporter?: null | string;
 }
 
 export interface Data {
 	ID: number;
-	emoteID: string;
+	emoteID: string | null;
 	name: string;
 	type: string;
 	tier: number | null;
@@ -38,7 +40,7 @@ export interface Data {
 	emoteDeleted: Date | null;
 	notes: null | string;
 	artist: null | string;
-	reporter: string;
+	reporter: string | null;
 	url: string;
 }
 
@@ -53,4 +55,5 @@ export type Type =
 	| '7TV - Channel'
 	| 'Twitch - Bits'
 	| 'Twitch - Other'
+	| 'Twitch - Follower'
 	| '7TV - Global';

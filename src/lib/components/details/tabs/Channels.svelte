@@ -1,51 +1,100 @@
 <script lang="ts">
-	import type { Channel } from '$lib/types/common';
+	import type { Channel, Channels } from '#lib/types/common.ts';
 
-	import TabContent from '$lib/components/TabContent.svelte';
-	import Pagination from '$lib/components/Pagination.svelte';
-	import ImageGrid from '$lib/components/ImageGrid.svelte';
+	import { onMount } from 'svelte';
+
+	import TabContent from '#lib/components/TabContent.svelte';
+	import Pagination from '#lib/components/Pagination.svelte';
+	import ImageGrid from '#lib/components/ImageGrid.svelte';
 
 	let {
 		isActive,
-		isLoading,
-		currentPage,
-		channels,
-		totalChannels,
-		itemsPerPage,
-		onPrevPage,
-		onNextPage,
-		provider
+		provider,
+		emoteId,
+		initial
 	}: {
 		isActive: boolean;
-		isLoading: boolean;
-		currentPage: number;
-		channels: Channel[];
-		totalChannels: number;
-		itemsPerPage: number;
-		onPrevPage: () => void;
-		onNextPage: () => void;
-		provider: string | null;
+		provider: string;
+		emoteId: string;
+		initial: Channels;
 	} = $props();
 
-	const paginatedChannels = $derived(
+	const itemsPerPage = 18;
+	const pageLimit = $derived(provider === '7tv' ? 10 : Infinity);
+
+	// svelte-ignore state_referenced_locally
+	let channels = $state.raw<Channel[]>(initial.list);
+	let isLoading = $state(false);
+	let currentPage = $state(1);
+
+	const requestedPages: Record<number, boolean> = {};
+
+	const maxPage = $derived(Math.min(pageLimit, Math.ceil(initial.total / itemsPerPage)));
+	const pageChannels = $derived(
 		channels.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
 	);
 
-	const maxPage = $derived(provider === '7tv' ? 10 : Math.ceil(totalChannels / itemsPerPage));
+	async function loadMore() {
+		const page = currentPage;
+		if (requestedPages[page]) return;
+
+		requestedPages[page] = true;
+		isLoading = true;
+
+		try {
+			let query = `provider=${provider}&id=${encodeURIComponent(emoteId)}&page=${page}`;
+
+			const cursor = channels.at(-1)?.posId;
+			if (cursor) query += `&before=${encodeURIComponent(cursor)}`;
+
+			const res = await fetch(`/api/emote/channels?${query}`);
+			if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+
+			const { list }: Channels = await res.json();
+			const known = new Set(channels.map((channel) => channel.id));
+
+			channels = [...channels, ...list.filter((channel) => !known.has(channel.id))];
+		} catch (err) {
+			requestedPages[page] = false;
+			console.error('[Emote] Channels:', err);
+		} finally {
+			isLoading = false;
+		}
+	}
+
+	async function nextPage() {
+		if (currentPage >= maxPage) return;
+
+		currentPage++;
+
+		if (channels.length < initial.total) {
+			await loadMore();
+		}
+	}
+
+	function prevPage() {
+		if (currentPage > 1) currentPage--;
+	}
+
+	onMount(() => {
+		if (initial.total > 0 && channels.length === 0) {
+			loadMore();
+		}
+	});
 </script>
 
 <TabContent {isActive}>
 	<Pagination
 		{currentPage}
-		totalItems={totalChannels}
+		totalItems={initial.total}
 		{itemsPerPage}
-		{onPrevPage}
-		{onNextPage}
+		onPrevPage={prevPage}
+		onNextPage={nextPage}
 		{maxPage}
 	/>
 
 	<ImageGrid
-		items={paginatedChannels}
+		items={pageChannels}
 		providerKey="platform"
 		linkPrefix="channel"
 		nameKey="username"

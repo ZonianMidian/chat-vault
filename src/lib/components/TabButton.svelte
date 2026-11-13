@@ -1,29 +1,48 @@
 <script lang="ts">
-	import { type IconProps } from '@lucide/svelte';
 	import type { Component } from 'svelte';
 
 	import { number } from 'svelte-i18n';
 
-	export let icon: Component<IconProps> | null = null;
-	export let changeTab: (id: string) => void;
-	export let label: string | null = null;
-	export let image: string | null = null;
-	export let count: number | null = null;
-	export let isLoading: boolean = false;
-	export let isActive: boolean;
-	export let id: string;
+	let {
+		id,
+		isActive,
+		changeTab,
+		icon: Icon = null,
+		label = null,
+		image = null,
+		count = null,
+		isLoading = false
+	}: {
+		id: string;
+		isActive: boolean;
+		changeTab: (id: string) => void;
+		icon?: Component<{ class?: string }> | null;
+		label?: string | null;
+		image?: string | null;
+		count?: number | null;
+		isLoading?: boolean;
+	} = $props();
+
+	const isPlaceholder = $derived(!label && !Icon && !image);
 </script>
 
-<label class="tab">
-	<input type="radio" name="emote_tabs" checked={isActive} on:change={() => changeTab(id)} />
+<label class="tab" class:cursor-progress={isPlaceholder} aria-busy={isPlaceholder || undefined}>
+	<input
+		type="radio"
+		name="tabs"
+		checked={isActive}
+		onclick={(event) => {
+			if (isPlaceholder && !isActive) event.preventDefault();
+		}}
+		onchange={() => changeTab(id)}
+	/>
 	<div class="flex items-center gap-2">
-		{#if !icon && !image}
-			<div class="skeleton inline-block h-4 w-4"></div>
+		{#if Icon}
+			<Icon class="size-4" />
+		{:else if image}
+			<img src={image} alt={label} class="size-4" />
 		{:else}
-			<svelte:component this={icon} class="size-4" />
-			{#if image}
-				<img src={image} alt={label} class="size-4" />
-			{/if}
+			<div class="skeleton inline-block h-4 w-4"></div>
 		{/if}
 		<span class:hidden={!isActive} class:md:flex={!isActive} class="items-center">
 			{#if !label}

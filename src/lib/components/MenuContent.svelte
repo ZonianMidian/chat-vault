@@ -1,35 +1,47 @@
 <script lang="ts">
-	import type { IconProps } from '@lucide/svelte';
+	import type { ResolvedPathname } from '$app/types';
 	import type { Component } from 'svelte';
 
 	import { _ } from 'svelte-i18n';
 
-	export let icon: Component<IconProps, {}, ''> | null = null;
-	export let content: string | null = null;
-	export let href: string | null = null;
-	export let external: boolean = false;
-	export let label: string;
-
-	const blank = {
-		rel: 'noopener noreferrer',
-		target: '_blank'
-	};
+	let {
+		label,
+		content = null,
+		icon: Icon = null,
+		internalHref = null,
+		externalHref = null
+	}: {
+		label: string;
+		content?: string | null;
+		icon?: Component<{ class?: string }> | null;
+		internalHref?: ResolvedPathname | null;
+		externalHref?: string | null;
+	} = $props();
 </script>
 
-<li class="w-fit {href ? '' : 'pointer-events-none'}">
-	<svelte:element
-		this={href ? 'a' : 'span'}
-		{...href ? { href, ...(external ? blank : {}) } : {}}
-	>
-		{#if icon}
-			<svelte:component this={icon} class="h-4 w-4" />
-		{/if}
+{#snippet body()}
+	{#if Icon}
+		<Icon class="h-4 w-4" />
+	{/if}
 
-		<div>
-			{$_(label)}:
-			<span class={href ? 'text-secondary link' : 'text-primary'}>
-				<slot>{content}</slot>
-			</span>
-		</div>
-	</svelte:element>
+	<div>
+		{$_(label)}:
+		<span class={internalHref || externalHref ? 'text-secondary link' : 'text-primary'}>
+			{content}
+		</span>
+	</div>
+{/snippet}
+
+<li class="w-fit {internalHref || externalHref ? '' : 'pointer-events-none'}">
+	{#if internalHref}
+		<a href={internalHref}>
+			{@render body()}
+		</a>
+	{:else if externalHref}
+		<a href={externalHref} target="_blank" rel="external noopener noreferrer">
+			{@render body()}
+		</a>
+	{:else}
+		<span>{@render body()}</span>
+	{/if}
 </li>

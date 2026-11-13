@@ -1,6 +1,5 @@
-import type { Platforms } from '$lib/types/common';
+import type { Platforms } from '#lib/types/common.ts';
 
-import { $format } from '$lib/utils';
 import UrlPattern from 'url-pattern';
 
 type PlatformConfig = {
@@ -179,11 +178,20 @@ function extractChannelInfo(url: string): ChannelMatch | null {
 				}
 			}
 		}
-	} catch (error) {
-		console.error(`[${$format('channel.label')}] Parser:`, error);
+	} catch {
+		// Invalid URL, ignore
 	}
 
 	return null;
+}
+
+export function isLink(text: string): boolean {
+	try {
+		new URL(text);
+		return true;
+	} catch {
+		return /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)(\/.*)?$/i.test(text.trim());
+	}
 }
 
 export function getChannelByLink(urlString: string): string | null {

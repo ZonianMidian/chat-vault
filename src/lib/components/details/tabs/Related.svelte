@@ -1,46 +1,44 @@
 <script lang="ts">
-	import type { Badges, Emotes } from '$lib/types/common';
+	import type { Badges, Emotes } from '#lib/types/common.ts';
 
-	import TabContent from '$lib/components/TabContent.svelte';
-	import Pagination from '$lib/components/Pagination.svelte';
-	import ImageGrid from '$lib/components/ImageGrid.svelte';
+	import TabContent from '#lib/components/TabContent.svelte';
+	import Pagination from '#lib/components/Pagination.svelte';
+	import ImageGrid from '#lib/components/ImageGrid.svelte';
 
 	let {
-		relatedEmotes = [],
+		items,
 		type,
-		totalRelated,
-		itemsPerPage,
-		currentPage,
-		isLoading,
-		isActive,
-		onPrevPage,
-		onNextPage
+		isActive
 	}: {
-		relatedEmotes?: Emotes[] | Badges[];
+		items: Emotes[] | Badges[];
 		type: 'emote' | 'badge';
-		totalRelated: number;
-		itemsPerPage: number;
-		currentPage: number;
-		isLoading: boolean;
 		isActive: boolean;
-		onPrevPage: () => void;
-		onNextPage: () => void;
 	} = $props();
 
-	const paginatedEmotes = $derived(
-		relatedEmotes.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+	const itemsPerPage = 18;
+
+	let currentPage = $state(1);
+
+	const maxPage = $derived(Math.ceil(items.length / itemsPerPage));
+	const pageItems = $derived(
+		items.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
 	);
 </script>
 
 <TabContent {isActive}>
-	<Pagination {currentPage} totalItems={totalRelated} {itemsPerPage} {onPrevPage} {onNextPage} />
+	<Pagination
+		{currentPage}
+		totalItems={items.length}
+		{itemsPerPage}
+		{maxPage}
+		onPrevPage={() => (currentPage = Math.max(1, currentPage - 1))}
+		onNextPage={() => (currentPage = Math.min(maxPage, currentPage + 1))}
+	/>
 
 	<ImageGrid
-		{isLoading}
 		logo={true}
 		linkPrefix={type}
-		placeholderCount={9}
-		items={paginatedEmotes}
+		items={pageItems}
 		nameKey={type === 'emote' ? 'name' : 'title'}
 		versionKey={type === 'badge' ? 'version' : null}
 	/>

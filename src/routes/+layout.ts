@@ -1,18 +1,9 @@
-import { locale, waitLocale } from 'svelte-i18n';
-import { browser } from '$app/environment';
 import type { LayoutLoad } from './$types';
-import '$lib/i18n';
 
-export const load: LayoutLoad = async () => {
-	if (browser) {
-		const savedLocale = localStorage.getItem('locale');
+import { loadLocale } from '#lib/i18n/index.ts';
 
-		if (!savedLocale) {
-			locale.set(window.navigator.language);
-		} else {
-			locale.set(savedLocale);
-		}
-	}
+export const load: LayoutLoad = async ({ data }) => {
+	await loadLocale(data.locale);
 
-	await waitLocale();
+	return data;
 };

@@ -1,6 +1,12 @@
 import { defineConfig, createLogger, type LogOptions } from 'vite';
+import { existsSync, readFileSync } from 'node:fs';
 import { sveltekit } from '@sveltejs/kit/vite';
+import adapter from '@sveltejs/adapter-node';
 import tailwindcss from '@tailwindcss/vite';
+
+const configPath = process.env.CHAT_VAULT_CONFIG ?? 'config.json';
+const port: number =
+	(existsSync(configPath) && JSON.parse(readFileSync(configPath, 'utf8')).server?.port) || 4935;
 
 const logger = createLogger();
 const originalWarn = logger.warn.bind(logger);
@@ -18,15 +24,20 @@ const originalWarn = logger.warn.bind(logger);
 };
 
 export default defineConfig({
-	plugins: [tailwindcss(), sveltekit()],
+	plugins: [
+		tailwindcss(),
+		sveltekit({
+			adapter: adapter()
+		})
+	],
 	customLogger: logger,
 	preview: {
-		port: 4935,
+		port,
 		strictPort: false,
 		allowedHosts: ['chatvau.lt']
 	},
 	server: {
-		port: 4935,
+		port,
 		strictPort: false
 	}
 });

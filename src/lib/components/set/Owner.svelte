@@ -1,28 +1,33 @@
 <script lang="ts">
-	import type { User } from '$lib/types/common';
-	import { onDestroy, onMount } from 'svelte';
+	import type { User } from '#lib/types/common.ts';
+
+	import { resolve } from '$app/paths';
 	import { _ } from 'svelte-i18n';
 
-	export let isLoading = false;
-	export let owner: User | null = null;
-	export let source: string | null = null;
-	export let provider: string | null = null;
+	import Avatar from '#lib/components/Avatar.svelte';
 
-	let imageLoading = true;
+	let {
+		provider,
+		owner = null,
+		source = null,
+		isLoading = false
+	}: {
+		provider: string;
+		owner?: User | null;
+		source?: string | null;
+		isLoading?: boolean;
+	} = $props();
 
-	function handleAvatarError(event: Event) {
-		const img = event.target as HTMLImageElement;
-		img.classList.add('bg-base-200');
-		img.src = '/assets/avatar.svg';
-		imageLoading = false;
+	function ownerHref(owner: User, provider: string): ReturnType<typeof resolve> {
+		const login = owner.platform === 'youtube' && owner.id ? owner.id : (owner.username ?? '');
+
+		return login
+			? resolve(`/channel/[provider]/[login]#${provider}`, {
+					provider: owner.platform,
+					login
+				})
+			: resolve('/channel/search');
 	}
-
-	onMount(() => {
-		const img = document.querySelector<HTMLImageElement>(`#avatar`);
-		if (img?.complete && img.naturalWidth !== 0) {
-			imageLoading = false;
-		}
-	});
 </script>
 
 <div class="flex items-center gap-2">
@@ -30,31 +35,16 @@
 		<div class="skeleton h-7 w-7 rounded-sm"></div>
 		<div class="skeleton h-5 w-25"></div>
 		<div class="ml-auto">
-			<div class="skeleton h-12 w-12"></div>
+			<div class="skeleton h-7 w-25"></div>
 		</div>
 	{:else}
 		{#if owner}
 			<a
-				href={`/channel/${owner.platform}/${owner.username}#${provider}`}
+				href={ownerHref(owner, provider)}
 				class="flex items-center gap-2 transition-opacity hover:opacity-80"
-				aria-label="{$_(`provider.owner.platform`)}: {owner.username}"
+				aria-label="{$_(`provider.${owner.platform}`)}: {owner.username}"
 			>
-				<div>
-					<div class="flex items-center justify-center" class:hidden={!imageLoading}>
-						<div class="skeleton h-7 w-7 rounded-sm"></div>
-					</div>
-					<img
-						id="avatar"
-						src={owner.avatar}
-						alt={owner.username}
-						class="h-7 w-7 rounded-sm"
-						class:hidden={imageLoading}
-						on:error={handleAvatarError}
-						on:load={() => {
-							imageLoading = false;
-						}}
-					/>
-				</div>
+				<Avatar src={owner.avatar} alt={owner.username ?? ''} class="h-7 w-7" />
 				<h2 class="text-base-content text-xl font-medium">
 					{owner.username}
 				</h2>
@@ -65,7 +55,7 @@
 			<a
 				class="flex items-center gap-3 hover:opacity-80"
 				aria-label={$_(`provider.${provider}`)}
-				rel="noopener noreferrer"
+				rel="external noopener noreferrer"
 				draggable="false"
 				target="_blank"
 				href={source}

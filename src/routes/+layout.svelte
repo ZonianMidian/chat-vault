@@ -1,43 +1,43 @@
 <script lang="ts">
 	import { polyfillCountryFlagEmojis } from 'country-flag-emoji-polyfill';
-	import { navigating } from '$app/state';
+	import { migrateLegacyStorage } from '#lib/tools/preferences.ts';
+	import { toJsonLd, websiteSchema } from '#lib/seo.ts';
+	import { _, locale } from 'svelte-i18n';
 	import { page } from '$app/state';
-	import { _ } from 'svelte-i18n';
+	import { onMount } from 'svelte';
 
 	import '@fontsource-variable/inter';
 	import '../app.css';
 
-	import Navbar from '$lib/components/NavBar.svelte';
+	import Navbar from '#lib/components/NavBar.svelte';
 
-	let { children } = $props();
+	let { data, children } = $props();
 
-	let jsonLd = {
-		'@context': 'https://schema.org',
-		'@type': 'WebSite',
-		name: 'Chat Vault',
-		url: `${page.url.origin}`,
-		description: `${$_('landing.hero.subtitle')}`
-	};
+	// svelte-ignore state_referenced_locally
+	locale.set(data.locale);
 
-	polyfillCountryFlagEmojis();
+	$effect.pre(() => {
+		locale.set(data.locale);
+	});
+
+	const website = $derived(toJsonLd(websiteSchema(page.url.origin, $_('landing.hero.subtitle'))));
+
+	onMount(() => {
+		polyfillCountryFlagEmojis();
+		migrateLegacyStorage(data.locale);
+	});
 </script>
 
 <svelte:head>
-	<title>Chat Vault</title>
-
 	<meta property="og:site_name" content="Chat Vault" />
-	<meta property="og:type" content="website" />
+	<meta property="og:locale" content={data.locale.replace('-', '_')} />
+	<meta name="theme-color" content="#74c7ec" />
 
-	{@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
+	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+	{@html website}
 </svelte:head>
 
 <Navbar />
 <main>
-	{#if navigating.to}
-		<div class="container-general container-h">
-			<span class="loading loading-dots loading-xl"></span>
-		</div>
-	{:else}
-		{@render children()}
-	{/if}
+	{@render children()}
 </main>

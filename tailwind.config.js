@@ -1,4 +1,6 @@
-module.exports = {
+import daisyui from 'daisyui';
+
+export default {
 	theme: {
 		fontSize: {
 			sm: ['0.875rem', { lineHeight: '1.25rem' }],
@@ -23,8 +25,5 @@ module.exports = {
 		}
 		// …
 	},
-	plugins: [
-		require('daisyui')
-		// …
-	]
+	plugins: [daisyui]
 };

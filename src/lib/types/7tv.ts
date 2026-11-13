@@ -19,7 +19,7 @@ export interface STVSet {
 	id: string;
 	name: string;
 	flags: number;
-	tags: any[];
+	tags: string[];
 	immutable: boolean;
 	privileged: boolean;
 	emotes: STVEmote[];

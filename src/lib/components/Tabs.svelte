@@ -1,12 +1,10 @@
 <script lang="ts">
-	export let activeTab: string = 'info';
+	import type { Snippet } from 'svelte';
 
-	function changeTab(tabId: string) {
-		activeTab = tabId;
-	}
+	let { tabs, content }: { tabs: Snippet; content: Snippet } = $props();
 </script>
 
 <div class="tabs tabs-lift relative">
-	<slot name="tabs" {changeTab} {activeTab}></slot>
-	<slot name="content"></slot>
+	{@render tabs()}
+	{@render content()}
 </div>

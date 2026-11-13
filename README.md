@@ -25,4 +25,22 @@ You can create a [GitHub Issue](https://github.com/ZonianMidian/chat-vault/issue
 - `git clone https://github.com/ZonianMidian/chat-vault.git`
 - `cd chat-vault`
 - `pnpm install`
+- `cp example_config.json config.json` and adjust it (see below)
 - `pnpm start`
+
+## Configuration
+
+Settings and secrets live in `config.json`, which is not tracked by git. `example_config.json` documents every option:
+
+| Option              | Description                                                                                 |
+| ------------------- | ------------------------------------------------------------------------------------------- |
+| `server.port`       | Port the website listens on.                                                                |
+| `redis.*`           | Connection to [Redis](https://redis.io), used to cache the responses of the upstream APIs.  |
+| `cache.staleAfter`  | Seconds after which cached content is refreshed in the background while still being served. |
+| `http.timeout`      | Milliseconds before a request to an upstream API is aborted.                                |
+| `http.userAgent`    | `User-Agent` sent to the upstream APIs. Empty keeps the default one.                        |
+| `youtube.apiKey`    | Optional key of the YouTube Data API v3, used when the keyless API fails.                   |
+| `youtube.invidious` | Optional Invidious instance (domain or address) used as another fallback.                   |
+| `youtube.cookie`    | Optional `Cookie` header of a signed-in youtube.com session (see below).                    |
+| `log.level`         | `debug`, `info`, `warn` or `error`. `debug` also logs every upstream request.               |
+| `log.slowRequest`   | Milliseconds after which an upstream request is reported as slow.                           |

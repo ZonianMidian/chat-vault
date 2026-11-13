@@ -73,6 +73,7 @@ export interface TwitchUser {
 	cheer: Cheer | null;
 	subEmotes: SubEmote[];
 	channel: Channel;
+	lastBroadcast: LastBroadcast;
 }
 
 export interface Roles {

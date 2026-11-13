@@ -6,6 +6,7 @@ config.json
 **/sitemap.xml
 **/sitemaps
 **/.vscode
+**/.github
 **/.output
 **/.vercel
 **/build

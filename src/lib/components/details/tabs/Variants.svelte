@@ -1,53 +1,31 @@
 <script lang="ts">
-	import type { Variant } from '$lib/types/common';
+	import type { Variant } from '#lib/types/common.ts';
 
-	import TabContent from '$lib/components/TabContent.svelte';
-	import Pagination from '$lib/components/Pagination.svelte';
-	import ImageGrid from '$lib/components/ImageGrid.svelte';
+	import TabContent from '#lib/components/TabContent.svelte';
+	import Pagination from '#lib/components/Pagination.svelte';
+	import ImageGrid from '#lib/components/ImageGrid.svelte';
 
-	let {
-		variantImages,
-		onPrevPage,
-		onNextPage,
-		itemsPerPage,
-		currentPage,
-		isLoading,
-		isActive,
-		emoteName,
-		emoteId
-	}: {
-		variantImages: Map<string, string>;
-		onPrevPage: () => void;
-		onNextPage: () => void;
-		itemsPerPage: number;
-		currentPage: number;
-		isLoading: boolean;
-		isActive: boolean;
-		emoteName: string;
-		emoteId: string;
-	} = $props();
+	let { variants, isActive }: { variants: Variant[]; isActive: boolean } = $props();
 
-	const variantItems = $derived(() => {
-		return Array.from(variantImages.entries())
-			.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
-			.map(([variant, url]) => ({
-				id: `${emoteId}${variant.length ? `_${variant}` : ''}`,
-				image: url,
-				name: `${emoteName.replace(/_[A-Z]{2}$/, '')}${variant.length ? `_${variant}` : ''}`,
-				provider: 'twitch',
-				variant
-			})) as Variant[];
-	});
+	const itemsPerPage = 18;
+
+	let currentPage = $state(1);
+
+	const maxPage = $derived(Math.ceil(variants.length / itemsPerPage));
+	const pageItems = $derived(
+		variants.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+	);
 </script>
 
 <TabContent {isActive}>
 	<Pagination
 		{currentPage}
-		totalItems={variantImages.size}
+		totalItems={variants.length}
 		{itemsPerPage}
-		{onPrevPage}
-		{onNextPage}
+		{maxPage}
+		onPrevPage={() => (currentPage = Math.max(1, currentPage - 1))}
+		onNextPage={() => (currentPage = Math.min(maxPage, currentPage + 1))}
 	/>
 
-	<ImageGrid {isLoading} items={variantItems()} linkPrefix="emote" />
+	<ImageGrid items={pageItems} linkPrefix="emote" />
 </TabContent>

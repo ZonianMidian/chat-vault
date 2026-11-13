@@ -1,19 +1,32 @@
 <script lang="ts">
-	import type { User } from '$lib/types/common';
+	import type { User } from '#lib/types/common.ts';
+
+	import { resolve } from '$app/paths';
 	import { _ } from 'svelte-i18n';
 
-	export let provider: string | null = null;
-	export let source: string | null = null;
-	export let owner: User | null = null;
-	export let isLoading = false;
+	import Avatar from '#lib/components/Avatar.svelte';
 
-	let imageLoading = true;
+	let {
+		provider,
+		owner = null,
+		source = null,
+		isLoading = false
+	}: {
+		provider: string;
+		owner?: User | null;
+		source?: string | null;
+		isLoading?: boolean;
+	} = $props();
 
-	function handleAvatarError(event: Event) {
-		const img = event.target as HTMLImageElement;
-		img.classList.add('bg-base-200');
-		img.src = '/assets/avatar.svg';
-		imageLoading = false;
+	function ownerHref(owner: User): ReturnType<typeof resolve> {
+		const login =
+			owner.platform === 'youtube' && owner.id
+				? owner.id
+				: (owner.username?.toLocaleLowerCase() ?? '');
+
+		return owner.id
+			? resolve('/channel/[provider]/[login]', { provider: owner.platform, login })
+			: resolve('/channel/search');
 	}
 </script>
 
@@ -27,28 +40,14 @@
 	{:else}
 		{#if owner}
 			<a
-				href={`/channel/${owner.platform}/${owner.username}`}
+				href={ownerHref(owner)}
 				class="flex items-center gap-2 transition-opacity hover:opacity-80"
-				aria-label="{$_(`provider.owner.platform`)}: {owner.username}"
+				aria-label="{$_(`provider.${owner.platform}`)}: {owner.username}"
 			>
-				<div>
-					<div class="flex items-center justify-center" class:hidden={!imageLoading}>
-						<div class="skeleton h-12 w-12 rounded-sm"></div>
-					</div>
-					<img
-						src={owner.avatar}
-						alt={owner.username}
-						class="h-12 w-12 rounded-sm"
-						class:hidden={imageLoading}
-						on:error={handleAvatarError}
-						on:load={() => {
-							imageLoading = false;
-						}}
-					/>
-				</div>
-				<h1 class="text-base-content text-2xl font-medium">
+				<Avatar src={owner.avatar} alt={owner.username ?? ''} class="h-12 w-12" />
+				<h2 class="text-base-content text-2xl font-medium">
 					{owner.username}
-				</h1>
+				</h2>
 			</a>
 		{/if}
 
@@ -58,14 +57,13 @@
 					class="drop-shadow-md/50 transition-opacity hover:opacity-80"
 					aria-label={$_(`provider.${provider}`)}
 					title={$_(`provider.${provider}`)}
-					rel="noopener noreferrer"
+					rel="external noopener noreferrer"
 					target="_blank"
 					href={source}
 				>
 					<img
 						src={`/logos/${provider}.svg`}
 						alt={$_(`provider.${provider}`)}
-						title={$_(`provider.${provider}`)}
 						draggable="false"
 						class="h-12 w-12"
 					/>
@@ -73,7 +71,7 @@
 			{:else}
 				<img
 					src={`/logos/${provider}.svg`}
-					alt={provider}
+					alt={$_(`provider.${provider}`)}
 					class="h-12 w-12 drop-shadow-md/50"
 					draggable="false"
 				/>
