@@ -1,14 +1,22 @@
-import type { BTTVEmote, BTTVChannels, BTTVGlobals, BTTVUser } from '#lib/types/bttv.ts';
 import type { Emote, Emotes, Channels, ChannelProvider, Set } from '#lib/types/common.ts';
+import type { BTTVEmote, BTTVChannels, BTTVGlobals, BTTVUser } from '#lib/types/bttv.ts';
+import type { EmoteSearchOptions, SearchEmote } from '#lib/emotes/search.ts';
+import type { PageRequest, SearchPage } from '#lib/server/emotes/pages.ts';
 
 import { ProviderError, requestJson, requestOk } from '#lib/server/http.ts';
 import EmoteAuthor from '#lib/server/emotes/data/bttvGlobals.json';
-import { compareName } from '#lib/utils/index.ts';
+import { compareName, objectIdDate } from '#lib/utils/index.ts';
+import { toOffset } from '#lib/server/emotes/pages.ts';
+import { config } from '#lib/server/config.ts';
 
 const API = 'https://api.betterttv.net/3';
 
 const options = {
-	headers: { Origin: 'https://betterttv.com', Referer: 'https://betterttv.com/' }
+	headers: {
+		Origin: 'https://betterttv.com',
+		Referer: 'https://betterttv.com/',
+		...(config.auth.betterttv && { Authorization: `Bearer ${config.auth.betterttv}` })
+	}
 };
 
 const zeroWidthEmotes = [
@@ -172,6 +180,107 @@ export async function getBTTVEmotes(
 				emotes: transformEmotes(data)
 			}
 		]
+	};
+}
+
+const SEARCH_LIMIT = 100;
+
+function searchEmote(
+	emote: Pick<BTTVEmote, 'id' | 'code' | 'animated'> & {
+		user?: BTTVEmote['user'];
+		createdAt?: Date | string;
+	}
+): SearchEmote {
+	return {
+		id: emote.id,
+		name: emote.code,
+		image: emoteImage(emote.id),
+		owner: emote.user ? compareName(emote.user.name, emote.user.displayName) : null,
+		zero_width: zeroWidthEmotes.includes(emote.id),
+		animated: emote.animated,
+		createdAt: emote.createdAt
+			? new Date(emote.createdAt).toISOString()
+			: objectIdDate(emote.id),
+		provider: 'bttv'
+	};
+}
+
+async function searchZeroWidth(query: string, exact: boolean): Promise<SearchPage> {
+	const source = '[BetterTTV] Overlay Emotes';
+	const found = await Promise.allSettled(
+		zeroWidthEmotes.map((id) => requestJson<BTTVEmote>(source, `${API}/emotes/${id}`, options))
+	);
+
+	const data = found.flatMap((result) =>
+		result.status === 'fulfilled' && result.value?.id ? [result.value] : []
+	);
+	if (!data.length) throw new ProviderError(source, 502);
+
+	const term = query.toLowerCase();
+
+	return {
+		next: null,
+		emotes: data
+			.filter((emote) => {
+				const name = emote.code.toLowerCase();
+				return !term || (exact ? name === term : name.includes(term));
+			})
+			.map((emote) => ({
+				...searchEmote(emote),
+				owner: EmoteAuthor[emote.id as keyof typeof EmoteAuthor] || 'NightDev'
+			}))
+	};
+}
+
+export async function searchBTTVEmotes(
+	search: EmoteSearchOptions,
+	page: PageRequest
+): Promise<SearchPage> {
+	const query = search.query.trim();
+
+	if (search.zeroWidth) {
+		return page.cursor ? { emotes: [], next: null } : searchZeroWidth(query, search.exact);
+	}
+
+	if (!query) {
+		const source = '[BetterTTV] Trending';
+		const url = new URL(`${API}/emotes/shared/trending`);
+		const limit = Math.min(page.count * (search.format === 'all' ? 1 : 2), SEARCH_LIMIT);
+		url.searchParams.set('limit', String(limit));
+		if (page.cursor) url.searchParams.set('before', page.cursor);
+
+		const data = await requestJson<({ emote: BTTVEmote } & { id: string })[]>(
+			source,
+			url,
+			options
+		);
+		if (!Array.isArray(data)) throw new ProviderError(source, 502);
+
+		return {
+			emotes: data.map(({ emote }) => searchEmote(emote)),
+			next: data.length === limit ? (data.at(-1)?.id ?? null) : null
+		};
+	}
+
+	const source = '[BetterTTV] Search';
+	const offset = toOffset(page.cursor);
+	const limit = search.exact ? SEARCH_LIMIT : Math.min(page.count, SEARCH_LIMIT);
+
+	const url = new URL(`${API}/emotes/shared/search`);
+	url.search = new URLSearchParams({
+		query,
+		offset: String(offset),
+		limit: String(limit),
+		type: search.format,
+		personal: String(search.personal)
+	}).toString();
+
+	const data = await requestJson<BTTVEmote[]>(source, url, options);
+	if (!Array.isArray(data)) throw new ProviderError(source, 502);
+
+	return {
+		emotes: data.map(searchEmote),
+		next: data.length === limit ? String(offset + data.length) : null
 	};
 }
 

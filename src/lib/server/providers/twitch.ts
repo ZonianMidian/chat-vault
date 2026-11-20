@@ -1,3 +1,7 @@
+import type { PageRequest, SearchPage } from '#lib/server/emotes/pages.ts';
+import type { EmoteSearchOptions } from '#lib/emotes/search.ts';
+import type { BadgeContext, EmoteContext } from './context';
+import type { Translator } from '#lib/server/i18n.ts';
 import type {
 	ChannelData,
 	Socials,
@@ -16,10 +20,8 @@ import type {
 	TwitchSet,
 	GQLEmote
 } from '#lib/types/twitch.ts';
-import type { BadgeContext, EmoteContext } from './context';
-import type { Translator } from '#lib/server/i18n.ts';
 
-import { ProviderError, exists, requestJson } from '#lib/server/http.ts';
+import { ProviderError, exists, request, requestJson } from '#lib/server/http.ts';
 import ImageData from '#lib/server/emotes/data/images.json';
 import { findOrigin } from '#lib/server/emotes/origins.ts';
 import { findGlobalBadge } from './context';
@@ -686,6 +688,57 @@ export async function getTwitchBadge(idCode: string, ctx: BadgeContext): Promise
 				? null
 				: `https://twitch.tv/${badge.id === 'subscriber' ? 'subs/' : ''}${owner.username}`,
 		createdAt: null
+	};
+}
+
+interface PotatEmoteSearch {
+	data?: { id: string; name: string; format: 'STATIC' | 'ANIMATED'; url: string }[];
+	errors?: { message: string }[];
+	pagination?: { cursor: string | null; hasNextPage: boolean };
+}
+
+export async function searchTwitchEmotes(
+	options: EmoteSearchOptions,
+	page: PageRequest
+): Promise<SearchPage> {
+	const source = '[Twitch] Search';
+	const query = options.query.trim();
+	if (!query) return { emotes: [], next: null };
+
+	const url = new URL('https://api.potat.app/twitch/emotes/search');
+	url.searchParams.set(options.exact ? 'matches' : 'includes', query);
+	url.searchParams.set('case', 'false');
+	url.searchParams.set('first', String(Math.min(page.count, 100)));
+	if (options.format !== 'all') url.searchParams.set('format', options.format);
+	if (page.cursor) url.searchParams.set('after', page.cursor);
+
+	let res: Response;
+	try {
+		res = await request(url);
+	} catch {
+		throw new ProviderError(source, 503);
+	}
+
+	const body = (await res.json().catch(() => null)) as PotatEmoteSearch | null;
+
+	if (res.status === 404 && body?.errors?.some((e) => /no emotes found/i.test(e.message))) {
+		return { emotes: [], next: null };
+	}
+	if (!res.ok || !Array.isArray(body?.data)) {
+		throw new ProviderError(source, res.ok ? 502 : res.status);
+	}
+
+	return {
+		next: (body.pagination?.hasNextPage && body.pagination.cursor) || null,
+		emotes: body.data.map((emote) => ({
+			id: emote.id,
+			name: emote.name,
+			image: emoteImage(emote.id),
+			owner: null,
+			animated: emote.format === 'ANIMATED',
+			createdAt: null,
+			provider: 'twitch'
+		}))
 	};
 }
 

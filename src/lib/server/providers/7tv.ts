@@ -7,13 +7,17 @@ import type {
 	User,
 	Set
 } from '#lib/types/common.ts';
-import type { STVEmote, STVChannel, Connection, STVSet } from '#lib/types/7tv.ts';
+import type { STVEmote, STVChannel, Connection, STVSet, STVSearch } from '#lib/types/7tv.ts';
+import type { PageRequest, SearchPage } from '#lib/server/emotes/pages.ts';
+import type { EmoteSearchOptions } from '#lib/emotes/search.ts';
 import type { EmoteContext } from './context';
 
+import { fetchRange, toOffset } from '#lib/server/emotes/pages.ts';
 import { ProviderError, request, requestJson } from '#lib/server/http.ts';
-import { compareName } from '#lib/utils/index.ts';
+import { compareName, ulidDate } from '#lib/utils/index.ts';
 
 const GQL = 'https://7tv.io/v3/gql';
+const GQL_V4 = 'https://api.7tv.app/v4/gql';
 const NIL_ID = '00000000000000000000000000';
 
 export const CHANNELS_PER_PAGE = 18;
@@ -48,12 +52,13 @@ async function gql<T>(
 	source: string,
 	operationName: string,
 	query: string,
-	variables: Record<string, unknown>
+	variables: Record<string, unknown>,
+	endpoint = GQL
 ): Promise<T> {
 	let res: Response;
 
 	try {
-		res = await request(GQL, {
+		res = await request(endpoint, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ operationName, query, variables })
@@ -276,6 +281,122 @@ export async function get7TVEmotes(
 			emotes: transformSetEmotes(set.emotes)
 		}))
 	};
+}
+
+const searchSort: Record<EmoteSearchOptions['sort'], [string, string] | null> = {
+	relevance: null,
+	'owner-asc': null,
+	'owner-desc': null,
+	'name-asc': null,
+	'name-desc': null,
+	'date-desc': ['UPLOAD_DATE', 'DESCENDING'],
+	'date-asc': ['UPLOAD_DATE', 'ASCENDING']
+};
+
+export async function search7TVEmotes(
+	options: EmoteSearchOptions,
+	request: PageRequest
+): Promise<SearchPage> {
+	const source = '[7TV] Search';
+	const query = options.query.trim();
+	const [sortBy, order] = searchSort[options.sort] ?? [
+		query ? 'TOP_ALL_TIME' : 'TRENDING_WEEKLY',
+		'DESCENDING'
+	];
+
+	const fetchPage = async (page: number, perPage: number) => {
+		const { search } = (await searchPage(source, query, sortBy, order, options, page, perPage))
+			.emotes;
+		return { items: search.items, more: page < search.pageCount };
+	};
+
+	const { items, next } = await fetchRange(
+		toOffset(request.cursor),
+		Math.min(request.count, 100),
+		fetchPage
+	);
+
+	return {
+		next: next === null ? null : String(next),
+		emotes: items
+			.filter((emote) => !emote.deleted)
+			.map((emote) => {
+				const connection = emote.owner?.mainConnection;
+
+				return {
+					id: emote.id,
+					name: emote.defaultName,
+					image: emoteImage(emote.id),
+					owner: connection
+						? compareName(connection.platformUsername, connection.platformDisplayName)
+						: null,
+					zero_width: emote.flags.defaultZeroWidth,
+					animated: emote.flags.animated,
+					createdAt: ulidDate(emote.id),
+					provider: '7tv'
+				};
+			})
+	};
+}
+
+function searchPage(
+	source: string,
+	query: string,
+	sortBy: string,
+	order: string,
+	options: EmoteSearchOptions,
+	page: number,
+	perPage: number
+): Promise<STVSearch> {
+	return gql<STVSearch>(
+		source,
+		'EmoteSearch',
+		`query EmoteSearch($query: String, $sortBy: SortBy!, $order: SortOrder!, $filters: Filters, $page: Int, $perPage: Int!) {
+			emotes {
+				search(
+					query: $query
+					tags: { tags: [], match: ANY }
+					sort: { sortBy: $sortBy, order: $order }
+					filters: $filters
+					page: $page
+					perPage: $perPage
+				) {
+					items {
+						id
+						defaultName
+						deleted
+						flags {
+							animated
+							defaultZeroWidth
+						}
+						owner {
+							id
+							mainConnection {
+								platformUsername
+								platformDisplayName
+							}
+						}
+					}
+					totalCount
+					pageCount
+				}
+			}
+		}`,
+		{
+			query: query || null,
+			sortBy,
+			order,
+			page,
+			perPage,
+			filters: {
+				exactMatch: options.exact && !!query,
+				animated: options.format === 'all' ? undefined : options.format === 'animated',
+				defaultZeroWidth: options.zeroWidth || undefined,
+				approvedPersonal: options.personal || undefined
+			}
+		},
+		GQL_V4
+	);
 }
 
 export async function get7TVSet(setId: string): Promise<Set> {

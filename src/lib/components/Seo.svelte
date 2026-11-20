@@ -89,7 +89,10 @@
 
 	const structuredData = $derived(
 		[
-			websiteSchema(origin, siteDescription, locale),
+			websiteSchema(origin, siteDescription, locale, [
+				{ name: $_('emote.search'), path: '/emote/search' },
+				{ name: $_('channel.search'), path: '/channel/search' }
+			]),
 			webPageSchema({
 				origin,
 				url,

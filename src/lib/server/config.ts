@@ -27,6 +27,9 @@ export interface AppConfig {
 		invidious: string;
 		cookie: string;
 	};
+	auth: {
+		betterttv: string;
+	};
 	log: {
 		level: 'debug' | 'info' | 'warn' | 'error';
 		slowRequest: number;
@@ -48,6 +51,7 @@ const defaults: AppConfig = {
 	cache: { staleAfter: 300 },
 	http: { timeout: 15000, userAgent: '' },
 	youtube: { apiKey: '', invidious: '', cookie: '' },
+	auth: { betterttv: '' },
 	log: { level: 'info', slowRequest: 5000 }
 };
 

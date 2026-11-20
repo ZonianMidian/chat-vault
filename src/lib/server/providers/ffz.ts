@@ -1,23 +1,27 @@
+import type { PageRequest, SearchPage } from '#lib/server/emotes/pages.ts';
+import type { EmoteSearchOptions } from '#lib/emotes/search.ts';
+import type { EmoteContext } from './context';
+
+import { ProviderError, request, requestJson, requestOk } from '#lib/server/http.ts';
+import { fetchRange, toOffset } from '#lib/server/emotes/pages.ts';
+import { compareName, decodeHtml } from '#lib/utils/index.ts';
 import type {
-	Channel,
 	ChannelProvider,
-	Channels,
-	Emote,
-	Emotes,
 	Platforms,
+	Channels,
+	Channel,
+	Emotes,
+	Emote,
 	Set
 } from '#lib/types/common.ts';
 import type {
 	Emote as FFZEmoticon,
-	FFZEmote,
 	FFZGlobals,
-	FFZSet,
-	FFZUser
+	FFZSearch,
+	FFZEmote,
+	FFZUser,
+	FFZSet
 } from '#lib/types/ffz.ts';
-import type { EmoteContext } from './context';
-
-import { ProviderError, request, requestJson, requestOk } from '#lib/server/http.ts';
-import { compareName, decodeHtml } from '#lib/utils/index.ts';
 
 const API = 'https://api.frankerfacez.com';
 
@@ -175,6 +179,64 @@ export async function getFFZEmotes(
 			mainSet: set.id === data.room.set,
 			emotes: transformEmotes(set.emoticons)
 		}))
+	};
+}
+
+const MAX_PER_PAGE = 200;
+const TOP_TIMEOUT = 120000;
+
+export async function searchFFZEmotes(
+	options: EmoteSearchOptions,
+	request: PageRequest
+): Promise<SearchPage> {
+	const source = '[FrankerFaceZ] Search';
+	const query = options.query.trim();
+	const narrowed = options.zeroWidth || (options.exact && !!query);
+	const sort =
+		options.sort === 'relevance' ? 'count-desc' : options.sort.replace('date', 'created');
+
+	const fetchPage = async (page: number, perPage: number) => {
+		const url = new URL(`${API}/v1/emotes`);
+		url.searchParams.set('sort', sort);
+		url.searchParams.set('page', String(page));
+		url.searchParams.set('per_page', String(perPage));
+
+		if (query) {
+			url.searchParams.set('q', query);
+			url.searchParams.set('sensitive', String(options.exact));
+		}
+		if (options.format !== 'all') {
+			url.searchParams.set('animated', String(options.format === 'animated'));
+		}
+
+		const data = await requestJson<FFZSearch>(source, url, {
+			timeout: !query && sort === 'count-desc' ? TOP_TIMEOUT : undefined
+		});
+		if (!Array.isArray(data?.emoticons)) throw new ProviderError(source, 502);
+
+		return { items: data.emoticons, more: page < data._pages };
+	};
+
+	const { items, next } = await fetchRange(
+		toOffset(request.cursor),
+		narrowed ? MAX_PER_PAGE : Math.min(request.count, MAX_PER_PAGE),
+		fetchPage
+	);
+
+	return {
+		next: next === null ? null : String(next),
+		emotes: items
+			.filter((emote) => !emote.hidden)
+			.map((emote) => ({
+				id: emote.id.toString(),
+				name: emote.name,
+				image: emoteImage({ id: emote.id, animated: !!emote.animated }),
+				owner: emote.owner ? compareName(emote.owner.name, emote.owner.display_name) : null,
+				zero_width: emote.modifier,
+				animated: !!emote.animated,
+				createdAt: emote.created_at ?? null,
+				provider: 'ffz'
+			}))
 	};
 }
 

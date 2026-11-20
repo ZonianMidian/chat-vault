@@ -78,7 +78,18 @@ function person(origin: string, user: User | null | undefined): Schema | undefin
 
 const CONTEXT = 'https://schema.org';
 
-export function websiteSchema(origin: string, description: string, locale: string): Schema {
+export interface SiteSearch {
+	name: string;
+	path: string;
+}
+
+/** The site, with one SearchAction per search page, the main one first. */
+export function websiteSchema(
+	origin: string,
+	description: string,
+	locale: string,
+	searches: SiteSearch[]
+): Schema {
 	return {
 		'@context': CONTEXT,
 		'@type': 'WebSite',
@@ -86,14 +97,15 @@ export function websiteSchema(origin: string, description: string, locale: strin
 		url: `${origin}/`,
 		description,
 		inLanguage: locale,
-		potentialAction: {
+		potentialAction: searches.map((search) => ({
 			'@type': 'SearchAction',
+			name: search.name,
 			target: {
 				'@type': 'EntryPoint',
-				urlTemplate: `${origin}/channel/search?q={search_term_string}`
+				urlTemplate: `${origin}${search.path}?q={search_term_string}`
 			},
 			'query-input': 'required name=search_term_string'
-		}
+		}))
 	};
 }
 

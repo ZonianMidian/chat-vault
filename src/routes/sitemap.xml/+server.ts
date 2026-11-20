@@ -14,7 +14,14 @@ interface Entry {
 	image?: string;
 }
 
-const STATIC_PAGES = ['/', '/emote', '/emote/global', '/badge/global', '/channel/search'];
+const STATIC_PAGES = [
+	'/',
+	'/emote',
+	'/emote/global',
+	'/emote/search',
+	'/badge/global',
+	'/channel/search'
+];
 
 const escapeXml = (text: string): string =>
 	text

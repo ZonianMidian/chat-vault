@@ -52,6 +52,33 @@ export interface Connection {
 
 export type Platform = 'TWITCH' | 'KICK' | 'DISCORD' | 'YOUTUBE';
 
+export interface STVSearchEmote {
+	id: string;
+	defaultName: string;
+	deleted: boolean;
+	flags: {
+		animated: boolean;
+		defaultZeroWidth: boolean;
+	};
+	owner: {
+		id: string;
+		mainConnection: {
+			platformUsername: string;
+			platformDisplayName: string;
+		} | null;
+	} | null;
+}
+
+export interface STVSearch {
+	emotes: {
+		search: {
+			items: STVSearchEmote[];
+			totalCount: number;
+			pageCount: number;
+		};
+	};
+}
+
 export interface Error {
 	message: string;
 	locations: Location[];

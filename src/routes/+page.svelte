@@ -38,6 +38,7 @@
 	const additionalApis = [
 		{ name: 'SpanixTeam', url: 'https://api.spanix.team' },
 		{ name: 'PotatBotat', url: 'https://potat.app/api/docs' },
+		{ name: 'Lurkology', url: 'https://lurkology.com' },
 		{ name: 'IVR', url: 'https://api.ivr.fi/v2/docs' }
 	];
 

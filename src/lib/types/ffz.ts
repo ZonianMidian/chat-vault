@@ -31,6 +31,23 @@ export interface Emote {
 	artist?: User;
 }
 
+export interface FFZSearch {
+	_pages: number;
+	_total: number;
+	emoticons: FFZSearchEmote[];
+}
+
+export interface FFZSearchEmote {
+	id: number;
+	name: string;
+	public: boolean;
+	hidden: boolean;
+	modifier: boolean;
+	owner: Pick<User, 'name' | 'display_name'>;
+	animated: Record<string, string> | null;
+	created_at: string;
+}
+
 export interface FFZGlobals {
 	default_sets: number[];
 	sets: { [key: string]: Emotes };

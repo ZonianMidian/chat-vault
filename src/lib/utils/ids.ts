@@ -44,6 +44,19 @@ export function ULIDToObjectId(ulid: string): string {
 	return timestampPart + randomPart;
 }
 
+export function ulidDate(ulid: string): string | null {
+	const id = ulid.toUpperCase();
+	if (!/^[0-9A-HJKMNP-TV-Z]{26}$/.test(id)) return null;
+
+	return new Date(Number(decodeULIDPart(id, 10))).toISOString();
+}
+
+export function objectIdDate(objectId: string): string | null {
+	if (!isObjectId(objectId)) return null;
+
+	return new Date(parseInt(objectId.slice(0, 8), 16) * 1000).toISOString();
+}
+
 export function generateString(length: number): string {
 	return Math.random().toString(36).substring(2).slice(0, length);
 }

@@ -47,7 +47,35 @@
 		"badge": "Buscar insignias...",
 		"channel": "Buscar canales...",
 		"placeholder": "Buscar...",
-		"message": "Puedes buscar usando un nombre o colocando un enlace directo."
+		"message": "Puedes buscar usando un nombre o colocando un enlace directo.",
+		"trending": "En tendencia",
+		"results": "{count, plural, one {# resultado} other {# resultados}}",
+		"failed": "No se pudieron obtener resultados de: {providers}.",
+		"skipped": "No disponible con estos filtros: {providers}.",
+		"load_more": "Cargar más",
+		"end": "No hay más resultados.",
+		"filters": {
+			"label": "Filtros",
+			"providers": "Proveedores",
+			"format": "Formato",
+			"all": "Todos",
+			"animated": "Animado",
+			"static": "Estático",
+			"zero_width": "Superpuesto",
+			"personal": "Uso personal",
+			"exact": "Coincidencia exacta",
+			"reset": "Restablecer"
+		},
+		"sort": {
+			"label": "Ordenar por",
+			"relevance": "Relevancia",
+			"name-asc": "Nombre (A-Z)",
+			"name-desc": "Nombre (Z-A)",
+			"owner-asc": "Propietario (A-Z)",
+			"owner-desc": "Propietario (Z-A)",
+			"date-desc": "Más recientes",
+			"date-asc": "Más antiguos"
+		}
 	},
 	"provider": {
 		"twitch": "Twitch",
@@ -71,6 +99,7 @@
 	"emote": {
 		"label": "Emote",
 		"search": "Buscar Emotes",
+		"search_description": "Busca emotes de 7TV, BetterTTV, FrankerFaceZ y Twitch a la vez, o explora los que están en tendencia.",
 		"info": {
 			"artist": "Artista",
 			"approved": "Aprobado",

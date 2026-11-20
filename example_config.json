@@ -24,6 +24,9 @@
 		"invidious": "",
 		"cookie": ""
 	},
+	"auth": {
+		"betterttv": ""
+	},
 	"log": {
 		"level": "info",
 		"slowRequest": 5000

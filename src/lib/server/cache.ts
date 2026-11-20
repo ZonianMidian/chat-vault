@@ -22,6 +22,7 @@ export const profiles = {
 	live: { staleAfter: MINUTE, expireAfter: 30 * MINUTE, allowEmpty: true },
 	list: { staleAfter: config.cache.staleAfter, expireAfter: 6 * HOUR, allowEmpty: true },
 	extras: { staleAfter: 2 * config.cache.staleAfter, expireAfter: DAY, allowEmpty: true },
+	trending: { staleAfter: DAY, expireAfter: 2 * DAY, allowEmpty: true },
 	static: { staleAfter: 6 * HOUR, expireAfter: 7 * DAY, allowEmpty: true }
 } satisfies Record<string, CacheProfile>;
 
