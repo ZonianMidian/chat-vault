@@ -3,7 +3,6 @@ config.json
 # General
 **/node_modules
 **/.svelte-kit
-**/sitemap.xml
 **/sitemaps
 **/.vscode
 **/.github

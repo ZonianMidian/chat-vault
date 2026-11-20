@@ -2,10 +2,11 @@
 	import { Zap, Target, RotateCcw, Gem, GitPullRequest, Languages } from '@lucide/svelte';
 	import { _, locale } from 'svelte-i18n';
 	import { resolve } from '$app/paths';
-	import { version } from '$app/env';
 	import { onMount } from 'svelte';
 
 	import Seo from '#lib/components/Seo.svelte';
+
+	const repository = 'https://github.com/ZonianMidian/chat-vault';
 
 	let contributeVisible = $state(false);
 	let platformsVisible = $state(false);
@@ -93,7 +94,7 @@
 			titleKey: 'landing.contribute.opensource.title',
 			descKey: 'landing.contribute.opensource.description',
 			icon: GitPullRequest,
-			url: 'https://github.com/ZonianMidian/chat-vault',
+			url: repository,
 			ctaKey: 'landing.contribute.opensource.cta',
 			gradient: 'from-gray-700 to-gray-900'
 		},
@@ -571,7 +572,15 @@
 			<div
 				class="text-base-content/40 flex flex-col items-center justify-center gap-4 text-xs sm:flex-row"
 			>
-				<span>v{version}</span>
+				<a
+					href={__COMMIT__
+						? `${repository}/commit/${__COMMIT__}`
+						: `${repository}/commits`}
+					target="_blank"
+					rel="external noopener noreferrer"
+					class="link link-hover"
+					title={__COMMIT__?.slice(0, 7)}>v{__VERSION__}</a
+				>
 				{#if $locale && !$locale.startsWith('en')}
 					{@const translators = $_('landing.footer.translator_username').split(';')}
 					<span class="hidden sm:block">•</span>
