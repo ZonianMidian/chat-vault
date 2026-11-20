@@ -44,6 +44,39 @@ export function ULIDToObjectId(ulid: string): string {
 	return timestampPart + randomPart;
 }
 
+const BASE58_ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+const OBJECT_ID_LIMIT = 1n << 96n;
+
+export function isBase58Id(value: string): boolean {
+	if (!/^[1-9A-HJ-NP-Za-km-z]{16,17}$/.test(value) || !/[A-Za-z]/.test(value)) return false;
+
+	return decodeBase58(value) < OBJECT_ID_LIMIT;
+}
+
+function decodeBase58(value: string): bigint {
+	let result = 0n;
+	for (const char of value) result = result * 58n + BigInt(BASE58_ALPHABET.indexOf(char));
+
+	return result;
+}
+
+export function base58ToObjectId(value: string): string {
+	return decodeBase58(value).toString(16).padStart(24, '0');
+}
+
+export function objectIdToBase58(objectId: string): string {
+	let value = BigInt(`0x${objectId}`);
+	let result = '';
+
+	while (value > 0n) {
+		result = BASE58_ALPHABET[Number(value % 58n)] + result;
+		value /= 58n;
+	}
+
+	const zeros = objectId.match(/^(?:00)*/)?.[0].length ?? 0;
+	return '1'.repeat(zeros / 2) + result;
+}
+
 export function ulidDate(ulid: string): string | null {
 	const id = ulid.toUpperCase();
 	if (!/^[0-9A-HJKMNP-TV-Z]{26}$/.test(id)) return null;

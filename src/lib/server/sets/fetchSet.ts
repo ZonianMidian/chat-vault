@@ -1,7 +1,6 @@
 import type { Set } from '#lib/types/common.ts';
 
-import { resolveProvider, type Provider } from '#lib/providers.ts';
-import { isObjectId, objectIdToUlid } from '#lib/utils/index.ts';
+import { canonicalId, resolveProvider, type Provider } from '#lib/providers.ts';
 import { getTwitchSet } from '#lib/server/providers/twitch.ts';
 import { getBTTVSet } from '#lib/server/providers/bttv.ts';
 import { getFFZSet } from '#lib/server/providers/ffz.ts';
@@ -27,9 +26,7 @@ export function resolveSet(provider: string, setId: string): SetRef {
 	const canonical = resolveProvider(provider);
 	if (!canonical || !fetchers[canonical]) throw new RequestError(400, 'error.provider');
 
-	const id = canonical === '7tv' && isObjectId(setId) ? objectIdToUlid(setId) : setId;
-
-	return { provider: canonical, id };
+	return { provider: canonical, id: canonicalId(canonical, setId) };
 }
 
 export function fetchSet({ provider, id }: SetRef): Promise<Set> {

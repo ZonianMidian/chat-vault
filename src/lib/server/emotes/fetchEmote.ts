@@ -1,7 +1,7 @@
 import type { EmoteContext } from '#lib/server/providers/context.ts';
 import type { Emote } from '#lib/types/common.ts';
 
-import { resolveProvider, type Provider } from '#lib/providers.ts';
+import { canonicalId, resolveProvider, type Provider } from '#lib/providers.ts';
 import { getYouTubeEmote } from '#lib/server/providers/youtube.ts';
 import { getTwitchEmote } from '#lib/server/providers/twitch.ts';
 import { getBTTVEmote } from '#lib/server/providers/bttv.ts';
@@ -10,7 +10,6 @@ import { getFFZEmote } from '#lib/server/providers/ffz.ts';
 import { get7TVEmote } from '#lib/server/providers/7tv.ts';
 import { cached, profiles } from '#lib/server/cache.ts';
 import { RequestError } from '#lib/server/http.ts';
-import { isObjectId, objectIdToUlid } from '#lib/utils/index.ts';
 import { findGlobalEmote } from './fetchGlobals';
 import { getOrigins } from './origins';
 
@@ -36,9 +35,7 @@ export function resolveEmote(provider: string, emoteId: string): EmoteRef {
 	const canonical = resolveProvider(provider);
 	if (!canonical) throw new RequestError(400, 'error.provider');
 
-	const id = canonical === '7tv' && isObjectId(emoteId) ? objectIdToUlid(emoteId) : emoteId;
-
-	return { provider: canonical, id };
+	return { provider: canonical, id: canonicalId(canonical, emoteId) };
 }
 
 export function fetchEmote({ provider, id }: EmoteRef): Promise<Emote> {

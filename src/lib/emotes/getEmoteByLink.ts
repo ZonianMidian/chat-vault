@@ -1,6 +1,7 @@
 import type { Provider } from '#lib/providers.ts';
 
-import { resolveProvider } from '#lib/providers.ts';
+import { canonicalId, resolveProvider } from '#lib/providers.ts';
+import { isBase58Id } from '#lib/utils/ids.ts';
 
 export interface EmoteMatch {
 	provider: Provider;
@@ -22,7 +23,7 @@ const rules: LinkRule[] = [
 	{
 		provider: 'bttv',
 		hosts: ['betterttv.com', 'betterttv.net'],
-		path: /^\/emotes?\/([0-9a-f]{24})/i
+		path: /^\/emotes?\/([0-9a-fA-F]{24}|[1-9A-HJ-NP-Za-km-z]{16,17})(?=[/.]|$)/
 	},
 	{
 		provider: 'ffz',
@@ -55,13 +56,15 @@ export function getEmoteByLink(text: string): EmoteMatch | null {
 		if (!matchesHost(hostname, rule.hosts)) continue;
 
 		const id = url.pathname.match(rule.path)?.[1];
-		if (id) return { provider: rule.provider, id };
+		if (id) return { provider: rule.provider, id: canonicalId(rule.provider, id) };
 	}
 
 	const own = url.pathname.match(/\/emote\/([^/]+)\/(.+?)\/?$/);
 	const provider = own && resolveProvider(own[1]);
 
-	return provider && own ? { provider, id: decodeURIComponent(own[2]) } : null;
+	return provider && own
+		? { provider, id: canonicalId(provider, decodeURIComponent(own[2])) }
+		: null;
 }
 
 export function emoteIdCandidates(text: string): EmoteMatch[] {
@@ -69,9 +72,10 @@ export function emoteIdCandidates(text: string): EmoteMatch[] {
 	const candidates: Provider[] = [];
 
 	if (ULID.test(id)) candidates.push('7tv');
-	if (OBJECT_ID.test(id)) candidates.push('bttv', '7tv');
+	if (OBJECT_ID.test(id) || isBase58Id(id)) candidates.push('bttv');
+	if (OBJECT_ID.test(id)) candidates.push('7tv');
 	if (/^\d{1,9}$/.test(id)) candidates.push('ffz');
 	if (TWITCH_ID.test(id)) candidates.push('twitch');
 
-	return candidates.map((provider) => ({ provider, id }));
+	return candidates.map((provider) => ({ provider, id: canonicalId(provider, id) }));
 }
