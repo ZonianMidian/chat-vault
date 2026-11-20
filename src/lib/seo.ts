@@ -83,7 +83,6 @@ export interface SiteSearch {
 	path: string;
 }
 
-/** The site, with one SearchAction per search page, the main one first. */
 export function websiteSchema(
 	origin: string,
 	description: string,

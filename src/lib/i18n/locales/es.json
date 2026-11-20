@@ -64,7 +64,8 @@
 			"zero_width": "Superpuesto",
 			"personal": "Uso personal",
 			"exact": "Coincidencia exacta",
-			"reset": "Restablecer"
+			"reset": "Restablecer",
+			"platforms": "Plataformas"
 		},
 		"sort": {
 			"label": "Ordenar por",
@@ -74,7 +75,9 @@
 			"owner-asc": "Propietario (A-Z)",
 			"owner-desc": "Propietario (Z-A)",
 			"date-desc": "Más recientes",
-			"date-asc": "Más antiguos"
+			"date-asc": "Más antiguos",
+			"followers-desc": "Más seguidores",
+			"followers-asc": "Menos seguidores"
 		}
 	},
 	"provider": {

@@ -472,6 +472,7 @@ export async function searchKickChannel(search: string, limit = 50): Promise<Use
 		avatar: user.user.profilePic ?? getAvatar(user.user_id),
 		source: `https://kick.com/${user.slug}`,
 		username: compareName(user.slug, user.user.username),
-		platform: 'kick'
+		platform: 'kick',
+		followers: user.followersCount ?? null
 	}));
 }

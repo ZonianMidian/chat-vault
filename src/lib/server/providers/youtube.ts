@@ -392,6 +392,101 @@ async function fetchLiveDetails(videoId: string): Promise<LiveDetails | null> {
 	}
 }
 
+const LIVE_DESTINATION = 'UC4R8DWoMoI7CAwX8_LjQHig';
+
+const textOf = (node: Json): string | undefined =>
+	node?.simpleText ?? node?.runs?.map((run: Json) => run.text).join('');
+
+function countFrom(text: string | undefined): number | null {
+	const match = text?.replace(/,/g, '').match(/(\d+(?:\.\d+)?)\s*([KMB])?/i);
+	if (!match) return null;
+
+	const scale = { K: 1e3, M: 1e6, B: 1e9 }[match[2]?.toUpperCase() ?? ''] ?? 1;
+	return Math.round(Number(match[1]) * scale);
+}
+
+const LIVE_NOW_GRID = 'EgdsaXZldGFikgEDCKEK';
+const MAX_CONTINUATIONS = 3;
+
+export interface YouTubeLiveCursor {
+	token: string;
+	visitor: string;
+}
+
+export interface YouTubeLivePage {
+	channels: User[];
+	next: YouTubeLiveCursor | null;
+}
+
+function liveContinuation(data: Json, previous?: string): YouTubeLiveCursor | null {
+	const token = descend(data, 'continuationCommand').next().value?.token;
+	const visitor = data?.responseContext?.visitorData ?? previous;
+
+	return typeof token === 'string' && typeof visitor === 'string' ? { token, visitor } : null;
+}
+
+export async function getYouTubeLiveChannels(
+	cursor: YouTubeLiveCursor | null = null,
+	minimum = 0
+): Promise<YouTubeLivePage> {
+	const source = '[YouTube] Live Channels';
+
+	if (!cursor) {
+		const pages = await Promise.all([
+			innertube(source, 'browse', { browseId: LIVE_DESTINATION, params: LIVE_NOW_GRID }),
+			innertube(source, 'browse', { browseId: LIVE_DESTINATION }).catch(() => null)
+		]);
+
+		return { channels: liveChannels(pages), next: liveContinuation(pages[0]) };
+	}
+
+	const pages: Json[] = [];
+	let next: YouTubeLiveCursor | null = cursor;
+
+	for (let i = 0; i < MAX_CONTINUATIONS && next; i++) {
+		const page: Json = await innertube(source, 'browse', {
+			context: { client: { ...CLIENT, visitorData: next.visitor } },
+			continuation: next.token
+		});
+
+		pages.push(page);
+		next = liveContinuation(page, next.visitor);
+
+		if (liveChannels(pages).length >= minimum) break;
+	}
+
+	return { channels: liveChannels(pages), next };
+}
+
+function liveChannels(pages: Json[]): User[] {
+	const channels = new Map<string, User>();
+
+	for (const video of pages.flatMap((page) => [...descend(page, 'videoRenderer')])) {
+		const run = (video?.ownerText ?? video?.longBylineText)?.runs?.[0];
+		const id: string | undefined = run?.navigationEndpoint?.browseEndpoint?.browseId;
+		const watching = textOf(video?.viewCountText);
+
+		if (!id || !CHANNEL_ID.test(id) || channels.has(id) || !/watching/i.test(watching ?? '')) {
+			continue;
+		}
+
+		channels.set(id, {
+			id,
+			username: run.text,
+			avatar:
+				largest(
+					video.channelThumbnailSupportedRenderers?.channelThumbnailWithLinkRenderer
+						?.thumbnail?.thumbnails
+				) ?? undefined,
+			source: channelUrl(id),
+			platform: 'youtube',
+			viewers: countFrom(watching)
+		});
+	}
+
+	return [...channels.values()].sort((a, b) => (b.viewers ?? 0) - (a.viewers ?? 0));
+}
+
 export async function searchYouTubeChannel(search: string, limit = 20): Promise<User[]> {
 	try {
 		const data = await innertube('[YouTube] Channels', 'search', {
@@ -413,7 +508,12 @@ export async function searchYouTubeChannel(search: string, limit = 20): Promise<
 				username: channel.title.simpleText,
 				avatar: largest(channel.thumbnail?.thumbnails) ?? undefined,
 				source: channelUrl(channel.channelId),
-				platform: 'youtube'
+				platform: 'youtube',
+				followers: countFrom(
+					[textOf(channel.subscriberCountText), textOf(channel.videoCountText)].find(
+						(text) => /subscriber/i.test(text ?? '')
+					)
+				)
 			}));
 	} catch (err) {
 		const results = await askAlternatives(`the channels matching "${search}"`, (api) =>

@@ -105,7 +105,7 @@
 	{#if linkPrefix === 'emote' && 'owner' in item && item.owner}
 		<small class="text-info/80 truncate text-xs">{item.owner}</small>
 	{/if}
-	{#if 'value' in item && item.value && (linkPrefix === 'badge' || linkPrefix === 'emote')}
+	{#if 'value' in item && item.value && linkPrefix}
 		<small class="text-primary/80 truncate text-xs">{item.value}</small>
 	{/if}
 {/snippet}

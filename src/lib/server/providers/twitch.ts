@@ -760,6 +760,7 @@ export async function searchTwitchChannel(search: string, limit = 50): Promise<U
 		platform: 'twitch',
 		avatar: user.profileImageURL,
 		source: `https://twitch.tv/${user.login}`,
-		username: compareName(user.login, user.displayName)
+		username: compareName(user.login, user.displayName),
+		followers: user.followers?.count ?? null
 	}));
 }

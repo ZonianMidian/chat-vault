@@ -64,7 +64,8 @@
 			"zero_width": "Overlay",
 			"personal": "Personal use",
 			"exact": "Exact match",
-			"reset": "Reset"
+			"reset": "Reset",
+			"platforms": "Platforms"
 		},
 		"sort": {
 			"label": "Sort by",
@@ -74,7 +75,9 @@
 			"owner-asc": "Owner (A-Z)",
 			"owner-desc": "Owner (Z-A)",
 			"date-desc": "Newest",
-			"date-asc": "Oldest"
+			"date-asc": "Oldest",
+			"followers-desc": "Most followers",
+			"followers-asc": "Fewest followers"
 		}
 	},
 	"provider": {

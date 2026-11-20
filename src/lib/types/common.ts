@@ -53,6 +53,8 @@ export interface User {
 	avatar?: string;
 	platform: Platforms | 'kick';
 	source: string;
+	followers?: number | null;
+	viewers?: number | null;
 }
 
 export interface Channel {
