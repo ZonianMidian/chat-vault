@@ -1,9 +1,10 @@
 <script lang="ts">
 	import type { Set } from '#lib/types/common.ts';
 
+	import { getChannelPath } from '#lib/utils/text.ts';
 	import { filterEmotes } from '#lib/utils/index.ts';
-	import { Search } from '@lucide/svelte';
 	import { setSchema } from '#lib/seo.ts';
+	import { Search } from '@lucide/svelte';
 	import { page } from '$app/state';
 	import { _ } from 'svelte-i18n';
 
@@ -57,12 +58,23 @@
 		title={`${$_('set.label')}: ${title}`}
 		path={page.url.pathname}
 		image={set.owner?.avatar}
-		breadcrumbs={[{ name: $_('navbar.emotes'), path: '/emote' }, { name: title ?? set.id }]}
+		primaryImage={set.owner?.avatar
+			? { url: set.owner.avatar, caption: set.owner.username ?? title }
+			: null}
+		pageType="CollectionPage"
+		source={set.source}
+		breadcrumbs={[
+			{ name: $_('navbar.emotes'), path: '/emote' },
+			set.owner?.username
+				? { name: set.owner.username, path: getChannelPath(set.owner) }
+				: null,
+			{ name: title ?? set.id }
+		].filter((crumb) => crumb !== null)}
 		{description}
 		{schema}
 	/>
 {:else}
-	<Seo title={$_('set.label')} noindex />
+	<Seo title={$_('set.label')} pageType="CollectionPage" />
 {/if}
 
 <div class="container-general">

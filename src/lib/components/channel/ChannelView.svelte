@@ -34,16 +34,18 @@
 		})()
 	);
 
-	const schema = $derived(
-		channelSchema(channel, page.url.origin, page.url.origin + page.url.pathname)
-	);
+	const schema = $derived(channelSchema(channel, page.url.origin));
 </script>
 
 <Seo
 	title={`${$_('channel.label')}: ${user.username}`}
 	path={page.url.pathname}
 	image={user.images.avatar}
+	primaryImage={{ url: user.images.avatar, caption: user.username }}
 	type="profile"
+	pageType="ProfilePage"
+	datePublished={user.createdAt}
+	source={channel.source}
 	breadcrumbs={[
 		{ name: $_('navbar.channels'), path: '/channel/search' },
 		{ name: user.username }

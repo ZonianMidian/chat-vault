@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { Sizes } from '#lib/types/common.ts';
 
-	import { inlineSvg } from '@svelte-put/inline-svg';
 	import { displayImage, getImageInfo } from '#lib/utils/index.ts';
+	import { inlineSvg } from '@svelte-put/inline-svg';
 	import { untrack } from 'svelte';
 	import { _ } from 'svelte-i18n';
 
@@ -25,10 +25,19 @@
 	let element = $state<HTMLImageElement>();
 	let info = $state<Sizes | null>(null);
 	let loaded = $state(false);
-	let failed = $state(false);
+	let directFailed = $state(false);
+	let blobFailed = $state(false);
+
+	const blob = $derived(info?.objectUrl.startsWith('blob:') ? info.objectUrl : null);
+	const failed = $derived(blobFailed || (directFailed && info !== null && !blob));
 
 	const shown = $derived(displayImage(image));
-	const source = $derived(info?.objectUrl.startsWith('blob:') ? info.objectUrl : shown);
+	const source = $derived(directFailed && blob ? blob : shown);
+
+	function handleError() {
+		if (source === shown) directFailed = true;
+		else blobFailed = true;
+	}
 
 	const width = $derived(keepSize ? fallbackSize.width : (info?.width ?? fallbackSize.width));
 	const height = $derived(keepSize ? fallbackSize.height : (info?.height ?? fallbackSize.height));
@@ -45,7 +54,8 @@
 
 		untrack(() => {
 			info = null;
-			failed = false;
+			directFailed = false;
+			blobFailed = false;
 			loaded = !!element?.complete && element.naturalWidth > 0;
 
 			if (!loaded && element?.complete) {
@@ -98,7 +108,7 @@
 						{width}
 						{height}
 						onload={() => (loaded = true)}
-						onerror={() => (failed = true)}
+						onerror={handleError}
 					/>
 				{/if}
 			</a>

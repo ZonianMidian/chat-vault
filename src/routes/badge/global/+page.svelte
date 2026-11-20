@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { collectionSchema } from '#lib/seo.ts';
 	import { filterBadges } from '#lib/utils/index.ts';
+	import { collectionSchema } from '#lib/seo.ts';
 	import { page } from '$app/state';
 	import { _ } from 'svelte-i18n';
 
@@ -25,6 +25,7 @@
 <Seo
 	title={$_('global.badge')}
 	path="/badge/global"
+	pageType="CollectionPage"
 	description={$_('landing.features.badges.description')}
 	breadcrumbs={[{ name: $_('navbar.badges') }]}
 	{schema}

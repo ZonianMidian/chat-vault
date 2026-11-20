@@ -11,7 +11,7 @@
 
 {#key `${data.provider}/${data.login}`}
 	{#await data.channel}
-		<Seo title={$_('channel.label')} noindex />
+		<Seo title={$_('channel.label')} pageType="ProfilePage" />
 		<ChannelSkeleton />
 	{:then channel}
 		<ChannelView {channel} providers={data.providers} />

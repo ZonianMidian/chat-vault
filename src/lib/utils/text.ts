@@ -11,7 +11,10 @@ export function getChannelPath(channel: {
 	username: string | null;
 	platform: string;
 }): string {
-	const slug = channel.platform === 'youtube' && channel.id ? channel.id : channel.username;
+	const slug =
+		channel.platform === 'youtube' && channel.id
+			? channel.id
+			: channel.username?.toLocaleLowerCase();
 
 	return `/channel/${channel.platform}/${slug}`;
 }

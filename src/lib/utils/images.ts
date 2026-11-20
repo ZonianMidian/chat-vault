@@ -7,6 +7,40 @@ export const imageProxy = 'https://wsrv.nl/?n=-1&url=';
 
 const blockingHosts = /^https?:\/\/yt3\.(?:ggpht|googleusercontent)\.com\//i;
 
+type ImageKind = 'emote' | 'badge';
+
+const imageDimensions: Record<ImageKind, Record<string, number[]>> = {
+	emote: {
+		'7tv': [32, 64, 96, 128],
+		twitch: [28, 56, 112],
+		youtube: [24, 48, 96],
+		bttv: [28, 56, 112],
+		kick: [35, 70, 140],
+		ffz: [32, 64, 128]
+	},
+	badge: {
+		'7tv': [18, 36, 54, 72],
+		twitch: [18, 36, 72],
+		kick: [18, 36, 72],
+		ffz: [18, 36, 72]
+	}
+};
+
+const defaultDimensions: Record<ImageKind, number[]> = {
+	emote: [32, 64, 128],
+	badge: [18, 36, 72]
+};
+
+export function getImageSizes(
+	kind: ImageKind,
+	provider: string
+): { width: number; height: number }[] {
+	return (imageDimensions[kind][provider] ?? defaultDimensions[kind]).map((size) => ({
+		width: size,
+		height: size
+	}));
+}
+
 export const proxyImage = (url: string): string => imageProxy + encodeURIComponent(url);
 
 export function displayImage(url: string): string {

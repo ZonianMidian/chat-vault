@@ -28,6 +28,7 @@
 
 	<a
 		href={type === 'channel' ? resolve('/channel/search') : resolve('/emote/search')}
+		rel={type === 'channel' ? undefined : 'nofollow'}
 		class="card card-side bg-accent/10 hover:bg-accent/20 border-accent/30 hover:border-accent/60 group relative cursor-pointer overflow-hidden rounded-xl border-2 shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl"
 	>
 		<div

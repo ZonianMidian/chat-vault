@@ -11,7 +11,7 @@
 
 {#key `${data.provider}/${data.id}`}
 	{#await data.emote}
-		<Seo title={$_('emote.label')} noindex />
+		<Seo title={$_('emote.label')} pageType="ItemPage" />
 		<Details type="emote" provider={data.provider} />
 	{:then emote}
 		<EmoteView {emote} extras={data.extras} variants={data.variants} />

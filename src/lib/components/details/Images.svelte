@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Sun, Moon, Layers2, Globe } from '@lucide/svelte';
+	import { getImageSizes } from '#lib/utils/images.ts';
 	import { isDarkMode } from '#lib/tools/theme.ts';
 	import { onMount } from 'svelte';
 	import { _ } from 'svelte-i18n';
@@ -24,36 +25,9 @@
 		isLoading?: boolean;
 	} = $props();
 
-	const dimensions: Record<'emote' | 'badge', Record<string, string[]>> = {
-		emote: {
-			'7tv': ['32x32', '64x64', '96x96', '128x128'],
-			twitch: ['28x28', '56x56', '112x112'],
-			youtube: ['24x24', '48x48', '96x96'],
-			bttv: ['28x28', '56x56', '112x112'],
-			kick: ['35x35', '70x70', '140x140'],
-			ffz: ['32x32', '64x64', '128x128']
-		},
-		badge: {
-			'7tv': ['18x18', '36x36', '54x54', '72x72'],
-			twitch: ['18x18', '36x36', '72x72'],
-			kick: ['18x18', '36x36', '72x72'],
-			ffz: ['18x18', '36x36', '72x72']
-		}
-	};
-
-	const defaultDimensions = {
-		emote: ['32x32', '64x64', '128x128'],
-		badge: ['18x18', '36x36', '72x72']
-	};
-
 	const proxied = { emote: ['kick', 'youtube', 'bttv'], badge: ['kick', 'youtube'] };
 
-	const sizes = $derived(
-		(dimensions[type][provider] || defaultDimensions[type]).map((dimension) => {
-			const [width, height] = dimension.split('x').map(Number);
-			return { width, height };
-		})
-	);
+	const sizes = $derived(getImageSizes(type, provider));
 
 	let darkBackground = $state<boolean | null>(null);
 

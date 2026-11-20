@@ -1,39 +1,113 @@
 <script lang="ts">
-	import { breadcrumbSchema, toJsonLd, type Breadcrumb, type Schema } from '#lib/seo.ts';
+	import {
+		absolute,
+		breadcrumbSchema,
+		entitySchema,
+		shareableImage,
+		toJsonLd,
+		webPageSchema,
+		websiteSchema,
+		type Breadcrumb,
+		type PageImage,
+		type PageType,
+		type Schema
+	} from '#lib/seo.ts';
 	import { page } from '$app/state';
+	import { _ } from 'svelte-i18n';
+
+	const logo: PageImage = {
+		url: '/web-app-manifest-512x512.png',
+		width: 512,
+		height: 512,
+		caption: 'Chat Vault'
+	};
 
 	let {
 		title = null,
 		description = null,
 		image = null,
-		path = null,
+		primaryImage = null,
+		path = undefined,
 		type = 'website',
+		pageType = 'WebPage',
 		noindex = false,
 		breadcrumbs = null,
-		schema = null
+		schema = null,
+		source = null,
+		datePublished = null,
+		dateModified = null
 	}: {
 		title?: string | null;
 		description?: string | null;
 		image?: string | null;
+		primaryImage?: PageImage | null;
 		path?: string | null;
-		type?: 'website' | 'profile';
+		type?: 'website' | 'profile' | 'article';
+		pageType?: PageType;
 		noindex?: boolean;
 		breadcrumbs?: Breadcrumb[] | null;
-		schema?: Schema | null;
+		schema?: Schema | Schema[] | null;
+		source?: string | null;
+		datePublished?: Date | string | null;
+		dateModified?: Date | string | null;
 	} = $props();
 
 	const origin = $derived(page.url.origin);
+	const locale = $derived((page.data.locale as string | undefined) ?? 'en');
+	const siteDescription = $derived($_('landing.hero.subtitle'));
+
+	const name = $derived(title ?? 'Chat Vault');
 	const fullTitle = $derived(title ? `${title} | Chat Vault` : 'Chat Vault');
-	const summary = $derived(
-		description && description.length > 200 ? `${description.slice(0, 197)}...` : description
+	const summary = $derived.by(() => {
+		const text = (description ?? siteDescription).replace(/\s+/g, ' ').trim();
+		return text.length > 200 ? `${text.slice(0, 197)}...` : text;
+	});
+
+	const canonicalPath = $derived(path === undefined ? page.url.pathname : path);
+	const url = $derived(`${origin}${canonicalPath ?? page.url.pathname}`);
+
+	const preview = $derived.by((): PageImage => {
+		if (image) return { url: absolute(origin, shareableImage(image)) };
+		if (primaryImage) return { ...primaryImage, url: absolute(origin, primaryImage.url) };
+		return { ...logo, url: absolute(origin, logo.url) };
+	});
+
+	const mainImage = $derived.by((): PageImage => {
+		const chosen = primaryImage ?? (image ? { url: shareableImage(image) } : logo);
+		return { ...chosen, url: absolute(origin, chosen.url), caption: chosen.caption ?? name };
+	});
+
+	const robots = $derived(
+		noindex
+			? 'noindex, follow'
+			: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
 	);
-	const imageUrl = $derived(
-		!image ? `${origin}/favicon.png` : image.startsWith('/') ? `${origin}${image}` : image
+
+	const crumbs = $derived(
+		breadcrumbs ?? (canonicalPath === '/' ? [] : [{ name: title ?? 'Chat Vault' }])
 	);
 
 	const structuredData = $derived(
-		[schema, breadcrumbs?.length ? breadcrumbSchema(origin, breadcrumbs) : null]
-			.filter((item) => item !== null)
+		[
+			websiteSchema(origin, siteDescription, locale),
+			webPageSchema({
+				origin,
+				url,
+				locale,
+				type: pageType,
+				name,
+				title: fullTitle,
+				description: summary,
+				image: mainImage,
+				source,
+				datePublished,
+				dateModified
+			}),
+			breadcrumbSchema(origin, url, crumbs),
+			...(schema ? (Array.isArray(schema) ? schema : [schema]) : []).map((entity) =>
+				entitySchema(entity, url)
+			)
+		]
 			.map(toJsonLd)
 			.join('')
 	);
@@ -41,30 +115,32 @@
 
 <svelte:head>
 	<title>{fullTitle}</title>
-	<meta property="og:title" content={title ?? 'Chat Vault'} />
+	<meta name="description" content={summary} />
+	<meta name="robots" content={robots} />
+
+	{#if !noindex && canonicalPath !== null}
+		<link rel="canonical" href={url} />
+	{/if}
+
+	<meta property="og:title" content={name} />
+	<meta property="og:description" content={summary} />
 	<meta property="og:type" content={type} />
-	<meta name="twitter:title" content={title ?? 'Chat Vault'} />
-
-	{#if summary}
-		<meta name="description" content={summary} />
-		<meta property="og:description" content={summary} />
-		<meta name="twitter:description" content={summary} />
+	<meta property="og:url" content={url} />
+	<meta property="og:image" content={preview.url} />
+	{#if preview.url.startsWith('https://')}
+		<meta property="og:image:secure_url" content={preview.url} />
 	{/if}
-
-	{#if path !== null}
-		<meta property="og:url" content="{origin}{path}" />
-		<link rel="canonical" href="{origin}{path}" />
+	{#if preview.width && preview.height}
+		<meta property="og:image:width" content={String(preview.width)} />
+		<meta property="og:image:height" content={String(preview.height)} />
 	{/if}
+	<meta property="og:image:alt" content={preview.caption ?? name} />
 
-	<meta property="og:image" content={imageUrl} />
-	<meta property="og:image:alt" content={title ?? 'Chat Vault'} />
 	<meta name="twitter:card" content="summary" />
-	<meta name="twitter:image" content={imageUrl} />
-
-	<meta
-		name="robots"
-		content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'}
-	/>
+	<meta name="twitter:title" content={name} />
+	<meta name="twitter:description" content={summary} />
+	<meta name="twitter:image" content={preview.url} />
+	<meta name="twitter:image:alt" content={preview.caption ?? name} />
 
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html structuredData}

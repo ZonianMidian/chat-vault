@@ -8,6 +8,7 @@
 <Seo
 	title={$_('navbar.emotes')}
 	path="/emote"
+	pageType="CollectionPage"
 	description={$_('landing.features.emotes.description')}
 	breadcrumbs={[{ name: $_('navbar.emotes') }]}
 />

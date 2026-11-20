@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { polyfillCountryFlagEmojis } from 'country-flag-emoji-polyfill';
 	import { migrateLegacyStorage } from '#lib/tools/preferences.ts';
-	import { toJsonLd, websiteSchema } from '#lib/seo.ts';
-	import { _, locale } from 'svelte-i18n';
-	import { page } from '$app/state';
+	import { locale } from 'svelte-i18n';
 	import { onMount } from 'svelte';
 
 	import '@fontsource-variable/inter';
@@ -20,8 +18,6 @@
 		locale.set(data.locale);
 	});
 
-	const website = $derived(toJsonLd(websiteSchema(page.url.origin, $_('landing.hero.subtitle'))));
-
 	onMount(() => {
 		polyfillCountryFlagEmojis();
 		migrateLegacyStorage(data.locale);
@@ -32,9 +28,7 @@
 	<meta property="og:site_name" content="Chat Vault" />
 	<meta property="og:locale" content={data.locale.replace('-', '_')} />
 	<meta name="theme-color" content="#74c7ec" />
-
-	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-	{@html website}
+	<link rel="sitemap" type="application/xml" href="/sitemap.xml" />
 </svelte:head>
 
 <Navbar />

@@ -1,7 +1,14 @@
 import type { RequestHandler } from './$types';
 
-export const GET: RequestHandler = () => {
-	const rules = ['User-agent: *', 'Allow: /', 'Disallow: /api/', ''];
+export const GET: RequestHandler = ({ url }) => {
+	const rules = [
+		'User-agent: *',
+		'Allow: /',
+		'Disallow: /api/',
+		'',
+		`Sitemap: ${url.origin}/sitemap.xml`,
+		''
+	];
 
 	return new Response(rules.join('\n'), {
 		headers: {

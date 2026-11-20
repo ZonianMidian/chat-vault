@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { typeLabels, type Emote, type Extras, type Variant } from '#lib/types/common.ts';
 
+	import { emoteSchema, largestImage } from '#lib/seo.ts';
 	import { pending } from '#lib/tools/pending.svelte.ts';
-	import { emoteSchema } from '#lib/seo.ts';
+	import { getChannelPath } from '#lib/utils/text.ts';
 	import { _, number } from 'svelte-i18n';
 	import { page } from '$app/state';
 
@@ -40,9 +41,7 @@
 	const createdAt = $derived(emote.createdAt ?? extras.value?.createdAt ?? null);
 	const deletedAt = $derived(extras.value?.deletedAt ?? null);
 
-	const image = $derived(
-		(emote.images[2] ?? emote.images[1] ?? emote.images[0])?.replace(/\.avif$/, '.webp')
-	);
+	const image = $derived(emote.images[2] ?? emote.images[1] ?? emote.images[0]);
 
 	const description = $derived(
 		[
@@ -73,7 +72,19 @@
 <Seo
 	title={`${$_('emote.label')}: ${emote.name}`}
 	path={page.url.pathname}
-	breadcrumbs={[{ name: $_('navbar.emotes'), path: '/emote' }, { name: emote.name }]}
+	pageType="ItemPage"
+	breadcrumbs={[
+		{ name: $_('navbar.emotes'), path: '/emote' },
+		emote.global
+			? { name: $_('global.emote'), path: '/emote/global' }
+			: emote.owner?.username
+				? { name: emote.owner.username, path: getChannelPath(emote.owner) }
+				: null,
+		{ name: emote.name }
+	].filter((crumb) => crumb !== null)}
+	datePublished={createdAt}
+	source={emote.source}
+	primaryImage={largestImage(page.url.origin, 'emote', emote)}
 	{description}
 	{schema}
 	{image}

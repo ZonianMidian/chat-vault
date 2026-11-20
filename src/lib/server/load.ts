@@ -41,6 +41,13 @@ export async function critical<T extends Record<string, Promise<unknown>>>(
 	return Object.fromEntries(settled) as Settled<T>;
 }
 
+export async function nonEmpty<T>(task: Promise<T[]>): Promise<T[]> {
+	const list = await task;
+	if (!list.length) throw new RequestError(503, 'status.503');
+
+	return list;
+}
+
 export function optional<T>(promise: Promise<T>, fallback: T): Promise<T> {
 	return promise.catch(() => fallback);
 }

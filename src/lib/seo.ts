@@ -1,5 +1,6 @@
 import type { Badge, Badges, ChannelData, Emote, Emotes, Set, User } from '#lib/types/common.ts';
 
+import { getImageSizes } from '#lib/utils/images.ts';
 import { getChannelPath } from '#lib/utils/text.ts';
 
 export type Schema = Record<string, unknown>;
@@ -9,8 +10,15 @@ export interface Breadcrumb {
 	path?: string;
 }
 
-const SITE = 'Chat Vault';
-const LIST_LIMIT = 30;
+export type PageType =
+	'WebPage' | 'ItemPage' | 'ProfilePage' | 'CollectionPage' | 'SearchResultsPage';
+
+export interface PageImage {
+	url: string;
+	width?: number | null;
+	height?: number | null;
+	caption?: string | null;
+}
 
 function toIsoDate(value: Date | string | null | undefined): string | undefined {
 	if (!value) return undefined;
@@ -19,15 +27,41 @@ function toIsoDate(value: Date | string | null | undefined): string | undefined 
 	return isNaN(date.valueOf()) ? undefined : date.toISOString();
 }
 
-const absolute = (origin: string, url: string): string =>
-	url.startsWith('/') ? `${origin}${url}` : url;
+export const absolute = (origin: string, url: string): string =>
+	url.startsWith('//') ? `https:${url}` : url.startsWith('/') ? `${origin}${url}` : url;
+
+export const shareableImage = (url: string): string => url.replace(/\.avif(?=$|\?)/, '.webp');
 
 function clean(schema: Schema): Schema {
 	return Object.fromEntries(
 		Object.entries(schema).filter(
-			([, value]) => value !== undefined && value !== null && value !== ''
+			([, value]) =>
+				value !== undefined &&
+				value !== null &&
+				value !== '' &&
+				!(Array.isArray(value) && value.length === 0)
 		)
 	);
+}
+
+const unique = (values: (string | null | undefined)[]): string[] => [
+	...new Set(values.filter((value): value is string => !!value))
+];
+
+export function toJsonLd(schema: Schema): string {
+	const json = JSON.stringify(schema).replace(/</g, '\\u003c');
+
+	return `<script type="application/ld+json">${json}</` + 'script>';
+}
+
+function imageObject(origin: string, image: PageImage): Schema {
+	return clean({
+		'@type': 'ImageObject',
+		contentUrl: absolute(origin, image.url),
+		width: image.width,
+		height: image.height,
+		caption: image.caption
+	});
 }
 
 function person(origin: string, user: User | null | undefined): Schema | undefined {
@@ -36,25 +70,22 @@ function person(origin: string, user: User | null | undefined): Schema | undefin
 	return clean({
 		'@type': 'Person',
 		name: user.username,
-		image: user.avatar,
+		image: user.avatar ? absolute(origin, user.avatar) : undefined,
 		url: `${origin}${getChannelPath(user)}`,
 		sameAs: user.source
 	});
 }
 
-export function toJsonLd(schema: Schema): string {
-	const json = JSON.stringify(schema).replace(/</g, '\\u003c');
+const CONTEXT = 'https://schema.org';
 
-	return `<script type="application/ld+json">${json}</` + 'script>';
-}
-
-export function websiteSchema(origin: string, description: string): Schema {
+export function websiteSchema(origin: string, description: string, locale: string): Schema {
 	return {
-		'@context': 'https://schema.org',
+		'@context': CONTEXT,
 		'@type': 'WebSite',
-		name: SITE,
-		url: origin,
+		name: 'Chat Vault',
+		url: `${origin}/`,
 		description,
+		inLanguage: locale,
 		potentialAction: {
 			'@type': 'SearchAction',
 			target: {
@@ -66,18 +97,77 @@ export function websiteSchema(origin: string, description: string): Schema {
 	};
 }
 
-export function breadcrumbSchema(origin: string, crumbs: Breadcrumb[]): Schema {
+export function breadcrumbSchema(origin: string, url: string, crumbs: Breadcrumb[]): Schema {
 	return {
-		'@context': 'https://schema.org',
+		'@context': CONTEXT,
 		'@type': 'BreadcrumbList',
-		itemListElement: [{ name: SITE, path: '/' }, ...crumbs].map((crumb, i) =>
+		itemListElement: [{ name: 'Chat Vault', path: '/' }, ...crumbs].map((crumb, i, list) =>
 			clean({
 				'@type': 'ListItem',
 				position: i + 1,
 				name: crumb.name,
-				item: crumb.path ? `${origin}${crumb.path}` : undefined
+				item: crumb.path
+					? `${origin}${crumb.path}`
+					: i === list.length - 1
+						? url
+						: undefined
 			})
 		)
+	};
+}
+
+export interface PageDetails {
+	origin: string;
+	url: string;
+	locale: string;
+	type: PageType;
+	title: string;
+	name: string;
+	description: string;
+	image: PageImage;
+	source?: string | null;
+	datePublished?: Date | string | null;
+	dateModified?: Date | string | null;
+}
+
+export function webPageSchema(details: PageDetails): Schema {
+	return clean({
+		'@context': CONTEXT,
+		'@type': details.type,
+		url: details.url,
+		name: details.title,
+		headline: details.name,
+		description: details.description,
+		inLanguage: details.locale,
+		isPartOf: { '@type': 'WebSite', name: 'Chat Vault', url: `${details.origin}/` },
+		primaryImageOfPage: imageObject(details.origin, details.image),
+		isBasedOn: details.source,
+		datePublished: toIsoDate(details.datePublished),
+		dateModified: toIsoDate(details.dateModified)
+	});
+}
+
+export function entitySchema(entity: Schema, url: string): Schema {
+	return { '@context': CONTEXT, ...entity, mainEntityOfPage: url };
+}
+
+export function largestImage(
+	origin: string,
+	kind: 'emote' | 'badge',
+	item: { images: string[]; provider: string; name: string }
+): PageImage | null {
+	const index = item.images.length - 1;
+	const source = item.images[index];
+	if (!source) return null;
+
+	const sizes = getImageSizes(kind, item.provider);
+	const size = sizes[Math.min(index, sizes.length - 1)];
+
+	return {
+		url: absolute(origin, shareableImage(source)),
+		width: size?.width,
+		height: size?.height,
+		caption: item.name
 	};
 }
 
@@ -89,77 +179,79 @@ interface ImageDetails {
 	createdAt?: Date | string | null;
 }
 
-export function emoteSchema(emote: Emote, details: ImageDetails): Schema {
+function imageEntity(
+	kind: 'emote' | 'badge',
+	item: Emote | Badge,
+	details: ImageDetails,
+	extra: Schema
+): Schema {
 	const { origin } = details;
-	const images = emote.images.map((image) => absolute(origin, image));
+	const largest = largestImage(origin, kind, item);
+	const smallest = item.images[0];
 
 	return clean({
-		'@context': 'https://schema.org',
 		'@type': 'ImageObject',
-		name: emote.name,
+		name: item.name,
+		caption: item.name,
 		description: details.description,
 		url: details.url,
-		mainEntityOfPage: details.url,
-		contentUrl: images.at(-1),
-		thumbnailUrl: images[0],
+		contentUrl: largest?.url,
+		width: largest?.width,
+		height: largest?.height,
+		thumbnailUrl: smallest ? absolute(origin, shareableImage(smallest)) : undefined,
+		representativeOfPage: true,
 		creditText: details.credit,
+		datePublished: toIsoDate(details.createdAt),
+		sameAs: item.source,
+		...extra
+	});
+}
+
+export function emoteSchema(emote: Emote, details: ImageDetails): Schema {
+	const { origin } = details;
+
+	return imageEntity('emote', emote, details, {
 		creator: person(origin, emote.artist ?? emote.owner),
 		copyrightHolder: person(origin, emote.owner),
-		datePublished: toIsoDate(details.createdAt),
-		keywords: emote.tags.length ? emote.tags.join(', ') : undefined,
+		keywords: unique([emote.name, ...emote.tags]).join(', '),
 		isPartOf: emote.setId
 			? {
 					'@type': 'Collection',
 					url: `${origin}/set/${emote.provider}/${emote.setId}`
 				}
 			: undefined,
-		sameAs: emote.source
+		interactionStatistic: emote.channels.total
+			? {
+					'@type': 'InteractionCounter',
+					interactionType: 'https://schema.org/UseAction',
+					userInteractionCount: emote.channels.total
+				}
+			: undefined
 	});
 }
 
 export function badgeSchema(badge: Badge, details: ImageDetails): Schema {
-	const { origin } = details;
-	const images = badge.images.map((image) => absolute(origin, image));
+	const owner = person(details.origin, badge.owner);
 
-	return clean({
-		'@context': 'https://schema.org',
-		'@type': 'ImageObject',
-		name: badge.name,
-		description: details.description,
-		url: details.url,
-		mainEntityOfPage: details.url,
-		contentUrl: images.at(-1),
-		thumbnailUrl: images[0],
-		creditText: details.credit,
-		creator: person(origin, badge.owner),
-		datePublished: toIsoDate(details.createdAt),
-		sameAs: badge.source
-	});
+	return imageEntity('badge', badge, details, { creator: owner, copyrightHolder: owner });
 }
 
-export function channelSchema(channel: ChannelData, origin: string, url: string): Schema {
+export function channelSchema(channel: ChannelData, origin: string): Schema {
 	const { user } = channel;
 
 	return clean({
-		'@context': 'https://schema.org',
-		'@type': 'ProfilePage',
-		url,
-		dateCreated: toIsoDate(user.createdAt),
-		mainEntity: clean({
-			'@type': 'Person',
-			'@id': url,
-			name: user.username,
-			identifier: user.id,
-			description: user.bio,
-			image: absolute(origin, user.images.avatar),
-			url: channel.source,
-			sameAs: [channel.source, ...user.socials.map((social) => social.url)],
-			interactionStatistic: {
-				'@type': 'InteractionCounter',
-				interactionType: 'https://schema.org/FollowAction',
-				userInteractionCount: user.followers
-			}
-		})
+		'@type': 'Person',
+		name: user.username,
+		identifier: user.id,
+		description: user.bio,
+		image: absolute(origin, user.images.avatar),
+		url: channel.source,
+		sameAs: unique([channel.source, ...user.socials.map((social) => social.url)]),
+		interactionStatistic: {
+			'@type': 'InteractionCounter',
+			interactionType: 'https://schema.org/FollowAction',
+			userInteractionCount: user.followers
+		}
 	});
 }
 
@@ -171,37 +263,52 @@ interface ListDetails {
 	section: 'emote' | 'badge';
 }
 
-export function collectionSchema(items: (Emotes | Badges)[], details: ListDetails): Schema {
-	const { origin, section } = details;
+function listItems(items: (Emotes | Badges)[], { origin, section }: ListDetails): Schema[] {
+	return items.map((item, i) => {
+		const version = 'version' in item && item.version ? `/${item.version}` : '';
 
+		return {
+			'@type': 'ListItem',
+			position: i + 1,
+			name: 'title' in item ? item.title : item.name,
+			image: absolute(origin, shareableImage(item.image)),
+			url: `${origin}/${section}/${item.provider}/${encodeURIComponent(item.id)}${version}`
+		};
+	});
+}
+
+function itemList(items: (Emotes | Badges)[], details: ListDetails): Schema {
+	return {
+		'@type': 'ItemList',
+		numberOfItems: items.length,
+		itemListElement: listItems(items, details)
+	};
+}
+
+export function collectionSchema(items: (Emotes | Badges)[], details: ListDetails): Schema {
 	return clean({
-		'@context': 'https://schema.org',
-		'@type': 'CollectionPage',
+		'@type': 'Collection',
 		name: details.name,
 		description: details.description,
 		url: details.url,
-		mainEntity: {
-			'@type': 'ItemList',
-			numberOfItems: items.length,
-			itemListElement: items.slice(0, LIST_LIMIT).map((item, i) => {
-				const version = 'version' in item && item.version ? `/${item.version}` : '';
-
-				return {
-					'@type': 'ListItem',
-					position: i + 1,
-					name: 'title' in item ? item.title : item.name,
-					image: absolute(origin, item.image),
-					url: `${origin}/${section}/${item.provider}/${item.id}${version}`
-				};
-			})
-		}
+		collectionSize: items.length,
+		hasPart: itemList(items, details)
 	});
 }
 
 export function setSchema(set: Set, details: Omit<ListDetails, 'section'>): Schema {
+	const { origin } = details;
+
 	return clean({
-		...collectionSchema(set.emotes, { ...details, section: 'emote' }),
-		author: person(details.origin, set.owner),
-		sameAs: set.source
+		'@type': 'Collection',
+		name: details.name,
+		description: details.description,
+		url: details.url,
+		sameAs: set.source,
+		keywords: set.tags.join(', '),
+		author: person(origin, set.owner),
+		image: set.owner?.avatar ? absolute(origin, set.owner.avatar) : undefined,
+		collectionSize: set.emotes.length,
+		hasPart: itemList(set.emotes, { ...details, section: 'emote' })
 	});
 }

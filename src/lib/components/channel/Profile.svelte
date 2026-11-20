@@ -69,7 +69,7 @@
 <div class="container mx-auto -mt-14 px-4 md:px-8 lg:px-16">
 	<div class="flex flex-col items-center md:flex-row">
 		<div class="border-base-content relative rounded-sm border-3 backdrop-blur-md">
-			<Avatar src={user.images.avatar} alt="Avatar" class="h-38 w-38" />
+			<Avatar src={user.images.avatar} alt={user.username} class="h-38 w-38" />
 		</div>
 
 		<div class="mt-0 ml-0 text-center md:ml-6 md:text-left">

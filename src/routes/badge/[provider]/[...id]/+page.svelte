@@ -11,7 +11,7 @@
 
 {#key `${data.provider}/${data.id}`}
 	{#await data.badge}
-		<Seo title={$_('badge.label')} noindex />
+		<Seo title={$_('badge.label')} pageType="ItemPage" />
 		<Details type="badge" provider={data.provider} />
 	{:then badge}
 		<BadgeView {badge} extras={data.extras} />

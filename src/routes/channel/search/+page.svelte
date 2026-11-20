@@ -58,6 +58,7 @@
 <Seo
 	{title}
 	path="/channel/search"
+	pageType={data.query ? 'SearchResultsPage' : 'WebPage'}
 	description={$_('landing.features.channels.description')}
 	breadcrumbs={[{ name: $_('navbar.channels') }]}
 	noindex={!!data.query}

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { collectionSchema } from '#lib/seo.ts';
 	import { filterEmotes } from '#lib/utils/index.ts';
+	import { collectionSchema } from '#lib/seo.ts';
 	import { page } from '$app/state';
 	import { _ } from 'svelte-i18n';
 
@@ -25,6 +25,7 @@
 <Seo
 	title={$_('global.emote')}
 	path="/emote/global"
+	pageType="CollectionPage"
 	description={$_('landing.features.emotes.description')}
 	breadcrumbs={[{ name: $_('navbar.emotes'), path: '/emote' }, { name: $_('global.emote') }]}
 	{schema}

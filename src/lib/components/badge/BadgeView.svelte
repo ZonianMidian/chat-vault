@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { typeLabels, type Badge, type Extras } from '#lib/types/common.ts';
 
+	import { badgeSchema, largestImage } from '#lib/seo.ts';
 	import { pending } from '#lib/tools/pending.svelte.ts';
 	import { resizeImageUrl } from '#lib/utils/index.ts';
-	import { badgeSchema } from '#lib/seo.ts';
+	import { getChannelPath } from '#lib/utils/text.ts';
 	import { page } from '$app/state';
 	import { _ } from 'svelte-i18n';
 
@@ -59,7 +60,17 @@
 <Seo
 	title={`${$_('badge.label')}: ${badge.name}`}
 	path={page.url.pathname}
-	breadcrumbs={[{ name: $_('navbar.badges'), path: '/badge/global' }, { name: badge.name }]}
+	pageType="ItemPage"
+	breadcrumbs={[
+		{ name: $_('navbar.badges'), path: '/badge/global' },
+		!badge.global && badge.owner?.username
+			? { name: badge.owner.username, path: getChannelPath(badge.owner) }
+			: null,
+		{ name: badge.name }
+	].filter((crumb) => crumb !== null)}
+	datePublished={createdAt}
+	source={badge.source}
+	primaryImage={largestImage(page.url.origin, 'badge', badge)}
 	{description}
 	{schema}
 	{image}

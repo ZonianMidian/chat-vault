@@ -5,6 +5,6 @@
 	import Seo from '#lib/components/Seo.svelte';
 </script>
 
-<Seo title={$_('navbar.emotes')} path="/emote/search" noindex />
+<Seo title={$_('emote.search')} path="/emote/search" noindex />
 
 <Construction />
