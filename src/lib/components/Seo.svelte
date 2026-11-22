@@ -87,6 +87,8 @@
 		breadcrumbs ?? (canonicalPath === '/' ? [] : [{ name: title ?? 'Chat Vault' }])
 	);
 
+	const entities = $derived(schema ? (Array.isArray(schema) ? schema : [schema]) : []);
+
 	const structuredData = $derived(
 		[
 			websiteSchema(origin, siteDescription, locale, [
@@ -104,12 +106,11 @@
 				image: mainImage,
 				source,
 				datePublished,
-				dateModified
+				dateModified,
+				mainEntity: entities[0]
 			}),
 			breadcrumbSchema(origin, url, crumbs),
-			...(schema ? (Array.isArray(schema) ? schema : [schema]) : []).map((entity) =>
-				entitySchema(entity, url)
-			)
+			...entities.slice(1).map((entity) => entitySchema(entity, url))
 		]
 			.map(toJsonLd)
 			.join('')

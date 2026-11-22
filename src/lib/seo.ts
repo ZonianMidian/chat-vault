@@ -139,12 +139,19 @@ export interface PageDetails {
 	source?: string | null;
 	datePublished?: Date | string | null;
 	dateModified?: Date | string | null;
+	mainEntity?: Schema | null;
 }
 
 export function webPageSchema(details: PageDetails): Schema {
+	const { mainEntity } = details;
+
+	const type = details.type === 'ProfilePage' && !mainEntity ? 'WebPage' : details.type;
+	const isProfile = type === 'ProfilePage';
+
 	return clean({
 		'@context': CONTEXT,
-		'@type': details.type,
+		'@type': type,
+		'@id': details.url,
 		url: details.url,
 		name: details.title,
 		headline: details.name,
@@ -152,8 +159,10 @@ export function webPageSchema(details: PageDetails): Schema {
 		inLanguage: details.locale,
 		isPartOf: { '@type': 'WebSite', name: 'Chat Vault', url: `${details.origin}/` },
 		primaryImageOfPage: imageObject(details.origin, details.image),
+		mainEntity,
 		isBasedOn: details.source,
-		datePublished: toIsoDate(details.datePublished),
+		dateCreated: isProfile ? toIsoDate(details.datePublished) : undefined,
+		datePublished: isProfile ? undefined : toIsoDate(details.datePublished),
 		dateModified: toIsoDate(details.dateModified)
 	});
 }
@@ -253,16 +262,23 @@ export function channelSchema(channel: ChannelData, origin: string): Schema {
 	return clean({
 		'@type': 'Person',
 		name: user.username,
+		alternateName:
+			user.slug && user.slug.toLowerCase() !== user.username.toLowerCase()
+				? user.slug
+				: undefined,
 		identifier: user.id,
 		description: user.bio,
-		image: absolute(origin, user.images.avatar),
+		image: absolute(origin, shareableImage(user.images.avatar)),
 		url: channel.source,
 		sameAs: unique([channel.source, ...user.socials.map((social) => social.url)]),
-		interactionStatistic: {
-			'@type': 'InteractionCounter',
-			interactionType: 'https://schema.org/FollowAction',
-			userInteractionCount: user.followers
-		}
+		interactionStatistic:
+			typeof user.followers === 'number'
+				? {
+						'@type': 'InteractionCounter',
+						interactionType: 'https://schema.org/FollowAction',
+						userInteractionCount: user.followers
+					}
+				: undefined
 	});
 }
 
