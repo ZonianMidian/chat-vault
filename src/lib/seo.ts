@@ -57,6 +57,7 @@ export function toJsonLd(schema: Schema): string {
 function imageObject(origin: string, image: PageImage): Schema {
 	return clean({
 		'@type': 'ImageObject',
+		name: image.caption,
 		contentUrl: absolute(origin, image.url),
 		width: image.width,
 		height: image.height,
@@ -101,6 +102,7 @@ export function websiteSchema(
 			name: search.name,
 			target: {
 				'@type': 'EntryPoint',
+				name: search.name,
 				urlTemplate: `${origin}${search.path}?q={search_term_string}`
 			},
 			'query-input': 'required name=search_term_string'
@@ -109,10 +111,13 @@ export function websiteSchema(
 }
 
 export function breadcrumbSchema(origin: string, url: string, crumbs: Breadcrumb[]): Schema {
+	const list: Breadcrumb[] = [{ name: 'Chat Vault', path: '/' }, ...crumbs];
+
 	return {
 		'@context': CONTEXT,
 		'@type': 'BreadcrumbList',
-		itemListElement: [{ name: 'Chat Vault', path: '/' }, ...crumbs].map((crumb, i, list) =>
+		name: list.map((crumb) => crumb.name).join(' › '),
+		itemListElement: list.map((crumb, i, list) =>
 			clean({
 				'@type': 'ListItem',
 				position: i + 1,
@@ -227,7 +232,12 @@ function imageEntity(
 	});
 }
 
-export function emoteSchema(emote: Emote, details: ImageDetails): Schema {
+interface EmoteDetails extends ImageDetails {
+	setName?: string | null;
+	usageName?: string | null;
+}
+
+export function emoteSchema(emote: Emote, details: EmoteDetails): Schema {
 	const { origin } = details;
 
 	return imageEntity('emote', emote, details, {
@@ -235,14 +245,16 @@ export function emoteSchema(emote: Emote, details: ImageDetails): Schema {
 		copyrightHolder: person(origin, emote.owner),
 		keywords: unique([emote.name, ...emote.tags]).join(', '),
 		isPartOf: emote.setId
-			? {
+			? clean({
 					'@type': 'Collection',
+					name: details.setName,
 					url: `${origin}/set/${emote.provider}/${emote.setId}`
-				}
+				})
 			: undefined,
 		interactionStatistic: emote.channels.total
 			? {
 					'@type': 'InteractionCounter',
+					name: details.usageName ?? undefined,
 					interactionType: 'https://schema.org/UseAction',
 					userInteractionCount: emote.channels.total
 				}
@@ -256,7 +268,11 @@ export function badgeSchema(badge: Badge, details: ImageDetails): Schema {
 	return imageEntity('badge', badge, details, { creator: owner, copyrightHolder: owner });
 }
 
-export function channelSchema(channel: ChannelData, origin: string): Schema {
+export function channelSchema(
+	channel: ChannelData,
+	origin: string,
+	followersName?: string | null
+): Schema {
 	const { user } = channel;
 
 	return clean({
@@ -275,6 +291,7 @@ export function channelSchema(channel: ChannelData, origin: string): Schema {
 			typeof user.followers === 'number'
 				? {
 						'@type': 'InteractionCounter',
+						name: followersName ?? undefined,
 						interactionType: 'https://schema.org/FollowAction',
 						userInteractionCount: user.followers
 					}
@@ -307,6 +324,7 @@ function listItems(items: (Emotes | Badges)[], { origin, section }: ListDetails)
 function itemList(items: (Emotes | Badges)[], details: ListDetails): Schema {
 	return {
 		'@type': 'ItemList',
+		name: details.name,
 		numberOfItems: items.length,
 		itemListElement: listItems(items, details)
 	};

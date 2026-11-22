@@ -57,11 +57,27 @@
 			.join(' · ')
 	);
 
+	const setName = $derived.by(() => {
+		if (!item.setId) return null;
+
+		const name = $_('set.title', { values: { user: item.owner?.username || 'Twitch' } });
+		const subtitle =
+			(item.setId === '0' && 'set.global') ||
+			(item.tier && 'set.tier') ||
+			(item.type === 'FOLLOWER' && 'set.follower') ||
+			(item.type === 'BITS_BADGE_TIERS' && 'set.bits') ||
+			null;
+
+		return subtitle ? `${name} - ${$_(subtitle, { values: { tier: item.tier ?? '' } })}` : name;
+	});
+
 	const url = $derived(page.url.origin + page.url.pathname);
 	const schema = $derived(
 		emoteSchema(item, {
 			origin: page.url.origin,
 			credit: $_(`provider.${emote.provider}`),
+			setName,
+			usageName: `${$number(emote.channels.total)} ${$_('navbar.channels')}`,
 			description,
 			createdAt,
 			url

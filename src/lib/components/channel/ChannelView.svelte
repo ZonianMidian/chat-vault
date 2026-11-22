@@ -34,7 +34,13 @@
 		})()
 	);
 
-	const schema = $derived(channelSchema(channel, page.url.origin));
+	const schema = $derived(
+		channelSchema(
+			channel,
+			page.url.origin,
+			$_('channel.followers', { values: { count: user.followers } })
+		)
+	);
 </script>
 
 <Seo

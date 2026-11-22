@@ -29,6 +29,12 @@
 		set ? (set.name ?? $_('set.title', { values: { user: set.owner?.username ?? '' } })) : null
 	);
 
+	const subtitle = $derived(
+		set?.subtitle ? $_(set.subtitle, { values: { tier: set.tier ?? '' } }) : null
+	);
+
+	const fullTitle = $derived(title && subtitle ? `${title} - ${subtitle}` : title);
+
 	const description = $derived(
 		set
 			? [
@@ -42,11 +48,11 @@
 	);
 
 	const schema = $derived(
-		set && title
+		set && fullTitle
 			? setSchema(set, {
 					origin: page.url.origin,
 					url: page.url.origin + page.url.pathname,
-					name: title,
+					name: fullTitle,
 					description
 				})
 			: null
@@ -55,11 +61,11 @@
 
 {#if set}
 	<Seo
-		title={`${$_('set.label')}: ${title}`}
+		title={`${$_('set.label')}: ${fullTitle}`}
 		path={page.url.pathname}
 		image={set.owner?.avatar}
 		primaryImage={set.owner?.avatar
-			? { url: set.owner.avatar, caption: set.owner.username ?? title }
+			? { url: set.owner.avatar, caption: set.owner.username ?? fullTitle }
 			: null}
 		pageType="CollectionPage"
 		source={set.source}
@@ -68,7 +74,7 @@
 			set.owner?.username
 				? { name: set.owner.username, path: getChannelPath(set.owner) }
 				: null,
-			{ name: title ?? set.id }
+			{ name: fullTitle ?? set.id }
 		].filter((crumb) => crumb !== null)}
 		{description}
 		{schema}
@@ -87,10 +93,10 @@
 					<div class="skeleton h-10 w-64"></div>
 				{:else}
 					<h1 class="text-4xl font-bold sm:text-left">{title}</h1>
-					{#if set.subtitle}
+					{#if subtitle}
 						<span class="text-4xl font-bold sm:text-left">:&nbsp;</span>
 						<h2 class="text-secondary self-end text-2xl font-semibold sm:text-left">
-							{$_(set.subtitle, { values: { tier: set.tier ?? '' } })}
+							{subtitle}
 						</h2>
 					{/if}
 				{/if}
