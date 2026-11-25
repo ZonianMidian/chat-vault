@@ -17,8 +17,8 @@
 	</div>
 	<div>
 		<h1 class="text-3xl font-bold sm:text-6xl">{$_('common.no_results')}</h1>
-		<span class="text-md break-all sm:text-2xl sm:break-normal"
-			>{search?.length ? `"${search}"` : ''}</span
-		>
+		<span class="text-md break-all sm:text-2xl sm:break-normal">
+			{search?.length ? `"${search}"` : ''}
+		</span>
 	</div>
 </div>

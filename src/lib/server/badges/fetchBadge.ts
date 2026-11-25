@@ -1,14 +1,14 @@
 import type { BadgeContext } from '#lib/server/providers/context.ts';
+import type { Badge, Badges } from '#lib/types/common.ts';
 import type { Translator } from '#lib/server/i18n.ts';
-import type { Badge } from '#lib/types/common.ts';
 
+import { getTwitchBadge, resolveTwitchBadgeId } from '#lib/server/providers/twitch.ts';
 import { resolveProvider, type Provider } from '#lib/providers.ts';
 import { getYouTubeBadge } from '#lib/server/providers/youtube.ts';
-import { getTwitchBadge } from '#lib/server/providers/twitch.ts';
 import { getKickBadge } from '#lib/server/providers/kick.ts';
 import { cached, profiles } from '#lib/server/cache.ts';
-import { RequestError } from '#lib/server/http.ts';
 import { fetchAllGlobalBadges } from './fetchGlobals';
+import { RequestError } from '#lib/server/http.ts';
 
 type BadgeFetcher = (badgeId: string, ctx: BadgeContext) => Promise<Badge>;
 
@@ -30,6 +30,23 @@ export function resolveBadge(provider: string, badgeId: string): BadgeRef {
 	if (!canonical || !fetchers[canonical]) throw new RequestError(400, 'error.provider');
 
 	return { provider: canonical, id: badgeId };
+}
+
+type BadgeResolver = (badgeId: string, globals: Badges[]) => Promise<string>;
+
+const resolvers: Partial<Record<Provider, BadgeResolver>> = {
+	twitch: resolveTwitchBadgeId
+};
+
+export async function canonicalBadge(ref: BadgeRef, i18n: Translator): Promise<BadgeRef> {
+	const resolver = resolvers[ref.provider];
+	if (!resolver) return ref;
+
+	try {
+		return { ...ref, id: await resolver(ref.id, await fetchAllGlobalBadges(i18n)) };
+	} catch {
+		return ref;
+	}
 }
 
 export function fetchBadge({ provider, id }: BadgeRef, i18n: Translator): Promise<Badge> {

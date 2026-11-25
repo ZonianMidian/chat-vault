@@ -263,12 +263,12 @@
 															: 'btn-ghost hover:bg-accent hover:text-accent-content'}"
 														onclick={() => changeSet(name, set)}
 													>
-														<span class="my-2 font-medium"
-															>{setTitle(set)}</span
-														>
-														<span class="text-xs opacity-70"
-															>({set.emotes?.length ?? 0})</span
-														>
+														<span class="my-2 font-medium">
+															{setTitle(set)}
+														</span>
+														<span class="text-xs opacity-70">
+															({set.emotes?.length ?? 0})
+														</span>
 													</button>
 												</li>
 											{/each}

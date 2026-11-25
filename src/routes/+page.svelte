@@ -288,9 +288,9 @@
 									alt={tp.name}
 									class="mb-4 h-16 w-16 transition-transform duration-300 group-hover:scale-110"
 								/>
-								<span class="text-center text-sm font-semibold break-all"
-									>{tp.name}</span
-								>
+								<span class="text-center text-sm font-semibold break-all">
+									{tp.name}
+								</span>
 							</button>
 						</a>
 					{/each}
@@ -497,15 +497,13 @@
 								target="_blank"
 								rel="external noopener noreferrer"
 								class="link hover:text-primary font-semibold transition-colors duration-300"
-								>{api.name}</a
 							>
-
-							{#if i < additionalApis.length - 2}
-								,
-							{:else if i === additionalApis.length - 2}
-								&
-							{/if}
-						{/each}. {$_('landing.providers.apis.conclusion')}
+								{api.name}
+							</a>{i < additionalApis.length - 2
+								? ', '
+								: i === additionalApis.length - 2
+									? ' & '
+									: ''}{/each}. {$_('landing.providers.apis.conclusion')}
 					</p>
 				</div>
 			</div>
@@ -580,8 +578,10 @@
 					target="_blank"
 					rel="external noopener noreferrer"
 					class="link link-hover"
-					title={__COMMIT__?.slice(0, 7)}>v{__VERSION__}</a
+					title={__COMMIT__?.slice(0, 7)}
 				>
+					v{__VERSION__}
+				</a>
 				{#if $locale && !$locale.startsWith('en')}
 					{@const translators = $_('landing.footer.translator_username').split(';')}
 					<span class="hidden sm:block">•</span>
@@ -592,8 +592,10 @@
 								href={`https://twitch.tv/${translator}`}
 								target="_blank"
 								rel="external noopener noreferrer"
-								class="link">{translator}</a
+								class="link"
 							>
+								{translator}
+							</a>
 
 							{#if i < translators.length - 2}
 								,

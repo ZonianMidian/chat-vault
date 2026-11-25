@@ -24,6 +24,7 @@ import type {
 import { ProviderError, exists, request, requestJson } from '#lib/server/http.ts';
 import ImageData from '#lib/server/emotes/data/images.json';
 import { findOrigin } from '#lib/server/emotes/origins.ts';
+import { peek, storeAll } from '#lib/server/cache.ts';
 import { findGlobalBadge } from './context';
 import {
 	getSubscriptionTier,
@@ -45,6 +46,33 @@ const twitchOwner: User = {
 	platform: 'twitch',
 	username: 'Twitch'
 };
+
+const BADGE_INDEX_TTL = 30 * 24 * 60 * 60;
+const BADGE_UUID = /^[\da-fA-F]{8}-([\da-fA-F]{4}-){3}[\da-fA-F]{12}$/;
+const badgeIndexKey = (uuid: string): string => `twitch:badge:${uuid.toLowerCase()}`;
+
+function indexChannelBadges(channelId: string, badges: TwitchBadge[] | null | undefined): void {
+	const entries = new Map<string, string>();
+
+	for (const badge of badges ?? []) {
+		const uuid = badge.image_url_4x?.match(UUID)?.[0];
+		if (uuid) entries.set(badgeIndexKey(uuid), `${badge.setID}/${badge.version}/${channelId}`);
+	}
+
+	void storeAll(entries, BADGE_INDEX_TTL);
+}
+
+export async function resolveTwitchBadgeId(id: string, globals: Badges[]): Promise<string> {
+	if (!BADGE_UUID.test(id)) return id;
+
+	const uuid = id.toLowerCase();
+	const global = globals.find(
+		(b) => b.provider === 'twitch' && b.image.toLowerCase().includes(uuid)
+	);
+	if (global) return `${global.id}/${global.version}`;
+
+	return (await peek<string>(badgeIndexKey(uuid))) ?? id;
+}
 
 export const customBadges = [
 	'kc-subathon-2024',
@@ -406,6 +434,8 @@ export async function getTwitchChannel(userLogin: string, i18n: Translator): Pro
 
 	const { content } = response;
 
+	indexChannelBadges(data.id, broadcastBadges);
+
 	[...(broadcastBadges ?? [])]
 		.sort((a, b) => Number(a.version) - Number(b.version))
 		.forEach((badge) => {
@@ -534,7 +564,7 @@ export async function getTwitchBadge(idCode: string, ctx: BadgeContext): Promise
 	const [id, version, channel] = idCode.split('/');
 
 	const isId = /^\d{1,10}$/.test(channel ?? version);
-	const isUUID = /^[\da-fA-F]{8}-([\da-fA-F]{4}-){3}[\da-fA-F]{12}$/.test(id);
+	const isUUID = BADGE_UUID.test(id);
 
 	if (id === 'flair') {
 		return getTwitchFlair(version, channel, isId, i18n);
@@ -597,6 +627,8 @@ export async function getTwitchBadge(idCode: string, ctx: BadgeContext): Promise
 		}
 
 		const badges = userData.broadcastBadges;
+		indexChannelBadges(userData.id, badges);
+
 		const data = badges.find((b) =>
 			isUUID ? b.image_url_4x.includes(id) : b.setID === id && b.version === version
 		);

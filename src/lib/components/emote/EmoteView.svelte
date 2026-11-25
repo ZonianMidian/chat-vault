@@ -47,7 +47,7 @@
 		[
 			`${emote.global ? '🌍 ' : ''}[${$_(`provider.${emote.provider}`)}]`,
 			`👤 ${emote.owner?.username}`,
-			`🏷️ ${emote.type == null ? $_('common.unknown') : $_(typeLabels[emote.type] ?? 'common.unknown')}`,
+			`🏷️ ${emote.type == null ? $_('emote.info.status.deleted') : $_(typeLabels[emote.type] ?? 'emote.info.status.deleted')}`,
 			emote.cost ? `💰 ${$_('badge.bits', { values: { cost: emote.cost } })}` : null,
 			emote.tier ? `🧾 ${$_('set.tier', { values: { tier: emote.tier } })}` : null,
 			emote.artist ? `🎨 ${emote.artist.username}` : null,

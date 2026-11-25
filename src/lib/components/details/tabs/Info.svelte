@@ -45,7 +45,9 @@
 
 	function artistHref(artist: NonNullable<Emote['artist']>): ReturnType<typeof resolve> {
 		const login =
-			artist.platform === 'youtube' && artist.id ? artist.id : (artist.username ?? '');
+			artist.platform === 'youtube' && artist.id
+				? artist.id
+				: (artist.username?.toLocaleLowerCase() ?? '');
 
 		return login
 			? resolve('/channel/[provider]/[login]', { provider: artist.platform, login })

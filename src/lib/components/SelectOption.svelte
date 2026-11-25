@@ -20,9 +20,9 @@
 			>
 				<Globe size={40} />
 			</div>
-			<span class="card-title text-primary text-2xl font-bold transition-all duration-300"
-				>{$_(`global.${type}`)}</span
-			>
+			<span class="card-title text-primary text-2xl font-bold transition-all duration-300">
+				{$_(`global.${type}`)}
+			</span>
 		</div>
 	</a>
 
@@ -39,9 +39,9 @@
 			>
 				<ScanSearch size={40} />
 			</div>
-			<span class="card-title text-accent text-2xl font-bold transition-all duration-300"
-				>{$_(`search.${type}`)}</span
-			>
+			<span class="card-title text-accent text-2xl font-bold transition-all duration-300">
+				{$_(`search.${type}`)}
+			</span>
 		</div>
 	</a>
 </div>

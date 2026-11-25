@@ -37,7 +37,7 @@
 			: [
 					`[${$_(`provider.${badge.provider}`)}]`,
 					`👤 ${badge.owner?.username}`,
-					`🏷️ ${badge.type == null ? $_('common.unknown') : $_(typeLabels[badge.type] ?? 'common.unknown')}`,
+					`🏷️ ${badge.type == null ? $_('emote.info.status.deleted') : $_(typeLabels[badge.type] ?? 'emote.info.status.deleted')}`,
 					badge.cost ? `💰 ${$_('badge.bits', { values: { cost: badge.cost } })}` : null,
 					badge.tier ? `🧾 ${$_('set.tier', { values: { tier: badge.tier } })}` : null
 				]

@@ -130,8 +130,10 @@
 							target="_blank"
 							rel="external noopener noreferrer"
 							aria-label={$_('emote.origin.author')}
-							class="text-info hover:text-info/80 font-medium">{origin.artist}</a
+							class="text-info hover:text-info/80 font-medium"
 						>
+							{origin.artist}
+						</a>
 					</div>
 				{/if}
 			</div>
