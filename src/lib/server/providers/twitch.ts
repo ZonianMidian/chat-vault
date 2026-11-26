@@ -117,8 +117,8 @@ const emoteImage = (emoteId: string, scale = '3.0'): string =>
 
 export async function getTwitchEmote(emoteId: string, ctx: EmoteContext): Promise<Emote> {
 	const source = '[Twitch] Emote';
-	const url = `https://api.potat.app/twitch/emotes?id=${encodeURIComponent(emoteId)}`;
-	const fallbackUrl = `https://api.ivr.fi/v2/twitch/emotes/${encodeURIComponent(emoteId)}?id=true`;
+	const url = `https://api.ivr.fi/v2/twitch/emotes/${encodeURIComponent(emoteId)}?id=true`;
+	const fallbackUrl = `https://api.potat.app/twitch/emotes?id=${encodeURIComponent(emoteId)}`;
 
 	let data: TwitchEmote | undefined;
 
