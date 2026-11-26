@@ -123,10 +123,10 @@ export async function getTwitchEmote(emoteId: string, ctx: EmoteContext): Promis
 	let data: TwitchEmote | undefined;
 
 	try {
-		data = (await requestJson<{ data?: TwitchEmote[] }>(source, url)).data?.[0];
+		data = await requestJson<TwitchEmote>(source, fallbackUrl);
 	} catch (err) {
 		if (err instanceof ProviderError && err.status === 404) throw err;
-		data = await requestJson<TwitchEmote>(source, fallbackUrl);
+		data = (await requestJson<{ data?: TwitchEmote[] }>(source, url)).data?.[0];
 	}
 
 	if (!data) {

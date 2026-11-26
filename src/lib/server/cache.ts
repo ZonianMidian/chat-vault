@@ -1,6 +1,5 @@
 import { isPresent } from '#lib/utils/index.ts';
 
-import { ProviderError } from './http';
 import { getRedis } from './redis';
 import { config } from './config';
 import { log } from './logger';
@@ -29,11 +28,9 @@ export const profiles = {
 interface Entry<T> {
 	v?: T;
 	t: number;
-	e?: { source: string; status: number };
 }
 
 const RETENTION = 7 * DAY;
-const NEGATIVE_TTL = MINUTE;
 const RETRY_DELAY = 30 * 1000;
 const MEMORY_TTL = 15 * 1000;
 const MEMORY_LIMIT = 1000;
@@ -69,7 +66,13 @@ async function read<T>(key: string): Promise<Entry<T> | null> {
 			return null;
 		}
 
-		const entry = JSON.parse(raw) as Entry<T>;
+		const entry = JSON.parse(raw) as Entry<T> & { e?: unknown };
+
+		if (entry.e) {
+			memory.delete(key);
+			return null;
+		}
+
 		remember(key, entry);
 		return entry;
 	} catch (err) {
@@ -148,7 +151,7 @@ function refreshInBackground<T>(
 
 export async function peek<T>(key: string): Promise<T | null> {
 	const entry = await read<T>(key);
-	return entry && !entry.e && entry.v !== undefined ? entry.v : null;
+	return entry && entry.v !== undefined ? entry.v : null;
 }
 
 export async function storeAll(values: Map<string, unknown>, ttl: number): Promise<void> {
@@ -180,9 +183,7 @@ export async function cached<T>(
 	const entry = await read<T>(key);
 	const age = entry ? (Date.now() - entry.t) / 1000 : Infinity;
 
-	if (entry?.e) {
-		if (age < NEGATIVE_TTL) throw new ProviderError(entry.e.source, entry.e.status);
-	} else if (entry && (profile.expireAfter === null || age < profile.expireAfter)) {
+	if (entry && (profile.expireAfter === null || age < profile.expireAfter)) {
 		if (age >= profile.staleAfter) {
 			refreshInBackground(key, profile, fetcher);
 		}
@@ -193,14 +194,9 @@ export async function cached<T>(
 	try {
 		return await refresh(key, profile, fetcher);
 	} catch (err) {
-		if (entry && !entry.e) {
+		if (entry) {
 			log.warn('Cache', `Could not fetch "${key}", serving an expired copy`, err);
 			return entry.v as T;
-		}
-
-		if (err instanceof ProviderError && err.status === 404) {
-			const { source, status } = err;
-			await write(key, { t: Date.now(), e: { source, status } }, NEGATIVE_TTL);
 		}
 
 		throw err;
