@@ -595,13 +595,11 @@
 								class="link"
 							>
 								{translator}
-							</a>
-
-							{#if i < translators.length - 2}
-								,
-							{:else if i === translators.length - 2}
-								&
-							{/if}
+							</a>{i < translators.length - 2
+								? ', '
+								: i === translators.length - 2
+									? ' & '
+									: ''}
 						{/each}
 					</span>
 				{/if}
